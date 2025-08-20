@@ -1,0 +1,571 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AnErrorOccurredDuringTheRegistrationProcess" xml:space="preserve">
+    <value>An error occurred during the registration process</value>
+  </data>
+  <data name="AnErrorOccurredWhileAddingTheImage" xml:space="preserve">
+    <value>An error occurred while adding the image</value>
+  </data>
+  <data name="AnErrorOccurredWhileSendingTheConfirmationEmailPleaseTryAgain" xml:space="preserve">
+    <value>An error occurred while sending the confirmation email. Please try again</value>
+  </data>
+  <data name="BadRequest" xml:space="preserve">
+    <value>Something went wrong with the request</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>Created successfully</value>
+  </data>
+  <data name="Deleted" xml:space="preserve">
+    <value>The delete operation was completed successfully</value>
+  </data>
+  <data name="EmailConfirmedSuccessfully" xml:space="preserve">
+    <value>Email confirmed successfully</value>
+  </data>
+  <data name="EmailNotEmpty" xml:space="preserve">
+    <value>Email must not be empty</value>
+  </data>
+  <data name="EmailNotNull" xml:space="preserve">
+    <value>Email is required</value>
+  </data>
+  <data name="ErrorDuringAccountCreationProcess" xml:space="preserve">
+    <value>An error occurred during the account creation process. Please try again later</value>
+  </data>
+  <data name="ErrorWhileAddingRole" xml:space="preserve">
+    <value>An error occurred while adding the role</value>
+  </data>
+  <data name="FirstNameNotEmpty" xml:space="preserve">
+    <value>First name must not be empty</value>
+  </data>
+  <data name="FirstNameNotNull" xml:space="preserve">
+    <value>First name is required</value>
+  </data>
+  <data name="Forbidden" xml:space="preserve">
+    <value>Sorry, you do not have the necessary permission to access this resource</value>
+  </data>
+  <data name="InternalServerError" xml:space="preserve">
+    <value>Internal server error</value>
+  </data>
+  <data name="InvalidOrExpiredToken" xml:space="preserve">
+    <value>Invalid or expired token</value>
+  </data>
+  <data name="KeyNotFoundException" xml:space="preserve">
+    <value>Key not found</value>
+  </data>
+  <data name="LastNameNotEmpty" xml:space="preserve">
+    <value>Last name must not be empty</value>
+  </data>
+  <data name="LastNameNotNull" xml:space="preserve">
+    <value>Last name is required</value>
+  </data>
+  <data name="NotFound" xml:space="preserve">
+    <value>The requested item was not found</value>
+  </data>
+  <data name="RoleNotExist" xml:space="preserve">
+    <value>The specified role does not exist</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>Operation completed successfully</value>
+  </data>
+  <data name="TheAccountHasBeenCreated" xml:space="preserve">
+    <value>Registration successful. A confirmation email has been sent to your inbox</value>
+  </data>
+  <data name="Unauthorized" xml:space="preserve">
+    <value>You cannot perform this action – Please log in first</value>
+  </data>
+  <data name="UnauthorizedAccessException" xml:space="preserve">
+    <value>Unauthorized access</value>
+  </data>
+  <data name="UnprocessableEntity" xml:space="preserve">
+    <value>The submitted data is unprocessable</value>
+  </data>
+  <data name="UserNotFound" xml:space="preserve">
+    <value>User not found</value>
+  </data>
+  <data name="ValidationFailed" xml:space="preserve">
+    <value>Validation failed</value>
+  </data>
+  <data name="NotValidEmail" xml:space="preserve">
+    <value>Invalid email address</value>
+  </data>
+  <data name="UserNameNotEmpty" xml:space="preserve">
+    <value>Username must not be empty</value>
+  </data>
+  <data name="UserNameNotNull" xml:space="preserve">
+    <value>Username is required</value>
+  </data>
+  <data name="PasswordNotEmpty" xml:space="preserve">
+    <value>Password must not be empty</value>
+  </data>
+  <data name="PasswordNotNull" xml:space="preserve">
+    <value>Password is required</value>
+  </data>
+  <data name="PasswordMinimumLength" xml:space="preserve">
+    <value>Password must be at least 6 characters long</value>
+  </data>
+  <data name="ConfirmPasswordNotEmpty" xml:space="preserve">
+    <value>Confirm password must not be empty.</value>
+  </data>
+  <data name="ConfirmPasswordNotNull" xml:space="preserve">
+    <value>Confirm password is required</value>
+  </data>
+  <data name="ConfirmPasswordMinimumLength" xml:space="preserve">
+    <value>Confirm password must be at least 6 characters long</value>
+  </data>
+  <data name="ConfirmPasswordMustEqualToPassword" xml:space="preserve">
+    <value>Confirm password must match the password</value>
+  </data>
+  <data name="UserNameAlreadyExist" xml:space="preserve">
+    <value>Username is already taken. Please choose another one</value>
+  </data>
+  <data name="EmailAlreadyExist" xml:space="preserve">
+    <value>Email is already in use. Please use a different email address</value>
+  </data>
+  <data name="EmailNotConfirmed" xml:space="preserve">
+    <value>Email not confirmed</value>
+  </data>
+  <data name="PasswordOrUserNameWrnog" xml:space="preserve">
+    <value>Incorrect username or password</value>
+  </data>
+  <data name="AnErrorOccurredWhileGeneratingTheToken" xml:space="preserve">
+    <value>An error occurred while generating the token</value>
+  </data>
+  <data name="AnErrorOccurredDuringTheLoginProcess" xml:space="preserve">
+    <value>An error occurred during the login process</value>
+  </data>
+  <data name="DataVerifiedAndLogin" xml:space="preserve">
+    <value>Data verified and login successful</value>
+  </data>
+  <data name="UserNameNotExist" xml:space="preserve">
+    <value>Username does not exist</value>
+  </data>
+  <data name="YourAccountIsInactivePleaseCheckWithTechnicalSupport" xml:space="preserve">
+    <value>Your account is inactive. Please contact technical support</value>
+  </data>
+  <data name="EmailConfirmationEmailHasBeenSent" xml:space="preserve">
+    <value>The email confirmation message has been sent</value>
+  </data>
+  <data name="YourAccountHasAlreadyBeenConfirmed" xml:space="preserve">
+    <value>Your account has already been confirmed</value>
+  </data>
+  <data name="InvalidTokenFormat" xml:space="preserve">
+    <value>Invalid token format</value>
+  </data>
+  <data name="TokenExpired" xml:space="preserve">
+    <value>The token has expired</value>
+  </data>
+  <data name="AnErrorOccurredWhileVerifyingTheToken" xml:space="preserve">
+    <value>An error occurred while verifying the token</value>
+  </data>
+  <data name="ValidToken" xml:space="preserve">
+    <value>The token is valid</value>
+  </data>
+  <data name="ErrorInTheEncryptionAlgorithmUsed" xml:space="preserve">
+    <value>An error occurred in the encryption algorithm used</value>
+  </data>
+  <data name="TokenIsStillValidCannotRefreshYet" xml:space="preserve">
+    <value>The token is still valid and cannot be refreshed yet</value>
+  </data>
+  <data name="RefreshTokenIsNotFound" xml:space="preserve">
+    <value>Refresh token not found</value>
+  </data>
+  <data name="RefreshTokenHasExpire" xml:space="preserve">
+    <value>The refresh token has expired</value>
+  </data>
+  <data name="AnErrorOccurredDuringTheTokenGenerationProcess" xml:space="preserve">
+    <value>An error occurred during the token generation process</value>
+  </data>
+  <data name="AccessTokenRegenerated" xml:space="preserve">
+    <value>Access token has been regenerated successfully</value>
+  </data>
+  <data name="InvalidRefreshToken" xml:space="preserve">
+    <value>Cannot revoke the token because it is invalid</value>
+  </data>
+  <data name="AnErrorOccurredDuringTheRefreshTokenCancellationProcess" xml:space="preserve">
+    <value>An error occurred while revoking the refresh token</value>
+  </data>
+  <data name="TokenRevokedSuccessfully" xml:space="preserve">
+    <value>Token revoked successfully</value>
+  </data>
+  <data name="AnErrorOccurredWhileSavingTheCode" xml:space="preserve">
+    <value>An error occurred while saving the code</value>
+  </data>
+  <data name="AnErrorOccurredWhileSendingTheForgetPasswordEmailPleaseTryAgain" xml:space="preserve">
+    <value>An error occurred while sending the forget password email. Please try again</value>
+  </data>
+  <data name="ForgetPasswordEmailHasBeenSent" xml:space="preserve">
+    <value>The forget password email has been sent to your email address</value>
+  </data>
+  <data name="TheCodeHasExpired" xml:space="preserve">
+    <value>The code has expired</value>
+  </data>
+  <data name="TheCodeEnteredIsIncorrect" xml:space="preserve">
+    <value>The code entered is incorrect</value>
+  </data>
+  <data name="AnErrorOccurredWhileDeletingTheCode" xml:space="preserve">
+    <value>An error occurred while deleting the code</value>
+  </data>
+  <data name="TheCodeHasbeenVerified" xml:space="preserve">
+    <value>The code has been verified successfully</value>
+  </data>
+  <data name="AnErrorOccurredWhileDeletingTheOldPassword" xml:space="preserve">
+    <value>An error occurred while deleting the old password</value>
+  </data>
+  <data name="AnErrorOccurredWhileAddingTheNewPassword" xml:space="preserve">
+    <value>An error occurred while adding the new password</value>
+  </data>
+  <data name="AnErrorOccurredWhileChangingThePassword" xml:space="preserve">
+    <value>An error occurred while changing the password</value>
+  </data>
+  <data name="PasswordChangedSuccessfully" xml:space="preserve">
+    <value>Password changed successfully</value>
+  </data>
+  <data name="AnErrorOccurredWhileSavingThePasswordresetToken" xml:space="preserve">
+    <value>An error occurred while saving the password reset token</value>
+  </data>
+  <data name="InvalidPasswordResetToken" xml:space="preserve">
+    <value>The password reset token is invalid</value>
+    <comment>Invalid password reset token</comment>
+  </data>
+  <data name="ThereWasAProblemDeletingThePasswordResetToken" xml:space="preserve">
+    <value>There was a problem deleting the password reset token</value>
+  </data>
+  <data name="PasswordResetTokenNotEmpty" xml:space="preserve">
+    <value>Password reset token must not be empty</value>
+  </data>
+  <data name="PasswordResetTokenNotNull" xml:space="preserve">
+    <value>Password reset token is required</value>
+  </data>
+  <data name="YourAccountWasLockedDueToSuspiciousActivityPleaseTryAgainLaterorContactSupport" xml:space="preserve">
+    <value>Your account was locked due to suspicious activity. Please try again later or contact support</value>
+  </data>
+  <data name="TheResourceThatIsBeingAccessedIsLocked" xml:space="preserve">
+    <value>The resource that is being accessed is locked</value>
+  </data>
+  <data name="AnErrorOccurredDuringTheEmailConfirmationProcess" xml:space="preserve">
+    <value>An error occurred during the email confirmation process</value>
+  </data>
+  <data name="MangaNotFound" xml:space="preserve">
+    <value>Manga not found</value>
+  </data>
+  <data name="MangaFound" xml:space="preserve">
+    <value>Manga found</value>
+  </data>
+  <data name="StatusNotEmpty" xml:space="preserve">
+    <value>Status must not be empty</value>
+  </data>
+  <data name="StatusNotNull" xml:space="preserve">
+    <value>Status field is required and must not be empty or null</value>
+  </data>
+  <data name="ValidationError" xml:space="preserve">
+    <value>Please check the entered data and fix the errors before proceeding</value>
+  </data>
+  <data name="FavoritesServiceforRegisteredUsersOnly" xml:space="preserve">
+    <value>Favorites service is available for registered users only</value>
+  </data>
+  <data name="AddedToFavorites" xml:space="preserve">
+    <value>Successfully added to favorites</value>
+  </data>
+  <data name="ThereWasAProblemAddingTofavorites" xml:space="preserve">
+    <value>There was a problem adding to favorites. Please try again later</value>
+  </data>
+  <data name="ThereWasAProblemDeletingFromFavorites" xml:space="preserve">
+    <value>There was a problem deleting from favorites. Please try again later</value>
+  </data>
+  <data name="RemovedFromFavorites" xml:space="preserve">
+    <value>Removed from favorites successfully</value>
+  </data>
+  <data name="ThisMangaIsAlreadyInYourFavoritesList" xml:space="preserve">
+    <value>This manga is already in your favorites list</value>
+  </data>
+  <data name="Conflict" xml:space="preserve">
+    <value>The request could not be completed due to a conflict with the current state of the resource</value>
+  </data>
+  <data name="ThisMangaIsNotInYourFavoritesList" xml:space="preserve">
+    <value>This manga is not in your favorites list</value>
+  </data>
+  <data name="ThereAreNoMangaInYourFavoritesList" xml:space="preserve">
+    <value>There are no manga in your favorites list</value>
+  </data>
+  <data name="TheMangaWasFoundInYourFavoritesList" xml:space="preserve">
+    <value>The manga was found in your favorites list</value>
+  </data>
+  <data name="NoContent" xml:space="preserve">
+    <value>No data available at the moment</value>
+  </data>
+  <data name="CompletedReadsServiceforRegisteredUsersOnly" xml:space="preserve">
+    <value>CompletedReadsService is available for registered users only</value>
+  </data>
+  <data name="ThisMangaIsAlreadyInYourCompletedReadsList" xml:space="preserve">
+    <value>This manga is already in your completed reads list</value>
+  </data>
+  <data name="AddedToCompletedReads" xml:space="preserve">
+    <value>Added to completed reads</value>
+  </data>
+  <data name="ThereWasAProblemAddingToCompletedReads" xml:space="preserve">
+    <value>There was a problem adding to completed reads</value>
+  </data>
+  <data name="ThisMangaIsNotInYourCompletedReadsList" xml:space="preserve">
+    <value>This manga is not in your completed reads list</value>
+  </data>
+  <data name="RemovedFromCompletedReads" xml:space="preserve">
+    <value>Removed from completed reads</value>
+  </data>
+  <data name="ThereWasAProblemDeletingFromCompletedReads" xml:space="preserve">
+    <value>There was a problem deleting from completed reads</value>
+  </data>
+  <data name="ThereAreNoMangaInYourCompletedReadsList" xml:space="preserve">
+    <value>There are no manga in your completed reads list</value>
+  </data>
+  <data name="TheMangaWasFoundInYourCompletedReadsList" xml:space="preserve">
+    <value>The manga was found in your completed reads list</value>
+  </data>
+  <data name="CurrentlyReadingServiceforRegisteredUsersOnly" xml:space="preserve">
+    <value>The Currently Reading service is available for registered users only</value>
+  </data>
+  <data name="ThisMangaIsAlreadyInYourCurrentlyReadingList" xml:space="preserve">
+    <value>This manga is already in your Currently Reading list</value>
+  </data>
+  <data name="AddedToCurrentlyReading" xml:space="preserve">
+    <value>The manga has been added to your Currently Reading list</value>
+  </data>
+  <data name="ThereWasAProblemAddingToCurrentlyReading" xml:space="preserve">
+    <value>There was a problem adding the manga to your Currently Reading list</value>
+  </data>
+  <data name="ThisMangaIsNotInYourCurrentlyReadingList" xml:space="preserve">
+    <value>This manga is not in your Currently Reading list</value>
+  </data>
+  <data name="RemovedFromCurrentlyReading" xml:space="preserve">
+    <value>Manga removed from your Currently Reading list</value>
+  </data>
+  <data name="ThereWasAProblemDeletingFromCurrentlyReading" xml:space="preserve">
+    <value>There was a problem deleting the manga from your Currently Reading list</value>
+  </data>
+  <data name="ThereAreNoMangaInYourCurrentlyReadingList" xml:space="preserve">
+    <value>There are no manga in your Currently Reading list</value>
+  </data>
+  <data name="TheMangaWasFoundInYourCurrentlyReadingList" xml:space="preserve">
+    <value>The manga was found in your Currently Reading list</value>
+  </data>
+  <data name="ReadingLaterServiceforRegisteredUsersOnly" xml:space="preserve">
+    <value>Read Later service is available for registered users only</value>
+  </data>
+  <data name="ThisMangaIsAlreadyInYourReadingLaterList" xml:space="preserve">
+    <value>This manga is already in your Read Later list</value>
+  </data>
+  <data name="AddedToReadingLater" xml:space="preserve">
+    <value>Manga has been added to your Read Later list</value>
+  </data>
+  <data name="ThereWasAProblemAddingToReadingLater" xml:space="preserve">
+    <value>There was a problem adding the manga to your Read Later list</value>
+  </data>
+  <data name="ThisMangaIsNotInYourReadingLaterList" xml:space="preserve">
+    <value>This manga is not in your Read Later list</value>
+  </data>
+  <data name="RemovedFromReadingLater" xml:space="preserve">
+    <value>Removed from Read Later list</value>
+  </data>
+  <data name="ThereWasAProblemDeletingFromReadingLater" xml:space="preserve">
+    <value>There was a problem deleting from the Read Later list</value>
+  </data>
+  <data name="ThereAreNoMangaInYourReadingLaterList" xml:space="preserve">
+    <value>There are no manga in your Read Later list</value>
+  </data>
+  <data name="TheMangaWasFoundInYourReadingLaterList" xml:space="preserve">
+    <value>The manga was found in your Read Later list</value>
+  </data>
+  <data name="NotificationsServiceforRegisteredUsersOnly" xml:space="preserve">
+    <value>Notifications service is available for registered users only</value>
+  </data>
+  <data name="ThisMangaIsAlreadyInYourNotificationsList" xml:space="preserve">
+    <value>This manga is already in your notifications list</value>
+  </data>
+  <data name="AddedToNotifications" xml:space="preserve">
+    <value>Added to notifications</value>
+  </data>
+  <data name="ThereWasAProblemAddingToNotifications" xml:space="preserve">
+    <value>There was a problem adding to notifications</value>
+  </data>
+  <data name="ThisMangaIsNotInYourNotificationsList" xml:space="preserve">
+    <value>This manga is not in your notifications list</value>
+  </data>
+  <data name="RemovedFromNotifications" xml:space="preserve">
+    <value>Removed from notifications</value>
+  </data>
+  <data name="ThereWasAProblemDeletingFromNotifications" xml:space="preserve">
+    <value>There was a problem deleting from notifications</value>
+  </data>
+  <data name="ThereAreNoMangaInYourNotificationsList" xml:space="preserve">
+    <value>There are no manga in your notifications list</value>
+  </data>
+  <data name="TheMangaWasFoundInYourNotificationsList" xml:space="preserve">
+    <value>The manga was found in your notifications list</value>
+  </data>
+  <data name="MarkAsReadForChaptersServiceforRegisteredUsersOnly" xml:space="preserve">
+    <value>Mark as read for chapters service is available for registered users only</value>
+  </data>
+  <data name="ThisMangaAndChapterIsAlreadyMarkedAsRead" xml:space="preserve">
+    <value>This manga and chapter are already marked as read</value>
+  </data>
+  <data name="MarkedAsRead" xml:space="preserve">
+    <value>Marked as read</value>
+  </data>
+  <data name="ThereWasAProblemMarkedAsRead" xml:space="preserve">
+    <value>There was a problem marking as read</value>
+  </data>
+  <data name="MarkAsUnReadForChaptersServiceforRegisteredUsersOnly" xml:space="preserve">
+    <value>Mark as unread for chapters service is available for registered users only</value>
+  </data>
+  <data name="MarkedAsUnRead" xml:space="preserve">
+    <value>Marked as unread</value>
+  </data>
+  <data name="ThereWasAProblemMarkedAsUnRead" xml:space="preserve">
+    <value>There was a problem marking as unread</value>
+  </data>
+  <data name="ThisChapterIsNotInThisManga" xml:space="preserve">
+    <value>This chapter is not part of this manga</value>
+  </data>
+  <data name="ThisChapterForThisMangaIsNotExistInMarkedAsRead" xml:space="preserve">
+    <value>This chapter for this manga does not exist in the marked as read list</value>
+  </data>
+  <data name="ThisChapterInThisMangaIsAlreadyMarkedAsRead" xml:space="preserve">
+    <value>This chapter in this manga is already marked as read</value>
+  </data>
+  <data name="TheLanguageYouRequestedIsNotAvailableForThisManga" xml:space="preserve">
+    <value>The language you requested is not available for this manga</value>
+  </data>
+  <data name="ThereAreNoChaptersYet" xml:space="preserve">
+    <value>There are no chapters yet</value>
+  </data>
+  <data name="TheChaptersWereFound" xml:space="preserve">
+    <value>The chapters were found</value>
+  </data>
+  <data name="CategoriesNotFound" xml:space="preserve">
+    <value>Categories not found</value>
+  </data>
+  <data name="CategoriesFound" xml:space="preserve">
+    <value>Categories found</value>
+  </data>
+  <data name="AnErrorOccurredWhileRetrievingTheCategorie" xml:space="preserve">
+    <value>An error occurred while retrieving the categories</value>
+  </data>
+  <data name="InvalidToken" xml:space="preserve">
+    <value>Invalid token</value>
+  </data>
+</root>

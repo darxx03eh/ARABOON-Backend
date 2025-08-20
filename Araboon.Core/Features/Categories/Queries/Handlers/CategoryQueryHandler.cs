@@ -1,0 +1,39 @@
+﻿using Araboon.Core.Bases;
+using Araboon.Core.Features.Categories.Queries.Models;
+using Araboon.Core.Translations;
+using Araboon.Data.Response.Categories.Queries;
+using Araboon.Service.Interfaces;
+using AutoMapper;
+using MediatR;
+using Microsoft.Extensions.Localization;
+
+namespace Araboon.Core.Features.Categories.Queries.Handlers
+{
+    public class CategoryQueryHandler : ApiResponseHandler
+        , IRequestHandler<GetCategoriesQuery, ApiResponse>
+    {
+        private readonly ICategoryService categoryService;
+        private readonly IStringLocalizer<SharedTranslation> stringLocalizer;
+        private readonly IMapper mapper;
+
+        public CategoryQueryHandler(ICategoryService categoryService, IStringLocalizer<SharedTranslation> stringLocalizer, 
+                                    IMapper mapper)
+        {
+            this.categoryService = categoryService;
+            this.stringLocalizer = stringLocalizer;
+            this.mapper = mapper;
+        }
+
+        public async Task<ApiResponse> Handle(GetCategoriesQuery request, CancellationToken cancellationToken)
+        {
+            var (result, categories) = await categoryService.GetCategoriesAsync();
+            var categoriesMapping = mapper.Map<IList<CategoriesResponse>>(categories);
+            return result switch
+            {
+                "CategoriesNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.CategoriesNotFound]),
+                "CategoriesFound" => Success(categoriesMapping, message: stringLocalizer[SharedTranslationKeys.CategoriesFound]),
+                _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileRetrievingTheCategorie])
+            };
+        }
+    }
+}

@@ -1,0 +1,570 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AnErrorOccurredDuringTheRegistrationProcess" xml:space="preserve">
+    <value>حدث خطأ أثناء عملية التسجيل</value>
+  </data>
+  <data name="AnErrorOccurredWhileAddingTheImage" xml:space="preserve">
+    <value>حدث خطأ أثناء إضافة الصورة</value>
+  </data>
+  <data name="AnErrorOccurredWhileSendingTheConfirmationEmailPleaseTryAgain" xml:space="preserve">
+    <value>حدث خطأ أثناء إرسال بريد التأكيد. يرجى المحاولة مرة أخرى</value>
+  </data>
+  <data name="BadRequest" xml:space="preserve">
+    <value>حدث خطأ في الطلب</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>تم الإنشاء بنجاح</value>
+  </data>
+  <data name="Deleted" xml:space="preserve">
+    <value>تم تنفيذ عملية الحذف بنجاح</value>
+  </data>
+  <data name="EmailConfirmedSuccessfully" xml:space="preserve">
+    <value>تم تأكيد البريد الإلكتروني بنجاح</value>
+  </data>
+  <data name="EmailNotEmpty" xml:space="preserve">
+    <value>البريد الإلكتروني لا يمكن أن يكون فارغًا</value>
+  </data>
+  <data name="EmailNotNull" xml:space="preserve">
+    <value>البريد الإلكتروني مطلوب</value>
+  </data>
+  <data name="ErrorDuringAccountCreationProcess" xml:space="preserve">
+    <value>حدث خطأ أثناء إنشاء الحساب. يرجى المحاولة مرة أخرى لاحقًا</value>
+  </data>
+  <data name="ErrorWhileAddingRole" xml:space="preserve">
+    <value>حدث خطأ أثناء إضافة الصلاحية</value>
+  </data>
+  <data name="FirstNameNotEmpty" xml:space="preserve">
+    <value>لاسم الأول لا يمكن أن يكون فارغًا</value>
+  </data>
+  <data name="FirstNameNotNull" xml:space="preserve">
+    <value>الاسم الأول مطلوب</value>
+  </data>
+  <data name="Forbidden" xml:space="preserve">
+    <value>عذرًا، لا تملك الصلاحية اللازمة للوصول إلى هذا المورد</value>
+  </data>
+  <data name="InternalServerError" xml:space="preserve">
+    <value>خطأ في الخادم الداخلي</value>
+  </data>
+  <data name="InvalidOrExpiredToken" xml:space="preserve">
+    <value>رمز التحقق غير صالح أو منتهي الصلاحية</value>
+  </data>
+  <data name="KeyNotFoundException" xml:space="preserve">
+    <value>المفتاح غير موجود</value>
+  </data>
+  <data name="LastNameNotEmpty" xml:space="preserve">
+    <value>اسم العائلة لا يمكن أن يكون فارغًا</value>
+  </data>
+  <data name="LastNameNotNull" xml:space="preserve">
+    <value>اسم العائلة مطلوب</value>
+  </data>
+  <data name="NotFound" xml:space="preserve">
+    <value>العنصر المطلوب غير موجود</value>
+  </data>
+  <data name="RoleNotExist" xml:space="preserve">
+    <value>الصلاحية المطلوبة غير موجودة</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>تم تنفيذ العملية بنجاح</value>
+  </data>
+  <data name="TheAccountHasBeenCreated" xml:space="preserve">
+    <value>تم التسجيل بنجاح. لقد أرسلنا إليك بريدًا إلكترونيًا لتأكيد الحساب.</value>
+  </data>
+  <data name="Unauthorized" xml:space="preserve">
+    <value>لا يمكنك تنفيذ هذه العملية – الرجاء تسجيل الدخول أولًا</value>
+  </data>
+  <data name="UnauthorizedAccessException" xml:space="preserve">
+    <value>وصول غير مصرح به</value>
+  </data>
+  <data name="UnprocessableEntity" xml:space="preserve">
+    <value>البيانات المُرسلة غير صالحة للمعالجة</value>
+  </data>
+  <data name="UserNotFound" xml:space="preserve">
+    <value>المستخدم غير موجود</value>
+  </data>
+  <data name="ValidationFailed" xml:space="preserve">
+    <value>فشل التحقق من صحة البيانات</value>
+  </data>
+  <data name="NotValidEmail" xml:space="preserve">
+    <value>البريد الإلكتروني غير صالح</value>
+  </data>
+  <data name="UserNameNotEmpty" xml:space="preserve">
+    <value>سم المستخدم لا يمكن أن يكون فارغًا</value>
+  </data>
+  <data name="UserNameNotNull" xml:space="preserve">
+    <value>اسم المستخدم مطلوب</value>
+  </data>
+  <data name="PasswordNotEmpty" xml:space="preserve">
+    <value>كلمة المرور لا يمكن أن تكون فارغة</value>
+  </data>
+  <data name="PasswordNotNull" xml:space="preserve">
+    <value>كلمة المرور مطلوبة</value>
+  </data>
+  <data name="PasswordMinimumLength" xml:space="preserve">
+    <value>يجب أن تكون كلمة المرور 6 أحرف على الأقل</value>
+  </data>
+  <data name="ConfirmPasswordNotEmpty" xml:space="preserve">
+    <value>تأكيد كلمة المرور لا يمكن أن يكون فارغًا</value>
+  </data>
+  <data name="ConfirmPasswordNotNull" xml:space="preserve">
+    <value>تأكيد كلمة المرور مطلوب</value>
+  </data>
+  <data name="ConfirmPasswordMinimumLength" xml:space="preserve">
+    <value>يجب أن يكون تأكيد كلمة المرور 6 أحرف على الأقل</value>
+  </data>
+  <data name="ConfirmPasswordMustEqualToPassword" xml:space="preserve">
+    <value>تأكيد كلمة المرور يجب أن يطابق كلمة المرور</value>
+  </data>
+  <data name="UserNameAlreadyExist" xml:space="preserve">
+    <value>اسم المستخدم مستخدم مسبقًا. يرجى اختيار اسم آخر</value>
+  </data>
+  <data name="EmailAlreadyExist" xml:space="preserve">
+    <value>البريد الإلكتروني مستخدم مسبقًا. يرجى استخدام بريد إلكتروني آخر</value>
+  </data>
+  <data name="EmailNotConfirmed" xml:space="preserve">
+    <value>البريد الإلكتروني غير مُؤكد</value>
+  </data>
+  <data name="PasswordOrUserNameWrnog" xml:space="preserve">
+    <value>اسم المستخدم أو كلمة المرور غير صحيحة</value>
+  </data>
+  <data name="AnErrorOccurredWhileGeneratingTheToken" xml:space="preserve">
+    <value>دث خطأ أثناء توليد رمز الدخول</value>
+  </data>
+  <data name="AnErrorOccurredDuringTheLoginProcess" xml:space="preserve">
+    <value>حدث خطأ أثناء عملية تسجيل الدخول</value>
+  </data>
+  <data name="DataVerifiedAndLogin" xml:space="preserve">
+    <value>تم التحقق من البيانات وتسجيل الدخول بنجاح</value>
+  </data>
+  <data name="UserNameNotExist" xml:space="preserve">
+    <value>اسم المستخدم غير موجود</value>
+  </data>
+  <data name="YourAccountIsInactivePleaseCheckWithTechnicalSupport" xml:space="preserve">
+    <value>حسابك غير مفعل، يرجى التواصل مع الدعم الفني</value>
+  </data>
+  <data name="EmailConfirmationEmailHasBeenSent" xml:space="preserve">
+    <value>تم إرسال رسالة تأكيد البريد الإلكتروني</value>
+  </data>
+  <data name="YourAccountHasAlreadyBeenConfirmed" xml:space="preserve">
+    <value>تم تأكيد حسابك مسبقًا</value>
+  </data>
+  <data name="InvalidTokenFormat" xml:space="preserve">
+    <value>تنسيق الرمز غير صالح</value>
+  </data>
+  <data name="TokenExpired" xml:space="preserve">
+    <value>انتهت صلاحية الرمز</value>
+  </data>
+  <data name="AnErrorOccurredWhileVerifyingTheToken" xml:space="preserve">
+    <value>حدث خطأ أثناء التحقق من الرمز</value>
+  </data>
+  <data name="ValidToken" xml:space="preserve">
+    <value>الرمز صالح</value>
+  </data>
+  <data name="ErrorInTheEncryptionAlgorithmUsed" xml:space="preserve">
+    <value>حدث خطأ في خوارزمية التشفير المستخدمة</value>
+  </data>
+  <data name="TokenIsStillValidCannotRefreshYet" xml:space="preserve">
+    <value>الرمز لا يزال صالحًا، لا يمكن تحديثه حاليًا</value>
+  </data>
+  <data name="RefreshTokenIsNotFound" xml:space="preserve">
+    <value>لم يتم العثور على رمز التحديث</value>
+  </data>
+  <data name="RefreshTokenHasExpire" xml:space="preserve">
+    <value>رمز التحديث منتهي الصلاحية</value>
+  </data>
+  <data name="AnErrorOccurredDuringTheTokenGenerationProcess" xml:space="preserve">
+    <value>حدث خطأ أثناء عملية إنشاء الرمز</value>
+  </data>
+  <data name="AccessTokenRegenerated" xml:space="preserve">
+    <value>تم إعادة إنشاء رمز الدخول بنجاح</value>
+  </data>
+  <data name="InvalidRefreshToken" xml:space="preserve">
+    <value>لا يمكن إلغاء صلاحية الرمز لأنه غير صالح</value>
+  </data>
+  <data name="AnErrorOccurredDuringTheRefreshTokenCancellationProcess" xml:space="preserve">
+    <value>حدث خطأ أثناء إلغاء صلاحية رمز التحديث</value>
+  </data>
+  <data name="TokenRevokedSuccessfully" xml:space="preserve">
+    <value>تم إلغاء صلاحية الرمز بنجاح</value>
+  </data>
+  <data name="AnErrorOccurredWhileSavingTheCode" xml:space="preserve">
+    <value>حدث خطأ أثناء حفظ الكود</value>
+  </data>
+  <data name="AnErrorOccurredWhileSendingTheForgetPasswordEmailPleaseTryAgain" xml:space="preserve">
+    <value>حدث خطأ أثناء إرسال رسالة استعادة كلمة المرور، يرجى المحاولة مرة أخرى</value>
+  </data>
+  <data name="ForgetPasswordEmailHasBeenSent" xml:space="preserve">
+    <value> تم إرسال رسالة استعادة كلمة المرور إلى بريدك الإلكتروني</value>
+  </data>
+  <data name="TheCodeHasExpired" xml:space="preserve">
+    <value>انتهت صلاحية الكود</value>
+  </data>
+  <data name="TheCodeEnteredIsIncorrect" xml:space="preserve">
+    <value>الكود المُدخل غير صحيح</value>
+  </data>
+  <data name="AnErrorOccurredWhileDeletingTheCode" xml:space="preserve">
+    <value>حدث خطأ أثناء حذف الكود</value>
+  </data>
+  <data name="TheCodeHasbeenVerified" xml:space="preserve">
+    <value>تم التحقق من الكود بنجاح</value>
+  </data>
+  <data name="AnErrorOccurredWhileDeletingTheOldPassword" xml:space="preserve">
+    <value>حدث خطأ أثناء حذف كلمة المرور القديمة</value>
+  </data>
+  <data name="AnErrorOccurredWhileAddingTheNewPassword" xml:space="preserve">
+    <value>حدث خطأ أثناء إضافة كلمة المرور الجديدة</value>
+  </data>
+  <data name="AnErrorOccurredWhileChangingThePassword" xml:space="preserve">
+    <value>حدث خطأ أثناء تغيير كلمة المرور</value>
+  </data>
+  <data name="PasswordChangedSuccessfully" xml:space="preserve">
+    <value>تم تغيير كلمة المرور بنجاح</value>
+  </data>
+  <data name="AnErrorOccurredWhileSavingThePasswordresetToken" xml:space="preserve">
+    <value>حدث خطأ أثناء حفظ رمز إعادة تعيين كلمة المرور</value>
+  </data>
+  <data name="InvalidPasswordResetToken" xml:space="preserve">
+    <value>رمز إعادة تعيين كلمة المرور غير صالح</value>
+  </data>
+  <data name="ThereWasAProblemDeletingThePasswordResetToken" xml:space="preserve">
+    <value>حدثت مشكلة أثناء حذف رمز إعادة تعيين كلمة المرور</value>
+  </data>
+  <data name="PasswordResetTokenNotEmpty" xml:space="preserve">
+    <value>رمز إعادة تعيين كلمة المرور لا يمكن أن يكون فارغًا</value>
+  </data>
+  <data name="PasswordResetTokenNotNull" xml:space="preserve">
+    <value>رمز إعادة تعيين كلمة المرور مطلوب</value>
+  </data>
+  <data name="YourAccountWasLockedDueToSuspiciousActivityPleaseTryAgainLaterorContactSupport" xml:space="preserve">
+    <value>تم قفل حسابك بسبب نشاط مريب. يرجى المحاولة لاحقًا أو التواصل مع الدعم الفني</value>
+  </data>
+  <data name="TheResourceThatIsBeingAccessedIsLocked" xml:space="preserve">
+    <value>المورد الذي تحاول الوصول إليه مقفل</value>
+  </data>
+  <data name="AnErrorOccurredDuringTheEmailConfirmationProcess" xml:space="preserve">
+    <value>حدث خطأ أثناء عملية تأكيد البريد الإلكتروني</value>
+  </data>
+  <data name="MangaNotFound" xml:space="preserve">
+    <value>المانجا غير موجودة</value>
+  </data>
+  <data name="MangaFound" xml:space="preserve">
+    <value>تم العثور على المانجا</value>
+  </data>
+  <data name="StatusNotEmpty" xml:space="preserve">
+    <value>الحالة لا يمكن أن تكون فارغة</value>
+  </data>
+  <data name="StatusNotNull" xml:space="preserve">
+    <value>حقل الحالة مطلوب ولا يجوز أن يكون فارغًا أو null</value>
+  </data>
+  <data name="ValidationError" xml:space="preserve">
+    <value>رجاءً، تحقق من صحة البيانات المدخلة وأصلح الأخطاء قبل المتابعة</value>
+  </data>
+  <data name="FavoritesServiceforRegisteredUsersOnly" xml:space="preserve">
+    <value>خدمة المفضلة متاحة فقط للمستخدمين المسجلين</value>
+  </data>
+  <data name="AddedToFavorites" xml:space="preserve">
+    <value>تمّت الإضافة إلى المفضلة بنجاح</value>
+  </data>
+  <data name="ThereWasAProblemAddingTofavorites" xml:space="preserve">
+    <value>حدثت مشكلة أثناء الإضافة إلى المفضلة. يرجى المحاولة لاحقًا</value>
+  </data>
+  <data name="ThereWasAProblemDeletingFromFavorites" xml:space="preserve">
+    <value>حدثت مشكلة أثناء الحذف من المفضلة. يرجى المحاولة لاحقًا</value>
+  </data>
+  <data name="RemovedFromFavorites" xml:space="preserve">
+    <value>تم الحذف من المفضلة بنجاح</value>
+  </data>
+  <data name="ThisMangaIsAlreadyInYourFavoritesList" xml:space="preserve">
+    <value>هذا المانجا موجود بالفعل في قائمة المفضلة الخاصة بك</value>
+  </data>
+  <data name="Conflict" xml:space="preserve">
+    <value>تعذر إكمال الطلب بسبب تعارض مع الحالة الحالية للموارد</value>
+  </data>
+  <data name="ThisMangaIsNotInYourFavoritesList" xml:space="preserve">
+    <value>هذه المانجا غير موجودة في قائمة المفضلة الخاصة بك</value>
+  </data>
+  <data name="ThereAreNoMangaInYourFavoritesList" xml:space="preserve">
+    <value>لا توجد أي مانجا في قائمة المفضلة الخاصة بك</value>
+  </data>
+  <data name="TheMangaWasFoundInYourFavoritesList" xml:space="preserve">
+    <value>المانجا موجودة بالفعل في قائمة المفضلة الخاصة بك</value>
+  </data>
+  <data name="NoContent" xml:space="preserve">
+    <value>لا توجد بيانات متاحة حاليًا</value>
+  </data>
+  <data name="CompletedReadsServiceforRegisteredUsersOnly" xml:space="preserve">
+    <value>خدمة المانجا المكتملة متاحة فقط للمستخدمين المسجّلين</value>
+  </data>
+  <data name="ThisMangaIsAlreadyInYourCompletedReadsList" xml:space="preserve">
+    <value>هذه المانجا موجودة بالفعل في قائمة المانجا المكتملة الخاصة بك</value>
+  </data>
+  <data name="AddedToCompletedReads" xml:space="preserve">
+    <value>تمت الإضافة إلى قائمة المانجا المكتملة</value>
+  </data>
+  <data name="ThereWasAProblemAddingToCompletedReads" xml:space="preserve">
+    <value>حدثت مشكلة أثناء الإضافة إلى قائمة المانجا المكتملة</value>
+  </data>
+  <data name="ThisMangaIsNotInYourCompletedReadsList" xml:space="preserve">
+    <value>هذه المانجا غير موجودة في قائمة قراءاتك المكتملة</value>
+  </data>
+  <data name="RemovedFromCompletedReads" xml:space="preserve">
+    <value>تمت الإزالة من قائمة القراءات المكتملة</value>
+  </data>
+  <data name="ThereWasAProblemDeletingFromCompletedReads" xml:space="preserve">
+    <value>حدثت مشكلة أثناء الحذف من قائمة القراءات المكتملة</value>
+  </data>
+  <data name="ThereAreNoMangaInYourCompletedReadsList" xml:space="preserve">
+    <value>لا توجد مانجا في قائمة قراءاتك المكتملة</value>
+  </data>
+  <data name="TheMangaWasFoundInYourCompletedReadsList" xml:space="preserve">
+    <value>تم العثور على المانجا في قائمة قراءاتك المكتملة</value>
+  </data>
+  <data name="CurrentlyReadingServiceforRegisteredUsersOnly" xml:space="preserve">
+    <value>خدمة القراءة حالياً متاحة للمستخدمين المسجلين فقط</value>
+  </data>
+  <data name="ThisMangaIsAlreadyInYourCurrentlyReadingList" xml:space="preserve">
+    <value>هذه المانجا موجودة بالفعل في قائمة القراءة حالياً الخاصة بك</value>
+  </data>
+  <data name="AddedToCurrentlyReading" xml:space="preserve">
+    <value>تمت إضافة المانجا إلى قائمة القراءة حالياً الخاصة بك</value>
+  </data>
+  <data name="ThereWasAProblemAddingToCurrentlyReading" xml:space="preserve">
+    <value>حدثت مشكلة أثناء إضافة المانجا إلى قائمة القراءة حالياً الخاصة بك</value>
+  </data>
+  <data name="ThisMangaIsNotInYourCurrentlyReadingList" xml:space="preserve">
+    <value>هذه المانجا غير موجودة في قائمة القراءة حالياً الخاصة بك</value>
+  </data>
+  <data name="RemovedFromCurrentlyReading" xml:space="preserve">
+    <value>تمت إزالة المانجا من قائمة القراءة حالياً الخاصة بك</value>
+  </data>
+  <data name="ThereWasAProblemDeletingFromCurrentlyReading" xml:space="preserve">
+    <value>حدثت مشكلة أثناء حذف المانجا من قائمة القراءة حالياً الخاصة بك</value>
+  </data>
+  <data name="ThereAreNoMangaInYourCurrentlyReadingList" xml:space="preserve">
+    <value>لا توجد أي مانجا في قائمة القراءة حالياً الخاصة بك</value>
+  </data>
+  <data name="TheMangaWasFoundInYourCurrentlyReadingList" xml:space="preserve">
+    <value>تم العثور على المانجا في قائمة القراءة حالياً الخاصة بك</value>
+  </data>
+  <data name="ReadingLaterServiceforRegisteredUsersOnly" xml:space="preserve">
+    <value>خدمة القراءة لاحقاً متاحة للمستخدمين المسجلين فقط</value>
+  </data>
+  <data name="ThisMangaIsAlreadyInYourReadingLaterList" xml:space="preserve">
+    <value>هذه المانجا موجودة بالفعل في قائمة القراءة لاحقاً</value>
+  </data>
+  <data name="AddedToReadingLater" xml:space="preserve">
+    <value>تمت إضافة المانجا إلى قائمة القراءة لاحقاً</value>
+  </data>
+  <data name="ThereWasAProblemAddingToReadingLater" xml:space="preserve">
+    <value>حدثت مشكلة أثناء إضافة المانجا إلى قائمة القراءة لاحقاً</value>
+  </data>
+  <data name="ThisMangaIsNotInYourReadingLaterList" xml:space="preserve">
+    <value>هذه المانجا غير موجودة في قائمة القراءة لاحقاً</value>
+  </data>
+  <data name="RemovedFromReadingLater" xml:space="preserve">
+    <value>تمت الإزالة من قائمة القراءة لاحقاً</value>
+  </data>
+  <data name="ThereWasAProblemDeletingFromReadingLater" xml:space="preserve">
+    <value>حدثت مشكلة أثناء الحذف من قائمة القراءة لاحقاً</value>
+  </data>
+  <data name="ThereAreNoMangaInYourReadingLaterList" xml:space="preserve">
+    <value>لا توجد مانجا في قائمة القراءة لاحقاً</value>
+  </data>
+  <data name="TheMangaWasFoundInYourReadingLaterList" xml:space="preserve">
+    <value>تم العثور على المانجا في قائمة القراءة لاحقًا</value>
+  </data>
+  <data name="NotificationsServiceforRegisteredUsersOnly" xml:space="preserve">
+    <value>خدمة الإشعارات متاحة للمستخدمين المسجلين فقط</value>
+  </data>
+  <data name="ThisMangaIsAlreadyInYourNotificationsList" xml:space="preserve">
+    <value>هذه المانجا موجودة بالفعل في قائمة الإشعارات الخاصة بك</value>
+  </data>
+  <data name="AddedToNotifications" xml:space="preserve">
+    <value>تمت الإضافة إلى الإشعارات</value>
+  </data>
+  <data name="ThereWasAProblemAddingToNotifications" xml:space="preserve">
+    <value>حدثت مشكلة أثناء الإضافة إلى الإشعارات</value>
+  </data>
+  <data name="ThisMangaIsNotInYourNotificationsList" xml:space="preserve">
+    <value>هذه المانجا غير موجودة في قائمة الإشعارات الخاصة بك</value>
+  </data>
+  <data name="RemovedFromNotifications" xml:space="preserve">
+    <value>تمت الإزالة من الإشعارات</value>
+  </data>
+  <data name="ThereWasAProblemDeletingFromNotifications" xml:space="preserve">
+    <value>حدثت مشكلة أثناء الحذف من الإشعارات</value>
+  </data>
+  <data name="ThereAreNoMangaInYourNotificationsList" xml:space="preserve">
+    <value>ا توجد مانجا في قائمة الإشعارات الخاصة بك</value>
+  </data>
+  <data name="TheMangaWasFoundInYourNotificationsList" xml:space="preserve">
+    <value>تم العثور على المانجا في قائمة الإشعارات الخاصة بك</value>
+  </data>
+  <data name="MarkAsReadForChaptersServiceforRegisteredUsersOnly" xml:space="preserve">
+    <value>خدمة تعليم الفصول كمقروءة متاحة للمستخدمين المسجلين فقط</value>
+  </data>
+  <data name="ThisMangaAndChapterIsAlreadyMarkedAsRead" xml:space="preserve">
+    <value>تم تعليم هذا المانجا والفصل كمقروءين بالفعل</value>
+  </data>
+  <data name="MarkedAsRead" xml:space="preserve">
+    <value>تم التعليم كمقروء</value>
+  </data>
+  <data name="ThereWasAProblemMarkedAsRead" xml:space="preserve">
+    <value>حدثت مشكلة أثناء تعليم كمقروء</value>
+  </data>
+  <data name="MarkAsUnReadForChaptersServiceforRegisteredUsersOnly" xml:space="preserve">
+    <value>خدمة تعليم الفصول كغير مقروءة متاحة للمستخدمين المسجلين فقط</value>
+  </data>
+  <data name="MarkedAsUnRead" xml:space="preserve">
+    <value>تم التعليم كغير مقروء</value>
+  </data>
+  <data name="ThereWasAProblemMarkedAsUnRead" xml:space="preserve">
+    <value>حدثت مشكلة أثناء التعليم كغير مقروء</value>
+  </data>
+  <data name="ThisChapterIsNotInThisManga" xml:space="preserve">
+    <value>هذا الفصل لا ينتمي إلى هذه المانجا</value>
+  </data>
+  <data name="ThisChapterForThisMangaIsNotExistInMarkedAsRead" xml:space="preserve">
+    <value>هذا الفصل لهذه المانجا غير موجود في قائمة المقروءة</value>
+  </data>
+  <data name="ThisChapterInThisMangaIsAlreadyMarkedAsRead" xml:space="preserve">
+    <value>هذا الفصل في هذه المانجا تم تحديده كمقروء مسبقًا</value>
+  </data>
+  <data name="TheLanguageYouRequestedIsNotAvailableForThisManga" xml:space="preserve">
+    <value>اللغة التي طلبتها غير متوفرة لهذه المانجا</value>
+  </data>
+  <data name="ThereAreNoChaptersYet" xml:space="preserve">
+    <value>لا توجد فصول بعد</value>
+  </data>
+  <data name="TheChaptersWereFound" xml:space="preserve">
+    <value>تم العثور على الفصول</value>
+  </data>
+  <data name="CategoriesNotFound" xml:space="preserve">
+    <value>الفئات غير موجودة</value>
+  </data>
+  <data name="CategoriesFound" xml:space="preserve">
+    <value>تم العثور على الفئات</value>
+  </data>
+  <data name="AnErrorOccurredWhileRetrievingTheCategorie" xml:space="preserve">
+    <value>حدثت مشكلة أثناء الحصول على الفئات</value>
+  </data>
+  <data name="InvalidToken" xml:space="preserve">
+    <value>الرمز غير صالح</value>
+  </data>
+</root>
