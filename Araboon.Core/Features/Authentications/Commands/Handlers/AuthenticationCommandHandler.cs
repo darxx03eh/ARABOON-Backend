@@ -70,7 +70,6 @@ namespace Araboon.Core.Features.Authentications.Commands.Handlers
             var (result, message) = await authenticationService.SignInAsync(request.UserName, request.Password);
             return message switch
             {
-                "UserNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.UserNotFound]),
                 "EmailNotConfirmed" => Forbidden(stringLocalizer[SharedTranslationKeys.EmailNotConfirmed]),
                 "PasswordOrUserNameWrnog" => Unauthorized(stringLocalizer[SharedTranslationKeys.PasswordOrUserNameWrnog]),
                 "AnErrorOccurredWhileGeneratingTheToken" =>
@@ -81,7 +80,8 @@ namespace Araboon.Core.Features.Authentications.Commands.Handlers
                 Forbidden(stringLocalizer[SharedTranslationKeys.YourAccountIsInactivePleaseCheckWithTechnicalSupport]),
                 "YourAccountWasLockedDueToSuspiciousActivityPleaseTryAgainLaterorContactSupport" =>
                 Locked(stringLocalizer[SharedTranslationKeys.YourAccountWasLockedDueToSuspiciousActivityPleaseTryAgainLaterorContactSupport]),
-                _ => Success(result, message: stringLocalizer[SharedTranslationKeys.DataVerifiedAndLogin])
+                "DataVerifiedAndLogin" => Success(result, message: stringLocalizer[SharedTranslationKeys.DataVerifiedAndLogin]),
+                _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredDuringTheLoginProcess])
             };
         }
 

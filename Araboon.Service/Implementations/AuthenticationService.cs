@@ -113,7 +113,7 @@ namespace Araboon.Service.Implementations
             {
                 var user = await userManager.FindByNameAsync(username);
                 if (user is null)
-                    return (null, "UserNotFound");
+                    return (null, "PasswordOrUserNameWrnog");
                 if (user.LockoutEnd is not null && DateTime.UtcNow <= user.LockoutEnd)
                     return (null, "YourAccountWasLockedDueToSuspiciousActivityPleaseTryAgainLaterorContactSupport");
                 var result = await signInManager.CheckPasswordSignInAsync(user, password, true);

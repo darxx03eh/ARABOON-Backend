@@ -17,7 +17,6 @@ namespace Araboon.Core.Features.Authentications.Commands.Validators
             this.stringLocalizer = stringLocalizer;
             this.userManager = userManager;
             ApplyValidationRules();
-            ApplyCustomValidationRules();
         }
         private void ApplyValidationRules()
         {
@@ -28,15 +27,6 @@ namespace Araboon.Core.Features.Authentications.Commands.Validators
                 .NotEmpty().WithMessage(stringLocalizer[SharedTranslationKeys.PasswordNotEmpty])
                 .NotNull().WithMessage(stringLocalizer[SharedTranslationKeys.PasswordNotNull])
                 .MinimumLength(6).WithMessage(stringLocalizer[SharedTranslationKeys.PasswordMinimumLength]);
-        }
-        private void ApplyCustomValidationRules()
-        {
-            RuleFor(user => user.UserName)
-                .MustAsync(async (key, cancellation) =>
-                {
-                    var username = await userManager.FindByNameAsync(key);
-                    return username is not null;
-                }).WithMessage(stringLocalizer[SharedTranslationKeys.UserNameNotExist]);
         }
     }
 }

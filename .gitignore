@@ -55,3 +55,6 @@ nunit-*.xml
 
 # Ignore Visual Studio chace files
 .vs/
+
+#PublishProfiles file
+Araboon.API/Properties/PublishProfiles/
