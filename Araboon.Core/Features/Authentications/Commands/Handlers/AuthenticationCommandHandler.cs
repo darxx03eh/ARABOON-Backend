@@ -48,7 +48,8 @@ namespace Araboon.Core.Features.Authentications.Commands.Handlers
                 "AnErrorOccurredWhileAddingTheImage" => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileAddingTheImage]),
                 "AnErrorOccurredDuringTheRegistrationProcess"
                 => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredDuringTheRegistrationProcess]),
-                _ => Created(null, message: stringLocalizer[SharedTranslationKeys.TheAccountHasBeenCreated])
+                "TheAccountHasBeenCreated" => Created(null, message: stringLocalizer[SharedTranslationKeys.TheAccountHasBeenCreated]),
+                _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredDuringTheRegistrationProcess])
             };
         }
 
@@ -61,7 +62,8 @@ namespace Araboon.Core.Features.Authentications.Commands.Handlers
                 "InvalidOrExpiredToken" => Unauthorized(stringLocalizer[SharedTranslationKeys.InvalidOrExpiredToken]),
                 "AnErrorOccurredDuringTheEmailConfirmationProcess" =>
                 InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredDuringTheEmailConfirmationProcess]),
-                _ => Success(null, message: stringLocalizer[SharedTranslationKeys.EmailConfirmedSuccessfully])
+                "EmailConfirmedSuccessfully" => Success(null, message: stringLocalizer[SharedTranslationKeys.EmailConfirmedSuccessfully]),
+                _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredDuringTheEmailConfirmationProcess])
             };
         }
 
@@ -87,14 +89,15 @@ namespace Araboon.Core.Features.Authentications.Commands.Handlers
 
         public async Task<ApiResponse> Handle(SendConfirmationEmailCommand request, CancellationToken cancellationToken)
         {
-            var result = await authenticationService.SendConfirmationEmailAsync(request.Email);
+            var result = await authenticationService.SendConfirmationEmailAsync(request.UserName);
             return result switch
             {
                 "UserNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.UserNotFound]),
                 "AnErrorOccurredWhileSendingTheConfirmationEmailPleaseTryAgain" =>
                 InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileSendingTheConfirmationEmailPleaseTryAgain]),
                 "YourAccountHasAlreadyBeenConfirmed" => BadRequest(stringLocalizer[SharedTranslationKeys.YourAccountHasAlreadyBeenConfirmed]),
-                _ => Success(null, message: stringLocalizer[SharedTranslationKeys.EmailConfirmationEmailHasBeenSent])
+                "EmailConfirmationEmailHasBeenSent" => Success(null, message: stringLocalizer[SharedTranslationKeys.EmailConfirmationEmailHasBeenSent]),
+                _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileSendingTheConfirmationEmailPleaseTryAgain])
             };
         }
 
@@ -111,7 +114,8 @@ namespace Araboon.Core.Features.Authentications.Commands.Handlers
                 "UserNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.UserNotFound]),
                 "AnErrorOccurredDuringTheTokenGenerationProcess" =>
                 InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredDuringTheTokenGenerationProcess]),
-                _ => Success(response, message: stringLocalizer[SharedTranslationKeys.AccessTokenRegenerated])
+                "AccessTokenRegenerated" => Success(response, message: stringLocalizer[SharedTranslationKeys.AccessTokenRegenerated]),
+                _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredDuringTheTokenGenerationProcess])
             };
         }
 
@@ -123,7 +127,8 @@ namespace Araboon.Core.Features.Authentications.Commands.Handlers
                 "InvalidRefreshToken" => BadRequest(stringLocalizer[SharedTranslationKeys.InvalidRefreshToken]),
                 "AnErrorOccurredDuringTheRefreshTokenCancellationProcess" =>
                 InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredDuringTheRefreshTokenCancellationProcess]),
-                _ => Success(null, message: stringLocalizer[SharedTranslationKeys.TokenRevokedSuccessfully])
+                "TokenRevokedSuccessfully" => Success(null, message: stringLocalizer[SharedTranslationKeys.TokenRevokedSuccessfully]),
+                _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredDuringTheRefreshTokenCancellationProcess])
             };
         }
 
@@ -136,7 +141,8 @@ namespace Araboon.Core.Features.Authentications.Commands.Handlers
                 "AnErrorOccurredWhileSavingTheCode" => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileSavingTheCode]),
                 "AnErrorOccurredWhileSendingTheForgetPasswordEmailPleaseTryAgain" =>
                 InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileSendingTheForgetPasswordEmailPleaseTryAgain]),
-                _ => Success(null, message: stringLocalizer[SharedTranslationKeys.ForgetPasswordEmailHasBeenSent])
+                "ForgetPasswordEmailHasBeenSent" => Success(null, message: stringLocalizer[SharedTranslationKeys.ForgetPasswordEmailHasBeenSent]),
+                _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileSendingTheForgetPasswordEmailPleaseTryAgain])
             };
         }
 
@@ -151,11 +157,12 @@ namespace Araboon.Core.Features.Authentications.Commands.Handlers
                 "AnErrorOccurredWhileDeletingTheCode" => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileDeletingTheCode]),
                 "AnErrorOccurredWhileSavingThePasswordresetToken" =>
                 InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileSavingThePasswordresetToken]),
-                _ => Success(new
+                "TheCodeHasbeenVerified" => Success(new
                 {
                     Email = request.Email,
                     Token = token
-                }, message: stringLocalizer[SharedTranslationKeys.TheCodeHasbeenVerified])
+                }, message: stringLocalizer[SharedTranslationKeys.TheCodeHasbeenVerified]),
+                _ => InternalServerError(stringLocalizer[SharedTranslationKeys.ThereWasAProblemValidatingTheCode])
             };
         }
 
@@ -174,7 +181,8 @@ namespace Araboon.Core.Features.Authentications.Commands.Handlers
                 "InvalidPasswordResetToken" => BadRequest(stringLocalizer[SharedTranslationKeys.InvalidPasswordResetToken]),
                 "ThereWasAProblemDeletingThePasswordResetToken" =>
                 InternalServerError(stringLocalizer[SharedTranslationKeys.ThereWasAProblemDeletingThePasswordResetToken]),
-                _ => Success(null, message: stringLocalizer[SharedTranslationKeys.PasswordChangedSuccessfully])
+                "PasswordChangedSuccessfully" => Success(null, message: stringLocalizer[SharedTranslationKeys.PasswordChangedSuccessfully]),
+                _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileChangingThePassword])
             };
         }
     }

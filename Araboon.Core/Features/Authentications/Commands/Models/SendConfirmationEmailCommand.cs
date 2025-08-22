@@ -5,8 +5,8 @@ namespace Araboon.Core.Features.Authentications.Commands.Models
 {
     public class SendConfirmationEmailCommand : IRequest<ApiResponse>
     {
-        public String Email { get; set; }
-        public SendConfirmationEmailCommand(String email)
-            => Email = email;
+        public String UserName { get; set; }
+        public SendConfirmationEmailCommand(String username)
+            => UserName = username;
     }
 }

@@ -568,4 +568,7 @@
   <data name="InvalidToken" xml:space="preserve">
     <value>Invalid token</value>
   </data>
+  <data name="ThereWasAProblemValidatingTheCode" xml:space="preserve">
+    <value>There was a problem validating the code</value>
+  </data>
 </root>

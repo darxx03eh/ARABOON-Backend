@@ -21,18 +21,17 @@ namespace Araboon.Core.Features.Authentications.Commands.Validators
         }
         private void ApplyValidationRules()
         {
-            RuleFor(user => user.Email)
-                .NotEmpty().WithMessage(stringLocalizer[SharedTranslationKeys.EmailNotEmpty])
-                .NotNull().WithMessage(stringLocalizer[SharedTranslationKeys.EmailNotNull])
-                .EmailAddress().WithMessage(stringLocalizer[SharedTranslationKeys.NotValidEmail]);
+            RuleFor(user => user.UserName)
+                .NotEmpty().WithMessage(stringLocalizer[SharedTranslationKeys.UserNameNotEmpty])
+                .NotNull().WithMessage(stringLocalizer[SharedTranslationKeys.UserNameNotNull]);
         }
         private void ApplyCustomValidationRules()
         {
-            RuleFor(user => user.Email)
+            RuleFor(user => user.UserName)
                 .MustAsync(async (key, cancellation) =>
                 {
-                    var email = await userManager.FindByEmailAsync(key);
-                    return email is not null;
+                    var username = await userManager.FindByNameAsync(key);
+                    return username is not null;
                 }).WithMessage(stringLocalizer[SharedTranslationKeys.UserNotFound]);
         }
     }

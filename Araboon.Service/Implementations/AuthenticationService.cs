@@ -77,7 +77,7 @@ namespace Araboon.Service.Implementations
                     var token = await userManager.GenerateEmailConfirmationTokenAsync(user);
                     var httpRequest = httpContextAccessor.HttpContext.Request;
                     var link = $"{httpRequest.Scheme}://{httpRequest.Host}/{Router.AuthenticationRouting.EmailConfirmation}?email={user.Email}&token={Uri.EscapeDataString(token)}";
-                    var sendEmail = emailService.SendAuthenticationsEmailAsync(user.Email, link, "Verification Email", $"{user.FirstName} {user.LastName}");
+                    var sendEmail = await emailService.SendAuthenticationsEmailAsync(user.Email, link, "Verification Email", $"{user.FirstName} {user.LastName}");
                     if (sendEmail.Equals("Failed"))
                     {
                         await transaction.RollbackAsync();
@@ -155,23 +155,30 @@ namespace Araboon.Service.Implementations
         }
         public async Task<(string, string?)> ForgetPasswordConfirmationAsync(string email, string code)
         {
-            var user = await userManager.FindByEmailAsync(email);
-            if (user is null)
-                return ("UserNotFound", null);
-            if (user.CodeExpiryDate <= DateTime.UtcNow)
-                return ("TheCodeHasExpired", null);
-            if (!code.Equals(user.Code))
-                return ("TheCodeEnteredIsIncorrect", null);
-            (user.Code, user.CodeExpiryDate) = (null, null);
-            var result = await userManager.UpdateAsync(user);
-            if (!result.Succeeded)
-                return ("AnErrorOccurredWhileDeletingTheCode", null);
-            var token = await tokenService.GenerateRandomRefreshToken();
-            user.ForgetPasswordToken = token;
-            var tokenResult = await userManager.UpdateAsync(user);
-            if (!tokenResult.Succeeded)
-                return ("AnErrorOccurredWhileSavingThePasswordresetToken", null);
-            return ("TheCodeHasbeenVerified", token);
+            try
+            {
+                var user = await userManager.FindByEmailAsync(email);
+                if (user is null)
+                    return ("UserNotFound", null);
+                if (user.CodeExpiryDate <= DateTime.UtcNow)
+                    return ("TheCodeHasExpired", null);
+                if (!code.Equals(user.Code))
+                    return ("TheCodeEnteredIsIncorrect", null);
+                (user.Code, user.CodeExpiryDate) = (null, null);
+                var result = await userManager.UpdateAsync(user);
+                if (!result.Succeeded)
+                    return ("AnErrorOccurredWhileDeletingTheCode", null);
+                var token = await tokenService.GenerateRandomRefreshToken();
+                user.ForgetPasswordToken = token;
+                var tokenResult = await userManager.UpdateAsync(user);
+                if (!tokenResult.Succeeded)
+                    return ("AnErrorOccurredWhileSavingThePasswordresetToken", null);
+                return ("TheCodeHasbeenVerified", token);
+            }
+            catch (Exception exp)
+            {
+                return ("ThereWasAProblemValidatingTheCode", null);
+            }
         }
 
         public async Task<(SignInResponse?, string)> GenerateRefreshTokenAsync(string accessToken, string refreshToken)
@@ -295,11 +302,11 @@ namespace Araboon.Service.Implementations
             return "TokenRevokedSuccessfully";
         }
 
-        public async Task<string> SendConfirmationEmailAsync(string email)
+        public async Task<string> SendConfirmationEmailAsync(string username)
         {
             try
             {
-                var user = await userManager.FindByEmailAsync(email);
+                var user = await userManager.FindByNameAsync(username);
                 if (user is null)
                     return "UserNotFound";
                 if (user.EmailConfirmed)
@@ -307,7 +314,7 @@ namespace Araboon.Service.Implementations
                 var token = await userManager.GenerateEmailConfirmationTokenAsync(user);
                 var httpRequest = httpContextAccessor.HttpContext.Request;
                 var link = $"{httpRequest.Scheme}://{httpRequest.Host}/{Router.AuthenticationRouting.EmailConfirmation}?email={user.Email}&token={Uri.EscapeDataString(token)}";
-                var send = await emailService.SendAuthenticationsEmailAsync(email, link, "Verification Email", $"{user.FirstName} {user.LastName}");
+                var send = await emailService.SendAuthenticationsEmailAsync(user.Email, link, "Verification Email", $"{user.FirstName} {user.LastName}");
                 if (send.Equals("Failed"))
                     return "AnErrorOccurredWhileSendingTheConfirmationEmailPleaseTryAgain";
                 return "EmailConfirmationEmailHasBeenSent";

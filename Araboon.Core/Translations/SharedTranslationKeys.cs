@@ -149,5 +149,6 @@
         public const String CategoriesFound = "CategoriesFound";
         public const String AnErrorOccurredWhileRetrievingTheCategorie = "AnErrorOccurredWhileRetrievingTheCategorie";
         public const String InvalidToken = "InvalidToken";
+        public const String ThereWasAProblemValidatingTheCode = "ThereWasAProblemValidatingTheCode";
     }
 }

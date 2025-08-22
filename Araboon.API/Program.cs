@@ -131,7 +131,7 @@ namespace Araboon.API
             builder.Services.AddSingleton<IHostEnvironment>(sp => sp.GetRequiredService<IWebHostEnvironment>());
             builder.Services.Configure<DataProtectionTokenProviderOptions>(options =>
             {
-                options.TokenLifespan = TimeSpan.FromHours(24);
+                options.TokenLifespan = TimeSpan.FromDays(1);
             });
             builder.Services.AddResponseCaching();
             var app = builder.Build();

@@ -567,4 +567,7 @@
   <data name="InvalidToken" xml:space="preserve">
     <value>الرمز غير صالح</value>
   </data>
+  <data name="ThereWasAProblemValidatingTheCode" xml:space="preserve">
+    <value>حدثت مشكلة أثناء التحقق من الرمز</value>
+  </data>
 </root>
