@@ -17,7 +17,7 @@ namespace Araboon.Service.Implementations
             this.currentlyReadingRepository = currentlyReadingRepository;
             this.mangaRepository = mangaRepository;
         }
-        public async Task<String> AddToCurrentlyReadingAsync(Int32 mangaId)
+        public async Task<string> AddToCurrentlyReadingAsync(int mangaId)
         {
             var manga = await mangaRepository.GetByIdAsync(mangaId);
             if (manga is null)
@@ -25,15 +25,15 @@ namespace Araboon.Service.Implementations
             try
             {
                 var userId = currentlyReadingRepository.ExtractUserIdFromToken();
-                if (String.IsNullOrEmpty(userId))
+                if (string.IsNullOrEmpty(userId))
                     return "CurrentlyReadingServiceforRegisteredUsersOnly";
-                var exist = await currentlyReadingRepository.IsMangaExistForUser(mangaId, Int32.Parse(userId));
+                var exist = await currentlyReadingRepository.IsMangaExistForUser(mangaId, int.Parse(userId));
                 if (exist)
                     return "ThisMangaIsAlreadyInYourCurrentlyReadingList";
                 await currentlyReadingRepository.AddAsync(new CurrentlyReading()
                 {
                     MangaID = mangaId,
-                    UserID = Int32.Parse(userId)
+                    UserID = int.Parse(userId)
                 });
                 return "AddedToCurrentlyReading";
             }
@@ -42,7 +42,7 @@ namespace Araboon.Service.Implementations
                 return "ThereWasAProblemAddingToCurrentlyReading";
             }
         }
-        public async Task<String> RemoveFromCurrentlyReadingAsync(Int32 mangaId)
+        public async Task<string> RemoveFromCurrentlyReadingAsync(int mangaId)
         {
             var manga = await mangaRepository.GetByIdAsync(mangaId);
             if (manga is null)
@@ -50,15 +50,15 @@ namespace Araboon.Service.Implementations
             try
             {
                 var userId = currentlyReadingRepository.ExtractUserIdFromToken();
-                if (String.IsNullOrEmpty(userId))
+                if (string.IsNullOrEmpty(userId))
                     return "CurrentlyReadingServiceforRegisteredUsersOnly";
-                var exist = await currentlyReadingRepository.IsMangaExistForUser(mangaId, Int32.Parse(userId));
+                var exist = await currentlyReadingRepository.IsMangaExistForUser(mangaId, int.Parse(userId));
                 if (!exist)
                     return "ThisMangaIsNotInYourCurrentlyReadingList";
                 await currentlyReadingRepository.DeleteAsync(new CurrentlyReading()
                 {
                     MangaID = mangaId,
-                    UserID = Int32.Parse(userId)
+                    UserID = int.Parse(userId)
                 });
                 return "RemovedFromCurrentlyReading";
             }
@@ -67,7 +67,7 @@ namespace Araboon.Service.Implementations
                 return "ThereWasAProblemDeletingFromCurrentlyReading";
             }
         }
-        public async Task<(String, PaginatedResult<GetPaginatedCurrentlyReadingsMangaResponse>?)> GetPaginatedCurrentlyReadingsMangaAsync(Int32 pageNumber, Int32 pageSize)
+        public async Task<(string, PaginatedResult<GetPaginatedCurrentlyReadingsMangaResponse>?)> GetPaginatedCurrentlyReadingsMangaAsync(int pageNumber, int pageSize)
         {
             var (message, mangas) = await currentlyReadingRepository.GetPaginatedCurrentlyReadingsMangaAsync(pageNumber, pageSize);
             return message switch

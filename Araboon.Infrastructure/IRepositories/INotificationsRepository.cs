@@ -6,7 +6,7 @@ namespace Araboon.Infrastructure.IRepositories
 {
     public interface INotificationsRepository : IGenericRepository<Notifications>
     {
-        public Task<(String, PaginatedResult<GetPaginatedNotificationsMangaResponse>?)> GetPaginatedNotificationsMangaAsync(Int32 pageNumber, Int32 pageSize);
-        public Task<Boolean> IsMangaExistForUser(Int32 mangaId, Int32 userId);
+        public Task<(string, PaginatedResult<GetPaginatedNotificationsMangaResponse>?)> GetPaginatedNotificationsMangaAsync(int pageNumber, int pageSize);
+        public Task<bool> IsMangaExistForUser(int mangaId, int userId);
     }
 }

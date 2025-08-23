@@ -21,12 +21,12 @@ namespace Araboon.Infrastructure.Repositories
             this.httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<(String, PaginatedResult<GetPaginatedFavoritesMangaResponse>?)> GetPaginatedFavoritesMangaAsync(Int32 pageNumber, Int32 pageSize)
+        public async Task<(string, PaginatedResult<GetPaginatedFavoritesMangaResponse>?)> GetPaginatedFavoritesMangaAsync(int pageNumber, int pageSize)
         {
-            String? userId = ExtractUserIdFromToken();
-            if (String.IsNullOrEmpty(userId))
+            string? userId = ExtractUserIdFromToken();
+            if (string.IsNullOrEmpty(userId))
                 return ("FavoritesServiceforRegisteredUsersOnly", null);
-            var favoritesManga = GetTableNoTracking().Where(f => f.UserID.Equals(Int32.Parse(userId)))
+            var favoritesManga = GetTableNoTracking().Where(f => f.UserID.Equals(int.Parse(userId)))
                                  .OrderByDescending(f => f.Manga.Rate).AsQueryable();
             if (favoritesManga is null)
                 return ("ThereAreNoMangaInYourFavoritesList", null);
@@ -49,7 +49,7 @@ namespace Araboon.Infrastructure.Repositories
                 return ("ThereAreNoMangaInYourFavoritesList", null);
             return ("TheMangaWasFoundInYourFavoritesList", mangas);
         }
-        public async Task<Boolean> IsMangaExistForUser(Int32 mangaId, Int32 userId)
+        public async Task<bool> IsMangaExistForUser(int mangaId, int userId)
         {
             var manga = context.Favorites.Any(
                 f => f.MangaID.Equals(mangaId) && f.UserID.Equals(userId)

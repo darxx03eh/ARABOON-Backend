@@ -217,7 +217,7 @@
     <value>كلمة المرور مطلوبة</value>
   </data>
   <data name="PasswordMinimumLength" xml:space="preserve">
-    <value>يجب أن تكون كلمة المرور 6 أحرف على الأقل</value>
+    <value>يجب أن تكون كلمة المرور 8 أحرف على الأقل</value>
   </data>
   <data name="ConfirmPasswordNotEmpty" xml:space="preserve">
     <value>تأكيد كلمة المرور لا يمكن أن يكون فارغًا</value>
@@ -226,7 +226,7 @@
     <value>تأكيد كلمة المرور مطلوب</value>
   </data>
   <data name="ConfirmPasswordMinimumLength" xml:space="preserve">
-    <value>يجب أن يكون تأكيد كلمة المرور 6 أحرف على الأقل</value>
+    <value>يجب أن يكون تأكيد كلمة المرور 8 أحرف على الأقل</value>
   </data>
   <data name="ConfirmPasswordMustEqualToPassword" xml:space="preserve">
     <value>تأكيد كلمة المرور يجب أن يطابق كلمة المرور</value>
@@ -569,5 +569,11 @@
   </data>
   <data name="ThereWasAProblemValidatingTheCode" xml:space="preserve">
     <value>حدثت مشكلة أثناء التحقق من الرمز</value>
+  </data>
+  <data name="ThereWasAProblemLoadingTheProfile" xml:space="preserve">
+    <value>حدثت مشكلة أثناء تحميل الملف الشخصي</value>
+  </data>
+  <data name="UserFound" xml:space="preserve">
+    <value>تم العثور على المستخدم</value>
   </data>
 </root>

@@ -4,7 +4,7 @@ namespace Araboon.Service.Implementations
 {
     public class AvatarService : IAvatarService
     {
-        public async Task<Stream> DownloadImageAsStreamAsync(String avatarUrl)
+        public async Task<Stream> DownloadImageAsStreamAsync(string avatarUrl)
         {
             using var httpClient = new HttpClient();
             var imageBytes = await httpClient.GetByteArrayAsync(avatarUrl);

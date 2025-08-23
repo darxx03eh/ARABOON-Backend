@@ -7,7 +7,7 @@ namespace Araboon.Core.Exceptions
     public class CustomValidationException : Exception
     {
         private readonly IStringLocalizer<SharedTranslation> stringLocalizer;
-        public Dictionary<String, List<String>> Errors { get; set; }
+        public Dictionary<string, List<string>> Errors { get; set; }
         public CustomValidationException(IEnumerable<ValidationFailure> failures,
                                          IStringLocalizer<SharedTranslation> stringLocalizer)
             : base(stringLocalizer[SharedTranslationKeys.ValidationFailed])

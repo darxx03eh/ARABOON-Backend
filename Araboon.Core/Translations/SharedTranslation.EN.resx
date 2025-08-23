@@ -217,7 +217,7 @@
     <value>Password is required</value>
   </data>
   <data name="PasswordMinimumLength" xml:space="preserve">
-    <value>Password must be at least 6 characters long</value>
+    <value>Password must be at least 8 characters long</value>
   </data>
   <data name="ConfirmPasswordNotEmpty" xml:space="preserve">
     <value>Confirm password must not be empty.</value>
@@ -226,7 +226,7 @@
     <value>Confirm password is required</value>
   </data>
   <data name="ConfirmPasswordMinimumLength" xml:space="preserve">
-    <value>Confirm password must be at least 6 characters long</value>
+    <value>Confirm password must be at least 8 characters long</value>
   </data>
   <data name="ConfirmPasswordMustEqualToPassword" xml:space="preserve">
     <value>Confirm password must match the password</value>
@@ -570,5 +570,11 @@
   </data>
   <data name="ThereWasAProblemValidatingTheCode" xml:space="preserve">
     <value>There was a problem validating the code</value>
+  </data>
+  <data name="ThereWasAProblemLoadingTheProfile" xml:space="preserve">
+    <value>There was a problem loading the profile</value>
+  </data>
+  <data name="UserFound" xml:space="preserve">
+    <value>User found</value>
   </data>
 </root>

@@ -5,8 +5,8 @@ namespace Araboon.Service.Interfaces
 {
     public interface INotificationsService
     {
-        public Task<(String, PaginatedResult<GetPaginatedNotificationsMangaResponse>?)> GetPaginatedNotificationsMangaAsync(Int32 pageNumber, Int32 pageSize);
-        public Task<String> AddToNotificationsAsync(Int32 mangaId);
-        public Task<String> RemoveFromNotificationsAsync(Int32 mangaId);
+        public Task<(string, PaginatedResult<GetPaginatedNotificationsMangaResponse>?)> GetPaginatedNotificationsMangaAsync(int pageNumber, int pageSize);
+        public Task<string> AddToNotificationsAsync(int mangaId);
+        public Task<string> RemoveFromNotificationsAsync(int mangaId);
     }
 }

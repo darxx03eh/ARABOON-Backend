@@ -6,7 +6,7 @@ namespace Araboon.Infrastructure.IRepositories
 {
     public interface IFavoriteRepository : IGenericRepository<Favorite>
     {
-        public Task<(String, PaginatedResult<GetPaginatedFavoritesMangaResponse>?)> GetPaginatedFavoritesMangaAsync(Int32 pageNumber, Int32 pageSize);
-        public Task<Boolean> IsMangaExistForUser(Int32 mangaId, Int32 userId);
+        public Task<(string, PaginatedResult<GetPaginatedFavoritesMangaResponse>?)> GetPaginatedFavoritesMangaAsync(int pageNumber, int pageSize);
+        public Task<bool> IsMangaExistForUser(int mangaId, int userId);
     }
 }

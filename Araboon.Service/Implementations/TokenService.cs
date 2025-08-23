@@ -69,7 +69,7 @@ namespace Araboon.Service.Implementations
             claims.AddRange(roles.Select(role => new Claim(nameof(UserClaimModel.Role), role)));
             return claims;
         }
-        private async Task<RefreshToken> GenerateRefreshToken(String username)
+        private async Task<RefreshToken> GenerateRefreshToken(string username)
             => new RefreshToken()
             {
                 UserName = username,
@@ -84,9 +84,9 @@ namespace Araboon.Service.Implementations
             return Convert.ToBase64String(random);
         }
 
-        public async Task<JwtSecurityToken> ReadJwtTokenAsync(String token)
+        public async Task<JwtSecurityToken> ReadJwtTokenAsync(string token)
         {
-            if (String.IsNullOrEmpty(token))
+            if (string.IsNullOrEmpty(token))
                 throw new ArgumentNullException(nameof(token));
             var handler = new JwtSecurityTokenHandler();
             var response = handler.ReadJwtToken(token);

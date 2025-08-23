@@ -2,6 +2,6 @@
 {
     public class EncryptionSettings
     {
-        public String Key { get; set; }
+        public string Key { get; set; }
     }
 }

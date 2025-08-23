@@ -2,7 +2,7 @@
 {
     public class CategoriesResponse
     {
-        public String En { get; set; }
-        public String Ar { get; set; }
+        public string En { get; set; }
+        public string Ar { get; set; }
     }
 }

@@ -6,16 +6,16 @@ namespace Araboon.Core.Bases
     {
         public HttpStatusCode StatusCode { get; set; }
         public Object Meta { get; set; }
-        public Boolean Succeeded { get; set; }
-        public String Message { get; set; }
+        public bool Succeeded { get; set; }
+        public string Message { get; set; }
         public Object Errors { get; set; }
         public Object Data { get; set; }
         public ApiResponse() { }
-        public ApiResponse(Object data, String message = null)
+        public ApiResponse(Object data, string message = null)
             => (Succeeded, Message, Data) = (true, message, data);
-        public ApiResponse(String message)
+        public ApiResponse(string message)
             => (Succeeded, Message) = (false, message);
-        public ApiResponse(String message, Boolean succeeded)
+        public ApiResponse(string message, bool succeeded)
             => (Message, Succeeded) = (message, succeeded);
     }
 }

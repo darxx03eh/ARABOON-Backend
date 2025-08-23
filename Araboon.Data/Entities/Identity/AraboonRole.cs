@@ -2,7 +2,7 @@
 
 namespace Araboon.Data.Entities.Identity
 {
-    public class AraboonRole : IdentityRole<Int32>
+    public class AraboonRole : IdentityRole<int>
     {
     }
 }

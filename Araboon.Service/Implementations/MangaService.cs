@@ -15,7 +15,7 @@ namespace Araboon.Service.Implementations
         {
             this.mangaRepository = mangaRepository;
         }
-        public async Task<(String, Dictionary<String, IList<GetCategoriesHomePageResponse>>?)> GetCategoriesHomePageAsync()
+        public async Task<(string, Dictionary<string, IList<GetCategoriesHomePageResponse>>?)> GetCategoriesHomePageAsync()
         {
             var (message, list) = await mangaRepository.GetCategoriesHomePageAsync();
             return message switch
@@ -24,7 +24,7 @@ namespace Araboon.Service.Implementations
                 _ => ("MangaFound", list)
             };
         }
-        public async Task<(String, IList<GetHottestMangasResponse>?)> GetHottestMangasAsync()
+        public async Task<(string, IList<GetHottestMangasResponse>?)> GetHottestMangasAsync()
         {
             var (message, hottestMangas) = await mangaRepository.GetHottestMangasAsync();
             return message switch
@@ -33,7 +33,7 @@ namespace Araboon.Service.Implementations
                 _ => ("MangaFound", hottestMangas)
             };
         }
-        public async Task<(String, PaginatedResult<GetPaginatedHottestMangaResponse>?)> GetPaginatedHottestMangaAsync(Int32 pageNumber, Int32 pageSize)
+        public async Task<(string, PaginatedResult<GetPaginatedHottestMangaResponse>?)> GetPaginatedHottestMangaAsync(int pageNumber, int pageSize)
         {
             var (message, hottestMangas) = await mangaRepository.GetPaginatedHottestMangaAsync(pageNumber, pageSize);
             return message switch
@@ -42,7 +42,7 @@ namespace Araboon.Service.Implementations
                 _ => ("MangaFound", hottestMangas)
             };
         }
-        public async Task<(String, PaginatedResult<GetMangaByCategoryNameResponse>?)> GetMangaByCategoryNameAsync(String category, Int32 pageNumber, Int32 pageSize)
+        public async Task<(string, PaginatedResult<GetMangaByCategoryNameResponse>?)> GetMangaByCategoryNameAsync(string category, int pageNumber, int pageSize)
         {
             var (message, mangas) = await mangaRepository.GetMangaByCategoryNameAsync(category, pageNumber, pageSize);
             return message switch
@@ -51,7 +51,7 @@ namespace Araboon.Service.Implementations
                 _ => ("MangaFound", mangas)
             };
         }
-        public async Task<(String, PaginatedResult<GetMangaByStatusResponse>?)> GetMangaByStatusAsync(Int32 pageNumber, Int32 pageSize, String status, MangaOrderingEnum orderBy, String? filter)
+        public async Task<(string, PaginatedResult<GetMangaByStatusResponse>?)> GetMangaByStatusAsync(int pageNumber, int pageSize, string status, MangaOrderingEnum orderBy, string? filter)
         {
             var (message, mangas) = await mangaRepository.GetMangaByStatusAsync(pageNumber, pageSize, status, orderBy, filter);
             return message switch
@@ -60,7 +60,7 @@ namespace Araboon.Service.Implementations
                 _ => ("MangaFound", mangas)
             };
         }
-        public async Task<(String, Manga?)> GetMangaByIDAsync(Int32 id)
+        public async Task<(string, Manga?)> GetMangaByIDAsync(int id)
         {
             var manga = await mangaRepository.GetByIdAsync(id);
             if (manga is null)

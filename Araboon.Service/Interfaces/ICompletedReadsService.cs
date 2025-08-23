@@ -6,9 +6,9 @@ namespace Araboon.Service.Interfaces
 {
     public interface ICompletedReadsService
     {
-        public Task<String> AddToCompletedReadsAsync(Int32 mangaId);
-        public Task<String> RemoveFromCompletedReadsAsync(Int32 mangaId);
-        public Task<(String, PaginatedResult<GetPaginatedCompletedReadsMangaResponse>?)> GetPaginatedCompletedReadsMangaAsync(Int32 pageNumber, Int32 pageSize);
+        public Task<string> AddToCompletedReadsAsync(int mangaId);
+        public Task<string> RemoveFromCompletedReadsAsync(int mangaId);
+        public Task<(string, PaginatedResult<GetPaginatedCompletedReadsMangaResponse>?)> GetPaginatedCompletedReadsMangaAsync(int pageNumber, int pageSize);
 
     }
 }

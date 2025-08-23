@@ -50,9 +50,9 @@ namespace Araboon.Service.Implementations
         {
             var Request = httpContextAccessor.HttpContext.Request;
             var lang = Request.Headers["Accept-Language"].ToString();
-            if (!String.IsNullOrWhiteSpace(lang) && lang.Contains(','))
+            if (!string.IsNullOrWhiteSpace(lang) && lang.Contains(','))
                 lang = lang.Split(',')[0];
-            String fileName = "";
+            string fileName = "";
             if (linkOrCode.Length > 6)
             {
                 fileName = lang switch

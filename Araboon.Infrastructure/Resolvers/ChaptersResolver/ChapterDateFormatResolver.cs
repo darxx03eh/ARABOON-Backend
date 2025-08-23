@@ -7,7 +7,7 @@ using System.Globalization;
 
 namespace Araboon.Data.Helpers.Resolvers.ChaptersResolver
 {
-    public class ChapterDateFormatResolver : IValueResolver<Chapter, ChaptersResponse, String>
+    public class ChapterDateFormatResolver : IValueResolver<Chapter, ChaptersResponse, string>
     {
         private readonly IHttpContextAccessor httpContextAccessor;
         public ChapterDateFormatResolver(IHttpContextAccessor httpContextAccessor)

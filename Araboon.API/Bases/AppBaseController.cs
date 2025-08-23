@@ -12,11 +12,11 @@ namespace Araboon.API.Bases
         protected ObjectResult Result(ApiResponse response) => response.StatusCode switch
         {
             System.Net.HttpStatusCode.OK => new OkObjectResult(response),
-            System.Net.HttpStatusCode.Created => new CreatedResult(String.Empty, response),
+            System.Net.HttpStatusCode.Created => new CreatedResult(string.Empty, response),
             System.Net.HttpStatusCode.Unauthorized => new UnauthorizedObjectResult(response),
             System.Net.HttpStatusCode.BadRequest => new BadRequestObjectResult(response),
             System.Net.HttpStatusCode.NotFound => new NotFoundObjectResult(response),
-            System.Net.HttpStatusCode.Accepted => new AcceptedResult(String.Empty, response),
+            System.Net.HttpStatusCode.Accepted => new AcceptedResult(string.Empty, response),
             System.Net.HttpStatusCode.UnprocessableEntity => new UnprocessableEntityObjectResult(response),
             System.Net.HttpStatusCode.InternalServerError => new ObjectResult(response) { StatusCode = 500 },
             System.Net.HttpStatusCode.Forbidden => new ObjectResult(response) { StatusCode = 403 },

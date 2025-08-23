@@ -6,8 +6,8 @@ namespace Araboon.Infrastructure.IRepositories
 {
     public interface ICurrentlyReadingRepository : IGenericRepository<CurrentlyReading>
     {
-        public Task<(String, PaginatedResult<GetPaginatedCurrentlyReadingsMangaResponse>?)> GetPaginatedCurrentlyReadingsMangaAsync(Int32 pageNumber, Int32 pageSize);
+        public Task<(string, PaginatedResult<GetPaginatedCurrentlyReadingsMangaResponse>?)> GetPaginatedCurrentlyReadingsMangaAsync(int pageNumber, int pageSize);
 
-        public Task<Boolean> IsMangaExistForUser(Int32 mangaId, Int32 userId);
+        public Task<bool> IsMangaExistForUser(int mangaId, int userId);
     }
 }

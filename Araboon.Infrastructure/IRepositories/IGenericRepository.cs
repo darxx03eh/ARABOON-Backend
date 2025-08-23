@@ -5,7 +5,7 @@ namespace Araboon.Infrastructure.IRepositories
     public interface IGenericRepository<T> where T : class
     {
         public Task DeleteRangeAsync(ICollection<T> entities);
-        public Task<T> GetByIdAsync(Int32 id);
+        public Task<T> GetByIdAsync(int id);
         public Task SaveChangesAsync();
         public IDbContextTransaction BeginTransaction();
         public void Commit();
@@ -20,7 +20,7 @@ namespace Araboon.Infrastructure.IRepositories
         public Task<IDbContextTransaction> BeginTransactionAsync();
         public Task CommitAsync();
         public Task RollBackAsync();
-        public String? ExtractUserIdFromToken();
+        public string? ExtractUserIdFromToken();
 
     }
 }

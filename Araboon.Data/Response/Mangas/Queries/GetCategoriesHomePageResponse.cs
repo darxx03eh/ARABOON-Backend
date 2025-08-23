@@ -2,16 +2,16 @@
 {
     public class GetCategoriesHomePageResponse
     {
-        public Int32? MangaID { get; set; }
-        public String? MangaName { get; set; }
-        public String? MangaImageUrl { get; set; }
+        public int? MangaID { get; set; }
+        public string? MangaName { get; set; }
+        public string? MangaImageUrl { get; set; }
         public LastChapter? LastChapter { get; set; }
-        public Boolean? IsFavorite { get; set; } = false;
+        public bool? IsFavorite { get; set; } = false;
     }
     public class LastChapter
     {
-        public Int32 ChapterID { get; set; }
-        public Int32 ChapterNo { get; set; }
-        public Int32? Views { get; set; }
+        public int ChapterID { get; set; }
+        public int ChapterNo { get; set; }
+        public int? Views { get; set; }
     }
 }

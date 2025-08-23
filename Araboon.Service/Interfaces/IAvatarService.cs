@@ -2,6 +2,6 @@
 {
     public interface IAvatarService
     {
-        public Task<Stream> DownloadImageAsStreamAsync(String avatarUrl);
+        public Task<Stream> DownloadImageAsStreamAsync(string avatarUrl);
     }
 }

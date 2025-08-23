@@ -2,9 +2,9 @@
 {
     public class Category
     {
-        public Int32 CategoryID { get; set; }
-        public String CategoryNameEn { get; set; }
-        public String CategoryNameAr { get; set; }
+        public int CategoryID { get; set; }
+        public string CategoryNameEn { get; set; }
+        public string CategoryNameAr { get; set; }
         public virtual ICollection<CategoryManga> CategoryMangas { get; set; } = new HashSet<CategoryManga>();
     }
 }

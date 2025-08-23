@@ -18,7 +18,7 @@ namespace Araboon.Infrastructure.Repositories
             this.httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<(String, IList<Category>?)> GetCategoriesAsync()
+        public async Task<(string, IList<Category>?)> GetCategoriesAsync()
         {
             var categories = await GetTableNoTracking().ToListAsync();
             if (categories is null)

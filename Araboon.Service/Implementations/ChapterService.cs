@@ -11,7 +11,7 @@ namespace Araboon.Service.Implementations
         {
             this.chapterRepository = chapterRepository;
         }
-        public async Task<(String, IList<Chapter>?)> GetChaptersForSpecificMangaByLanguage(Int32 mangaId, String language)
+        public async Task<(string, IList<Chapter>?)> GetChaptersForSpecificMangaByLanguage(int mangaId, string language)
         {
             var (message, chapters) = await chapterRepository.GetChaptersForSpecificMangaByLanguage(mangaId, language);
             return message switch

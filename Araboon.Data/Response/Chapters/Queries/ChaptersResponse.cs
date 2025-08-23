@@ -2,12 +2,12 @@
 {
     public class ChaptersResponse
     {
-        public Int32 ChapterID { get; set; }
-        public String Title { get; set; }
-        public String? ChapterTitle { get; set; }
-        public Boolean IsView { get; set; } = false;
-        public String ReleasedOn { get; set; }
-        public String ChapterImageUrl { get; set; }
-        public Boolean IsArabic { get; set; }
+        public int ChapterID { get; set; }
+        public string Title { get; set; }
+        public string? ChapterTitle { get; set; }
+        public bool IsView { get; set; } = false;
+        public string ReleasedOn { get; set; }
+        public string ChapterImageUrl { get; set; }
+        public bool IsArabic { get; set; }
     }
 }

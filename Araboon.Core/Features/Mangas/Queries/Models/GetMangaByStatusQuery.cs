@@ -6,10 +6,10 @@ namespace Araboon.Core.Features.Mangas.Queries.Models
 {
     public class GetMangaByStatusQuery : IRequest<ApiResponse>
     {
-        public String Status { get; set; }
-        public Int32 PageNumber { get; set; }
-        public Int32 PageSize { get; set; }
+        public string Status { get; set; }
+        public int PageNumber { get; set; }
+        public int PageSize { get; set; }
         public MangaOrderingEnum OrderBy { get; set; }
-        public String? Filter { get; set; }
+        public string? Filter { get; set; }
     }
 }

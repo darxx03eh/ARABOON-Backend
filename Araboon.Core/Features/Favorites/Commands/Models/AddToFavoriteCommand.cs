@@ -5,8 +5,8 @@ namespace Araboon.Core.Features.Favorites.Commands.Models
 {
     public class AddToFavoriteCommand : IRequest<ApiResponse>
     {
-        public Int32 MangaID { get; set; }
-        public AddToFavoriteCommand(Int32 mangaID)
+        public int MangaID { get; set; }
+        public AddToFavoriteCommand(int mangaID)
             => MangaID = mangaID;
     }
 }

@@ -21,15 +21,15 @@ namespace Araboon.Infrastructure.Repositories
             this.context = context;
             this.httpContextAccessor = httpContextAccessor;
         }
-        public async Task<(String, PaginatedResult<GetPaginatedCurrentlyReadingsMangaResponse>?)> GetPaginatedCurrentlyReadingsMangaAsync(Int32 pageNumber, Int32 pageSize)
+        public async Task<(string, PaginatedResult<GetPaginatedCurrentlyReadingsMangaResponse>?)> GetPaginatedCurrentlyReadingsMangaAsync(int pageNumber, int pageSize)
         {
-            String? userId = ExtractUserIdFromToken();
-            if (String.IsNullOrEmpty(userId))
+            string? userId = ExtractUserIdFromToken();
+            if (string.IsNullOrEmpty(userId))
                 return ("CurrentlyReadingServiceforRegisteredUsersOnly", null);
-            IList<Int32> favoriteMangaIds = new List<Int32>();
+            IList<int> favoriteMangaIds = new List<int>();
             favoriteMangaIds = await context.Favorites.Where(f => f.UserID.ToString().Equals(userId))
                                .Select(f => f.MangaID).ToListAsync();
-            var currentlyReadingsManga = GetTableNoTracking().Where(c => c.UserID.Equals(Int32.Parse(userId)))
+            var currentlyReadingsManga = GetTableNoTracking().Where(c => c.UserID.Equals(int.Parse(userId)))
                                  .OrderByDescending(c => c.Manga.Rate).AsQueryable();
             if (currentlyReadingsManga is null)
                 return ("ThereAreNoMangaInYourCurrentlyReadingList", null);
@@ -52,7 +52,7 @@ namespace Araboon.Infrastructure.Repositories
                 return ("ThereAreNoMangaInYourCurrentlyReadingList", null);
             return ("TheMangaWasFoundInYourCurrentlyReadingList", mangas);
         }
-        public async Task<Boolean> IsMangaExistForUser(Int32 mangaId, Int32 userId)
+        public async Task<bool> IsMangaExistForUser(int mangaId, int userId)
         {
             var manga = context.CurrentlyReadings.Any(
                 c => c.MangaID.Equals(mangaId) && c.UserID.Equals(userId)

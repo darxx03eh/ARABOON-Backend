@@ -11,7 +11,7 @@ namespace Araboon.Service.Implementations
         {
             this.categoryRepository = categoryRepository;
         }
-        public async Task<(String, IList<Category>?)> GetCategoriesAsync()
+        public async Task<(string, IList<Category>?)> GetCategoriesAsync()
         {
             var (message, categories) = await categoryRepository.GetCategoriesAsync();
             return message switch

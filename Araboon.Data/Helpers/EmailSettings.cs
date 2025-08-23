@@ -2,10 +2,10 @@
 {
     public class EmailSettings
     {
-        public String FromEmail { get; set; }
-        public String Password { get; set; }
-        public String SmtpServer { get; set; }
-        public Int32 Port { get; set; }
-        public Boolean UseSSL { get; set; }
+        public string FromEmail { get; set; }
+        public string Password { get; set; }
+        public string SmtpServer { get; set; }
+        public int Port { get; set; }
+        public bool UseSSL { get; set; }
     }
 }

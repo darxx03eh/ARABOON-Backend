@@ -7,10 +7,10 @@ namespace Araboon.Infrastructure.IRepositories
 {
     public interface IMangaRepository : IGenericRepository<Manga>
     {
-        public Task<(String, Dictionary<String, IList<GetCategoriesHomePageResponse>>?)> GetCategoriesHomePageAsync();
-        public Task<(String, PaginatedResult<GetMangaByCategoryNameResponse>?)> GetMangaByCategoryNameAsync(String category, Int32 pageNumber, Int32 pageSize);
-        public Task<(String, PaginatedResult<GetMangaByStatusResponse>?)> GetMangaByStatusAsync(Int32 pageNumber, Int32 pageSize, String status,  MangaOrderingEnum orderBy, String? filter);
-        public Task<(String, PaginatedResult<GetPaginatedHottestMangaResponse>?)> GetPaginatedHottestMangaAsync(Int32 pageNumber, Int32 pageSize);
-        public Task<(String, IList<GetHottestMangasResponse>?)> GetHottestMangasAsync();
+        public Task<(string, Dictionary<string, IList<GetCategoriesHomePageResponse>>?)> GetCategoriesHomePageAsync();
+        public Task<(string, PaginatedResult<GetMangaByCategoryNameResponse>?)> GetMangaByCategoryNameAsync(string category, int pageNumber, int pageSize);
+        public Task<(string, PaginatedResult<GetMangaByStatusResponse>?)> GetMangaByStatusAsync(int pageNumber, int pageSize, string status,  MangaOrderingEnum orderBy, string? filter);
+        public Task<(string, PaginatedResult<GetPaginatedHottestMangaResponse>?)> GetPaginatedHottestMangaAsync(int pageNumber, int pageSize);
+        public Task<(string, IList<GetHottestMangasResponse>?)> GetHottestMangasAsync();
     }
 }

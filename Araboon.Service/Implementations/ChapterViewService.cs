@@ -15,7 +15,7 @@ namespace Araboon.Service.Implementations
             this.chapterViewRepository = chapterViewRepository;
             this.mangaRepository = mangaRepository;
         }
-        public async Task<String> MarkAsReadAsync(Int32 mangaId, Int32 chapterId)
+        public async Task<string> MarkAsReadAsync(int mangaId, int chapterId)
         {
             var manga = await mangaRepository.GetByIdAsync(mangaId);
             if (manga is null)
@@ -23,9 +23,9 @@ namespace Araboon.Service.Implementations
             try
             {
                 var userId = chapterViewRepository.ExtractUserIdFromToken();
-                if (String.IsNullOrEmpty(userId))
+                if (string.IsNullOrEmpty(userId))
                     return "MarkAsReadForChaptersServiceforRegisteredUsersOnly";
-                var exist = await chapterViewRepository.IsMangaAndChapterExistForUser(mangaId, chapterId, Int32.Parse(userId));
+                var exist = await chapterViewRepository.IsMangaAndChapterExistForUser(mangaId, chapterId, int.Parse(userId));
                 if (exist)
                     return "ThisChapterInThisMangaIsAlreadyMarkedAsRead";
                 var chapterExistInManga = await chapterViewRepository.IsChapterExistInManga(chapterId, mangaId);
@@ -35,7 +35,7 @@ namespace Araboon.Service.Implementations
                 {
                     MangaID = mangaId,
                     ChapterID = chapterId,
-                    UserID = Int32.Parse(userId)
+                    UserID = int.Parse(userId)
                 });
                 return "MarkedAsRead";
             }
@@ -45,7 +45,7 @@ namespace Araboon.Service.Implementations
             }
         }
 
-        public async Task<String> MarkAsUnReadAsync(Int32 mangaId, Int32 chapterId)
+        public async Task<string> MarkAsUnReadAsync(int mangaId, int chapterId)
         {
             var manga = await mangaRepository.GetByIdAsync(mangaId);
             if (manga is null)
@@ -53,16 +53,16 @@ namespace Araboon.Service.Implementations
             try
             {
                 var userId = chapterViewRepository.ExtractUserIdFromToken();
-                if (String.IsNullOrEmpty(userId))
+                if (string.IsNullOrEmpty(userId))
                     return "MarkAsUnReadForChaptersServiceforRegisteredUsersOnly";
-                var exist = await chapterViewRepository.IsMangaAndChapterExistForUser(mangaId, chapterId, Int32.Parse(userId));
+                var exist = await chapterViewRepository.IsMangaAndChapterExistForUser(mangaId, chapterId, int.Parse(userId));
                 if (!exist)
                     return "ThisChapterForThisMangaIsNotExistInMarkedAsRead";
                 await chapterViewRepository.DeleteAsync(new ChapterView()
                 {
                     MangaID = mangaId,
                     ChapterID = chapterId,
-                    UserID = Int32.Parse(userId)
+                    UserID = int.Parse(userId)
                 });
                 return "MarkedAsUnRead";
             }

@@ -1,0 +1,16 @@
+﻿namespace Araboon.Infrastructure.IRepositories
+{
+    public interface IUnitOfWork
+    {
+        public ICategoryRepository CategoryRepository { get; set; }
+        public IChapterRepository ChapterRepository { get; set; }
+        public IChapterViewRepository ChapterViewRepository { get; set; }
+        public ICompletedReadsRepository CompletedReadsRepository { get; set; }
+        public ICurrentlyReadingRepository CurrentlyReadingRepository { get; set; }
+        public IFavoriteRepository FavoriteRepository { get; set; }
+        public IMangaRepository MangaRepository { get; set; }
+        public INotificationsRepository NotificationsRepository { get; set; }
+        public IReadingLaterRepository ReadingLaterRepository { get; set; }
+        public IRefreshTokenRepository RefreshTokenRepository { get; set; }
+    }
+}

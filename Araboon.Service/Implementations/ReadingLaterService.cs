@@ -18,7 +18,7 @@ namespace Araboon.Service.Implementations
             this.mangaRepository = mangaRepository;
         }
 
-        public async Task<String> AddToReadingLaterAsync(Int32 mangaId)
+        public async Task<string> AddToReadingLaterAsync(int mangaId)
         {
             var manga = await mangaRepository.GetByIdAsync(mangaId);
             if (manga is null)
@@ -26,15 +26,15 @@ namespace Araboon.Service.Implementations
             try
             {
                 var userId = readingLaterRepository.ExtractUserIdFromToken();
-                if (String.IsNullOrEmpty(userId))
+                if (string.IsNullOrEmpty(userId))
                     return "ReadingLaterServiceforRegisteredUsersOnly";
-                var exist = await readingLaterRepository.IsMangaExistForUser(mangaId, Int32.Parse(userId));
+                var exist = await readingLaterRepository.IsMangaExistForUser(mangaId, int.Parse(userId));
                 if (exist)
                     return "ThisMangaIsAlreadyInYourReadingLaterList";
                 await readingLaterRepository.AddAsync(new ReadingLater()
                 {
                     MangaID = mangaId,
-                    UserID = Int32.Parse(userId)
+                    UserID = int.Parse(userId)
                 });
                 return "AddedToReadingLater";
             }
@@ -44,7 +44,7 @@ namespace Araboon.Service.Implementations
             }
         }
 
-        public async Task<String> RemoveFromReadingLaterAsync(Int32 mangaId)
+        public async Task<string> RemoveFromReadingLaterAsync(int mangaId)
         {
             var manga = await mangaRepository.GetByIdAsync(mangaId);
             if (manga is null)
@@ -52,15 +52,15 @@ namespace Araboon.Service.Implementations
             try
             {
                 var userId = readingLaterRepository.ExtractUserIdFromToken();
-                if (String.IsNullOrEmpty(userId))
+                if (string.IsNullOrEmpty(userId))
                     return "ReadingLaterServiceforRegisteredUsersOnly";
-                var exist = await readingLaterRepository.IsMangaExistForUser(mangaId, Int32.Parse(userId));
+                var exist = await readingLaterRepository.IsMangaExistForUser(mangaId, int.Parse(userId));
                 if (!exist)
                     return "ThisMangaIsNotInYourReadingLaterList";
                 await readingLaterRepository.DeleteAsync(new ReadingLater()
                 {
                     MangaID = mangaId,
-                    UserID = Int32.Parse(userId)
+                    UserID = int.Parse(userId)
                 });
                 return "RemovedFromReadingLater";
             }
@@ -69,7 +69,7 @@ namespace Araboon.Service.Implementations
                 return "ThereWasAProblemDeletingFromReadingLater";
             }
         }
-        public async Task<(String, PaginatedResult<GetPaginatedReadingLaterMangaResponse>?)> GetPaginatedReadingLaterMangaAsync(Int32 pageNumber, Int32 pageSize)
+        public async Task<(string, PaginatedResult<GetPaginatedReadingLaterMangaResponse>?)> GetPaginatedReadingLaterMangaAsync(int pageNumber, int pageSize)
         {
             var (message, mangas) = await readingLaterRepository.GetPaginatedReadingLaterMangaAsync(pageNumber, pageSize);
             return message switch

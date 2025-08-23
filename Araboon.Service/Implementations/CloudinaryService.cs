@@ -17,7 +17,7 @@ namespace Araboon.Service.Implementations
             cloudinary = new Cloudinary(account);
         }
 
-        public async Task<String> UploadDefaultAvatarAsync(Stream image, String folderName, String fileName)
+        public async Task<string> UploadDefaultAvatarAsync(Stream image, string folderName, string fileName)
         {
             using var stream = image;
             var uploadParams = new ImageUploadParams()

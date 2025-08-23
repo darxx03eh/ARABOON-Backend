@@ -5,14 +5,14 @@ namespace Araboon.Data.Helpers
 {
     public static class EncryptionHelper
     {
-        private static String Key;
-        public static void Initialize(String key)
+        private static string Key;
+        public static void Initialize(string key)
         {
             if (string.IsNullOrWhiteSpace(key))
                 throw new ArgumentException("Encryption key is not set!");
             Key = key;
         }
-        public static String Encrypt(String plainText)
+        public static string Encrypt(string plainText)
         {
             using var aes = Aes.Create();
             aes.Key = Encoding.UTF8.GetBytes(Key);

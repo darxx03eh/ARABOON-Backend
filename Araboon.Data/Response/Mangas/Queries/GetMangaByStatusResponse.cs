@@ -2,6 +2,6 @@
 {
     public class GetMangaByStatusResponse : GetCategoriesHomePageResponse
     {
-        public String AuthorName { get; set; }
+        public string AuthorName { get; set; }
     }
 }

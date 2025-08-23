@@ -21,15 +21,15 @@ namespace Araboon.Infrastructure.Repositories
             this.context = context;
             this.httpContextAccessor = httpContextAccessor;
         }
-        public async Task<(String, PaginatedResult<GetPaginatedReadingLaterMangaResponse>?)> GetPaginatedReadingLaterMangaAsync(Int32 pageNumber, Int32 pageSize)
+        public async Task<(string, PaginatedResult<GetPaginatedReadingLaterMangaResponse>?)> GetPaginatedReadingLaterMangaAsync(int pageNumber, int pageSize)
         {
-            String? userId = ExtractUserIdFromToken();
-            if (String.IsNullOrEmpty(userId))
+            string? userId = ExtractUserIdFromToken();
+            if (string.IsNullOrEmpty(userId))
                 return ("ReadingLaterServiceforRegisteredUsersOnly", null);
-            IList<Int32> favoriteMangaIds = new List<Int32>();
+            IList<int> favoriteMangaIds = new List<int>();
             favoriteMangaIds = await context.Favorites.Where(f => f.UserID.ToString().Equals(userId))
                                .Select(f => f.MangaID).ToListAsync();
-            var currentlyReadingsManga = GetTableNoTracking().Where(r => r.UserID.Equals(Int32.Parse(userId)))
+            var currentlyReadingsManga = GetTableNoTracking().Where(r => r.UserID.Equals(int.Parse(userId)))
                                  .OrderByDescending(r => r.Manga.Rate).AsQueryable();
             if (currentlyReadingsManga is null)
                 return ("ThereAreNoMangaInYourReadingLaterList", null);
@@ -52,7 +52,7 @@ namespace Araboon.Infrastructure.Repositories
                 return ("ThereAreNoMangaInYourReadingLaterList", null);
             return ("TheMangaWasFoundInYourReadingLaterList", mangas);
         }
-        public async Task<Boolean> IsMangaExistForUser(Int32 mangaId, Int32 userId)
+        public async Task<bool> IsMangaExistForUser(int mangaId, int userId)
         {
             var manga = context.ReadingLaters.Any(
                 r => r.MangaID.Equals(mangaId) && r.UserID.Equals(userId)

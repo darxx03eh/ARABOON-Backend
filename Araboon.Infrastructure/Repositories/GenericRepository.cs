@@ -13,7 +13,7 @@ namespace Araboon.Infrastructure.Repositories
     {
         private readonly AraboonDbContext context = context;
         private readonly IHttpContextAccessor httpContextAccessor = httpContextAccessor;
-        public virtual async Task<T> GetByIdAsync(Int32 id)
+        public virtual async Task<T> GetByIdAsync(int id)
             => await context.Set<T>().FindAsync(id);
         public IQueryable<T> GetTableNoTracking()
             => context.Set<T>().AsNoTracking().AsQueryable();
@@ -65,10 +65,10 @@ namespace Araboon.Infrastructure.Repositories
             => await context.Database.CommitTransactionAsync();
         public async Task RollBackAsync()
             => await context.Database.RollbackTransactionAsync();
-        public String? ExtractUserIdFromToken()
+        public string? ExtractUserIdFromToken()
         {
             var authHeader = httpContextAccessor.HttpContext.Request.Headers["Authorization"].FirstOrDefault();
-            if (String.IsNullOrEmpty(authHeader) || !authHeader.StartsWith("Bearer "))
+            if (string.IsNullOrEmpty(authHeader) || !authHeader.StartsWith("Bearer "))
                 return null;
             var token = authHeader.Substring("Bearer ".Length);
             var handler = new JwtSecurityTokenHandler();

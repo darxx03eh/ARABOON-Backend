@@ -2,25 +2,25 @@
 {
     public class Manga
     {
-        public Int32 MangaID { get; set; }
-        public String MangaNameEn { get; set; }
-        public String MangaNameAr { get; set; }
-        public String? AuthorEn { get; set; }
-        public String? AuthorAr { get; set; }
+        public int MangaID { get; set; }
+        public string MangaNameEn { get; set; }
+        public string MangaNameAr { get; set; }
+        public string? AuthorEn { get; set; }
+        public string? AuthorAr { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
-        public String StatusEn { get; set; }
-        public String StatusAr { get; set; }
-        public String TypeEn { get; set; }
-        public String TypeAr { get; set; }
-        public String? CoverImage { get; set; }
-        public String? MainImage { get; set; }
-        public String? DescriptionEn { get; set; }
-        public String? DescriptionAr { get; set; }
+        public string StatusEn { get; set; }
+        public string StatusAr { get; set; }
+        public string TypeEn { get; set; }
+        public string TypeAr { get; set; }
+        public string? CoverImage { get; set; }
+        public string? MainImage { get; set; }
+        public string? DescriptionEn { get; set; }
+        public string? DescriptionAr { get; set; }
         public Double? Rate { get; set; }
-        public Boolean? ArabicAvailable { get; set; } = true;
-        public Boolean? EnglishAvilable { get; set; } = false;
-        public Int32? RatingsCount { get; set; }
+        public bool? ArabicAvailable { get; set; } = true;
+        public bool? EnglishAvilable { get; set; } = false;
+        public int? RatingsCount { get; set; }
         public virtual ICollection<Favorite>? Favorites { get; set; } = new HashSet<Favorite>();
         public virtual ICollection<CompletedReads>? CompletedReads { get; set; } = new HashSet<CompletedReads>();
         public virtual ICollection<CurrentlyReading>? CurrentlyReadings { get; set; } = new HashSet<CurrentlyReading>();

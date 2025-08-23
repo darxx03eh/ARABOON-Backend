@@ -52,7 +52,7 @@ namespace Araboon.API.Controllers
             return Result(result);
         }
         [HttpGet(Router.AuthenticationRouting.ValidateAccessToken)]
-        public async Task<IActionResult> ValidateAccessToken([FromQuery] String token)
+        public async Task<IActionResult> ValidateAccessToken([FromQuery] string token)
         {
             var result = await mediator.Send(new ValidateAccessTokenQuery(token));
             return Result(result);

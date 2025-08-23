@@ -66,7 +66,7 @@ namespace Araboon.Core.MiddleWare
                     case UnauthorizedAccessException e:
                         responseModel.Message = stringLocalizer[SharedTranslationKeys.UnauthorizedAccessException];
                         responseModel.StatusCode = HttpStatusCode.Unauthorized;
-                        response.StatusCode = (Int32)HttpStatusCode.Unauthorized;
+                        response.StatusCode = (int)HttpStatusCode.Unauthorized;
                         break;
                     case CustomValidationException e:
                         responseModel.Message = stringLocalizer[SharedTranslationKeys.ValidationFailed];
@@ -77,12 +77,12 @@ namespace Araboon.Core.MiddleWare
                     case KeyNotFoundException e:
                         responseModel.Message = stringLocalizer[SharedTranslationKeys.KeyNotFoundException];
                         responseModel.StatusCode = HttpStatusCode.NotFound;
-                        response.StatusCode = (Int32)HttpStatusCode.NotFound;
+                        response.StatusCode = (int)HttpStatusCode.NotFound;
                         break;
                     case DbUpdateException e:
                         responseModel.Message = e.Message;
                         responseModel.StatusCode = HttpStatusCode.BadRequest;
-                        response.StatusCode = (Int32)HttpStatusCode.BadRequest;
+                        response.StatusCode = (int)HttpStatusCode.BadRequest;
                         break;
                     case Exception e:
                         if (e.GetType().ToString().Equals("ApiException"))
@@ -90,17 +90,17 @@ namespace Araboon.Core.MiddleWare
                             responseModel.Message += e.Message;
                             responseModel.Message += e.InnerException is null ? "" : $"\n{e.InnerException.Message}";
                             responseModel.StatusCode = HttpStatusCode.BadRequest;
-                            response.StatusCode = (Int32)HttpStatusCode.BadRequest;
+                            response.StatusCode = (int)HttpStatusCode.BadRequest;
                         }
                         responseModel.Message = e.Message;
                         responseModel.Message += e.InnerException is null ? "" : $"\n{e.InnerException.Message}";
                         responseModel.StatusCode = HttpStatusCode.InternalServerError;
-                        response.StatusCode = (Int32)HttpStatusCode.InternalServerError;
+                        response.StatusCode = (int)HttpStatusCode.InternalServerError;
                         break;
                     default:
                         responseModel.Message = error.Message;
                         responseModel.StatusCode = HttpStatusCode.BadRequest;
-                        response.StatusCode = (Int32)HttpStatusCode.BadRequest;
+                        response.StatusCode = (int)HttpStatusCode.BadRequest;
                         break;
                 }
                 var result = JsonSerializer.Serialize(responseModel);

@@ -21,7 +21,7 @@ namespace Araboon.Infrastructure.Repositories
             this.httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<(String, IList<Chapter>?)> GetChaptersForSpecificMangaByLanguage(Int32 mangaId, String language)
+        public async Task<(string, IList<Chapter>?)> GetChaptersForSpecificMangaByLanguage(int mangaId, string language)
         {
             var isMangaExist = context.Mangas.Any(manga => manga.MangaID.Equals(mangaId));
             if (!isMangaExist)
@@ -37,7 +37,7 @@ namespace Araboon.Infrastructure.Repositories
                 return ("ThereAreNoChaptersYet", null);
             return ("TheChaptersWereFound", chapters);
         }
-        private async Task<Boolean> IsLanguageExist(Int32 mangaId, String language)
+        private async Task<bool> IsLanguageExist(int mangaId, string language)
         {
             if (language.ToLower().Equals("arabic"))
             {
@@ -45,7 +45,7 @@ namespace Araboon.Infrastructure.Repositories
                                     .Select(chapter => chapter.ArabicAvailable).FirstOrDefaultAsync();
                 if (isExist is null)
                     return false;
-                return (Boolean)isExist;
+                return (bool)isExist;
             }
             else
             {
@@ -53,7 +53,7 @@ namespace Araboon.Infrastructure.Repositories
                                     .Select(chapter => chapter.EnglishAvilable).FirstOrDefaultAsync();
                 if (isExist is null)
                     return false;
-                return (Boolean)isExist;
+                return (bool)isExist;
             }
         }
     }

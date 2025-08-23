@@ -5,7 +5,7 @@ namespace Araboon.Core.Features.Authentications.Commands.Models
 {
     public class ForgetPasswordConfirmationCommand : IRequest<ApiResponse>
     {
-        public String Email { get; set; }
-        public String Code { get; set; }
+        public string Email { get; set; }
+        public string Code { get; set; }
     }
 }

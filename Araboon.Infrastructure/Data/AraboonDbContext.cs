@@ -8,8 +8,8 @@ using Microsoft.EntityFrameworkCore;
 namespace Araboon.Infrastructure.Data
 {
     public class AraboonDbContext
-        : IdentityDbContext<AraboonUser, AraboonRole, Int32,
-          IdentityUserClaim<Int32>, IdentityUserRole<Int32>, IdentityUserLogin<Int32>, IdentityRoleClaim<Int32>, IdentityUserToken<Int32>>
+        : IdentityDbContext<AraboonUser, AraboonRole, int,
+          IdentityUserClaim<int>, IdentityUserRole<int>, IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>
     {
         public AraboonDbContext(DbContextOptions<AraboonDbContext> options)
             : base(options) { }

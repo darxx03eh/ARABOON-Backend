@@ -5,9 +5,9 @@ namespace Araboon.Core.Features.ChapterViews.Commands.Models
 {
     public class MarkAsReadCommand : IRequest<ApiResponse>
     {
-        public Int32 MangaID { get; set; }
-        public Int32 ChapterID { get; set; }
-        public MarkAsReadCommand(Int32 mangaId, Int32 chapterId)
+        public int MangaID { get; set; }
+        public int ChapterID { get; set; }
+        public MarkAsReadCommand(int mangaId, int chapterId)
             => (MangaID, ChapterID) = (mangaId, chapterId);
     }
 }

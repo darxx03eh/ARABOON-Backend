@@ -4,6 +4,6 @@ namespace Araboon.Service.Interfaces
 {
     public interface IChapterService
     {
-        public Task<(String, IList<Chapter>?)> GetChaptersForSpecificMangaByLanguage(Int32 mangaId, String language);
+        public Task<(string, IList<Chapter>?)> GetChaptersForSpecificMangaByLanguage(int mangaId, string language);
     }
 }

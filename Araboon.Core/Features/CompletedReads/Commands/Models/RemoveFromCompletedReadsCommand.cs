@@ -5,8 +5,8 @@ namespace Araboon.Core.Features.CompletedReads.Commands.Models
 {
     public class RemoveFromCompletedReadsCommand : IRequest<ApiResponse>
     {
-        public Int32 MangaID { get; set; }
-        public RemoveFromCompletedReadsCommand(Int32 mangaId)
+        public int MangaID { get; set; }
+        public RemoveFromCompletedReadsCommand(int mangaId)
             => MangaID = mangaId;
     }
 }

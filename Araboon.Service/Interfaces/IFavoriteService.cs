@@ -5,8 +5,8 @@ namespace Araboon.Service.Interfaces
 {
     public interface IFavoriteService
     {
-        public Task<String> AddToFavoriteAsync(Int32 mangaId);
-        public Task<String> RemoveFromFavoriteAsync(Int32 mangaId);
-        public Task<(String, PaginatedResult<GetPaginatedFavoritesMangaResponse>?)> GetPaginatedFavoritesMangaAsync(Int32 pageNumber, Int32 pageSize);
+        public Task<string> AddToFavoriteAsync(int mangaId);
+        public Task<string> RemoveFromFavoriteAsync(int mangaId);
+        public Task<(string, PaginatedResult<GetPaginatedFavoritesMangaResponse>?)> GetPaginatedFavoritesMangaAsync(int pageNumber, int pageSize);
     }
 }

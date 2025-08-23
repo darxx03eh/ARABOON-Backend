@@ -90,6 +90,7 @@ namespace Araboon.Infrastructure
             services.AddTransient(typeof(INotificationsRepository), typeof(NotificationsRepository));
             services.AddTransient(typeof(IChapterViewRepository), typeof(ChapterViewRepository));
             services.AddTransient(typeof(ICategoryRepository), typeof(CategoryRepository));
+            services.AddTransient(typeof(IUnitOfWork), typeof(UnitOfWork));
             #endregion
 
             return services;

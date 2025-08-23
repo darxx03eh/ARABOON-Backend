@@ -3,26 +3,27 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Araboon.Data.Entities.Identity
 {
-    public class AraboonUser : IdentityUser<Int32>
+    public class AraboonUser : IdentityUser<int>
     {
-        public String FirstName { get; set; }
-        public String LastName { get; set; }
-        public String? ProfileImage { get; set; }
-        public String? CoverImage { get; set; }
-        private String? code;
-        public String? Code
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string? ProfileImage { get; set; }
+        public string? CoverImage { get; set; }
+        public string? Bio { get; set; }
+        private string? code;
+        public string? Code
         {
             get => code is null ? null : EncryptionHelper.Decrypt(code);
             set => code = value is null ? null : EncryptionHelper.Encrypt(value);
         }
-        private String? forgetPasswordToken;
-        public String? ForgetPasswordToken
+        private string? forgetPasswordToken;
+        public string? ForgetPasswordToken
         {
             get => forgetPasswordToken is null ? null : EncryptionHelper.Decrypt(forgetPasswordToken);
             set => forgetPasswordToken = value is null ? null : EncryptionHelper.Encrypt(value);
         }
         public DateTime? CodeExpiryDate { get; set; }
-        public Boolean IsActive { get; set; } = true;
+        public bool IsActive { get; set; } = true;
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
         public virtual ICollection<UserRefreshToken>? UserRefreshTokens { get; set; } = new HashSet<UserRefreshToken>();

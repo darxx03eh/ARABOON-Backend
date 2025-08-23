@@ -2,6 +2,6 @@
 {
     public interface IEmailService
     {
-        public Task<String> SendAuthenticationsEmailAsync(String email, String linkOrCode, String subject, String name);
+        public Task<string> SendAuthenticationsEmailAsync(string email, string linkOrCode, string subject, string name);
     }
 }

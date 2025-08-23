@@ -6,8 +6,8 @@ namespace Araboon.Service.Interfaces
 {
     public interface IReadingLaterService
     {
-        public Task<(String, PaginatedResult<GetPaginatedReadingLaterMangaResponse>?)> GetPaginatedReadingLaterMangaAsync(Int32 pageNumber, Int32 pageSize);
-        public Task<String> AddToReadingLaterAsync(Int32 mangaId);
-        public Task<String> RemoveFromReadingLaterAsync(Int32 mangaId);
+        public Task<(string, PaginatedResult<GetPaginatedReadingLaterMangaResponse>?)> GetPaginatedReadingLaterMangaAsync(int pageNumber, int pageSize);
+        public Task<string> AddToReadingLaterAsync(int mangaId);
+        public Task<string> RemoveFromReadingLaterAsync(int mangaId);
     }
 }

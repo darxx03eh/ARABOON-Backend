@@ -5,8 +5,8 @@ namespace Araboon.Core.Features.Favorites.Commands.Models
 {
     public class RemoveFromFavoriteCommand : IRequest<ApiResponse>
     {
-        public Int32 MangaID { get; set; }
-        public RemoveFromFavoriteCommand(Int32 mangaID)
+        public int MangaID { get; set; }
+        public RemoveFromFavoriteCommand(int mangaID)
             => MangaID = mangaID;
     }
 }

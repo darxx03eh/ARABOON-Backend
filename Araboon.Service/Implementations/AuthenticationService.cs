@@ -50,7 +50,7 @@ namespace Araboon.Service.Implementations
             this.avatarService = avatarService;
             this.cloudinaryService = cloudinaryService;
         }
-        public async Task<String> RegistrationUserAsync(AraboonUser user, String password)
+        public async Task<string> RegistrationUserAsync(AraboonUser user, string password)
         {
             using (var transaction = await context.Database.BeginTransactionAsync())
             {
@@ -85,7 +85,7 @@ namespace Araboon.Service.Implementations
                     }
                     var avatarLink = $"https://ui-avatars.com/api/?name={user.FirstName}+{user.LastName}&background=random&color=fff&format=png";
                     var stream = await avatarService.DownloadImageAsStreamAsync(avatarLink);
-                    var (imageName, folderName) = ($"{user.UserName}-defaultImage", $"ARABOON/Accounts/{user.UserName}");
+                    var (imageName, folderName) = ($"{user.UserName}-defaultImage", $"ARABOON/Accounts/{user.UserName}/ImageProfile");
                     var imageUrl = await cloudinaryService.UploadDefaultAvatarAsync(stream, folderName, imageName);
                     user.ProfileImage = imageUrl;
                     var updateResult = await userManager.UpdateAsync(user);
@@ -107,7 +107,7 @@ namespace Araboon.Service.Implementations
             }
         }
 
-        public async Task<(SignInResponse?, String)> SignInAsync(String username, String password)
+        public async Task<(SignInResponse?, string)> SignInAsync(string username, string password)
         {
             try
             {
@@ -204,7 +204,7 @@ namespace Araboon.Service.Implementations
                 return (null, "AnErrorOccurredDuringTheTokenGenerationProcess");
             return (result, "AccessTokenRegenerated");
         }
-        private async Task<(String, DateTime?)> ValidateDetails(JwtSecurityToken jwtToken, String accessToken, String refreshToken)
+        private async Task<(string, DateTime?)> ValidateDetails(JwtSecurityToken jwtToken, string accessToken, string refreshToken)
         {
             if (jwtToken is null || !jwtToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256Signature))
                 return ("AlgorithmIsWrong", null);
@@ -214,7 +214,7 @@ namespace Araboon.Service.Implementations
             var userRefreshToken = await refreshTokenRepository.GetTableNoTracking()
                                    .FirstOrDefaultAsync(user => user.Token.Equals(accessToken) &&
                                                         user.RefreshToken.Equals(refreshToken) &&
-                                                        user.UserID.Equals(Int32.Parse(userId)));
+                                                        user.UserID.Equals(int.Parse(userId)));
             if (userRefreshToken is null)
                 return ("RefreshTokenIsNotFound", null);
             if (userRefreshToken.ExpirydDate < DateTime.UtcNow)
@@ -228,7 +228,7 @@ namespace Araboon.Service.Implementations
             return (userId, expireDate);
         }
         private async Task<SignInResponse> GenerateRefreshTokenAsync(AraboonUser user, JwtSecurityToken jwtToken,
-                                                                     DateTime? expiryDate, String refreshToken)
+                                                                     DateTime? expiryDate, string refreshToken)
         {
             var (jwtSecurityToken, responseToken) = await tokenService.GenerateJwtTokenAsync(user);
             var userRefreshToken = await refreshTokenRepository.GetTableNoTracking()
@@ -333,7 +333,7 @@ namespace Araboon.Service.Implementations
                 if (user is null)
                     return "UserNotFound";
                 var guid = Guid.NewGuid().ToByteArray();
-                var code = (Int32)(BitConverter.ToUInt32(guid, 0) % 900000) + 100000;
+                var code = (int)(BitConverter.ToUInt32(guid, 0) % 900000) + 100000;
                 user.Code = code.ToString();
                 user.CodeExpiryDate = DateTime.UtcNow.AddMinutes(10);
                 var codeResult = await userManager.UpdateAsync(user);

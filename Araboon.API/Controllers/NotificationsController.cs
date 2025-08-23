@@ -13,19 +13,19 @@ namespace Araboon.API.Controllers
     {
         [HttpGet(Router.NotificationsRouting.ViewNotificationsManga)]
         //[ResponseCache(CacheProfileName = "ClientMangaCache")]
-        public async Task<IActionResult> ViewNotificationsManga(Int32 pageNumber = 1)
+        public async Task<IActionResult> ViewNotificationsManga(int pageNumber = 1)
         {
             var result = await mediator.Send(new GetPaginatedNotificationsMangaQuery() { PageNumber = pageNumber });
             return Result(result);
         }
         [HttpPost(Router.NotificationsRouting.AddToNotifications)]
-        public async Task<IActionResult> AddToNotifications(Int32 id)
+        public async Task<IActionResult> AddToNotifications(int id)
         {
             var result = await mediator.Send(new AddToNotificationsCommand(id));
             return Result(result);
         }
         [HttpDelete(Router.NotificationsRouting.RemoveFromNotifications)]
-        public async Task<IActionResult> RemoveFromNotifications(Int32 id)
+        public async Task<IActionResult> RemoveFromNotifications(int id)
         {
             var result = await mediator.Send(new RemoveFromNotificationsCommand(id));
             return Result(result);

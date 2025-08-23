@@ -16,14 +16,14 @@ namespace Araboon.Infrastructure.Repositories
             this.context = context;
             this.httpContextAccessor = httpContextAccessor;
         }
-        public async Task<Boolean> IsMangaAndChapterExistForUser(Int32 mangaId, Int32 chapterId, Int32 userId)
+        public async Task<bool> IsMangaAndChapterExistForUser(int mangaId, int chapterId, int userId)
         {
             var flag = context.ChapterViews.Any(
                 c => c.ChapterID.Equals(chapterId) && c.MangaID.Equals(mangaId) && c.UserID.Equals(userId)
                 );
             return flag;
         }
-        public async Task<Boolean> IsChapterExistInManga(Int32 chapterId, Int32 mangaId)
+        public async Task<bool> IsChapterExistInManga(int chapterId, int mangaId)
         {
             var chapters = await context.Chapters.AsNoTracking()
                            .Where(chapter => chapter.MangaID.Equals(mangaId))

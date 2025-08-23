@@ -7,7 +7,7 @@ namespace Araboon.Infrastructure.IRepositories
 {
     public interface ICompletedReadsRepository : IGenericRepository<CompletedReads>
     {
-        public Task<(String, PaginatedResult<GetPaginatedCompletedReadsMangaResponse>?)> GetPaginatedCompletedReadsMangaAsync(Int32 pageNumber, Int32 pageSize);
-        public Task<Boolean> IsMangaExistForUser(Int32 mangaId, Int32 userId);
+        public Task<(string, PaginatedResult<GetPaginatedCompletedReadsMangaResponse>?)> GetPaginatedCompletedReadsMangaAsync(int pageNumber, int pageSize);
+        public Task<bool> IsMangaExistForUser(int mangaId, int userId);
     }
 }

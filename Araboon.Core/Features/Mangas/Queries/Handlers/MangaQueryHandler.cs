@@ -59,7 +59,7 @@ namespace Araboon.Core.Features.Mangas.Queries.Handlers
             var httpContext = httpContextAccessor.HttpContext;
             var langHeader = httpContext?.Request.Headers["Accept-Language"].ToString();
             var lang = "en";
-            if (!String.IsNullOrEmpty(langHeader))
+            if (!string.IsNullOrEmpty(langHeader))
                 lang = langHeader.Split(',')[0].Split('-')[0];
             var mangaResponse = mapper.Map<GetMangaByIDResponse>(manga, opts => opts.Items["lang"] = lang);
             return result switch

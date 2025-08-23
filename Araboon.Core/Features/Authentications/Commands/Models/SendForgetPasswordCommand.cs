@@ -5,8 +5,8 @@ namespace Araboon.Core.Features.Authentications.Commands.Models
 {
     public class SendForgetPasswordCommand : IRequest<ApiResponse>
     {
-        public String Email { get; set; }
-        public SendForgetPasswordCommand(String email)
+        public string Email { get; set; }
+        public SendForgetPasswordCommand(string email)
             => Email = email;
     }
 }

@@ -2,14 +2,14 @@
 {
     public class JwtSettings
     {
-        public String Issuer { get; set; }
-        public String Audience { get; set; }
-        public String SecretKey { get; set; }
-        public Boolean ValidateAudience { get; set; }
-        public Boolean ValidateIssuer { get; set; }
-        public Boolean ValidateLifetime { get; set; }
-        public Boolean ValidateIssuerSigningKey { get; set; }
-        public Int32 AccessTokenExpireDate { get; set; }
-        public Int32 RefreshTokenExpireDate { get; set; }
+        public string Issuer { get; set; }
+        public string Audience { get; set; }
+        public string SecretKey { get; set; }
+        public bool ValidateAudience { get; set; }
+        public bool ValidateIssuer { get; set; }
+        public bool ValidateLifetime { get; set; }
+        public bool ValidateIssuerSigningKey { get; set; }
+        public int AccessTokenExpireDate { get; set; }
+        public int RefreshTokenExpireDate { get; set; }
     }
 }

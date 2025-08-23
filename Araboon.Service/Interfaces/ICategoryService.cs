@@ -4,6 +4,6 @@ namespace Araboon.Service.Interfaces
 {
     public interface ICategoryService
     {
-        public Task<(String, IList<Category>?)> GetCategoriesAsync();
+        public Task<(string, IList<Category>?)> GetCategoriesAsync();
     }
 }

@@ -7,8 +7,8 @@ namespace Araboon.Service.Interfaces
     public interface ITokenService
     {
         public Task<SignInResponse> GenerateAccessTokenAsync(AraboonUser user);
-        public Task<JwtSecurityToken> ReadJwtTokenAsync(String token);
-        public Task<(JwtSecurityToken, String)> GenerateJwtTokenAsync(AraboonUser user);
-        public Task<String> GenerateRandomRefreshToken();
+        public Task<JwtSecurityToken> ReadJwtTokenAsync(string token);
+        public Task<(JwtSecurityToken, string)> GenerateJwtTokenAsync(AraboonUser user);
+        public Task<string> GenerateRandomRefreshToken();
     }
 }

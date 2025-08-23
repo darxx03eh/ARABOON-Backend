@@ -25,21 +25,21 @@ namespace Araboon.API.Controllers
         }
         [HttpGet(Router.MangaRouting.GetMangaByID)]
         //[ResponseCache(CacheProfileName = "DefaultCache")]
-        public async Task<IActionResult> GetMangaByID(Int32 id)
+        public async Task<IActionResult> GetMangaByID(int id)
         {
             var result = await mediator.Send(new GetMangaByIDQuery(id));
             return Result(result);
         }
         [HttpGet(Router.MangaRouting.GetMangaByCategoryName)]
         //[ResponseCache(CacheProfileName = "PageNumberCache")]
-        public async Task<IActionResult> GetMangaByCategoryName(String category, Int32 pageNumber = 1)
+        public async Task<IActionResult> GetMangaByCategoryName(string category, int pageNumber = 1)
         {
             var result = await mediator.Send(new GetMangaByCategoryNameQuery(category) { PageNumber = pageNumber});
             return Result(result);
         }
         [HttpGet(Router.MangaRouting.GetPaginatedHottestManga)]
         //[ResponseCache(CacheProfileName = "PageNumberCache")]
-        public async Task<IActionResult> GetPaginatedHottestManga(Int32 pageNumber = 1)
+        public async Task<IActionResult> GetPaginatedHottestManga(int pageNumber = 1)
         {
             var result = await mediator.Send(new GetPaginatedHottestMangaQuery() { PageNumber = pageNumber });
             return Result(result);

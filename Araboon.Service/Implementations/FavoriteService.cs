@@ -17,7 +17,7 @@ namespace Araboon.Service.Implementations
             this.mangaRepository = mangaRepository;
         }
 
-        public async Task<String> AddToFavoriteAsync(Int32 mangaId)
+        public async Task<string> AddToFavoriteAsync(int mangaId)
         {
             var manga = await mangaRepository.GetByIdAsync(mangaId);
             if (manga is null)
@@ -25,15 +25,15 @@ namespace Araboon.Service.Implementations
             try
             {
                 var userId = favoriteRepository.ExtractUserIdFromToken();
-                if (String.IsNullOrEmpty(userId))
+                if (string.IsNullOrEmpty(userId))
                     return "FavoritesServiceforRegisteredUsersOnly";
-                var exist = await favoriteRepository.IsMangaExistForUser(mangaId, Int32.Parse(userId));
+                var exist = await favoriteRepository.IsMangaExistForUser(mangaId, int.Parse(userId));
                 if (exist)
                     return "ThisMangaIsAlreadyInYourFavoritesList";
                 await favoriteRepository.AddAsync(new Favorite()
                 {
                     MangaID = mangaId,
-                    UserID = Int32.Parse(userId)
+                    UserID = int.Parse(userId)
                 });
                 return "AddedToFavorites";
             }catch(Exception exp)
@@ -42,7 +42,7 @@ namespace Araboon.Service.Implementations
             }
         }
 
-        public async Task<(String, PaginatedResult<GetPaginatedFavoritesMangaResponse>?)> GetPaginatedFavoritesMangaAsync(Int32 pageNumber, Int32 pageSize)
+        public async Task<(string, PaginatedResult<GetPaginatedFavoritesMangaResponse>?)> GetPaginatedFavoritesMangaAsync(int pageNumber, int pageSize)
         {
             var (message, mangas) = await favoriteRepository.GetPaginatedFavoritesMangaAsync(pageNumber, pageSize);
             return message switch
@@ -54,7 +54,7 @@ namespace Araboon.Service.Implementations
             };
         }
 
-        public async Task<String> RemoveFromFavoriteAsync(Int32 mangaId)
+        public async Task<string> RemoveFromFavoriteAsync(int mangaId)
         {
             var manga = await mangaRepository.GetByIdAsync(mangaId);
             if (manga is null)
@@ -62,15 +62,15 @@ namespace Araboon.Service.Implementations
             try
             {
                 var userId = favoriteRepository.ExtractUserIdFromToken();
-                if (String.IsNullOrEmpty(userId))
+                if (string.IsNullOrEmpty(userId))
                     return "FavoritesServiceforRegisteredUsersOnly";
-                var exist = await favoriteRepository.IsMangaExistForUser(mangaId, Int32.Parse(userId));
+                var exist = await favoriteRepository.IsMangaExistForUser(mangaId, int.Parse(userId));
                 if (!exist)
                     return "ThisMangaIsNotInYourFavoritesList";
                 await favoriteRepository.DeleteAsync(new Favorite()
                 {
                     MangaID = mangaId,
-                    UserID = Int32.Parse(userId)
+                    UserID = int.Parse(userId)
                 });
                 return "RemovedFromFavorites";
             }

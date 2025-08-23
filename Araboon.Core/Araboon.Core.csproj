@@ -21,4 +21,8 @@
     <ProjectReference Include="..\Araboon.Service\Araboon.Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\Users\Commands\" />
+  </ItemGroup>
+
 </Project>

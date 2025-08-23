@@ -6,18 +6,18 @@ using System.Globalization;
 
 namespace Araboon.Data.Helpers.Resolvers.Mangas
 {
-    public class MangaDateFormatResolver : IValueResolver<Manga, GetMangaByIDResponse, String>
+    public class MangaDateFormatResolver : IValueResolver<Manga, GetMangaByIDResponse, string>
     {
         private readonly IHttpContextAccessor httpContextAccessor;
         public MangaDateFormatResolver(IHttpContextAccessor httpContextAccessor)
             => this.httpContextAccessor = httpContextAccessor;
-        public String Resolve(Manga source, GetMangaByIDResponse destination, String destMember, ResolutionContext context)
+        public string Resolve(Manga source, GetMangaByIDResponse destination, string destMember, ResolutionContext context)
         {
             var httpContext = httpContextAccessor.HttpContext;
             var langHeader = httpContext?.Request.Headers["Accept-Language"].ToString();
 
             var lang = "en";
-            if (!String.IsNullOrEmpty(langHeader))
+            if (!string.IsNullOrEmpty(langHeader))
                 lang = langHeader.Split(',')[0].Split('-')[0];
             var culture = lang == "ar" ? new CultureInfo("ar") : new CultureInfo("en");
             return source.CreatedAt.ToString(

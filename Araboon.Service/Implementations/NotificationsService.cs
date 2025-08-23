@@ -17,7 +17,7 @@ namespace Araboon.Service.Implementations
             this.notificationsRepository = notificationsRepository;
             this.mangaRepository = mangaRepository;
         }
-        public async Task<String> AddToNotificationsAsync(Int32 mangaId)
+        public async Task<string> AddToNotificationsAsync(int mangaId)
         {
             var manga = await mangaRepository.GetByIdAsync(mangaId);
             if (manga is null)
@@ -25,15 +25,15 @@ namespace Araboon.Service.Implementations
             try
             {
                 var userId = notificationsRepository.ExtractUserIdFromToken();
-                if (String.IsNullOrEmpty(userId))
+                if (string.IsNullOrEmpty(userId))
                     return "NotificationsServiceforRegisteredUsersOnly";
-                var exist = await notificationsRepository.IsMangaExistForUser(mangaId, Int32.Parse(userId));
+                var exist = await notificationsRepository.IsMangaExistForUser(mangaId, int.Parse(userId));
                 if (exist)
                     return "ThisMangaIsAlreadyInYourNotificationsList";
                 await notificationsRepository.AddAsync(new Notifications()
                 {
                     MangaID = mangaId,
-                    UserID = Int32.Parse(userId)
+                    UserID = int.Parse(userId)
                 });
                 return "AddedToNotifications";
             }
@@ -43,7 +43,7 @@ namespace Araboon.Service.Implementations
             }
         }
 
-        public async Task<(String, PaginatedResult<GetPaginatedNotificationsMangaResponse>?)> GetPaginatedNotificationsMangaAsync(Int32 pageNumber, Int32 pageSize)
+        public async Task<(string, PaginatedResult<GetPaginatedNotificationsMangaResponse>?)> GetPaginatedNotificationsMangaAsync(int pageNumber, int pageSize)
         {
             var (message, mangas) = await notificationsRepository.GetPaginatedNotificationsMangaAsync(pageNumber, pageSize);
             return message switch
@@ -55,7 +55,7 @@ namespace Araboon.Service.Implementations
             };
         }
 
-        public async Task<String> RemoveFromNotificationsAsync(Int32 mangaId)
+        public async Task<string> RemoveFromNotificationsAsync(int mangaId)
         {
             var manga = await mangaRepository.GetByIdAsync(mangaId);
             if (manga is null)
@@ -63,15 +63,15 @@ namespace Araboon.Service.Implementations
             try
             {
                 var userId = notificationsRepository.ExtractUserIdFromToken();
-                if (String.IsNullOrEmpty(userId))
+                if (string.IsNullOrEmpty(userId))
                     return "NotificationsServiceforRegisteredUsersOnly";
-                var exist = await notificationsRepository.IsMangaExistForUser(mangaId, Int32.Parse(userId));
+                var exist = await notificationsRepository.IsMangaExistForUser(mangaId, int.Parse(userId));
                 if (!exist)
                     return "ThisMangaIsNotInYourNotificationsList";
                 await notificationsRepository.DeleteAsync(new Notifications()
                 {
                     MangaID = mangaId,
-                    UserID = Int32.Parse(userId)
+                    UserID = int.Parse(userId)
                 });
                 return "RemovedFromNotifications";
             }

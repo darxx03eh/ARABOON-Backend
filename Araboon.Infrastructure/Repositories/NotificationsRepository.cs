@@ -22,15 +22,15 @@ namespace Araboon.Infrastructure.Repositories
             this.context = context;
             this.httpContextAccessor = httpContextAccessor;
         }
-        public async Task<(String, PaginatedResult<GetPaginatedNotificationsMangaResponse>?)> GetPaginatedNotificationsMangaAsync(Int32 pageNumber, Int32 pageSize)
+        public async Task<(string, PaginatedResult<GetPaginatedNotificationsMangaResponse>?)> GetPaginatedNotificationsMangaAsync(int pageNumber, int pageSize)
         {
-            String? userId = ExtractUserIdFromToken();
-            if (String.IsNullOrEmpty(userId))
+            string? userId = ExtractUserIdFromToken();
+            if (string.IsNullOrEmpty(userId))
                 return ("NotificationsServiceforRegisteredUsersOnly", null);
-            IList<Int32> favoriteMangaIds = new List<Int32>();
+            IList<int> favoriteMangaIds = new List<int>();
             favoriteMangaIds = await context.Favorites.Where(f => f.UserID.ToString().Equals(userId))
                                .Select(f => f.MangaID).ToListAsync();
-            var notificationsManga = GetTableNoTracking().Where(c => c.UserID.Equals(Int32.Parse(userId)))
+            var notificationsManga = GetTableNoTracking().Where(c => c.UserID.Equals(int.Parse(userId)))
                                  .OrderByDescending(c => c.Manga.Rate).AsQueryable();
             if (notificationsManga is null)
                 return ("ThereAreNoMangaInYourNotificationsList", null);
@@ -53,7 +53,7 @@ namespace Araboon.Infrastructure.Repositories
                 return ("ThereAreNoMangaInYourNotificationsList", null);
             return ("TheMangaWasFoundInYourNotificationsList", mangas);
         }
-        public async Task<Boolean> IsMangaExistForUser(Int32 mangaId, Int32 userId)
+        public async Task<bool> IsMangaExistForUser(int mangaId, int userId)
         {
             var manga = context.Notifications.Any(
                 n => n.MangaID.Equals(mangaId) && n.UserID.Equals(userId)

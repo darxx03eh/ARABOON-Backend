@@ -5,8 +5,8 @@ namespace Araboon.Core.Features.Notifications.Commands.Models
 {
     public class AddToNotificationsCommand : IRequest<ApiResponse>
     {
-        public Int32 MangaID { get; set; }
-        public AddToNotificationsCommand(Int32 mangaId)
+        public int MangaID { get; set; }
+        public AddToNotificationsCommand(int mangaId)
             => MangaID = mangaId;
     }
 }

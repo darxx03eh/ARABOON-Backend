@@ -5,8 +5,8 @@ namespace Araboon.Core.Features.Authentications.Queries.Models
 {
     public class ValidateAccessTokenQuery : IRequest<ApiResponse>
     {
-        public String AccessToken { get; set; }
-        public ValidateAccessTokenQuery(String token)
+        public string AccessToken { get; set; }
+        public ValidateAccessTokenQuery(string token)
             => AccessToken = token;
     }
 }

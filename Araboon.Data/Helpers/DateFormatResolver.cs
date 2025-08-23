@@ -6,7 +6,7 @@ using System.Globalization;
 
 namespace Araboon.Data.Helpers
 {
-    public class DateFormatResolver : IValueResolver<Manga, GetMangaByIDResponse, String>
+    public class DateFormatResolver : IValueResolver<Manga, GetMangaByIDResponse, string>
     {
         private readonly IHttpContextAccessor httpContextAccessor;
 

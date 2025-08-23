@@ -5,6 +5,6 @@ namespace Araboon.Infrastructure.IRepositories
 {
     public interface IChapterRepository : IGenericRepository<Chapter>
     {
-        public Task<(String, IList<Chapter>?)> GetChaptersForSpecificMangaByLanguage(Int32 mangaId, String language);
+        public Task<(string, IList<Chapter>?)> GetChaptersForSpecificMangaByLanguage(int mangaId, string language);
     }
 }

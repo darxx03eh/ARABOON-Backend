@@ -17,7 +17,7 @@ namespace Araboon.Service.Implementations
             this.completedReadsRepository = completedReadsRepository;
             this.mangaRepository = mangaRepository;
         }
-        public async Task<String> AddToCompletedReadsAsync(Int32 mangaId)
+        public async Task<string> AddToCompletedReadsAsync(int mangaId)
         {
             var manga = await mangaRepository.GetByIdAsync(mangaId);
             if (manga is null)
@@ -25,15 +25,15 @@ namespace Araboon.Service.Implementations
             try
             {
                 var userId = completedReadsRepository.ExtractUserIdFromToken();
-                if (String.IsNullOrEmpty(userId))
+                if (string.IsNullOrEmpty(userId))
                     return "CompletedReadsServiceforRegisteredUsersOnly";
-                var exist = await completedReadsRepository.IsMangaExistForUser(mangaId, Int32.Parse(userId));
+                var exist = await completedReadsRepository.IsMangaExistForUser(mangaId, int.Parse(userId));
                 if (exist)
                     return "ThisMangaIsAlreadyInYourCompletedReadsList";
                 await completedReadsRepository.AddAsync(new CompletedReads()
                 {
                     MangaID = mangaId,
-                    UserID = Int32.Parse(userId)
+                    UserID = int.Parse(userId)
                 });
                 return "AddedToCompletedReads";
             }
@@ -42,7 +42,7 @@ namespace Araboon.Service.Implementations
                 return "ThereWasAProblemAddingToCompletedReads";
             }
         }
-        public async Task<String> RemoveFromCompletedReadsAsync(Int32 mangaId)
+        public async Task<string> RemoveFromCompletedReadsAsync(int mangaId)
         {
             var manga = await mangaRepository.GetByIdAsync(mangaId);
             if (manga is null)
@@ -50,15 +50,15 @@ namespace Araboon.Service.Implementations
             try
             {
                 var userId = completedReadsRepository.ExtractUserIdFromToken();
-                if (String.IsNullOrEmpty(userId))
+                if (string.IsNullOrEmpty(userId))
                     return "CompletedReadsServiceforRegisteredUsersOnly";
-                var exist = await completedReadsRepository.IsMangaExistForUser(mangaId, Int32.Parse(userId));
+                var exist = await completedReadsRepository.IsMangaExistForUser(mangaId, int.Parse(userId));
                 if (!exist)
                     return "ThisMangaIsNotInYourCompletedReadsList";
                 await completedReadsRepository.DeleteAsync(new CompletedReads()
                 {
                     MangaID = mangaId,
-                    UserID = Int32.Parse(userId)
+                    UserID = int.Parse(userId)
                 });
                 return "RemovedFromCompletedReads";
             }
@@ -67,7 +67,7 @@ namespace Araboon.Service.Implementations
                 return "ThereWasAProblemDeletingFromCompletedReads";
             }
         }
-        public async Task<(String, PaginatedResult<GetPaginatedCompletedReadsMangaResponse>?)> GetPaginatedCompletedReadsMangaAsync(Int32 pageNumber, Int32 pageSize)
+        public async Task<(string, PaginatedResult<GetPaginatedCompletedReadsMangaResponse>?)> GetPaginatedCompletedReadsMangaAsync(int pageNumber, int pageSize)
         {
             var (message, mangas) = await completedReadsRepository.GetPaginatedCompletedReadsMangaAsync(pageNumber, pageSize);
             return message switch
