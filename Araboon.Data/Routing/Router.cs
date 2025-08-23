@@ -83,7 +83,7 @@
         }
         public static class UserRouting
         {
-            public const string UserName = "/username";
+            public const string UserName = "/{username}";
             public const string prefix = $"{rule}Users";
             public const string GetUserProfile = $"{prefix}{UserName}";
         }
