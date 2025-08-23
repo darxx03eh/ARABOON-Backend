@@ -52,7 +52,6 @@ namespace Araboon.Core.Features.Authentications.Commands.Handlers
                 _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredDuringTheRegistrationProcess])
             };
         }
-
         public async Task<ApiResponse> Handle(ConfirmationEmailCommand request, CancellationToken cancellationToken)
         {
             var result = await authenticationService.ConfirmationEmailAsync(request.Email, request.Token);
@@ -72,8 +71,8 @@ namespace Araboon.Core.Features.Authentications.Commands.Handlers
             var (result, message) = await authenticationService.SignInAsync(request.UserName, request.Password);
             return message switch
             {
-                "EmailNotConfirmed" => Forbidden(stringLocalizer[SharedTranslationKeys.EmailNotConfirmed]),
-                "PasswordOrUserNameWrnog" => Unauthorized(stringLocalizer[SharedTranslationKeys.PasswordOrUserNameWrnog]),
+                "EmailNotConfirmed" => BadRequest(stringLocalizer[SharedTranslationKeys.EmailNotConfirmed]),
+                "PasswordOrUserNameWrnog" => BadRequest(stringLocalizer[SharedTranslationKeys.PasswordOrUserNameWrnog]),
                 "AnErrorOccurredWhileGeneratingTheToken" =>
                 InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileGeneratingTheToken]),
                 "AnErrorOccurredDuringTheLoginProcess" =>
