@@ -74,7 +74,6 @@ namespace Araboon.Infrastructure.Repositories
             var handler = new JwtSecurityTokenHandler();
             try
             {
-
                 var jwtToken = handler.ReadJwtToken(token);
                 return jwtToken.Claims.FirstOrDefault(token => token.Type.Equals(nameof(UserClaimModel.ID)))?.Value;
             }

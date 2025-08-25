@@ -577,4 +577,22 @@
   <data name="UserFound" xml:space="preserve">
     <value>User found</value>
   </data>
+  <data name="TheCurrentPasswordIsWrong" xml:space="preserve">
+    <value>The current password is wrong</value>
+  </data>
+  <data name="TheNewPasswordMustBeDifferentFromTheCurrentOne" xml:space="preserve">
+    <value>The new password must be different from the current one</value>
+  </data>
+  <data name="CurrentPasswordNotEmpty" xml:space="preserve">
+    <value>Current password must not be empty</value>
+  </data>
+  <data name="CurrentPasswordNotNull" xml:space="preserve">
+    <value>Current password is required</value>
+  </data>
+  <data name="UsernameChangedSuccessfully" xml:space="preserve">
+    <value>Username changed successfully</value>
+  </data>
+  <data name="AnErrorOccurredWhileChangingTheUsername" xml:space="preserve">
+    <value>An error occurred while changing the username</value>
+  </data>
 </root>

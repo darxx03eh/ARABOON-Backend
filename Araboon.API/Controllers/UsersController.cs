@@ -1,17 +1,33 @@
 ﻿using Araboon.API.Bases;
+using Araboon.Core.Features.Users.Commands.Models;
 using Araboon.Core.Features.Users.Queries.Models;
 using Araboon.Data.Routing;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Araboon.API.Controllers
 {
     [ApiController]
+    [Authorize]
     public class UsersController : AppBaseController
     {
+        [AllowAnonymous]
         [HttpGet(Router.UserRouting.Profile)]
         public async Task<IActionResult> GetUserProfile(string username)
         {
             var result = await mediator.Send(new GetUserProfileQuery(username));
+            return Result(result);
+        }
+        [HttpPatch(Router.UserRouting.ChangePassword)]
+        public async Task<IActionResult> ChangePassword(ChangePasswordCommand request)
+        {
+            var result = await mediator.Send(request);
+            return Result(result);
+        }
+        [HttpPatch(Router.UserRouting.ChangeUserName)]
+        public async Task<IActionResult> ChangeUserName(ChangeUserNameCommand request)
+        {
+            var result = await mediator.Send(request);
             return Result(result);
         }
     }

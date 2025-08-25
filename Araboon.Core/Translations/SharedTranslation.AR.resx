@@ -576,4 +576,22 @@
   <data name="UserFound" xml:space="preserve">
     <value>تم العثور على المستخدم</value>
   </data>
+  <data name="TheCurrentPasswordIsWrong" xml:space="preserve">
+    <value>كلمة المرور الحالية غير صحيحة</value>
+  </data>
+  <data name="TheNewPasswordMustBeDifferentFromTheCurrentOne" xml:space="preserve">
+    <value>يجب أن تكون كلمة المرور الجديدة مختلفة عن الحالية</value>
+  </data>
+  <data name="CurrentPasswordNotEmpty" xml:space="preserve">
+    <value>يجب ألا تكون كلمة المرور الحالية فارغة</value>
+  </data>
+  <data name="CurrentPasswordNotNull" xml:space="preserve">
+    <value>كلمة المرور الحالية مطلوبة</value>
+  </data>
+  <data name="UsernameChangedSuccessfully" xml:space="preserve">
+    <value>تم تغيير اسم المستخدم بنجاح</value>
+  </data>
+  <data name="AnErrorOccurredWhileChangingTheUsername" xml:space="preserve">
+    <value>حدث خطأ أثناء تغيير اسم المستخدم</value>
+  </data>
 </root>

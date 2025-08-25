@@ -152,6 +152,11 @@
         public const string ThereWasAProblemValidatingTheCode = "ThereWasAProblemValidatingTheCode";
         public const string ThereWasAProblemLoadingTheProfile = "ThereWasAProblemLoadingTheProfile";
         public const string UserFound = "UserFound";
-
+        public const string TheCurrentPasswordIsWrong = "TheCurrentPasswordIsWrong";
+        public const string TheNewPasswordMustBeDifferentFromTheCurrentOne = "TheNewPasswordMustBeDifferentFromTheCurrentOne";
+        public const string CurrentPasswordNotEmpty = "CurrentPasswordNotEmpty";
+        public const string CurrentPasswordNotNull = "CurrentPasswordNotNull";
+        public const string UsernameChangedSuccessfully = "UsernameChangedSuccessfully";
+        public const string AnErrorOccurredWhileChangingTheUsername = "AnErrorOccurredWhileChangingTheUsername";
     }
 }

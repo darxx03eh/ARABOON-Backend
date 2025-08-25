@@ -31,11 +31,11 @@ namespace Araboon.Core.Features.Authentications.Commands.Validators
             RuleFor(user => user.Password)
                 .NotEmpty().WithMessage(stringLocalizer[SharedTranslationKeys.PasswordNotEmpty])
                 .NotNull().WithMessage(stringLocalizer[SharedTranslationKeys.PasswordNotNull])
-                .MinimumLength(6).WithMessage(stringLocalizer[SharedTranslationKeys.PasswordMinimumLength]);
+                .MinimumLength(8).WithMessage(stringLocalizer[SharedTranslationKeys.PasswordMinimumLength]);
             RuleFor(user => user.ConfirmPassword)
                 .NotEmpty().WithMessage(stringLocalizer[SharedTranslationKeys.ConfirmPasswordNotEmpty])
                 .NotNull().WithMessage(stringLocalizer[SharedTranslationKeys.ConfirmPasswordNotNull])
-                .MinimumLength(6).WithMessage(stringLocalizer[SharedTranslationKeys.ConfirmPasswordMinimumLength])
+                .MinimumLength(8).WithMessage(stringLocalizer[SharedTranslationKeys.ConfirmPasswordMinimumLength])
                 .Equal(user => user.Password).WithMessage(stringLocalizer[SharedTranslationKeys.ConfirmPasswordMustEqualToPassword]);
         }
         private void ApplyCustomValidationRules()
