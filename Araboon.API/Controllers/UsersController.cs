@@ -8,7 +8,7 @@ namespace Araboon.API.Controllers
     [ApiController]
     public class UsersController : AppBaseController
     {
-        [HttpGet(Router.UserRouting.GetUserProfile)]
+        [HttpGet(Router.UserRouting.Profile)]
         public async Task<IActionResult> GetUserProfile(string username)
         {
             var result = await mediator.Send(new GetUserProfileQuery(username));

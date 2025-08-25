@@ -85,7 +85,7 @@
         {
             public const string UserName = "/{username}";
             public const string prefix = $"{rule}Users";
-            public const string GetUserProfile = $"{prefix}{UserName}";
+            public const string Profile = $"{prefix}/profile{UserName}";
         }
     }
 }
