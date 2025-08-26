@@ -87,7 +87,7 @@ namespace Araboon.Service.Implementations
                     var avatarLink = $"https://ui-avatars.com/api/?name={user.FirstName}+{user.LastName}&background=random&color=fff&format=png";
                     var stream = await avatarService.DownloadImageAsStreamAsync(avatarLink);
                     var (imageName, folderName) = ("defaultImage", $"ARABOON/Accounts/{user.Id}/ImageProfile");
-                    var imageUrl = await cloudinaryService.UploadDefaultAvatarAsync(stream, folderName, imageName);
+                    var imageUrl = await cloudinaryService.UploadFileAsync(stream, folderName, imageName);
                     user.ProfileImage = new ProfileImage() { OriginalImage = imageUrl };
                     user.CoverImage = new CoverImage() { UserID = user.Id };
                     var updateResult = await userManager.UpdateAsync(user);

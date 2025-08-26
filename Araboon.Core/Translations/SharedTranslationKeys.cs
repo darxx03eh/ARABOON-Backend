@@ -158,5 +158,11 @@
         public const string CurrentPasswordNotNull = "CurrentPasswordNotNull";
         public const string UsernameChangedSuccessfully = "UsernameChangedSuccessfully";
         public const string AnErrorOccurredWhileChangingTheUsername = "AnErrorOccurredWhileChangingTheUsername";
+        public const string ImageIsRequired = "ImageIsRequired";
+        public const string ImageSizeMustNotExceed2MB = "ImageSizeMustNotExceed2MB";
+        public const string OnlyJPEGPNGAndWebPFormatsAreAllowed = "OnlyJPEGPNGAndWebPFormatsAreAllowed";
+        public const string AnErrorOccurredWhileEditingImageData = "AnErrorOccurredWhileEditingImageData";
+        public const string TheImageHasBeenChangedSuccessfully = "TheImageHasBeenChangedSuccessfully";
+        public const string AnErrorOccurredWhileProcessingYourProfileImageModificationRequest = "AnErrorOccurredWhileProcessingYourProfileImageModificationRequest";
     }
 }

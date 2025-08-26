@@ -19,15 +19,18 @@ namespace Araboon.Service.Implementations
         private readonly IHttpContextAccessor httpContextAccessor;
         private readonly IUnitOfWork unitOfWork;
         private readonly AraboonDbContext context;
+        private readonly ICloudinaryService cloudinaryService;
 
         public UserService(UserManager<AraboonUser> userManager, RoleManager<AraboonRole> roleManager,
-                           IHttpContextAccessor httpContextAccessor, IUnitOfWork unitOfWork, AraboonDbContext context)
+                           IHttpContextAccessor httpContextAccessor, IUnitOfWork unitOfWork, AraboonDbContext context,
+                           ICloudinaryService cloudinaryService)
         {
             this.userManager = userManager;
             this.roleManager = roleManager;
             this.httpContextAccessor = httpContextAccessor;
             this.unitOfWork = unitOfWork;
             this.context = context;
+            this.cloudinaryService = cloudinaryService;
         }
 
         public async Task<string> ChangePasswordAsync(string currentPassword, string newPassword)
@@ -173,6 +176,51 @@ namespace Araboon.Service.Implementations
             catch (Exception exp)
             {
                 return ("ThereWasAProblemLoadingTheProfile", null);
+            }
+        }
+
+        public async Task<string> UploadProfileImageAsync(IFormFile image, CropData cropData)
+        {
+            var userId = unitOfWork.FavoriteRepository.ExtractUserIdFromToken();
+            if (String.IsNullOrEmpty(userId))
+                return "UserNotFound";
+            var user = await userManager.FindByIdAsync(userId);
+            if (user is null)
+                return "UserNotFound";
+            using (var transaction = await context.Database.BeginTransactionAsync())
+            {
+                try
+                {
+                    var guidPart = Guid.NewGuid().ToString("N").Substring(0, 12);
+                    var datePart = DateTime.UtcNow.ToString("yyyyMMddHHmmss");
+                    var id = $"{guidPart}-{datePart}";
+                    var stream = image.OpenReadStream();
+                    var (imageName, folderName) = (id, $"ARABOON/Accounts/{user.Id}/ImageProfile");
+                    var url = await cloudinaryService.UploadFileAsync(stream, folderName, imageName);
+                    var profileImage = await context.ProfileImages.FirstOrDefaultAsync(profile => profile.UserID.Equals(user.Id));
+                    user.ProfileImage.OriginalImage = url;
+                    if (!cropData.Position.X.Equals(0)&&!cropData.Position.Y.Equals(0)&&!cropData.Scale.Equals(1.2)&&!cropData.Rotate.Equals(0))
+                    {
+                        user.ProfileImage.X = cropData.Position.X;
+                        user.ProfileImage.Y = cropData.Position.Y;
+                        user.ProfileImage.Scale = cropData.Scale;
+                        user.ProfileImage.Rotate = cropData.Rotate;
+                    }
+                    var result = await userManager.UpdateAsync(user);
+                    if (!result.Succeeded)
+                    {
+                        await transaction.RollbackAsync();
+                        return "AnErrorOccurredWhileEditingImageData";
+                    }
+                    await transaction.CommitAsync();
+                    return "TheImageHasBeenChangedSuccessfully";
+                }
+                catch(Exception exp)
+                {
+                    if(transaction.GetDbTransaction().Connection is not null)
+                        await transaction.RollbackAsync();
+                    return "AnErrorOccurredWhileProcessingYourProfileImageModificationRequest";
+                }
             }
         }
     }

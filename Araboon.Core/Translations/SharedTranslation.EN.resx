@@ -595,4 +595,22 @@
   <data name="AnErrorOccurredWhileChangingTheUsername" xml:space="preserve">
     <value>An error occurred while changing the username</value>
   </data>
+  <data name="ImageIsRequired" xml:space="preserve">
+    <value>Image is required</value>
+  </data>
+  <data name="ImageSizeMustNotExceed2MB" xml:space="preserve">
+    <value>Image size must not exceed 2MB</value>
+  </data>
+  <data name="OnlyJPEGPNGAndWebPFormatsAreAllowed" xml:space="preserve">
+    <value>Only JPEG, PNG, and WebP formats are allowed</value>
+  </data>
+  <data name="AnErrorOccurredWhileEditingImageData" xml:space="preserve">
+    <value>An error occurred while editing the image data</value>
+  </data>
+  <data name="TheImageHasBeenChangedSuccessfully" xml:space="preserve">
+    <value>The image has been changed successfully</value>
+  </data>
+  <data name="AnErrorOccurredWhileProcessingYourProfileImageModificationRequest" xml:space="preserve">
+    <value>An error occurred while processing your profile image modification request</value>
+  </data>
 </root>

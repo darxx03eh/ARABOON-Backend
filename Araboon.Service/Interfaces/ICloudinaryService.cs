@@ -2,6 +2,6 @@
 {
     public interface ICloudinaryService
     {
-        public Task<string> UploadDefaultAvatarAsync(Stream image, string folderName, string fileName);
+        public Task<string> UploadFileAsync(Stream image, string folderName, string fileName);
     }
 }

@@ -78,6 +78,7 @@ namespace Araboon.API
 
             builder.Services.AddControllers(options =>
             {
+                options.ModelBinderProviders.Insert(0, new DecimalModelBinderProvider());
                 options.CacheProfiles.Add("DefaultCache", new CacheProfile()
                 {
                     Duration = 300,
@@ -137,6 +138,7 @@ namespace Araboon.API
             });
             builder.Services.AddResponseCaching();
             var app = builder.Build();
+
             using (var scope = app.Services.CreateScope())
             {
                 var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<AraboonRole>>();

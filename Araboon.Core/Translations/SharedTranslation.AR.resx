@@ -594,4 +594,22 @@
   <data name="AnErrorOccurredWhileChangingTheUsername" xml:space="preserve">
     <value>حدث خطأ أثناء تغيير اسم المستخدم</value>
   </data>
+  <data name="ImageIsRequired" xml:space="preserve">
+    <value>الصورة مطلوبة</value>
+  </data>
+  <data name="ImageSizeMustNotExceed2MB" xml:space="preserve">
+    <value>يجب ألا يتجاوز حجم الصورة 2 ميغابايت</value>
+  </data>
+  <data name="OnlyJPEGPNGAndWebPFormatsAreAllowed" xml:space="preserve">
+    <value>يُسمح فقط بصيغ JPEG و PNG و WebP</value>
+  </data>
+  <data name="AnErrorOccurredWhileEditingImageData" xml:space="preserve">
+    <value>حدث خطأ أثناء تعديل بيانات الصورة</value>
+  </data>
+  <data name="TheImageHasBeenChangedSuccessfully" xml:space="preserve">
+    <value>تم تغيير الصورة بنجاح</value>
+  </data>
+  <data name="AnErrorOccurredWhileProcessingYourProfileImageModificationRequest" xml:space="preserve">
+    <value>حدث خطأ أثناء معالجة طلب تعديل صورة الملف الشخصي الخاص بك</value>
+  </data>
 </root>

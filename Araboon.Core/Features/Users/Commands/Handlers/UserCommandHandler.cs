@@ -10,6 +10,7 @@ namespace Araboon.Core.Features.Users.Commands.Handlers
     public class UserCommandHandler : ApiResponseHandler
         , IRequestHandler<ChangePasswordCommand, ApiResponse>
         , IRequestHandler<ChangeUserNameCommand, ApiResponse>
+        , IRequestHandler<UploadProfileImageCommand, ApiResponse>
     {
         private readonly IUserService userService;
         private readonly IStringLocalizer<SharedTranslation> stringLocalizer;
@@ -45,6 +46,20 @@ namespace Araboon.Core.Features.Users.Commands.Handlers
                 "AnErrorOccurredWhileChangingTheUsername" => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileChangingTheUsername]),
                 "UsernameChangedSuccessfully" => Success(null, message: stringLocalizer[SharedTranslationKeys.UsernameChangedSuccessfully]),
                 _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileChangingTheUsername])
+            };
+        }
+
+        public async Task<ApiResponse> Handle(UploadProfileImageCommand request, CancellationToken cancellationToken)
+        {
+            var result = await userService.UploadProfileImageAsync(request.ProfileImage, request.CropData);
+            return result switch
+            {
+                "UserNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.UserNotFound]),
+                "AnErrorOccurredWhileEditingImageData" => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileEditingImageData]),
+                "TheImageHasBeenChangedSuccessfully" => Success(null, message: stringLocalizer[SharedTranslationKeys.TheImageHasBeenChangedSuccessfully]),
+                "AnErrorOccurredWhileProcessingYourProfileImageModificationRequest" =>
+                InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileProcessingYourProfileImageModificationRequest]),
+                _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileProcessingYourProfileImageModificationRequest])
             };
         }
     }
