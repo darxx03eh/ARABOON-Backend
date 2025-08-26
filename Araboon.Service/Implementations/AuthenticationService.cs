@@ -62,13 +62,13 @@ namespace Araboon.Service.Implementations
                         await transaction.RollbackAsync();
                         return "ErrorDuringAccountCreationProcess";
                     }
-                    var role = await roleManager.RoleExistsAsync("User");
+                    var role = await roleManager.RoleExistsAsync(Roles.User);
                     if (!role)
                     {
                         await transaction.RollbackAsync();
                         return "RoleNotExist";
                     }
-                    var roleResult = await userManager.AddToRoleAsync(user, "User");
+                    var roleResult = await userManager.AddToRoleAsync(user, Roles.User);
                     if (!roleResult.Succeeded)
                     {
                         await transaction.RollbackAsync();

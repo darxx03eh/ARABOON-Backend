@@ -3,10 +3,12 @@ using Araboon.Core;
 using Araboon.Core.Bases;
 using Araboon.Core.MiddleWare;
 using Araboon.Core.Translations;
+using Araboon.Data.Entities.Identity;
 using Araboon.Data.Helpers;
 using Araboon.Data.Helpers.Resolvers.Mangas;
 using Araboon.Infrastructure;
 using Araboon.Infrastructure.Data;
+using Araboon.Infrastructure.Seeder;
 using Araboon.Service;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
@@ -21,7 +23,7 @@ namespace Araboon.API
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
             #region Initialize Encryption Key
@@ -135,12 +137,17 @@ namespace Araboon.API
             });
             builder.Services.AddResponseCaching();
             var app = builder.Build();
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
+            using (var scope = app.Services.CreateScope())
             {
-                app.UseSwagger();
-                app.UseSwaggerUI();
+                var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<AraboonRole>>();
+                await RoleSeeder.SeedAsync(roleManager);
             }
+                // Configure the HTTP request pipeline.
+                if (app.Environment.IsDevelopment())
+                {
+                    app.UseSwagger();
+                    app.UseSwaggerUI();
+                }
             var locOptions = app.Services.GetService<IOptions<RequestLocalizationOptions>>();
             app.UseResponseCaching();
             app.UseRequestLocalization(locOptions.Value);

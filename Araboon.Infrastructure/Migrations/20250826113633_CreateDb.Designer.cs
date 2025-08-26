@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Araboon.Infrastructure.Migrations
 {
     [DbContext(typeof(AraboonDbContext))]
-    [Migration("20250823150952_createDataBase")]
-    partial class createDataBase
+    [Migration("20250826113633_CreateDb")]
+    partial class CreateDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
