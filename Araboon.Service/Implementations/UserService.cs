@@ -90,6 +90,8 @@ namespace Araboon.Service.Implementations
 
         public async Task<(string, UserProfileResponse?)> GetUserProfileAsync(string username)
         {
+            var userId = unitOfWork.FavoriteRepository.ExtractUserIdFromToken();
+            Console.WriteLine(userId);
             var user = await userManager.FindByNameAsync(username);
             if (user is null)
                 return ("UserNotFound", null);
@@ -108,7 +110,7 @@ namespace Araboon.Service.Implementations
                     FirstName = user.FirstName,
                     LastName = user.LastName,
                     UserName = $"@{user.UserName}",
-                    Email = user.Email,
+                    Email = String.IsNullOrEmpty(userId)? null:user.Id.ToString().Equals(userId)? user.Email:null,
                     CoverImage = new CoverImage()
                     {
                         OriginalImage = user.CoverImage.OriginalImage,
