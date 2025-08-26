@@ -213,6 +213,31 @@ namespace Araboon.Infrastructure.Migrations
                     b.ToTable("CompletedReads");
                 });
 
+            modelBuilder.Entity("Araboon.Data.Entities.CoverImage", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<string>("CroppedImage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OriginalImage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("UserID")
+                        .IsUnique();
+
+                    b.ToTable("CoverImages");
+                });
+
             modelBuilder.Entity("Araboon.Data.Entities.CurrentlyReading", b =>
                 {
                     b.Property<int>("UserID")
@@ -322,9 +347,6 @@ namespace Araboon.Infrastructure.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CoverImage")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -371,9 +393,6 @@ namespace Araboon.Infrastructure.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
-
-                    b.Property<string>("ProfileImage")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
@@ -538,6 +557,48 @@ namespace Araboon.Infrastructure.Migrations
                     b.HasIndex("MangaID");
 
                     b.ToTable("Notifications");
+                });
+
+            modelBuilder.Entity("Araboon.Data.Entities.ProfileImage", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<string>("OriginalImage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Rotate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("decimal(18,2)")
+                        .HasDefaultValue(0m);
+
+                    b.Property<decimal>("Scale")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("decimal(18,2)")
+                        .HasDefaultValue(1.2m);
+
+                    b.Property<int>("UserID")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("X")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("decimal(18,2)")
+                        .HasDefaultValue(0m);
+
+                    b.Property<decimal>("Y")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("decimal(18,2)")
+                        .HasDefaultValue(0m);
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("UserID")
+                        .IsUnique();
+
+                    b.ToTable("ProfileImages");
                 });
 
             modelBuilder.Entity("Araboon.Data.Entities.ReadingLater", b =>
@@ -807,6 +868,17 @@ namespace Araboon.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Araboon.Data.Entities.CoverImage", b =>
+                {
+                    b.HasOne("Araboon.Data.Entities.Identity.AraboonUser", "User")
+                        .WithOne("CoverImage")
+                        .HasForeignKey("Araboon.Data.Entities.CoverImage", "UserID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Araboon.Data.Entities.CurrentlyReading", b =>
                 {
                     b.HasOne("Araboon.Data.Entities.Manga", "Manga")
@@ -882,6 +954,17 @@ namespace Araboon.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Manga");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Araboon.Data.Entities.ProfileImage", b =>
+                {
+                    b.HasOne("Araboon.Data.Entities.Identity.AraboonUser", "User")
+                        .WithOne("ProfileImage")
+                        .HasForeignKey("Araboon.Data.Entities.ProfileImage", "UserID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
@@ -1002,11 +1085,15 @@ namespace Araboon.Infrastructure.Migrations
 
                     b.Navigation("CompletedReads");
 
+                    b.Navigation("CoverImage");
+
                     b.Navigation("CurrentlyReadings");
 
                     b.Navigation("Favorites");
 
                     b.Navigation("Notifications");
+
+                    b.Navigation("ProfileImage");
 
                     b.Navigation("ReadingLaters");
 

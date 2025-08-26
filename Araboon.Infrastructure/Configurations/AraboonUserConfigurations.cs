@@ -1,4 +1,5 @@
-﻿using Araboon.Data.Entities.Identity;
+﻿using Araboon.Data.Entities;
+using Araboon.Data.Entities.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -52,6 +53,16 @@ namespace Araboon.Infrastructure.Configurations
                 .WithOne(x => x.User)
                 .HasForeignKey(x => x.UserID)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(x => x.CoverImage)
+                .WithOne(x => x.User)
+                .HasForeignKey<CoverImage>(x => x.UserID)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasOne(x => x.ProfileImage)
+                .WithOne(x => x.User)
+                .HasForeignKey<ProfileImage>(x => x.UserID)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

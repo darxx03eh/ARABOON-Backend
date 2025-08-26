@@ -7,8 +7,6 @@ namespace Araboon.Data.Entities.Identity
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string? ProfileImage { get; set; }
-        public string? CoverImage { get; set; }
         public string? Bio { get; set; }
         private string? code;
         public string? Code
@@ -35,5 +33,7 @@ namespace Araboon.Data.Entities.Identity
         public virtual ICollection<Comment>? Comments { get; set; } = new HashSet<Comment>();
         public virtual ICollection<Reply>? Replies { get; set; } = new HashSet<Reply>();
         public virtual ICollection<ChapterView>? ChapterViews { get; set; } = new HashSet<ChapterView>();
+        public virtual CoverImage? CoverImage { get; set; }
+        public virtual ProfileImage? ProfileImage { get; set; }
     }
 }

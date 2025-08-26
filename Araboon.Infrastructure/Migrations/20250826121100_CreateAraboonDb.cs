@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Araboon.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class CreateDb : Migration
+    public partial class CreateAraboonDb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -34,8 +34,6 @@ namespace Araboon.Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ProfileImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CoverImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Bio = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ForgetPasswordToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -211,6 +209,51 @@ namespace Araboon.Infrastructure.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CoverImages",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    OriginalImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CroppedImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CoverImages", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_CoverImages_AspNetUsers_UserID",
+                        column: x => x.UserID,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProfileImages",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    OriginalImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    X = table.Column<decimal>(type: "decimal(18,2)", nullable: false, defaultValue: 0m),
+                    Y = table.Column<decimal>(type: "decimal(18,2)", nullable: false, defaultValue: 0m),
+                    Scale = table.Column<decimal>(type: "decimal(18,2)", nullable: false, defaultValue: 1.2m),
+                    Rotate = table.Column<decimal>(type: "decimal(18,2)", nullable: false, defaultValue: 0m),
+                    UserID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProfileImages", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_ProfileImages_AspNetUsers_UserID",
+                        column: x => x.UserID,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -626,6 +669,12 @@ namespace Araboon.Infrastructure.Migrations
                 column: "MangaID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_CoverImages_UserID",
+                table: "CoverImages",
+                column: "UserID",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_CurrentlyReadings_MangaID",
                 table: "CurrentlyReadings",
                 column: "MangaID");
@@ -644,6 +693,12 @@ namespace Araboon.Infrastructure.Migrations
                 name: "IX_Notifications_MangaID",
                 table: "Notifications",
                 column: "MangaID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProfileImages_UserID",
+                table: "ProfileImages",
+                column: "UserID",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_ReadingLaters_MangaID",
@@ -697,6 +752,9 @@ namespace Araboon.Infrastructure.Migrations
                 name: "CompletedReads");
 
             migrationBuilder.DropTable(
+                name: "CoverImages");
+
+            migrationBuilder.DropTable(
                 name: "CurrentlyReadings");
 
             migrationBuilder.DropTable(
@@ -707,6 +765,9 @@ namespace Araboon.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Notifications");
+
+            migrationBuilder.DropTable(
+                name: "ProfileImages");
 
             migrationBuilder.DropTable(
                 name: "ReadingLaters");

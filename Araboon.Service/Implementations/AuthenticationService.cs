@@ -1,4 +1,5 @@
-﻿using Araboon.Data.Entities.Identity;
+﻿using Araboon.Data.Entities;
+using Araboon.Data.Entities.Identity;
 using Araboon.Data.Helpers;
 using Araboon.Data.Response.Authentications;
 using Araboon.Data.Routing;
@@ -87,7 +88,8 @@ namespace Araboon.Service.Implementations
                     var stream = await avatarService.DownloadImageAsStreamAsync(avatarLink);
                     var (imageName, folderName) = ("defaultImage", $"ARABOON/Accounts/{user.Id}/ImageProfile");
                     var imageUrl = await cloudinaryService.UploadDefaultAvatarAsync(stream, folderName, imageName);
-                    user.ProfileImage = imageUrl;
+                    user.ProfileImage = new ProfileImage() { OriginalImage = imageUrl };
+                    user.CoverImage = new CoverImage() { UserID = user.Id };
                     var updateResult = await userManager.UpdateAsync(user);
                     if (!updateResult.Succeeded)
                     {
@@ -105,6 +107,7 @@ namespace Araboon.Service.Implementations
                     return "AnErrorOccurredDuringTheRegistrationProcess";
                 }
             }
+            throw new Exception();
         }
 
         public async Task<(SignInResponse?, string)> SignInAsync(string username, string password)

@@ -64,7 +64,7 @@ namespace Araboon.Service.Implementations
                     return "PasswordChangedSuccessfully";
 
                 }
-                catch(Exception exp)
+                catch (Exception exp)
                 {
                     if (transaction.GetDbTransaction().Connection is not null)
                         await transaction.RollbackAsync();
@@ -109,8 +109,25 @@ namespace Araboon.Service.Implementations
                     LastName = user.LastName,
                     UserName = $"@{user.UserName}",
                     Email = user.Email,
-                    ImageUrl = user.ProfileImage,
-                    CoverImageUrl = user.CoverImage,
+                    CoverImage = new CoverImage()
+                    {
+                        OriginalImage = user.CoverImage.OriginalImage,
+                        CroppedImage = user.CoverImage.CroppedImage,
+                    },
+                    ProfileImage = new ProfileImage()
+                    {
+                        OriginalImage = user.ProfileImage.OriginalImage,
+                        CropData = new CropData()
+                        {
+                            Position = new Position()
+                            {
+                                X = user.ProfileImage.X,
+                                Y = user.ProfileImage.Y,
+                            },
+                            Scale = user.ProfileImage.Scale,
+                            Rotate = user.ProfileImage.Rotate
+                        }
+                    },
                     JoinDate = user.CreatedAt.ToString(
                         culture.TwoLetterISOLanguageName == "ar" ? "dd MMMM yyyy" : "MMMM dd, yyyy"
                         , culture),
@@ -151,7 +168,7 @@ namespace Araboon.Service.Implementations
                 }
                 return ("UserFound", profile);
             }
-            catch(Exception exp)
+            catch (Exception exp)
             {
                 return ("ThereWasAProblemLoadingTheProfile", null);
             }

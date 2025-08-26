@@ -14,6 +14,8 @@ namespace Araboon.Infrastructure.Data
         public AraboonDbContext(DbContextOptions<AraboonDbContext> options)
             : base(options) { }
         public DbSet<AraboonUser> Users { get; set; }
+        public DbSet<CoverImage> CoverImages { get; set; }
+        public DbSet<ProfileImage> ProfileImages { get; set; }
         public DbSet<AraboonRole> Roles { get; set; }
         public DbSet<UserRefreshToken> UserRefreshTokens { get; set; }
         public DbSet<Category> Categories { get; set; }
