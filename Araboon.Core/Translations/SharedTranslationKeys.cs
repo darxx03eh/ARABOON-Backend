@@ -160,9 +160,16 @@
         public const string AnErrorOccurredWhileChangingTheUsername = "AnErrorOccurredWhileChangingTheUsername";
         public const string ImageIsRequired = "ImageIsRequired";
         public const string ImageSizeMustNotExceed2MB = "ImageSizeMustNotExceed2MB";
+        public const string ImageSizeMustNotExceed5MB = "ImageSizeMustNotExceed5MB";
         public const string OnlyJPEGPNGAndWebPFormatsAreAllowed = "OnlyJPEGPNGAndWebPFormatsAreAllowed";
         public const string AnErrorOccurredWhileEditingImageData = "AnErrorOccurredWhileEditingImageData";
         public const string TheImageHasBeenChangedSuccessfully = "TheImageHasBeenChangedSuccessfully";
         public const string AnErrorOccurredWhileProcessingYourProfileImageModificationRequest = "AnErrorOccurredWhileProcessingYourProfileImageModificationRequest";
+        public const string CroppedImageSizeMustNotExceed5MB = "CroppedImageSizeMustNotExceed5MB";
+        public const string CroppedImageIsRequired = "CroppedImageIsRequired";
+        public const string CroppedImageOnlyJPEGPNGAndWebPFormatsAreAllowed = "CroppedImageOnlyJPEGPNGAndWebPFormatsAreAllowed";
+        public const string AnErrorOccurredWhileEditingCoverImage = "AnErrorOccurredWhileEditingCoverImage";
+        public const string TheCoverImageHasBeenChangedSuccessfully = "TheCoverImageHasBeenChangedSuccessfully";
+        public const string AnErrorOccurredWhileProcessingYourCoverImageModificationRequest = "AnErrorOccurredWhileProcessingYourCoverImageModificationRequest";
     }
 }

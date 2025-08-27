@@ -11,6 +11,7 @@ namespace Araboon.Core.Features.Users.Commands.Handlers
         , IRequestHandler<ChangePasswordCommand, ApiResponse>
         , IRequestHandler<ChangeUserNameCommand, ApiResponse>
         , IRequestHandler<UploadProfileImageCommand, ApiResponse>
+        , IRequestHandler<UploadCoverImageCommand, ApiResponse>
     {
         private readonly IUserService userService;
         private readonly IStringLocalizer<SharedTranslation> stringLocalizer;
@@ -60,6 +61,21 @@ namespace Araboon.Core.Features.Users.Commands.Handlers
                 "AnErrorOccurredWhileProcessingYourProfileImageModificationRequest" =>
                 InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileProcessingYourProfileImageModificationRequest]),
                 _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileProcessingYourProfileImageModificationRequest])
+            };
+        }
+
+        public async Task<ApiResponse> Handle(UploadCoverImageCommand request, CancellationToken cancellationToken)
+        {
+            var result = await userService.UploadCoverImageAsync(request.OriginalImage, request.CroppedImage);
+            return result switch
+            {
+                "UserNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.UserNotFound]),
+                "AnErrorOccurredWhileEditingCoverImage" => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileEditingCoverImage]),
+                "TheCoverImageHasBeenChangedSuccessfully" => 
+                Success(null, message: stringLocalizer[SharedTranslationKeys.TheCoverImageHasBeenChangedSuccessfully]),
+                "AnErrorOccurredWhileProcessingYourCoverImageModificationRequest" =>
+                InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileProcessingYourCoverImageModificationRequest]),
+                _ => InternalServerError()
             };
         }
     }

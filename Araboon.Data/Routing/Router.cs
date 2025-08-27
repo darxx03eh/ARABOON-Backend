@@ -89,6 +89,7 @@
             public const string ChangePassword = $"{prefix}/change-password";
             public const string ChangeUserName = $"{prefix}/change-username";
             public const string UploadProfileImage = $"{prefix}/upload/profile-image";
+            public const string UploadCoverImage = $"{prefix}/upload/cover-image";
         }
     }
 }

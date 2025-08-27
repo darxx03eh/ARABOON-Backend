@@ -9,5 +9,6 @@ namespace Araboon.Service.Interfaces
         public Task<string> ChangePasswordAsync(string currentPassword, string newPassword);
         public Task<string> ChangeUserNameAsync(string username);
         public Task<string> UploadProfileImageAsync(IFormFile image, CropData cropData);
+        public Task<string> UploadCoverImageAsync(IFormFile image, IFormFile croppedImage);
     }
 }

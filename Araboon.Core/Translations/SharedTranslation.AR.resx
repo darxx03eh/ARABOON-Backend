@@ -612,4 +612,25 @@
   <data name="AnErrorOccurredWhileProcessingYourProfileImageModificationRequest" xml:space="preserve">
     <value>حدث خطأ أثناء معالجة طلب تعديل صورة الملف الشخصي الخاص بك</value>
   </data>
+  <data name="ImageSizeMustNotExceed5MB" xml:space="preserve">
+    <value>يجب ألا يتجاوز حجم الصورة 5 ميغابايت</value>
+  </data>
+  <data name="CroppedImageIsRequired" xml:space="preserve">
+    <value>يجب ألا يتجاوز حجم الصورة المقصوصة 5 ميغابايت</value>
+  </data>
+  <data name="CroppedImageImageIsRequired" xml:space="preserve">
+    <value>الصورة المقصوصة مطلوبة</value>
+  </data>
+  <data name="CroppedImageOnlyJPEGPNGAndWebPFormatsAreAllowed" xml:space="preserve">
+    <value>يُسمح فقط بصيغ JPEG و PNG و WebP للصورة المقصوصة</value>
+  </data>
+  <data name="AnErrorOccurredWhileEditingCoverImage" xml:space="preserve">
+    <value>حدث خطأ أثناء تعديل صورة الغلاف</value>
+  </data>
+  <data name="TheCoverImageHasBeenChangedSuccessfully" xml:space="preserve">
+    <value>تم تغيير صورة الغلاف بنجاح</value>
+  </data>
+  <data name="AnErrorOccurredWhileProcessingYourCoverImageModificationRequest" xml:space="preserve">
+    <value>حدث خطأ أثناء معالجة طلب تعديل صورة الغلاف الخاص بك</value>
+  </data>
 </root>

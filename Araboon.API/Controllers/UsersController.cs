@@ -36,5 +36,11 @@ namespace Araboon.API.Controllers
             var result = await mediator.Send(request);
             return Result(result);
         }
+        [HttpPut(Router.UserRouting.UploadCoverImage)]
+        public async Task<IActionResult> UploadCoverImage([FromForm] UploadCoverImageCommand request)
+        {
+            var result = await mediator.Send(request);
+            return Result(result);
+        }
     }
 }

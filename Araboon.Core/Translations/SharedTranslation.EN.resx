@@ -613,4 +613,25 @@
   <data name="AnErrorOccurredWhileProcessingYourProfileImageModificationRequest" xml:space="preserve">
     <value>An error occurred while processing your profile image modification request</value>
   </data>
+  <data name="ImageSizeMustNotExceed5MB" xml:space="preserve">
+    <value>Image size must not exceed 5MB</value>
+  </data>
+  <data name="CroppedImageIsRequired" xml:space="preserve">
+    <value>Cropped image size must not exceed 5MB</value>
+  </data>
+  <data name="CroppedImageImageIsRequired" xml:space="preserve">
+    <value>Cropped image is required</value>
+  </data>
+  <data name="CroppedImageOnlyJPEGPNGAndWebPFormatsAreAllowed" xml:space="preserve">
+    <value>Only JPEG, PNG, and WebP formats are allowed for the cropped image</value>
+  </data>
+  <data name="AnErrorOccurredWhileEditingCoverImage" xml:space="preserve">
+    <value>An error occurred while editing the cover image</value>
+  </data>
+  <data name="TheCoverImageHasBeenChangedSuccessfully" xml:space="preserve">
+    <value>The cover image has been changed successfully</value>
+  </data>
+  <data name="AnErrorOccurredWhileProcessingYourCoverImageModificationRequest" xml:space="preserve">
+    <value>An error occurred while processing your cover image modification request</value>
+  </data>
 </root>

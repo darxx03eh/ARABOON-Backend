@@ -179,6 +179,52 @@ namespace Araboon.Service.Implementations
             }
         }
 
+        public async Task<string> UploadCoverImageAsync(IFormFile image, IFormFile croppedImage)
+        {
+            var userId = unitOfWork.FavoriteRepository.ExtractUserIdFromToken();
+            if (String.IsNullOrEmpty(userId))
+                return "UserNotFound";
+            var user = await userManager.FindByIdAsync(userId);
+            if (user is null)
+                return "UserNotFound";
+            using (var transaction = await context.Database.BeginTransactionAsync())
+            {
+                try
+                {
+                    var guidPart = Guid.NewGuid().ToString("N").Substring(0, 12);
+                    var datePart = DateTime.UtcNow.ToString("yyyyMMddHHmmss");
+                    var originalId = $"original-{guidPart}-{datePart}";
+                    var croppedId = $"cropped-{guidPart}-{datePart}";
+                    using (var stream = image.OpenReadStream())
+                    {
+                        var (imageName, folderName) = (originalId, $"ARABOON/Accounts/{user.Id}/CoverImage");
+                        var url = await cloudinaryService.UploadFileAsync(stream, folderName, imageName);
+                        user.CoverImage.OriginalImage = url;
+                    }
+                    using (var stream = croppedImage.OpenReadStream())
+                    {
+                        var (imageName, folderName) = (croppedId, $"ARABOON/Accounts/{user.Id}/CoverImage");
+                        var url = await cloudinaryService.UploadFileAsync(stream, folderName, imageName);
+                        user.CoverImage.CroppedImage = url;
+                    }
+                    var result = await userManager.UpdateAsync(user);
+                    if (!result.Succeeded)
+                    {
+                        await transaction.RollbackAsync();
+                        return "AnErrorOccurredWhileEditingCoverImage";
+                    }
+                    await transaction.CommitAsync();
+                    return "TheCoverImageHasBeenChangedSuccessfully";
+                }
+                catch(Exception exp)
+                {
+                    if (transaction.GetDbTransaction().Connection is not null)
+                        await transaction.RollbackAsync();
+                    return "AnErrorOccurredWhileProcessingYourCoverImageModificationRequest";
+                }
+            }
+        }
+
         public async Task<string> UploadProfileImageAsync(IFormFile image, CropData cropData)
         {
             var userId = unitOfWork.FavoriteRepository.ExtractUserIdFromToken();
@@ -194,11 +240,12 @@ namespace Araboon.Service.Implementations
                     var guidPart = Guid.NewGuid().ToString("N").Substring(0, 12);
                     var datePart = DateTime.UtcNow.ToString("yyyyMMddHHmmss");
                     var id = $"{guidPart}-{datePart}";
-                    var stream = image.OpenReadStream();
-                    var (imageName, folderName) = (id, $"ARABOON/Accounts/{user.Id}/ImageProfile");
-                    var url = await cloudinaryService.UploadFileAsync(stream, folderName, imageName);
-                    var profileImage = await context.ProfileImages.FirstOrDefaultAsync(profile => profile.UserID.Equals(user.Id));
-                    user.ProfileImage.OriginalImage = url;
+                    using (var stream = image.OpenReadStream())
+                    {
+                        var (imageName, folderName) = (id, $"ARABOON/Accounts/{user.Id}/ImageProfile");
+                        var url = await cloudinaryService.UploadFileAsync(stream, folderName, imageName);
+                        user.ProfileImage.OriginalImage = url;
+                    }
                     if (!cropData.Position.X.Equals(0)&&!cropData.Position.Y.Equals(0)&&!cropData.Scale.Equals(1.2)&&!cropData.Rotate.Equals(0))
                     {
                         user.ProfileImage.X = cropData.Position.X;
