@@ -92,6 +92,7 @@
             public const string UploadCoverImage = $"{prefix}/upload/cover-image";
             public const string ChangeEmail = $"{prefix}/change-email";
             public const string ChangeEmailConfirmation = $"{prefix}/change-email/confirm";
+            public const string ChangeBio = $"{prefix}/change-bio";
         }
     }
 }

@@ -646,4 +646,16 @@
   <data name="AnErrorOccurredDuringTheChangeEmailProcess" xml:space="preserve">
     <value>An error occurred during the change email process</value>
   </data>
+  <data name="BioIsRequired" xml:space="preserve">
+    <value>Bio is required</value>
+  </data>
+  <data name="BioSizeMustNotExceed150Characters" xml:space="preserve">
+    <value>Bio must not exceed 150 characters</value>
+  </data>
+  <data name="AnErrorOccurredWhileChangingTheBio" xml:space="preserve">
+    <value>An error occurred while changing the bio</value>
+  </data>
+  <data name="BioChangedSuccessfully" xml:space="preserve">
+    <value>Bio changed successfully</value>
+  </data>
 </root>

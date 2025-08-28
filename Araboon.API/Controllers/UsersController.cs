@@ -55,5 +55,11 @@ namespace Araboon.API.Controllers
             var result = await mediator.Send(request);
             return Result(result);
         }
+        [HttpPatch(Router.UserRouting.ChangeBio)]
+        public async Task<IActionResult> ChangeBio(ChangeBioCommand request)
+        {
+            var result = await mediator.Send(request);
+            return Result(result);
+        }
     }
 }

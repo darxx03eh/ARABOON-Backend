@@ -175,5 +175,9 @@
         public const string ChangeEmailHasBeenSent = "ChangeEmailHasBeenSent";
         public const string EmailChangedSuccessfully = "EmailChangedSuccessfully";
         public const string AnErrorOccurredDuringTheChangeEmailProcess = "AnErrorOccurredDuringTheChangeEmailProcess";
+        public const string BioIsRequired = "BioIsRequired";
+        public const string BioSizeMustNotExceed150Characters = "BioSizeMustNotExceed150Characters";
+        public const string AnErrorOccurredWhileChangingTheBio = "AnErrorOccurredWhileChangingTheBio";
+        public const string BioChangedSuccessfully = "BioChangedSuccessfully";
     }
 }

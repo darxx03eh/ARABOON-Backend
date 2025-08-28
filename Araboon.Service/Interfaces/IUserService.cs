@@ -12,5 +12,6 @@ namespace Araboon.Service.Interfaces
         public Task<string> UploadCoverImageAsync(IFormFile image, IFormFile croppedImage);
         public Task<string> ChangeEmailAsync(string email);
         public Task<string> ChangeEmailConfirmationAsync(string id, string email, string token);
+        public Task<string> ChangeBioAsync(string bio);
     }
 }

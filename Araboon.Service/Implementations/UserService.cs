@@ -36,6 +36,21 @@ namespace Araboon.Service.Implementations
             this.emailService = emailService;
         }
 
+        public async Task<string> ChangeBioAsync(string bio)
+        {
+            var userId = unitOfWork.UserRepository.ExtractUserIdFromToken();
+            if (String.IsNullOrEmpty(userId))
+                return "UserNotFound";
+            var user = await userManager.FindByIdAsync(userId);
+            if (user is null)
+                return "UserNotFound";
+            user.Bio = bio;
+            var result = await userManager.UpdateAsync(user);
+            if (!result.Succeeded)
+                return "AnErrorOccurredWhileChangingTheBio";
+            return "BioChangedSuccessfully";
+        }
+
         public async Task<string> ChangeEmailAsync(string email)
         {
             var userId = unitOfWork.UserRepository.ExtractUserIdFromToken();

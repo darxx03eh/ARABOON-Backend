@@ -14,6 +14,8 @@ namespace Araboon.Core.Features.Users.Commands.Handlers
         , IRequestHandler<UploadCoverImageCommand, ApiResponse>
         , IRequestHandler<ChangeEmailCommand, ApiResponse>
         , IRequestHandler<ConfirmationChangeEmailCommand, ApiResponse>
+        , IRequestHandler<ChangeBioCommand, ApiResponse>
+
     {
         private readonly IUserService userService;
         private readonly IStringLocalizer<SharedTranslation> stringLocalizer;
@@ -105,6 +107,18 @@ namespace Araboon.Core.Features.Users.Commands.Handlers
                 "AnErrorOccurredDuringTheChangeEmailProcess" =>
                 InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredDuringTheChangeEmailProcess]),
                 _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredDuringTheChangeEmailProcess]),
+            };
+        }
+
+        public async Task<ApiResponse> Handle(ChangeBioCommand request, CancellationToken cancellationToken)
+        {
+            var result = await userService.ChangeBioAsync(request.Bio);
+            return result switch
+            {
+                "UserNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.UserNotFound]),
+                "AnErrorOccurredWhileChangingTheBio" => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileChangingTheBio]),
+                "BioChangedSuccessfully" => Success(null, message: stringLocalizer[SharedTranslationKeys.BioChangedSuccessfully]),
+                _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileChangingTheBio])
             };
         }
     }

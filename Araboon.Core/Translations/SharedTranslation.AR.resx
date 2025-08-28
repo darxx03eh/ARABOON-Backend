@@ -645,4 +645,16 @@
   <data name="AnErrorOccurredDuringTheChangeEmailProcess" xml:space="preserve">
     <value>حدث خطأ أثناء عملية تغيير البريد الإلكتروني</value>
   </data>
+  <data name="BioIsRequired" xml:space="preserve">
+    <value>السيرة الذاتية مطلوبة</value>
+  </data>
+  <data name="BioSizeMustNotExceed150Characters" xml:space="preserve">
+    <value>يجب ألا تتجاوز السيرة الذاتية 150 حرفًا</value>
+  </data>
+  <data name="AnErrorOccurredWhileChangingTheBio" xml:space="preserve">
+    <value>حدث خطأ أثناء تغيير السيرة الذاتية</value>
+  </data>
+  <data name="BioChangedSuccessfully" xml:space="preserve">
+    <value>تم تغيير السيرة الذاتية بنجاح</value>
+  </data>
 </root>
