@@ -42,5 +42,18 @@ namespace Araboon.API.Controllers
             var result = await mediator.Send(request);
             return Result(result);
         }
+        [HttpPatch(Router.UserRouting.ChangeEmail)]
+        public async Task<IActionResult> ChangeEmail(ChangeEmailCommand request)
+        {
+            var result = await mediator.Send(request);
+            return Result(result);
+        }
+        [AllowAnonymous]
+        [HttpGet(Router.UserRouting.ChangeEmailConfirmation)]
+        public async Task<IActionResult> ChangeEmailConfirmation([FromQuery] ConfirmationChangeEmailCommand request)
+        {
+            var result = await mediator.Send(request);
+            return Result(result);
+        }
     }
 }

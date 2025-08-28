@@ -633,4 +633,16 @@
   <data name="AnErrorOccurredWhileProcessingYourCoverImageModificationRequest" xml:space="preserve">
     <value>حدث خطأ أثناء معالجة طلب تعديل صورة الغلاف الخاص بك</value>
   </data>
+  <data name="AnErrorOccurredWhileSendingTheChangeEmailPleaseTryAgain" xml:space="preserve">
+    <value>حدث خطأ أثناء إرسال بريد تغيير البريد الإلكتروني، يرجى المحاولة مرة أخرى</value>
+  </data>
+  <data name="ChangeEmailHasBeenSent" xml:space="preserve">
+    <value>تم إرسال بريد تغيير البريد الإلكتروني</value>
+  </data>
+  <data name="EmailChangedSuccessfully" xml:space="preserve">
+    <value>تم تغيير البريد الإلكتروني بنجاح</value>
+  </data>
+  <data name="AnErrorOccurredDuringTheChangeEmailProcess" xml:space="preserve">
+    <value>حدث خطأ أثناء عملية تغيير البريد الإلكتروني</value>
+  </data>
 </root>

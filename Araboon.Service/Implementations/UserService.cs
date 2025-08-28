@@ -1,5 +1,6 @@
 ﻿using Araboon.Data.Entities.Identity;
 using Araboon.Data.Response.Users.Queries;
+using Araboon.Data.Routing;
 using Araboon.Infrastructure.Commons;
 using Araboon.Infrastructure.Data;
 using Araboon.Infrastructure.IRepositories;
@@ -20,10 +21,11 @@ namespace Araboon.Service.Implementations
         private readonly IUnitOfWork unitOfWork;
         private readonly AraboonDbContext context;
         private readonly ICloudinaryService cloudinaryService;
+        private readonly IEmailService emailService;
 
         public UserService(UserManager<AraboonUser> userManager, RoleManager<AraboonRole> roleManager,
                            IHttpContextAccessor httpContextAccessor, IUnitOfWork unitOfWork, AraboonDbContext context,
-                           ICloudinaryService cloudinaryService)
+                           ICloudinaryService cloudinaryService, IEmailService emailService)
         {
             this.userManager = userManager;
             this.roleManager = roleManager;
@@ -31,11 +33,55 @@ namespace Araboon.Service.Implementations
             this.unitOfWork = unitOfWork;
             this.context = context;
             this.cloudinaryService = cloudinaryService;
+            this.emailService = emailService;
+        }
+
+        public async Task<string> ChangeEmailAsync(string email)
+        {
+            var userId = unitOfWork.UserRepository.ExtractUserIdFromToken();
+            if (String.IsNullOrEmpty(userId))
+                return "UserNotFound";
+            var user = await userManager.FindByIdAsync(userId);
+            if (user is null)
+                return "UserNotFound";
+            try
+            {
+                var httpRequest = httpContextAccessor.HttpContext.Request;
+                var token = await userManager.GenerateChangeEmailTokenAsync(user, email);
+                var link = $"{httpRequest.Scheme}://{httpRequest.Host}/{Router.UserRouting.ChangeEmailConfirmation}?userId={userId}&email={email}&token={Uri.EscapeDataString(token)}";
+                var send = await emailService.SendAuthenticationsEmailAsync(email, link, "Change Your Email", $"{user.FirstName} {user.LastName}");
+                if (send.Equals("Failed"))
+                    return "AnErrorOccurredWhileSendingTheChangeEmailPleaseTryAgain";
+                return "ChangeEmailHasBeenSent";
+            }
+            catch(Exception exp)
+            {
+                return "AnErrorOccurredWhileSendingTheChangeEmailPleaseTryAgain";
+            }
+
+        }
+
+        public async Task<string> ChangeEmailConfirmationAsync(string userId, string email, string token)
+        {
+            try
+            {
+                var user = await userManager.FindByIdAsync(userId);
+                if (user is null)
+                    return "UserNotFound";
+                var result = await userManager.ChangeEmailAsync(user, email, token);
+                if (!result.Succeeded)
+                    return "InvalidOrExpiredToken";
+                return "EmailChangedSuccessfully";
+            }
+            catch (Exception exp)
+            {
+                return "AnErrorOccurredDuringTheChangeEmailProcess";
+            }
         }
 
         public async Task<string> ChangePasswordAsync(string currentPassword, string newPassword)
         {
-            var userId = unitOfWork.FavoriteRepository.ExtractUserIdFromToken();
+            var userId = unitOfWork.UserRepository.ExtractUserIdFromToken();
             if (String.IsNullOrEmpty(userId))
                 return "UserNotFound";
             var user = await userManager.FindByIdAsync(userId);
@@ -78,7 +124,7 @@ namespace Araboon.Service.Implementations
 
         public async Task<string> ChangeUserNameAsync(string username)
         {
-            var userId = unitOfWork.FavoriteRepository.ExtractUserIdFromToken();
+            var userId = unitOfWork.UserRepository.ExtractUserIdFromToken();
             if (String.IsNullOrEmpty(userId))
                 return "UserNotFound";
 
@@ -93,7 +139,7 @@ namespace Araboon.Service.Implementations
 
         public async Task<(string, UserProfileResponse?)> GetUserProfileAsync(string username)
         {
-            var userId = unitOfWork.FavoriteRepository.ExtractUserIdFromToken();
+            var userId = unitOfWork.UserRepository.ExtractUserIdFromToken();
             Console.WriteLine(userId);
             var user = await userManager.FindByNameAsync(username);
             if (user is null)
@@ -181,7 +227,7 @@ namespace Araboon.Service.Implementations
 
         public async Task<string> UploadCoverImageAsync(IFormFile image, IFormFile croppedImage)
         {
-            var userId = unitOfWork.FavoriteRepository.ExtractUserIdFromToken();
+            var userId = unitOfWork.UserRepository.ExtractUserIdFromToken();
             if (String.IsNullOrEmpty(userId))
                 return "UserNotFound";
             var user = await userManager.FindByIdAsync(userId);
@@ -227,7 +273,7 @@ namespace Araboon.Service.Implementations
 
         public async Task<string> UploadProfileImageAsync(IFormFile image, CropData cropData)
         {
-            var userId = unitOfWork.FavoriteRepository.ExtractUserIdFromToken();
+            var userId = unitOfWork.UserRepository.ExtractUserIdFromToken();
             if (String.IsNullOrEmpty(userId))
                 return "UserNotFound";
             var user = await userManager.FindByIdAsync(userId);

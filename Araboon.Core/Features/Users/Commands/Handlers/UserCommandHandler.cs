@@ -12,6 +12,8 @@ namespace Araboon.Core.Features.Users.Commands.Handlers
         , IRequestHandler<ChangeUserNameCommand, ApiResponse>
         , IRequestHandler<UploadProfileImageCommand, ApiResponse>
         , IRequestHandler<UploadCoverImageCommand, ApiResponse>
+        , IRequestHandler<ChangeEmailCommand, ApiResponse>
+        , IRequestHandler<ConfirmationChangeEmailCommand, ApiResponse>
     {
         private readonly IUserService userService;
         private readonly IStringLocalizer<SharedTranslation> stringLocalizer;
@@ -76,6 +78,33 @@ namespace Araboon.Core.Features.Users.Commands.Handlers
                 "AnErrorOccurredWhileProcessingYourCoverImageModificationRequest" =>
                 InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileProcessingYourCoverImageModificationRequest]),
                 _ => InternalServerError()
+            };
+        }
+
+        public async Task<ApiResponse> Handle(ChangeEmailCommand request, CancellationToken cancellationToken)
+        {
+            var result = await userService.ChangeEmailAsync(request.Email);
+            return result switch
+            {
+                "UserNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.UserNotFound]),
+                "AnErrorOccurredWhileSendingTheChangeEmailPleaseTryAgain" =>
+                InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileSendingTheChangeEmailPleaseTryAgain]),
+                "ChangeEmailHasBeenSent" => Success(null, message: stringLocalizer[SharedTranslationKeys.ChangeEmailHasBeenSent]),
+                _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileSendingTheChangeEmailPleaseTryAgain])
+            };
+        }
+
+        public async Task<ApiResponse> Handle(ConfirmationChangeEmailCommand request, CancellationToken cancellationToken)
+        {
+            var result = await userService.ChangeEmailConfirmationAsync(request.UserId, request.Email, request.Token);
+            return result switch
+            {
+                "UserNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.UserNotFound]),
+                "InvalidOrExpiredToken" => Unauthorized(stringLocalizer[SharedTranslationKeys.InvalidOrExpiredToken]),
+                "EmailChangedSuccessfully" => Success(null, message: stringLocalizer[SharedTranslationKeys.EmailChangedSuccessfully]),
+                "AnErrorOccurredDuringTheChangeEmailProcess" =>
+                InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredDuringTheChangeEmailProcess]),
+                _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredDuringTheChangeEmailProcess]),
             };
         }
     }

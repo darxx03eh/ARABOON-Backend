@@ -12,5 +12,6 @@
         public INotificationsRepository NotificationsRepository { get; set; }
         public IReadingLaterRepository ReadingLaterRepository { get; set; }
         public IRefreshTokenRepository RefreshTokenRepository { get; set; }
+        public IUserRepository UserRepository { get; set; }
     }
 }

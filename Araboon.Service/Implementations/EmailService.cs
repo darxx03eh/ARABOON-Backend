@@ -33,7 +33,7 @@ namespace Araboon.Service.Implementations
                     message.Subject = subject;
                     message.Body = new TextPart(MimeKit.Text.TextFormat.Html)
                     {
-                        Text = await GetLocalizedEmailBodyAsync(linkOrCode)
+                        Text = await GetLocalizedEmailBodyAsync(linkOrCode, subject)
                     };
                     await client.ConnectAsync(emailSettings.SmtpServer, emailSettings.Port, emailSettings.UseSSL);
                     await client.AuthenticateAsync(emailSettings.FromEmail, emailSettings.Password);
@@ -46,30 +46,40 @@ namespace Araboon.Service.Implementations
                 return "Failed";
             }
         }
-        private async Task<string> GetLocalizedEmailBodyAsync(string linkOrCode)
+        private async Task<string> GetLocalizedEmailBodyAsync(string linkOrCode, string subject)
         {
             var Request = httpContextAccessor.HttpContext.Request;
             var lang = Request.Headers["Accept-Language"].ToString();
             if (!string.IsNullOrWhiteSpace(lang) && lang.Contains(','))
                 lang = lang.Split(',')[0];
             string fileName = "";
-            if (linkOrCode.Length > 6)
+            switch (subject)
             {
-                fileName = lang switch
-                {
-                    "ar" => "ConfirmationEmail.ar.html",
-                    "en" => "ConfirmationEmail.en.html",
-                    _ => "ConfirmationEmail.en.html"
-                };
-            }
-            else
-            {
-                fileName = lang switch
-                {
-                    "ar" => "ForgetPassword.ar.html",
-                    "en" => "ForgetPassword.en.html",
-                    _ => "ForgetPassword.en.html",
-                };
+                case "Verification Email":
+                    fileName = lang switch
+                    {
+                        "ar" => "ConfirmationEmail.ar.html",
+                        "en" => "ConfirmationEmail.en.html",
+                        _ => "ConfirmationEmail.en.html"
+                    };
+                    break;
+                case "Forget Password":
+                    fileName = lang switch
+                    {
+                        "ar" => "ForgetPassword.ar.html",
+                        "en" => "ForgetPassword.en.html",
+                        _ => "ForgetPassword.en.html",
+                    };
+                    break;
+                case "Change Your Email":
+                    fileName = lang switch
+                    {
+                        "ar" => "ChangeEmail.ar.html", 
+                        "en" => "ChangeEmail.en.html",
+                        _ => "ChangeEmail.en.html"
+                    };
+                    break;
+
             }
             var filePath = Path.Combine(env.ContentRootPath, "EmailTemplates", fileName);
             var htmlContent = await System.IO.File.ReadAllTextAsync(filePath, Encoding.UTF8);

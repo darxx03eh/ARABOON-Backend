@@ -90,6 +90,8 @@
             public const string ChangeUserName = $"{prefix}/change-username";
             public const string UploadProfileImage = $"{prefix}/upload/profile-image";
             public const string UploadCoverImage = $"{prefix}/upload/cover-image";
+            public const string ChangeEmail = $"{prefix}/change-email";
+            public const string ChangeEmailConfirmation = $"{prefix}/change-email/confirm";
         }
     }
 }

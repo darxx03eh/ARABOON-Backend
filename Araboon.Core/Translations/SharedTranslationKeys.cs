@@ -171,5 +171,9 @@
         public const string AnErrorOccurredWhileEditingCoverImage = "AnErrorOccurredWhileEditingCoverImage";
         public const string TheCoverImageHasBeenChangedSuccessfully = "TheCoverImageHasBeenChangedSuccessfully";
         public const string AnErrorOccurredWhileProcessingYourCoverImageModificationRequest = "AnErrorOccurredWhileProcessingYourCoverImageModificationRequest";
+        public const string AnErrorOccurredWhileSendingTheChangeEmailPleaseTryAgain = "AnErrorOccurredWhileSendingTheChangeEmailPleaseTryAgain";
+        public const string ChangeEmailHasBeenSent = "ChangeEmailHasBeenSent";
+        public const string EmailChangedSuccessfully = "EmailChangedSuccessfully";
+        public const string AnErrorOccurredDuringTheChangeEmailProcess = "AnErrorOccurredDuringTheChangeEmailProcess";
     }
 }

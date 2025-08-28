@@ -634,4 +634,16 @@
   <data name="AnErrorOccurredWhileProcessingYourCoverImageModificationRequest" xml:space="preserve">
     <value>An error occurred while processing your cover image modification request</value>
   </data>
+  <data name="AnErrorOccurredWhileSendingTheChangeEmailPleaseTryAgain" xml:space="preserve">
+    <value>An error occurred while sending the change email, please try again</value>
+  </data>
+  <data name="ChangeEmailHasBeenSent" xml:space="preserve">
+    <value>Change email has been sent</value>
+  </data>
+  <data name="EmailChangedSuccessfully" xml:space="preserve">
+    <value>Email changed successfully</value>
+  </data>
+  <data name="AnErrorOccurredDuringTheChangeEmailProcess" xml:space="preserve">
+    <value>An error occurred during the change email process</value>
+  </data>
 </root>
