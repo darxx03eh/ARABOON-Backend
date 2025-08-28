@@ -179,5 +179,7 @@
         public const string BioSizeMustNotExceed150Characters = "BioSizeMustNotExceed150Characters";
         public const string AnErrorOccurredWhileChangingTheBio = "AnErrorOccurredWhileChangingTheBio";
         public const string BioChangedSuccessfully = "BioChangedSuccessfully";
+        public const string AnErrorOccurredWhileChangingTheName = "AnErrorOccurredWhileChangingTheName";
+        public const string NameChangedSuccessfully = "NameChangedSuccessfully";
     }
 }

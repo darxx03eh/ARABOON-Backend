@@ -94,6 +94,22 @@ namespace Araboon.Service.Implementations
             }
         }
 
+        public async Task<string> ChangeNameAsync(string firstName, string lastName)
+        {
+            var userId = unitOfWork.UserRepository.ExtractUserIdFromToken();
+            if (String.IsNullOrEmpty(userId))
+                return "UserNotFound";
+            var user = await userManager.FindByIdAsync(userId);
+            if (user is null)
+                return "UserNotFound";
+            user.FirstName = firstName;
+            user.LastName = lastName;
+            var result = await userManager.UpdateAsync(user);
+            if (!result.Succeeded)
+                return "AnErrorOccurredWhileChangingTheName";
+            return "NameChangedSuccessfully";
+        }
+
         public async Task<string> ChangePasswordAsync(string currentPassword, string newPassword)
         {
             var userId = unitOfWork.UserRepository.ExtractUserIdFromToken();

@@ -657,4 +657,10 @@
   <data name="BioChangedSuccessfully" xml:space="preserve">
     <value>تم تغيير السيرة الذاتية بنجاح</value>
   </data>
+  <data name="AnErrorOccurredWhileChangingTheName" xml:space="preserve">
+    <value>حدث خطأ أثناء تغيير الاسم</value>
+  </data>
+  <data name="NameChangedSuccessfully" xml:space="preserve">
+    <value>تم تغيير الاسم بنجاح</value>
+  </data>
 </root>

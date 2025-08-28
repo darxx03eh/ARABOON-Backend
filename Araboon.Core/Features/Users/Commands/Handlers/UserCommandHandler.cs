@@ -15,6 +15,7 @@ namespace Araboon.Core.Features.Users.Commands.Handlers
         , IRequestHandler<ChangeEmailCommand, ApiResponse>
         , IRequestHandler<ConfirmationChangeEmailCommand, ApiResponse>
         , IRequestHandler<ChangeBioCommand, ApiResponse>
+        , IRequestHandler<ChangeNameCommand, ApiResponse>
 
     {
         private readonly IUserService userService;
@@ -119,6 +120,18 @@ namespace Araboon.Core.Features.Users.Commands.Handlers
                 "AnErrorOccurredWhileChangingTheBio" => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileChangingTheBio]),
                 "BioChangedSuccessfully" => Success(null, message: stringLocalizer[SharedTranslationKeys.BioChangedSuccessfully]),
                 _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileChangingTheBio])
+            };
+        }
+
+        public async Task<ApiResponse> Handle(ChangeNameCommand request, CancellationToken cancellationToken)
+        {
+            var result = await userService.ChangeNameAsync(request.FirstName, request.LastName);
+            return result switch
+            {
+                "UserNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.UserNotFound]),
+                "AnErrorOccurredWhileChangingTheName" => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileChangingTheName]),
+                "NameChangedSuccessfully" => Success(null, message: stringLocalizer[SharedTranslationKeys.NameChangedSuccessfully]),
+                _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileChangingTheName])
             };
         }
     }

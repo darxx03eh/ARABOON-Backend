@@ -13,5 +13,6 @@ namespace Araboon.Service.Interfaces
         public Task<string> ChangeEmailAsync(string email);
         public Task<string> ChangeEmailConfirmationAsync(string id, string email, string token);
         public Task<string> ChangeBioAsync(string bio);
+        public Task<string> ChangeNameAsync(string firstName, string lastName);
     }
 }

@@ -658,4 +658,10 @@
   <data name="BioChangedSuccessfully" xml:space="preserve">
     <value>Bio changed successfully</value>
   </data>
+  <data name="AnErrorOccurredWhileChangingTheName" xml:space="preserve">
+    <value>An error occurred while changing the name</value>
+  </data>
+  <data name="NameChangedSuccessfully" xml:space="preserve">
+    <value>Name changed successfully</value>
+  </data>
 </root>

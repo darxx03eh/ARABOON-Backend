@@ -61,5 +61,11 @@ namespace Araboon.API.Controllers
             var result = await mediator.Send(request);
             return Result(result);
         }
+        [HttpPatch(Router.UserRouting.ChangeName)]
+        public async Task<IActionResult> ChangeName(ChangeNameCommand request)
+        {
+            var result = await mediator.Send(request);
+            return Result(result);
+        }
     }
 }
