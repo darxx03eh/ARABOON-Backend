@@ -189,7 +189,7 @@ namespace Araboon.Service.Implementations
                     Id = user.Id,
                     FirstName = user.FirstName,
                     LastName = user.LastName,
-                    UserName = $"@{user.UserName}",
+                    UserName = user.UserName,
                     Email = String.IsNullOrEmpty(userId)? null:user.Id.ToString().Equals(userId)? user.Email:null,
                     CoverImage = new CoverImage()
                     {
@@ -242,7 +242,7 @@ namespace Araboon.Service.Implementations
                         {
                             Category = TransableEntity.GetTransable(category.CategoryNameEn, category.CategoryNameAr),
                             Count = await unitOfWork.FavoriteRepository.GetTableNoTracking().Where(
-                                f => f.UserID.Equals(user.Id) && f.Manga.CategoryMangas.Any(c => c.Category.CategoryNameEn.Equals(category))
+                                f => f.UserID.Equals(user.Id) && f.Manga.CategoryMangas.Any(c => c.Category.CategoryNameEn.Equals(category.CategoryNameEn))
                                 ).CountAsync()
                         };
                         profile.FavoritesCategories.Add(temp);
