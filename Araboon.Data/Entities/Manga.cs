@@ -30,5 +30,6 @@
         public virtual ICollection<Chapter>? Chapters { get; set; } = new HashSet<Chapter>();
         public virtual ICollection<Comment>? Comments { get; set; } = new HashSet<Comment>();
         public virtual ICollection<ChapterView>? ChapterViews { get; set; } = new HashSet<ChapterView>();
+        public virtual ICollection<Ratings>? Ratings { get; set; } = new HashSet<Ratings>();
     }
 }

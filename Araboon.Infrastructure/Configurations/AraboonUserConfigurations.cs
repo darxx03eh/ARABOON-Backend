@@ -63,6 +63,11 @@ namespace Araboon.Infrastructure.Configurations
                 .WithOne(x => x.User)
                 .HasForeignKey<ProfileImage>(x => x.UserID)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(x => x.Ratings)
+                .WithOne(x => x.User)
+                .HasForeignKey(x => x.UserID)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

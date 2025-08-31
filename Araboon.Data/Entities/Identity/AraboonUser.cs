@@ -33,6 +33,7 @@ namespace Araboon.Data.Entities.Identity
         public virtual ICollection<Comment>? Comments { get; set; } = new HashSet<Comment>();
         public virtual ICollection<Reply>? Replies { get; set; } = new HashSet<Reply>();
         public virtual ICollection<ChapterView>? ChapterViews { get; set; } = new HashSet<ChapterView>();
+        public virtual ICollection<Ratings>? Ratings { get; set; } = new HashSet<Ratings>();
         public virtual CoverImage? CoverImage { get; set; }
         public virtual ProfileImage? ProfileImage { get; set; }
     }

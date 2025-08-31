@@ -57,6 +57,11 @@ namespace Araboon.Infrastructure.Configurations
                 .HasForeignKey(x => x.MangaID)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            builder.HasMany(x => x.Ratings)
+                .WithOne(x => x.Manga)
+                .HasForeignKey(x => x.MangaID)
+                .OnDelete(DeleteBehavior.Cascade);
+
             builder.Property(x => x.StatusEn)
                 .HasDefaultValue("ongoing");
             builder.Property(x => x.StatusAr)
