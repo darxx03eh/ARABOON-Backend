@@ -181,5 +181,9 @@
         public const string BioChangedSuccessfully = "BioChangedSuccessfully";
         public const string AnErrorOccurredWhileChangingTheName = "AnErrorOccurredWhileChangingTheName";
         public const string NameChangedSuccessfully = "NameChangedSuccessfully";
+        public const string FailedToDeleteImageFromCloudinary = "FailedToDeleteImageFromCloudinary";
+        public const string ImageHasBeenSuccessfullyDeleted = "ImageHasBeenSuccessfullyDeleted";
+        public const string AnErrorOccurredWhileSaving = "AnErrorOccurredWhileSaving";
+        public const string AnErrorOccurredWhileDeletingTheImage = "AnErrorOccurredWhileDeletingTheImage";
     }
 }

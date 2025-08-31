@@ -663,4 +663,16 @@
   <data name="NameChangedSuccessfully" xml:space="preserve">
     <value>تم تغيير الاسم بنجاح</value>
   </data>
+  <data name="FailedToDeleteImageFromCloudinary" xml:space="preserve">
+    <value>فشل حذف الصورة من Cloudinary</value>
+  </data>
+  <data name="ImageHasBeenSuccessfullyDeleted" xml:space="preserve">
+    <value>تم حذف الصورة بنجاح</value>
+  </data>
+  <data name="AnErrorOccurredWhileSaving" xml:space="preserve">
+    <value>حدث خطأ أثناء الحفظ</value>
+  </data>
+  <data name="AnErrorOccurredWhileDeletingTheImage" xml:space="preserve">
+    <value>حدث خطأ أثناء حذف الصورة</value>
+  </data>
 </root>

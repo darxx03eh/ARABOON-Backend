@@ -67,5 +67,11 @@ namespace Araboon.API.Controllers
             var result = await mediator.Send(request);
             return Result(result);
         }
+        [HttpDelete(Router.UserRouting.DeleteProfileImage)]
+        public async Task<IActionResult> DeleteProfileImage()
+        {
+            var result = await mediator.Send(new DeleteProfileImageCommand());
+            return Result(result);
+        }
     }
 }

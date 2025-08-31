@@ -69,13 +69,12 @@ namespace Araboon.Service.Implementations
                     return "AnErrorOccurredWhileSendingTheChangeEmailPleaseTryAgain";
                 return "ChangeEmailHasBeenSent";
             }
-            catch(Exception exp)
+            catch (Exception exp)
             {
                 return "AnErrorOccurredWhileSendingTheChangeEmailPleaseTryAgain";
             }
 
         }
-
         public async Task<string> ChangeEmailConfirmationAsync(string userId, string email, string token)
         {
             try
@@ -93,7 +92,6 @@ namespace Araboon.Service.Implementations
                 return "AnErrorOccurredDuringTheChangeEmailProcess";
             }
         }
-
         public async Task<string> ChangeNameAsync(string firstName, string lastName)
         {
             var userId = unitOfWork.UserRepository.ExtractUserIdFromToken();
@@ -109,7 +107,6 @@ namespace Araboon.Service.Implementations
                 return "AnErrorOccurredWhileChangingTheName";
             return "NameChangedSuccessfully";
         }
-
         public async Task<string> ChangePasswordAsync(string currentPassword, string newPassword)
         {
             var userId = unitOfWork.UserRepository.ExtractUserIdFromToken();
@@ -167,7 +164,6 @@ namespace Araboon.Service.Implementations
                 return "AnErrorOccurredWhileChangingTheUsername";
             return "UsernameChangedSuccessfully";
         }
-
         public async Task<(string, UserProfileResponse?)> GetUserProfileAsync(string username)
         {
             var userId = unitOfWork.UserRepository.ExtractUserIdFromToken();
@@ -190,7 +186,7 @@ namespace Araboon.Service.Implementations
                     FirstName = user.FirstName,
                     LastName = user.LastName,
                     UserName = user.UserName,
-                    Email = String.IsNullOrEmpty(userId)? null:user.Id.ToString().Equals(userId)? user.Email:null,
+                    Email = String.IsNullOrEmpty(userId) ? null : user.Id.ToString().Equals(userId) ? user.Email : null,
                     CoverImage = new CoverImage()
                     {
                         OriginalImage = user.CoverImage.OriginalImage,
@@ -255,7 +251,6 @@ namespace Araboon.Service.Implementations
                 return ("ThereWasAProblemLoadingTheProfile", null);
             }
         }
-
         public async Task<string> UploadCoverImageAsync(IFormFile image, IFormFile croppedImage)
         {
             var userId = unitOfWork.UserRepository.ExtractUserIdFromToken();
@@ -293,7 +288,7 @@ namespace Araboon.Service.Implementations
                     await transaction.CommitAsync();
                     return "TheCoverImageHasBeenChangedSuccessfully";
                 }
-                catch(Exception exp)
+                catch (Exception exp)
                 {
                     if (transaction.GetDbTransaction().Connection is not null)
                         await transaction.RollbackAsync();
@@ -301,7 +296,6 @@ namespace Araboon.Service.Implementations
                 }
             }
         }
-
         public async Task<string> UploadProfileImageAsync(IFormFile image, CropData cropData)
         {
             var userId = unitOfWork.UserRepository.ExtractUserIdFromToken();
@@ -336,12 +330,35 @@ namespace Araboon.Service.Implementations
                     await transaction.CommitAsync();
                     return "TheImageHasBeenChangedSuccessfully";
                 }
-                catch(Exception exp)
+                catch (Exception exp)
                 {
-                    if(transaction.GetDbTransaction().Connection is not null)
+                    if (transaction.GetDbTransaction().Connection is not null)
                         await transaction.RollbackAsync();
                     return "AnErrorOccurredWhileProcessingYourProfileImageModificationRequest";
                 }
+            }
+        }
+        public async Task<string> DeleteProfileImage()
+        {
+            var userId = unitOfWork.UserRepository.ExtractUserIdFromToken();
+            if (String.IsNullOrWhiteSpace(userId))
+                return "UserNotFound";
+            var user = await userManager.FindByIdAsync(userId);
+            if (user is null)
+                return "UserNotFound";
+            var url = user.ProfileImage?.OriginalImage;
+            try
+            {
+                var cloudinaryResult = cloudinaryService.DeleteFileAsync(url);
+                if (cloudinaryResult.Equals("FailedToDeleteImageFromCloudinary"))
+                    return "FailedToDeleteImageFromCloudinary";
+                user.ProfileImage.OriginalImage = null;
+                var result = await userManager.UpdateAsync(user);
+                return result.Succeeded ? "ImageHasBeenSuccessfullyDeleted" : "AnErrorOccurredWhileSaving";
+            }
+            catch (Exception exp)
+            {
+                return "AnErrorOccurredWhileDeletingTheImage";
             }
         }
     }

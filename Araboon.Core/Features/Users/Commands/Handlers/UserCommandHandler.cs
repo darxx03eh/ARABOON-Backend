@@ -16,6 +16,7 @@ namespace Araboon.Core.Features.Users.Commands.Handlers
         , IRequestHandler<ConfirmationChangeEmailCommand, ApiResponse>
         , IRequestHandler<ChangeBioCommand, ApiResponse>
         , IRequestHandler<ChangeNameCommand, ApiResponse>
+        , IRequestHandler<DeleteProfileImageCommand, ApiResponse>
 
     {
         private readonly IUserService userService;
@@ -132,6 +133,23 @@ namespace Araboon.Core.Features.Users.Commands.Handlers
                 "AnErrorOccurredWhileChangingTheName" => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileChangingTheName]),
                 "NameChangedSuccessfully" => Success(null, message: stringLocalizer[SharedTranslationKeys.NameChangedSuccessfully]),
                 _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileChangingTheName])
+            };
+        }
+
+        public async Task<ApiResponse> Handle(DeleteProfileImageCommand request, CancellationToken cancellationToken)
+        {
+            var result = await userService.DeleteProfileImage();
+            return result switch
+            {
+                "UserNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.UserNotFound]),
+                "FailedToDeleteImageFromCloudinary" => 
+                InternalServerError(stringLocalizer[SharedTranslationKeys.FailedToDeleteImageFromCloudinary]),
+                "ImageHasBeenSuccessfullyDeleted" => 
+                Success(null, message: stringLocalizer[SharedTranslationKeys.ImageHasBeenSuccessfullyDeleted]),
+                "AnErrorOccurredWhileSaving" => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileSaving]),
+                "AnErrorOccurredWhileDeletingTheImage" => 
+                InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileDeletingTheImage]),
+                _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileDeletingTheImage])
             };
         }
     }
