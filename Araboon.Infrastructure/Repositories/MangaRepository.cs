@@ -73,6 +73,40 @@ namespace Araboon.Infrastructure.Repositories
                 return ("MangaNotFound", null);
             return ("MangaFound", hottestMangas);
         }
+        public async Task<(string, IList<MangaSearchResponse>?)> SearchAsync(string search)
+        {
+            var mangasQueryable = GetTableNoTracking().Where(
+                manga => manga.MangaNameEn.ToLower().Contains(search.ToLower()) ||
+                manga.MangaNameAr.ToLower().Contains(search.ToLower()) ||
+                manga.AuthorEn.ToLower().Contains(search.ToLower()) ||
+                manga.AuthorAr.ToLower().Contains(search.ToLower())
+                ).OrderByDescending(manga => manga.Rate * manga.RatingsCount).AsQueryable();
+            if (mangasQueryable is null)
+                return ("MangaNotFound", null);
+            string? userId = ExtractUserIdFromToken();
+            IList<int> favoriteMangaIds = new List<int>();
+            if (!string.IsNullOrEmpty(userId))
+                favoriteMangaIds = await context.Favorites.Where(f => f.UserID.ToString().Equals(userId))
+                                   .Select(f => f.MangaID).ToListAsync();
+            var mangas = await mangasQueryable.Select(manga => new MangaSearchResponse()
+            {
+                MangaID = manga.MangaID,
+                MangaName = TransableEntity.GetTransable(manga.MangaNameEn, manga.MangaNameAr),
+                MangaImageUrl = manga.MainImage,
+                AuthorName = TransableEntity.GetTransable(manga.AuthorEn, manga.AuthorAr),
+                IsFavorite = favoriteMangaIds.Contains(manga.MangaID),
+                LastChapter = manga.Chapters.OrderByDescending(chapter => chapter.ChapterNo)
+                .Select(chapter => new LastChapter()
+                {
+                    ChapterID = chapter.ChapterID,
+                    ChapterNo = chapter.ChapterNo,
+                    Views = chapter.ReadersCount
+                }).FirstOrDefault()
+            }).ToListAsync();
+            if (mangas.Count().Equals(0))
+                return ("MangaNotFound", null);
+            return ("MangaFound", mangas);
+        }
         public async Task<(string, PaginatedResult<GetPaginatedHottestMangaResponse>?)> GetPaginatedHottestMangaAsync(int pageNumber, int pageSize)
         {
             var hottestMangasQueryable = GetTableNoTracking().OrderByDescending(manga => (manga.Rate * manga.RatingsCount)).AsQueryable();

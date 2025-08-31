@@ -29,6 +29,7 @@
             public const string GetMangaByCategoryName = $"{prefix}/GetMangaByCategoryName";
             public const string GetPaginatedHottestManga = $"{prefix}/GetPaginatedHottestManga";
             public const string GetMangaByStatus = $"{prefix}/GetMangaByStatus";
+            public const string MangaSearch = $"{prefix}";
         }
         public static class FavoritesRouting
         {

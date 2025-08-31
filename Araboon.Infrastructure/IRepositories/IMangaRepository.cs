@@ -12,5 +12,6 @@ namespace Araboon.Infrastructure.IRepositories
         public Task<(string, PaginatedResult<GetMangaByStatusResponse>?)> GetMangaByStatusAsync(int pageNumber, int pageSize, string status,  MangaOrderingEnum orderBy, string? filter);
         public Task<(string, PaginatedResult<GetPaginatedHottestMangaResponse>?)> GetPaginatedHottestMangaAsync(int pageNumber, int pageSize);
         public Task<(string, IList<GetHottestMangasResponse>?)> GetHottestMangasAsync();
+        public Task<(string, IList<MangaSearchResponse>?)> SearchAsync(string search);
     }
 }
