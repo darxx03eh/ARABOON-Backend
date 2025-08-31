@@ -9,6 +9,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using Araboon.Data.Response.Users.Queries;
+using Newtonsoft.Json;
 
 namespace Araboon.Service.Implementations
 {
@@ -58,13 +60,28 @@ namespace Araboon.Service.Implementations
         private async Task<List<Claim>> GenerateUserClaimsAsync(AraboonUser user)
         {
             var roles = await userManager.GetRolesAsync(user);
+            var profileImage = new ProfileImage()
+            {
+                OriginalImage = user.ProfileImage?.OriginalImage,
+                CropData = new CropData()
+                {
+                    Position = new Position()
+                    {
+                        X = user.ProfileImage.X,
+                        Y = user.ProfileImage.Y
+                    },
+                    Scale = user.ProfileImage.Scale,
+                    Rotate = user.ProfileImage.Rotate
+                }
+            };
             var claims = new List<Claim>()
             {
                 new Claim(nameof(UserClaimModel.UserName), user.UserName),
                 new Claim(nameof(UserClaimModel.Email), user.Email),
                 new Claim(nameof(UserClaimModel.FirstName), user.FirstName),
                 new Claim(nameof(UserClaimModel.LastName), user.LastName),
-                new Claim(nameof(UserClaimModel.ID), user.Id.ToString())
+                new Claim(nameof(UserClaimModel.ID), user.Id.ToString()),
+                new Claim(nameof(UserClaimModel.ProfileImage), JsonConvert.SerializeObject(profileImage))
             };
             claims.AddRange(roles.Select(role => new Claim(nameof(UserClaimModel.Role), role)));
             return claims;

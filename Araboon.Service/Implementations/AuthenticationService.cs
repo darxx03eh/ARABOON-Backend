@@ -356,9 +356,6 @@ namespace Araboon.Service.Implementations
         {
 
             var handler = new JwtSecurityTokenHandler();
-            var s = handler.ReadJwtToken(token);
-            foreach(var claim in s.Claims)
-                Console.WriteLine($"Type: {claim.Type} - {claim.Value}");
             var parameters = new TokenValidationParameters
             {
                 ValidateIssuer = jwtSettings.ValidateIssuer,

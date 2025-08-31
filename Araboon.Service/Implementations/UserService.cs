@@ -39,7 +39,7 @@ namespace Araboon.Service.Implementations
         public async Task<string> ChangeBioAsync(string bio)
         {
             var userId = unitOfWork.UserRepository.ExtractUserIdFromToken();
-            if (String.IsNullOrEmpty(userId))
+            if (string.IsNullOrWhiteSpace(userId))
                 return "UserNotFound";
             var user = await userManager.FindByIdAsync(userId);
             if (user is null)
@@ -54,7 +54,7 @@ namespace Araboon.Service.Implementations
         public async Task<string> ChangeEmailAsync(string email)
         {
             var userId = unitOfWork.UserRepository.ExtractUserIdFromToken();
-            if (String.IsNullOrEmpty(userId))
+            if (string.IsNullOrWhiteSpace(userId))
                 return "UserNotFound";
             var user = await userManager.FindByIdAsync(userId);
             if (user is null)
@@ -95,7 +95,7 @@ namespace Araboon.Service.Implementations
         public async Task<string> ChangeNameAsync(string firstName, string lastName)
         {
             var userId = unitOfWork.UserRepository.ExtractUserIdFromToken();
-            if (String.IsNullOrEmpty(userId))
+            if (string.IsNullOrWhiteSpace(userId))
                 return "UserNotFound";
             var user = await userManager.FindByIdAsync(userId);
             if (user is null)
@@ -110,7 +110,7 @@ namespace Araboon.Service.Implementations
         public async Task<string> ChangePasswordAsync(string currentPassword, string newPassword)
         {
             var userId = unitOfWork.UserRepository.ExtractUserIdFromToken();
-            if (String.IsNullOrEmpty(userId))
+            if (string.IsNullOrWhiteSpace(userId))
                 return "UserNotFound";
             var user = await userManager.FindByIdAsync(userId);
             if (user is null)
@@ -153,7 +153,7 @@ namespace Araboon.Service.Implementations
         public async Task<string> ChangeUserNameAsync(string username)
         {
             var userId = unitOfWork.UserRepository.ExtractUserIdFromToken();
-            if (String.IsNullOrEmpty(userId))
+            if (string.IsNullOrWhiteSpace(userId))
                 return "UserNotFound";
 
             var user = await userManager.FindByIdAsync(userId);
@@ -167,7 +167,6 @@ namespace Araboon.Service.Implementations
         public async Task<(string, UserProfileResponse?)> GetUserProfileAsync(string username)
         {
             var userId = unitOfWork.UserRepository.ExtractUserIdFromToken();
-            Console.WriteLine(userId);
             var user = await userManager.FindByNameAsync(username);
             if (user is null)
                 return ("UserNotFound", null);
@@ -186,7 +185,7 @@ namespace Araboon.Service.Implementations
                     FirstName = user.FirstName,
                     LastName = user.LastName,
                     UserName = user.UserName,
-                    Email = String.IsNullOrEmpty(userId) ? null : user.Id.ToString().Equals(userId) ? user.Email : null,
+                    Email = string.IsNullOrWhiteSpace(userId) ? null : user.Id.ToString().Equals(userId) ? user.Email : null,
                     CoverImage = new CoverImage()
                     {
                         OriginalImage = user.CoverImage.OriginalImage,
@@ -254,7 +253,7 @@ namespace Araboon.Service.Implementations
         public async Task<string> UploadCoverImageAsync(IFormFile image, IFormFile croppedImage)
         {
             var userId = unitOfWork.UserRepository.ExtractUserIdFromToken();
-            if (String.IsNullOrEmpty(userId))
+            if (string.IsNullOrWhiteSpace(userId))
                 return "UserNotFound";
             var user = await userManager.FindByIdAsync(userId);
             if (user is null)
