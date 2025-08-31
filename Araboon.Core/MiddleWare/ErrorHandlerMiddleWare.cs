@@ -23,6 +23,11 @@ namespace Araboon.Core.MiddleWare
         }
         public async Task Invoke(HttpContext context)
         {
+            var options = new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                DictionaryKeyPolicy = JsonNamingPolicy.CamelCase
+            };
             context.RequestServices.GetRequiredService<IStringLocalizer<SharedTranslation>>();
             try
             {
@@ -36,7 +41,7 @@ namespace Araboon.Core.MiddleWare
                         StatusCode = HttpStatusCode.Forbidden,
                         Message = stringLocalizer[SharedTranslationKeys.Forbidden]
                     };
-                    var result = JsonSerializer.Serialize(responseModel);
+                    var result = JsonSerializer.Serialize(responseModel, options);
                     await context.Response.WriteAsync(result);
                 }
                 else if (context.Response.StatusCode.Equals(StatusCodes.Status401Unauthorized))
@@ -48,7 +53,7 @@ namespace Araboon.Core.MiddleWare
                         StatusCode = HttpStatusCode.Unauthorized,
                         Message = stringLocalizer[SharedTranslationKeys.Unauthorized]
                     };
-                    var result = JsonSerializer.Serialize(responseModel);
+                    var result = JsonSerializer.Serialize(responseModel, options);
                     await context.Response.WriteAsync(result);
                 }
             }
@@ -103,7 +108,7 @@ namespace Araboon.Core.MiddleWare
                         response.StatusCode = (int)HttpStatusCode.BadRequest;
                         break;
                 }
-                var result = JsonSerializer.Serialize(responseModel);
+                var result = JsonSerializer.Serialize(responseModel, options);
                 await response.WriteAsync(result);
             }
         }

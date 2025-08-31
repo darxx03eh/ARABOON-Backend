@@ -102,6 +102,10 @@ namespace Araboon.API
                     VaryByHeader = "Accept-Language,Authorization",
                     VaryByQueryKeys = new[] { "pageNumber" }
                 });
+            }).AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
+                options.JsonSerializerOptions.DictionaryKeyPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
             });
             builder.Services.Configure<ApiBehaviorOptions>(options =>
             {
