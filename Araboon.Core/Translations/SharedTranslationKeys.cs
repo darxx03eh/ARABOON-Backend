@@ -185,5 +185,7 @@
         public const string ImageHasBeenSuccessfullyDeleted = "ImageHasBeenSuccessfullyDeleted";
         public const string AnErrorOccurredWhileSaving = "AnErrorOccurredWhileSaving";
         public const string AnErrorOccurredWhileDeletingTheImage = "AnErrorOccurredWhileDeletingTheImage";
+        public const string FailedToDeleteOriginalImageFromCloudinary = "FailedToDeleteOriginalImageFromCloudinary";
+        public const string FailedToDeleteCroppedImageFromCloudinary = "FailedToDeleteCroppedImageFromCloudinary";
     }
 }

@@ -17,6 +17,7 @@ namespace Araboon.Core.Features.Users.Commands.Handlers
         , IRequestHandler<ChangeBioCommand, ApiResponse>
         , IRequestHandler<ChangeNameCommand, ApiResponse>
         , IRequestHandler<DeleteProfileImageCommand, ApiResponse>
+        , IRequestHandler<DeleteCoverImageCommand, ApiResponse>
 
     {
         private readonly IUserService userService;
@@ -148,6 +149,25 @@ namespace Araboon.Core.Features.Users.Commands.Handlers
                 Success(null, message: stringLocalizer[SharedTranslationKeys.ImageHasBeenSuccessfullyDeleted]),
                 "AnErrorOccurredWhileSaving" => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileSaving]),
                 "AnErrorOccurredWhileDeletingTheImage" => 
+                InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileDeletingTheImage]),
+                _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileDeletingTheImage])
+            };
+        }
+
+        public async Task<ApiResponse> Handle(DeleteCoverImageCommand request, CancellationToken cancellationToken)
+        {
+            var result = await userService.DeleteCoverImage();
+            return result switch
+            {
+                "UserNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.UserNotFound]),
+                "FailedToDeleteOriginalImageFromCloudinary" =>
+                InternalServerError(stringLocalizer[SharedTranslationKeys.FailedToDeleteOriginalImageFromCloudinary]),
+                "FailedToDeleteCroppedImageFromCloudinary" =>
+                InternalServerError(stringLocalizer[SharedTranslationKeys.FailedToDeleteCroppedImageFromCloudinary]),
+                "ImageHasBeenSuccessfullyDeleted" =>
+                Success(null, message: stringLocalizer[SharedTranslationKeys.ImageHasBeenSuccessfullyDeleted]),
+                "AnErrorOccurredWhileSaving" => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileSaving]),
+                "AnErrorOccurredWhileDeletingTheImage" =>
                 InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileDeletingTheImage]),
                 _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileDeletingTheImage])
             };

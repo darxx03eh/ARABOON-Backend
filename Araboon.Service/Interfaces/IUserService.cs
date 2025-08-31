@@ -15,5 +15,6 @@ namespace Araboon.Service.Interfaces
         public Task<string> ChangeBioAsync(string bio);
         public Task<string> ChangeNameAsync(string firstName, string lastName);
         public Task<string> DeleteProfileImage();
+        public Task<string> DeleteCoverImage();
     }
 }

@@ -361,5 +361,34 @@ namespace Araboon.Service.Implementations
                 return "AnErrorOccurredWhileDeletingTheImage";
             }
         }
+
+        public async Task<string> DeleteCoverImage()
+        {
+            var userId = unitOfWork.UserRepository.ExtractUserIdFromToken();
+            if (String.IsNullOrWhiteSpace(userId))
+                return "UserNotFound";
+            var user = await userManager.FindByIdAsync(userId);
+            if (user is null)
+                return "UserNotFound";
+            var originalUrl = user.CoverImage?.OriginalImage;
+            var croppedUrl = user.CoverImage?.CroppedImage;
+            try
+            {
+                var originalCloudinary = await cloudinaryService.DeleteFileAsync(originalUrl);
+                if (originalCloudinary.Equals("FailedToDeleteImageFromCloudinary"))
+                    return "FailedToDeleteOriginalImageFromCloudinary";
+                var croppedCloudinary = await cloudinaryService.DeleteFileAsync(croppedUrl);
+                if (croppedCloudinary.Equals("FailedToDeleteImageFromCloudinary"))
+                    return "FailedToDeleteCroppedImageFromCloudinary";
+                user.CoverImage.OriginalImage = null;
+                user.CoverImage.CroppedImage = null;
+                var result = await userManager.UpdateAsync(user);
+                return result.Succeeded ? "ImageHasBeenSuccessfullyDeleted" : "AnErrorOccurredWhileSaving";
+            }
+            catch (Exception exp)
+            {
+                return "AnErrorOccurredWhileDeletingTheImage";
+            }
+        }
     }
 }

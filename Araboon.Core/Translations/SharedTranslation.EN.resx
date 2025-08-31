@@ -676,4 +676,10 @@
   <data name="AnErrorOccurredWhileDeletingTheImage" xml:space="preserve">
     <value>An error occurred while deleting the image</value>
   </data>
+  <data name="FailedToDeleteOriginalImageFromCloudinary" xml:space="preserve">
+    <value>Failed to delete original image from Cloudinary</value>
+  </data>
+  <data name="FailedToDeleteCroppedImageFromCloudinary" xml:space="preserve">
+    <value>Failed to delete cropped image from Cloudinary</value>
+  </data>
 </root>

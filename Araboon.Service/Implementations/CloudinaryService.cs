@@ -38,7 +38,11 @@ namespace Araboon.Service.Implementations
                 if (String.IsNullOrWhiteSpace(url))
                     return "InvalidPublicId";
                 var publicId = ExtractPublicIdFromUrl(url);
-                var deleteParams = new DeletionParams(publicId) { ResourceType = ResourceType.Image };
+                var deleteParams = new DeletionParams(publicId)
+                {
+                    Invalidate = true,
+                    ResourceType = ResourceType.Image
+                };
                 var result = await cloudinary.DestroyAsync(deleteParams);
                 return result.Result.Equals("ok") ? "ImageDeletedSuccessfullyFromCloudinary" : "FailedToDeleteImageFromCloudinary";
 
