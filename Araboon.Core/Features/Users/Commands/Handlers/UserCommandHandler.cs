@@ -19,6 +19,7 @@ namespace Araboon.Core.Features.Users.Commands.Handlers
         , IRequestHandler<DeleteProfileImageCommand, ApiResponse>
         , IRequestHandler<DeleteCoverImageCommand, ApiResponse>
         , IRequestHandler<ChangeCroppedDataCommand, ApiResponse>
+        , IRequestHandler<ChangeCroppedCoverImageCommand, ApiResponse>
 
     {
         private readonly IUserService userService;
@@ -194,6 +195,24 @@ namespace Araboon.Core.Features.Users.Commands.Handlers
                 "AnErrorOccurredWhileChangingTheCropData" => 
                 InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileChangingTheCropData]),
                 _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileChangingTheCropData])
+            };
+        }
+
+        public async Task<ApiResponse> Handle(ChangeCroppedCoverImageCommand request, CancellationToken cancellationToken)
+        {
+            var result = await userService.ChangeCroppedCoverImageAsync(request.Image);
+            return result switch
+            {
+                "UserNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.UserNotFound]),
+                "FailedToDeleteOldCroppedImageFromCloudinary" => 
+                InternalServerError(stringLocalizer[SharedTranslationKeys.FailedToDeleteOldCroppedImageFromCloudinary]),
+                "AnErrorOccurredWhileEditingCroppedCoverImage" =>
+                InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileEditingCroppedCoverImage]),
+                "TheCroppedCoverImageHasBeenChangedSuccessfully" => 
+                Success(null, message: stringLocalizer[SharedTranslationKeys.TheCroppedCoverImageHasBeenChangedSuccessfully]),
+                "AnErrorOccurredWhileProcessingYourCroppedCoverImageModificationRequest" =>
+                InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileProcessingYourCroppedCoverImageModificationRequest]),
+                _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileProcessingYourCroppedCoverImageModificationRequest])
             };
         }
     }

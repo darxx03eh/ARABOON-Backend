@@ -97,6 +97,7 @@
             public const string DeleteProfileImage = $"{prefix}/profile-image";
             public const string DeleteCoverImage = $"{prefix}/cover-image";
             public const string ChangeCroppedData = $"{prefix}/crop-data";
+            public const string ChangeCroppedCoverImage = $"{prefix}/cover-image/cropped-image";
         }
     }
 }

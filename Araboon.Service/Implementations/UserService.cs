@@ -250,6 +250,7 @@ namespace Araboon.Service.Implementations
                 return ("ThereWasAProblemLoadingTheProfile", null);
             }
         }
+        
         public async Task<string> UploadCoverImageAsync(IFormFile image, IFormFile croppedImage)
         {
             var userId = unitOfWork.UserRepository.ExtractUserIdFromToken();
@@ -434,6 +435,51 @@ namespace Araboon.Service.Implementations
             }catch(Exception exp)
             {
                 return "AnErrorOccurredWhileChangingTheCropData";
+            }
+        }
+        public async Task<string> ChangeCroppedCoverImageAsync(IFormFile image)
+        {
+            var userId = unitOfWork.UserRepository.ExtractUserIdFromToken();
+            if (string.IsNullOrWhiteSpace(userId))
+                return "UserNotFound";
+            var user = await userManager.FindByIdAsync(userId);
+            if (user is null)
+                return "UserNotFound";
+            using (var transaction = await context.Database.BeginTransactionAsync())
+            {
+                try
+                {
+                    var croppedUrl = user.CoverImage?.CroppedImage;
+                    if (string.IsNullOrWhiteSpace(croppedUrl))
+                    {
+                        var cloudinaryResult = await cloudinaryService.DeleteFileAsync(croppedUrl);
+                        if (cloudinaryResult.Equals("FailedToDeleteImageFromCloudinary"))
+                            return "FailedToDeleteOldCroppedImageFromCloudinary";
+                    }
+                    var guidPart = Guid.NewGuid().ToString("N").Substring(0, 12);
+                    var datePart = DateTime.UtcNow.ToString("yyyyMMddHHmmss");
+                    var croppedId = $"cropped-{guidPart}-{datePart}";
+                    using (var stream = image.OpenReadStream())
+                    {
+                        var (imageName, folderName) = (croppedId, $"ARABOON/Accounts/{user.Id}/CoverImage");
+                        var url = await cloudinaryService.UploadFileAsync(stream, folderName, imageName);
+                        user.CoverImage.CroppedImage = url;
+                    }
+                    var result = await userManager.UpdateAsync(user);
+                    if (!result.Succeeded)
+                    {
+                        await transaction.RollbackAsync();
+                        return "AnErrorOccurredWhileEditingCroppedCoverImage";
+                    }
+                    await transaction.CommitAsync();
+                    return "TheCroppedCoverImageHasBeenChangedSuccessfully";
+                }
+                catch (Exception exp)
+                {
+                    if (transaction.GetDbTransaction().Connection is not null)
+                        await transaction.RollbackAsync();
+                    return "AnErrorOccurredWhileProcessingYourCroppedCoverImageModificationRequest";
+                }
             }
         }
     }

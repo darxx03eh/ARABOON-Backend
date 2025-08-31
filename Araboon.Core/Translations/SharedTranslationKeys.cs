@@ -193,5 +193,8 @@
         public const string ThereIsNoImageToDelete = "ThereIsNoImageToDelete";
         public const string TheCropDataHasBeenModifiedSuccessfully = "TheCropDataHasBeenModifiedSuccessfully";
         public const string AnErrorOccurredWhileChangingTheCropData = "AnErrorOccurredWhileChangingTheCropData";
+        public const string AnErrorOccurredWhileEditingCroppedCoverImage = "AnErrorOccurredWhileEditingCroppedCoverImage";
+        public const string TheCroppedCoverImageHasBeenChangedSuccessfully = "TheCroppedCoverImageHasBeenChangedSuccessfully";
+        public const string AnErrorOccurredWhileProcessingYourCroppedCoverImageModificationRequest = "AnErrorOccurredWhileProcessingYourCroppedCoverImageModificationRequest";
     }
 }

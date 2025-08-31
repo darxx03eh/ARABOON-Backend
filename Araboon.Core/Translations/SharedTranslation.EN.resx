@@ -700,4 +700,13 @@
   <data name="AnErrorOccurredWhileChangingTheCropData" xml:space="preserve">
     <value>An error occurred while changing the crop data</value>
   </data>
+  <data name="AnErrorOccurredWhileEditingCroppedCoverImage" xml:space="preserve">
+    <value>An error occurred while editing the cropped cover image</value>
+  </data>
+  <data name="TheCroppedCoverImageHasBeenChangedSuccessfully" xml:space="preserve">
+    <value>The cropped cover image has been changed successfully</value>
+  </data>
+  <data name="AnErrorOccurredWhileProcessingYourCroppedCoverImageModificationRequest" xml:space="preserve">
+    <value>An error occurred while processing your cropped cover image modification request</value>
+  </data>
 </root>

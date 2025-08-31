@@ -699,4 +699,13 @@
   <data name="AnErrorOccurredWhileChangingTheCropData" xml:space="preserve">
     <value>حدث خطأ أثناء تغيير بيانات القص</value>
   </data>
+  <data name="AnErrorOccurredWhileEditingCroppedCoverImage" xml:space="preserve">
+    <value>حدث خطأ أثناء تعديل صورة الغلاف المقصوصة</value>
+  </data>
+  <data name="TheCroppedCoverImageHasBeenChangedSuccessfully" xml:space="preserve">
+    <value>تم تغيير صورة الغلاف المقصوصة بنجاح</value>
+  </data>
+  <data name="AnErrorOccurredWhileProcessingYourCroppedCoverImageModificationRequest" xml:space="preserve">
+    <value>حدث خطأ أثناء معالجة طلب تعديل صورة الغلاف المقصوصة الخاص بك</value>
+  </data>
 </root>

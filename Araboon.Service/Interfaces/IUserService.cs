@@ -17,5 +17,6 @@ namespace Araboon.Service.Interfaces
         public Task<string> DeleteProfileImageAsync();
         public Task<string> DeleteCoverImageAsync();
         public Task<string> ChangeCroppedDataAsync(CropData cropData);
+        public Task<string> ChangeCroppedCoverImageAsync(IFormFile image);
     }
 }
