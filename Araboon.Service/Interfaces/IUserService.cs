@@ -14,7 +14,8 @@ namespace Araboon.Service.Interfaces
         public Task<string> ChangeEmailConfirmationAsync(string id, string email, string token);
         public Task<string> ChangeBioAsync(string bio);
         public Task<string> ChangeNameAsync(string firstName, string lastName);
-        public Task<string> DeleteProfileImage();
-        public Task<string> DeleteCoverImage();
+        public Task<string> DeleteProfileImageAsync();
+        public Task<string> DeleteCoverImageAsync();
+        public Task<string> ChangeCroppedDataAsync(CropData cropData);
     }
 }

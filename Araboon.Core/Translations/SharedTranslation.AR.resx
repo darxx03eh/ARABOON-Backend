@@ -693,4 +693,10 @@
   <data name="ThereIsNoImageToDelete" xml:space="preserve">
     <value>لا توجد صورة للحذف</value>
   </data>
+  <data name="TheCropDataHasBeenModifiedSuccessfully" xml:space="preserve">
+    <value>تم تعديل بيانات القص بنجاح</value>
+  </data>
+  <data name="AnErrorOccurredWhileChangingTheCropData" xml:space="preserve">
+    <value>حدث خطأ أثناء تغيير بيانات القص</value>
+  </data>
 </root>

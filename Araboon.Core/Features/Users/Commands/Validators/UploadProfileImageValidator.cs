@@ -14,7 +14,6 @@ namespace Araboon.Core.Features.Users.Commands.Validators
             this.stringLocalizer = stringLocalizer;
             ApplyValidationRules();
         }
-
         private void ApplyValidationRules()
         {
             RuleFor(image => image.ProfileImage)

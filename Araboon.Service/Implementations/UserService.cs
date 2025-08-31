@@ -358,7 +358,7 @@ namespace Araboon.Service.Implementations
                 }
             }
         }
-        public async Task<string> DeleteProfileImage()
+        public async Task<string> DeleteProfileImageAsync()
         {
             var userId = unitOfWork.UserRepository.ExtractUserIdFromToken();
             if (String.IsNullOrWhiteSpace(userId))
@@ -384,7 +384,7 @@ namespace Araboon.Service.Implementations
             }
         }
 
-        public async Task<string> DeleteCoverImage()
+        public async Task<string> DeleteCoverImageAsync()
         {
             var userId = unitOfWork.UserRepository.ExtractUserIdFromToken();
             if (String.IsNullOrWhiteSpace(userId))
@@ -412,6 +412,28 @@ namespace Araboon.Service.Implementations
             catch (Exception exp)
             {
                 return "AnErrorOccurredWhileDeletingTheImage";
+            }
+        }
+
+        public async Task<string> ChangeCroppedDataAsync(CropData cropData)
+        {
+            var userId = unitOfWork.UserRepository.ExtractUserIdFromToken();
+            if (string.IsNullOrWhiteSpace(userId))
+                return "UserNotFound";
+            var user = await userManager.FindByIdAsync(userId);
+            if (user is null)
+                return "UserNotFound";
+            try
+            {
+                user.ProfileImage.X = cropData.Position.X;
+                user.ProfileImage.Y = cropData.Position.Y;
+                user.ProfileImage.Scale = cropData.Scale;
+                user.ProfileImage.Rotate = cropData.Rotate;
+                var result = await userManager.UpdateAsync(user);
+                return result.Succeeded ? "TheCropDataHasBeenModifiedSuccessfully" : "AnErrorOccurredWhileSaving";
+            }catch(Exception exp)
+            {
+                return "AnErrorOccurredWhileChangingTheCropData";
             }
         }
     }

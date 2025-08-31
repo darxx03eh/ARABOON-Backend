@@ -191,5 +191,7 @@
         public const string FailedToDeleteOldOriginalImageFromCloudinary = "FailedToDeleteOldOriginalImageFromCloudinary";
         public const string FailedToDeleteOldCroppedImageFromCloudinary = "FailedToDeleteOldCroppedImageFromCloudinary";
         public const string ThereIsNoImageToDelete = "ThereIsNoImageToDelete";
+        public const string TheCropDataHasBeenModifiedSuccessfully = "TheCropDataHasBeenModifiedSuccessfully";
+        public const string AnErrorOccurredWhileChangingTheCropData = "AnErrorOccurredWhileChangingTheCropData";
     }
 }

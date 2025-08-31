@@ -18,6 +18,7 @@ namespace Araboon.Core.Features.Users.Commands.Handlers
         , IRequestHandler<ChangeNameCommand, ApiResponse>
         , IRequestHandler<DeleteProfileImageCommand, ApiResponse>
         , IRequestHandler<DeleteCoverImageCommand, ApiResponse>
+        , IRequestHandler<ChangeCroppedDataCommand, ApiResponse>
 
     {
         private readonly IUserService userService;
@@ -145,7 +146,7 @@ namespace Araboon.Core.Features.Users.Commands.Handlers
 
         public async Task<ApiResponse> Handle(DeleteProfileImageCommand request, CancellationToken cancellationToken)
         {
-            var result = await userService.DeleteProfileImage();
+            var result = await userService.DeleteProfileImageAsync();
             return result switch
             {
                 "UserNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.UserNotFound]),
@@ -163,7 +164,7 @@ namespace Araboon.Core.Features.Users.Commands.Handlers
 
         public async Task<ApiResponse> Handle(DeleteCoverImageCommand request, CancellationToken cancellationToken)
         {
-            var result = await userService.DeleteCoverImage();
+            var result = await userService.DeleteCoverImageAsync();
             return result switch
             {
                 "UserNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.UserNotFound]),
@@ -178,6 +179,21 @@ namespace Araboon.Core.Features.Users.Commands.Handlers
                 "AnErrorOccurredWhileDeletingTheImage" =>
                 InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileDeletingTheImage]),
                 _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileDeletingTheImage])
+            };
+        }
+
+        public async Task<ApiResponse> Handle(ChangeCroppedDataCommand request, CancellationToken cancellationToken)
+        {
+            var result = await userService.ChangeCroppedDataAsync(request.CropData);
+            return result switch
+            {
+                "UserNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.UserNotFound]),
+                "TheCropDataHasBeenModifiedSuccessfully" => 
+                Success(null, message: stringLocalizer[SharedTranslationKeys.TheCropDataHasBeenModifiedSuccessfully]),
+                "AnErrorOccurredWhileSaving" => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileSaving]),
+                "AnErrorOccurredWhileChangingTheCropData" => 
+                InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileChangingTheCropData]),
+                _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileChangingTheCropData])
             };
         }
     }

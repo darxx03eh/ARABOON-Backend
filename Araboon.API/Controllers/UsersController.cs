@@ -79,5 +79,11 @@ namespace Araboon.API.Controllers
             var result = await mediator.Send(new DeleteCoverImageCommand());
             return Result(result);
         }
+        [HttpPatch(Router.UserRouting.ChangeCroppedData)]
+        public async Task<IActionResult> ChangeCroppedData(ChangeCroppedDataCommand request)
+        {
+            var result = await mediator.Send(request);
+            return Result(result);
+        }
     }
 }

@@ -694,4 +694,10 @@
   <data name="ThereIsNoImageToDelete" xml:space="preserve">
     <value>There is no image to delete</value>
   </data>
+  <data name="TheCropDataHasBeenModifiedSuccessfully" xml:space="preserve">
+    <value>The crop data has been modified successfully</value>
+  </data>
+  <data name="AnErrorOccurredWhileChangingTheCropData" xml:space="preserve">
+    <value>An error occurred while changing the crop data</value>
+  </data>
 </root>
