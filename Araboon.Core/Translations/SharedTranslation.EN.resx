@@ -682,4 +682,16 @@
   <data name="FailedToDeleteCroppedImageFromCloudinary" xml:space="preserve">
     <value>Failed to delete cropped image from Cloudinary</value>
   </data>
+  <data name="FailedToDeleteOldImageFromCloudinary" xml:space="preserve">
+    <value>Failed to delete old image from Cloudinary</value>
+  </data>
+  <data name="FailedToDeleteOldOriginalImageFromCloudinary" xml:space="preserve">
+    <value>Failed to delete old original image from Cloudinary</value>
+  </data>
+  <data name="FailedToDeleteOldCroppedImageFromCloudinary" xml:space="preserve">
+    <value>Failed to delete old cropped image from Cloudinary</value>
+  </data>
+  <data name="ThereIsNoImageToDelete" xml:space="preserve">
+    <value>There is no image to delete</value>
+  </data>
 </root>

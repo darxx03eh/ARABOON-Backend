@@ -63,6 +63,8 @@ namespace Araboon.Core.Features.Users.Commands.Handlers
             return result switch
             {
                 "UserNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.UserNotFound]),
+                "FailedToDeleteOldImageFromCloudinary" => 
+                InternalServerError(stringLocalizer[SharedTranslationKeys.FailedToDeleteOldImageFromCloudinary]),
                 "AnErrorOccurredWhileEditingImageData" => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileEditingImageData]),
                 "TheImageHasBeenChangedSuccessfully" => Success(null, message: stringLocalizer[SharedTranslationKeys.TheImageHasBeenChangedSuccessfully]),
                 "AnErrorOccurredWhileProcessingYourProfileImageModificationRequest" =>
@@ -77,6 +79,10 @@ namespace Araboon.Core.Features.Users.Commands.Handlers
             return result switch
             {
                 "UserNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.UserNotFound]),
+                "FailedToDeleteOldOriginalImageFromCloudinary" =>
+                InternalServerError(stringLocalizer[SharedTranslationKeys.FailedToDeleteOldOriginalImageFromCloudinary]),
+                "FailedToDeleteOldCroppedImageFromCloudinary" =>
+                InternalServerError(stringLocalizer[SharedTranslationKeys.FailedToDeleteOldCroppedImageFromCloudinary]),
                 "AnErrorOccurredWhileEditingCoverImage" => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileEditingCoverImage]),
                 "TheCoverImageHasBeenChangedSuccessfully" => 
                 Success(null, message: stringLocalizer[SharedTranslationKeys.TheCoverImageHasBeenChangedSuccessfully]),
@@ -143,6 +149,7 @@ namespace Araboon.Core.Features.Users.Commands.Handlers
             return result switch
             {
                 "UserNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.UserNotFound]),
+                "ThereIsNoImageToDelete" => BadRequest(stringLocalizer[SharedTranslationKeys.ThereIsNoImageToDelete]),
                 "FailedToDeleteImageFromCloudinary" => 
                 InternalServerError(stringLocalizer[SharedTranslationKeys.FailedToDeleteImageFromCloudinary]),
                 "ImageHasBeenSuccessfullyDeleted" => 
@@ -160,6 +167,7 @@ namespace Araboon.Core.Features.Users.Commands.Handlers
             return result switch
             {
                 "UserNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.UserNotFound]),
+                "ThereIsNoImageToDelete" => BadRequest(stringLocalizer[SharedTranslationKeys.ThereIsNoImageToDelete]),
                 "FailedToDeleteOriginalImageFromCloudinary" =>
                 InternalServerError(stringLocalizer[SharedTranslationKeys.FailedToDeleteOriginalImageFromCloudinary]),
                 "FailedToDeleteCroppedImageFromCloudinary" =>

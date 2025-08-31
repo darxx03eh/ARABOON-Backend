@@ -263,6 +263,20 @@ namespace Araboon.Service.Implementations
             {
                 try
                 {
+                    var originalUrl = user.CoverImage?.OriginalImage;
+                    if (string.IsNullOrWhiteSpace(originalUrl))
+                    {
+                        var cloudinaryResult = await cloudinaryService.DeleteFileAsync(originalUrl);
+                        if (cloudinaryResult.Equals("FailedToDeleteImageFromCloudinary"))
+                            return "FailedToDeleteOldOriginalImageFromCloudinary";
+                    }
+                    var croppedUrl = user.CoverImage?.CroppedImage;
+                    if (string.IsNullOrWhiteSpace(croppedUrl))
+                    {
+                        var cloudinaryResult = await cloudinaryService.DeleteFileAsync(croppedUrl);
+                        if (cloudinaryResult.Equals("FailedToDeleteImageFromCloudinary"))
+                            return "FailedToDeleteOldCroppedImageFromCloudinary";
+                    }
                     var guidPart = Guid.NewGuid().ToString("N").Substring(0, 12);
                     var datePart = DateTime.UtcNow.ToString("yyyyMMddHHmmss");
                     var originalId = $"original-{guidPart}-{datePart}";
@@ -299,7 +313,7 @@ namespace Araboon.Service.Implementations
         public async Task<string> UploadProfileImageAsync(IFormFile image, CropData cropData)
         {
             var userId = unitOfWork.UserRepository.ExtractUserIdFromToken();
-            if (String.IsNullOrEmpty(userId))
+            if (String.IsNullOrWhiteSpace(userId))
                 return "UserNotFound";
             var user = await userManager.FindByIdAsync(userId);
             if (user is null)
@@ -308,6 +322,13 @@ namespace Araboon.Service.Implementations
             {
                 try
                 {
+                    var originalUrl = user.ProfileImage?.OriginalImage;
+                    if (string.IsNullOrWhiteSpace(originalUrl))
+                    {
+                        var cloudinaryResult = await cloudinaryService.DeleteFileAsync(originalUrl);
+                        if (cloudinaryResult.Equals("FailedToDeleteImageFromCloudinary"))
+                            return "FailedToDeleteOldImageFromCloudinary";
+                    }
                     var guidPart = Guid.NewGuid().ToString("N").Substring(0, 12);
                     var datePart = DateTime.UtcNow.ToString("yyyyMMddHHmmss");
                     var id = $"{guidPart}-{datePart}";
@@ -347,6 +368,8 @@ namespace Araboon.Service.Implementations
             if (user is null)
                 return "UserNotFound";
             var url = user.ProfileImage?.OriginalImage;
+            if (string.IsNullOrWhiteSpace(url))
+                return "ThereIsNoImageToDelete";
             try
             {
                 var cloudinaryResult = cloudinaryService.DeleteFileAsync(url);
@@ -372,6 +395,8 @@ namespace Araboon.Service.Implementations
                 return "UserNotFound";
             var originalUrl = user.CoverImage?.OriginalImage;
             var croppedUrl = user.CoverImage?.CroppedImage;
+            if (string.IsNullOrWhiteSpace(originalUrl) || string.IsNullOrWhiteSpace(croppedUrl))
+                return "ThereIsNoImageToDelete";
             try
             {
                 var originalCloudinary = await cloudinaryService.DeleteFileAsync(originalUrl);

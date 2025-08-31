@@ -681,4 +681,16 @@
   <data name="FailedToDeleteCroppedImageFromCloudinary" xml:space="preserve">
     <value>فشل حذف الصورة المقصوصة من Cloudinary</value>
   </data>
+  <data name="FailedToDeleteOldImageFromCloudinary" xml:space="preserve">
+    <value>فشل حذف الصورة القديمة من Cloudinary</value>
+  </data>
+  <data name="FailedToDeleteOldOriginalImageFromCloudinary" xml:space="preserve">
+    <value>فشل حذف الصورة الأصلية القديمة من Cloudinary</value>
+  </data>
+  <data name="FailedToDeleteOldCroppedImageFromCloudinary" xml:space="preserve">
+    <value>فشل حذف الصورة المقصوصة القديمة من Cloudinary</value>
+  </data>
+  <data name="ThereIsNoImageToDelete" xml:space="preserve">
+    <value>لا توجد صورة للحذف</value>
+  </data>
 </root>

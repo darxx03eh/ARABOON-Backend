@@ -187,5 +187,9 @@
         public const string AnErrorOccurredWhileDeletingTheImage = "AnErrorOccurredWhileDeletingTheImage";
         public const string FailedToDeleteOriginalImageFromCloudinary = "FailedToDeleteOriginalImageFromCloudinary";
         public const string FailedToDeleteCroppedImageFromCloudinary = "FailedToDeleteCroppedImageFromCloudinary";
+        public const string FailedToDeleteOldImageFromCloudinary = "FailedToDeleteOldImageFromCloudinary";
+        public const string FailedToDeleteOldOriginalImageFromCloudinary = "FailedToDeleteOldOriginalImageFromCloudinary";
+        public const string FailedToDeleteOldCroppedImageFromCloudinary = "FailedToDeleteOldCroppedImageFromCloudinary";
+        public const string ThereIsNoImageToDelete = "ThereIsNoImageToDelete";
     }
 }
