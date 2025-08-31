@@ -323,13 +323,10 @@ namespace Araboon.Service.Implementations
                         var url = await cloudinaryService.UploadFileAsync(stream, folderName, imageName);
                         user.ProfileImage.OriginalImage = url;
                     }
-                    if (!cropData.Position.X.Equals(0)&&!cropData.Position.Y.Equals(0)&&!cropData.Scale.Equals(1.2)&&!cropData.Rotate.Equals(0))
-                    {
-                        user.ProfileImage.X = cropData.Position.X;
-                        user.ProfileImage.Y = cropData.Position.Y;
-                        user.ProfileImage.Scale = cropData.Scale;
-                        user.ProfileImage.Rotate = cropData.Rotate;
-                    }
+                    user.ProfileImage.X = cropData.Position.X;
+                    user.ProfileImage.Y = cropData.Position.Y;
+                    user.ProfileImage.Scale = cropData.Scale;
+                    user.ProfileImage.Rotate = cropData.Rotate;
                     var result = await userManager.UpdateAsync(user);
                     if (!result.Succeeded)
                     {
