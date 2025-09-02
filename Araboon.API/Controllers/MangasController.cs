@@ -52,9 +52,9 @@ namespace Araboon.API.Controllers
             return Result(result);
         }
         [HttpGet(Router.MangaRouting.MangaSearch)]
-        public async Task<IActionResult> MangaSearch(string search)
+        public async Task<IActionResult> MangaSearch([FromQuery] MangaSearchQuery request)
         {
-            var result = await mediator.Send(new MangaSearchQuery(search));
+            var result = await mediator.Send(request);
             return Result(result);
         }
     }

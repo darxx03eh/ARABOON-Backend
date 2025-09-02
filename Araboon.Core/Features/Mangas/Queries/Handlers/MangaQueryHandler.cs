@@ -35,11 +35,14 @@ namespace Araboon.Core.Features.Mangas.Queries.Handlers
         }
         public async Task<ApiResponse> Handle(GetCategoriesHomePageQuery request, CancellationToken cancellationToken)
         {
-            var (result, mangaList) = await mangaService.GetCategoriesHomePageAsync();
+            var (result, mangaList, categories) = await mangaService.GetCategoriesHomePageAsync();
             return result switch
             {
                 "MangaNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.MangaNotFound]),
-                "MangaFound" => Success(mangaList, message: stringLocalizer[SharedTranslationKeys.MangaFound]),
+                "MangaFound" => Success(mangaList, message: stringLocalizer[SharedTranslationKeys.MangaFound], meta: new
+                {
+                    Categories = categories
+                }),
                 _ => NotFound(stringLocalizer[SharedTranslationKeys.MangaNotFound])
             };
         }
@@ -56,7 +59,7 @@ namespace Araboon.Core.Features.Mangas.Queries.Handlers
         }
         public async Task<ApiResponse> Handle(GetMangaByIDQuery request, CancellationToken cancellationToken)
         {
-            var (result, manga) = await mangaService.GetMangaByIDAsync(request.ID);
+            var (result, manga, url) = await mangaService.GetMangaByIDAsync(request.ID);
             var httpContext = httpContextAccessor.HttpContext;
             var langHeader = httpContext?.Request.Headers["Accept-Language"].ToString();
             var lang = "en";
@@ -66,7 +69,9 @@ namespace Araboon.Core.Features.Mangas.Queries.Handlers
             return result switch
             {
                 "MangaNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.MangaNotFound]),
-                "MangaFound" => Success(mangaResponse, message: stringLocalizer[SharedTranslationKeys.MangaFound]),
+                "MangaFound" => Success(mangaResponse, message: stringLocalizer[SharedTranslationKeys.MangaFound], meta: new {
+                    url = string.Join('-', url.Split(' '))
+                }),
                 _ => NotFound(stringLocalizer[SharedTranslationKeys.MangaNotFound])
             };
         }
@@ -103,7 +108,8 @@ namespace Araboon.Core.Features.Mangas.Queries.Handlers
 
         public async Task<ApiResponse> Handle(MangaSearchQuery request, CancellationToken cancellationToken)
         {
-            var (result, mangas) = await mangaService.SearchAsync(request.Search.Trim());
+            var search = string.IsNullOrWhiteSpace(request.Search) ? "" : request.Search.Trim();
+            var (result, mangas) = await mangaService.SearchAsync(search);
             return result switch
             {
                 "MangaNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.MangaNotFound]),

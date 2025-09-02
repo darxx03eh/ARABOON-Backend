@@ -15,14 +15,14 @@ namespace Araboon.Service.Implementations
         {
             this.mangaRepository = mangaRepository;
         }
-        public async Task<(string, Dictionary<string, IList<GetCategoriesHomePageResponse>>?)> GetCategoriesHomePageAsync()
+        public async Task<(string, IList<IList<GetCategoriesHomePageResponse>>?, IList<string>?)> GetCategoriesHomePageAsync()
         {
-            var (message, list) = await mangaRepository.GetCategoriesHomePageAsync();
+            var (message, list, categories) = await mangaRepository.GetCategoriesHomePageAsync();
             return message switch
             {
-                "MangaNotFound" => ("MangaNotFound", null),
-                "MangaFound" => ("MangaFound", list),
-                _ => ("MangaNotFound", null)
+                "MangaNotFound" => ("MangaNotFound", null, null),
+                "MangaFound" => ("MangaFound", list, categories),
+                _ => ("MangaNotFound", null, null)
             };
         }
         public async Task<(string, IList<GetHottestMangasResponse>?)> GetHottestMangasAsync()
@@ -65,14 +65,14 @@ namespace Araboon.Service.Implementations
                 _ => ("MangaNotFound", null)
             };
         }
-        public async Task<(string, Manga?)> GetMangaByIDAsync(int id)
+        public async Task<(string, Manga?, string?)> GetMangaByIDAsync(int id)
         {
             var manga = await mangaRepository.GetByIdAsync(id);
             if (manga is null)
-                return ("MangaNotFound", null);
-            return ("MangaFound", manga);
+                return ("MangaNotFound", null, null);
+            return ("MangaFound", manga, manga.MangaNameEn);
         }
-        public async Task<(string, IList<MangaSearchResponse>?)> SearchAsync(string search)
+        public async Task<(string, IList<MangaSearchResponse>?)> SearchAsync(string? search)
         {
             var (message, mangas) = await mangaRepository.SearchAsync(search);
             return message switch

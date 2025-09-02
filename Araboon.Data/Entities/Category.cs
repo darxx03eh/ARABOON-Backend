@@ -5,6 +5,7 @@
         public int CategoryID { get; set; }
         public string CategoryNameEn { get; set; }
         public string CategoryNameAr { get; set; }
+        public bool IsActive { get; set; } = false;
         public virtual ICollection<CategoryManga> CategoryMangas { get; set; } = new HashSet<CategoryManga>();
     }
 }

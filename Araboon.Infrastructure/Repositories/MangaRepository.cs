@@ -23,15 +23,15 @@ namespace Araboon.Infrastructure.Repositories
             this.context = context;
             this.httpContextAccessor = httpContextAccessor;
         }
-        public async Task<(string, Dictionary<string, IList<GetCategoriesHomePageResponse>>?)> GetCategoriesHomePageAsync()
+        public async Task<(string, IList<IList<GetCategoriesHomePageResponse>>?, IList<string>?)> GetCategoriesHomePageAsync()
         {
             string? userID = ExtractUserIdFromToken();
             IList<int> favoriteMangaIds = new List<int>();
             if (!string.IsNullOrEmpty(userID))
                 favoriteMangaIds = await context.Favorites.Where(f => f.UserID.ToString().Equals(userID))
                                    .Select(f => f.MangaID).ToListAsync();
-            var categories = new[] { "Action", "Adventure", "Fantasy", "Supernatural" };
-            var mangasByCategory = new Dictionary<string, IList<GetCategoriesHomePageResponse>>();
+            var categories = await context.Categories.Where(c => c.IsActive).Select(c => c.CategoryNameEn).ToListAsync();
+            var mangasByCategory = new List<IList<GetCategoriesHomePageResponse>>();
             foreach (var category in categories)
             {
                 var mangas = await GetTableNoTracking()
@@ -43,6 +43,13 @@ namespace Araboon.Infrastructure.Repositories
                                  MangaName = TransableEntity.GetTransable(manga.MangaNameEn, manga.MangaNameAr),
                                  MangaImageUrl = manga.MainImage,
                                  IsFavorite = favoriteMangaIds.Contains(manga.MangaID),
+                                 Category = new CategoryResponse()
+                                 {
+                                     En = manga.CategoryMangas.Where(c => c.Category.CategoryNameEn.Equals(category))
+                                          .Select(c => c.Category.CategoryNameEn).FirstOrDefault(),
+                                     Ar = manga.CategoryMangas.Where(c => c.Category.CategoryNameEn.Equals(category))
+                                          .Select(c => c.Category.CategoryNameAr).FirstOrDefault(),
+                                 },
                                  LastChapter = manga.Chapters.OrderByDescending(chapter => chapter.ChapterNo)
                                  .Select(chapter => new LastChapter()
                                  {
@@ -51,11 +58,11 @@ namespace Araboon.Infrastructure.Repositories
                                      Views = chapter.ReadersCount
                                  }).FirstOrDefault()
                              }).ToListAsync();
-                mangasByCategory[category] = mangas;
+                mangasByCategory.Add(mangas);
             }
-            if (mangasByCategory is null)
-                return ("MangaNotFound", null);
-            return ("MangaFound", mangasByCategory);
+            if (mangasByCategory is null || mangasByCategory.Count().Equals(0))
+                return ("MangaNotFound", null, null);
+            return ("MangaFound", mangasByCategory, categories);
         }
         public async Task<(string, IList<GetHottestMangasResponse>?)> GetHottestMangasAsync()
         {
@@ -73,14 +80,16 @@ namespace Araboon.Infrastructure.Repositories
                 return ("MangaNotFound", null);
             return ("MangaFound", hottestMangas);
         }
-        public async Task<(string, IList<MangaSearchResponse>?)> SearchAsync(string search)
+        public async Task<(string, IList<MangaSearchResponse>?)> SearchAsync(string? search)
         {
-            var mangasQueryable = GetTableNoTracking().Where(
+            var mangasQueryable = GetTableNoTracking().OrderByDescending(manga => manga.Rate * manga.RatingsCount).AsQueryable();
+            if (!string.IsNullOrWhiteSpace(search))
+                mangasQueryable = mangasQueryable.Where(
                 manga => manga.MangaNameEn.ToLower().Contains(search.ToLower()) ||
                 manga.MangaNameAr.ToLower().Contains(search.ToLower()) ||
                 manga.AuthorEn.ToLower().Contains(search.ToLower()) ||
                 manga.AuthorAr.ToLower().Contains(search.ToLower())
-                ).OrderByDescending(manga => manga.Rate * manga.RatingsCount).AsQueryable();
+                );
             if (mangasQueryable is null)
                 return ("MangaNotFound", null);
             string? userId = ExtractUserIdFromToken();
