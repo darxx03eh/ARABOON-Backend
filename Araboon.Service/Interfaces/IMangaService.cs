@@ -7,7 +7,7 @@ namespace Araboon.Service.Interfaces
 {
     public interface IMangaService
     {
-        public Task<(string, IList<IList<GetCategoriesHomePageResponse>>?, IList<string>?)> GetCategoriesHomePageAsync();
+        public Task<(string, IList<HomePageResponse>?, IList<string>?)> GetCategoriesHomePageAsync();
         public Task<(string, IList<GetHottestMangasResponse>?)> GetHottestMangasAsync();
         public Task<(string, PaginatedResult<GetPaginatedHottestMangaResponse>?)> GetPaginatedHottestMangaAsync(int pageNumber, int pageSize);
         public Task<(string, PaginatedResult<GetMangaByCategoryNameResponse>?)> GetMangaByCategoryNameAsync(string category, int PageNumber, int pageSize);

@@ -15,7 +15,7 @@ namespace Araboon.Service.Implementations
         {
             this.mangaRepository = mangaRepository;
         }
-        public async Task<(string, IList<IList<GetCategoriesHomePageResponse>>?, IList<string>?)> GetCategoriesHomePageAsync()
+        public async Task<(string, IList<HomePageResponse>?, IList<string>?)> GetCategoriesHomePageAsync()
         {
             var (message, list, categories) = await mangaRepository.GetCategoriesHomePageAsync();
             return message switch

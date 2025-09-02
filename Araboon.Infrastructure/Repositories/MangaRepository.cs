@@ -1,6 +1,5 @@
 ﻿using Araboon.Data.Entities;
 using Araboon.Data.Enums;
-using Araboon.Data.Helpers;
 using Araboon.Data.Response.Mangas.Queries;
 using Araboon.Data.Wrappers;
 using Araboon.Infrastructure.Commons;
@@ -8,7 +7,7 @@ using Araboon.Infrastructure.Data;
 using Araboon.Infrastructure.IRepositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using System.IdentityModel.Tokens.Jwt;
+using System;
 
 namespace Araboon.Infrastructure.Repositories
 {
@@ -23,19 +22,25 @@ namespace Araboon.Infrastructure.Repositories
             this.context = context;
             this.httpContextAccessor = httpContextAccessor;
         }
-        public async Task<(string, IList<IList<GetCategoriesHomePageResponse>>?, IList<string>?)> GetCategoriesHomePageAsync()
+        public async Task<(string, IList<HomePageResponse>?, IList<string>?)> GetCategoriesHomePageAsync()
         {
             string? userID = ExtractUserIdFromToken();
             IList<int> favoriteMangaIds = new List<int>();
             if (!string.IsNullOrEmpty(userID))
                 favoriteMangaIds = await context.Favorites.Where(f => f.UserID.ToString().Equals(userID))
                                    .Select(f => f.MangaID).ToListAsync();
-            var categories = await context.Categories.Where(c => c.IsActive).Select(c => c.CategoryNameEn).ToListAsync();
-            var mangasByCategory = new List<IList<GetCategoriesHomePageResponse>>();
-            foreach (var category in categories)
+            var helper = await context.Categories.Where(c => c.IsActive).Select(c => new
             {
+                en = c.CategoryNameEn,
+                ar = c.CategoryNameAr
+            }).ToListAsync();
+            var mangasByCategory = new List<HomePageResponse>();
+            foreach (var category in helper)
+            {
+                string en = category.en;
+                string ar = category.ar;
                 var mangas = await GetTableNoTracking()
-                             .Where(manga => manga.CategoryMangas.Any(c => c.Category.CategoryNameEn.Equals(category)))
+                             .Where(manga => manga.CategoryMangas.Any(c => c.Category.CategoryNameEn.Equals(en)))
                              .OrderByDescending(manga => manga.Rate)
                              .Take(10).Select(manga => new GetCategoriesHomePageResponse()
                              {
@@ -43,13 +48,6 @@ namespace Araboon.Infrastructure.Repositories
                                  MangaName = TransableEntity.GetTransable(manga.MangaNameEn, manga.MangaNameAr),
                                  MangaImageUrl = manga.MainImage,
                                  IsFavorite = favoriteMangaIds.Contains(manga.MangaID),
-                                 Category = new CategoryResponse()
-                                 {
-                                     En = manga.CategoryMangas.Where(c => c.Category.CategoryNameEn.Equals(category))
-                                          .Select(c => c.Category.CategoryNameEn).FirstOrDefault(),
-                                     Ar = manga.CategoryMangas.Where(c => c.Category.CategoryNameEn.Equals(category))
-                                          .Select(c => c.Category.CategoryNameAr).FirstOrDefault(),
-                                 },
                                  LastChapter = manga.Chapters.OrderByDescending(chapter => chapter.ChapterNo)
                                  .Select(chapter => new LastChapter()
                                  {
@@ -58,8 +56,18 @@ namespace Araboon.Infrastructure.Repositories
                                      Views = chapter.ReadersCount
                                  }).FirstOrDefault()
                              }).ToListAsync();
-                mangasByCategory.Add(mangas);
+                var Category = new CategoryResponse()
+                {
+                    En = en,
+                    Ar = ar
+                };
+                mangasByCategory.Add(new HomePageResponse()
+                {
+                    Category = Category,
+                    Mangas = mangas
+                });
             }
+            var categories = helper.Select(c => c.en).ToList();
             if (mangasByCategory is null || mangasByCategory.Count().Equals(0))
                 return ("MangaNotFound", null, null);
             return ("MangaFound", mangasByCategory, categories);
@@ -214,7 +222,7 @@ namespace Araboon.Infrastructure.Repositories
                     Views = chapter.ReadersCount
                 }).FirstOrDefault()
             }).ToPaginatedListAsync(pageNumber, pageSize);
-            if(mangas.Data.Count().Equals(0))
+            if (mangas.Data.Count().Equals(0))
                 return ("MangaNotFound", null);
             return ("MangaFound", mangas);
         }
