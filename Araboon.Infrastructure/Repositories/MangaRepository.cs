@@ -88,7 +88,7 @@ namespace Araboon.Infrastructure.Repositories
                 return ("MangaNotFound", null);
             return ("MangaFound", hottestMangas);
         }
-        public async Task<(string, IList<MangaSearchResponse>?)> SearchAsync(string? search)
+        public async Task<(string, PaginatedResult<MangaSearchResponse>?)> SearchAsync(string? search, int pageNumber, int pageSize)
         {
             var mangasQueryable = GetTableNoTracking().OrderByDescending(manga => manga.Rate * manga.RatingsCount).AsQueryable();
             if (!string.IsNullOrWhiteSpace(search))
@@ -119,8 +119,8 @@ namespace Araboon.Infrastructure.Repositories
                     ChapterNo = chapter.ChapterNo,
                     Views = chapter.ReadersCount
                 }).FirstOrDefault()
-            }).ToListAsync();
-            if (mangas.Count().Equals(0))
+            }).ToPaginatedListAsync(pageNumber, pageSize);
+            if (mangas.Data.Count().Equals(0))
                 return ("MangaNotFound", null);
             return ("MangaFound", mangas);
         }

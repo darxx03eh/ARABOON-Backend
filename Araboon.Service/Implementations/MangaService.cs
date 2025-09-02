@@ -72,9 +72,9 @@ namespace Araboon.Service.Implementations
                 return ("MangaNotFound", null, null);
             return ("MangaFound", manga, manga.MangaNameEn);
         }
-        public async Task<(string, IList<MangaSearchResponse>?)> SearchAsync(string? search)
+        public async Task<(string, PaginatedResult<MangaSearchResponse>?)> SearchAsync(string? search, int pageNumber, int pageSize)
         {
-            var (message, mangas) = await mangaRepository.SearchAsync(search);
+            var (message, mangas) = await mangaRepository.SearchAsync(search, pageNumber, pageSize);
             return message switch
             {
                 "MangaNotFound" => ("MangaNotFound", null),

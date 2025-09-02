@@ -13,6 +13,6 @@ namespace Araboon.Service.Interfaces
         public Task<(string, PaginatedResult<GetMangaByCategoryNameResponse>?)> GetMangaByCategoryNameAsync(string category, int PageNumber, int pageSize);
         public Task<(string, PaginatedResult<GetMangaByStatusResponse>?)> GetMangaByStatusAsync(int pageNumber, int pageSize, string status, MangaOrderingEnum orderBy, string? filter);
         public Task<(string, Manga?, string?)> GetMangaByIDAsync(int id);
-        public Task<(string, IList<MangaSearchResponse>?)> SearchAsync(string? search);
+        public Task<(string, PaginatedResult<MangaSearchResponse>?)> SearchAsync(string? search, int pageNumber, int pageSize);
     }
 }

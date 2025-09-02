@@ -109,7 +109,7 @@ namespace Araboon.Core.Features.Mangas.Queries.Handlers
         public async Task<ApiResponse> Handle(MangaSearchQuery request, CancellationToken cancellationToken)
         {
             var search = string.IsNullOrWhiteSpace(request.Search) ? "" : request.Search.Trim();
-            var (result, mangas) = await mangaService.SearchAsync(search);
+            var (result, mangas) = await mangaService.SearchAsync(search, request.PageNumber, request.PageSize);
             return result switch
             {
                 "MangaNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.MangaNotFound]),
