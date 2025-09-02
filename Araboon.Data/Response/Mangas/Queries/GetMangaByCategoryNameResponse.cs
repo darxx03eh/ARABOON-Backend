@@ -1,6 +1,6 @@
 ﻿namespace Araboon.Data.Response.Mangas.Queries
 {
-    public class GetMangaByCategoryNameResponse : GetCategoriesHomePageResponse
+    public class GetMangaByCategoryNameResponse : GetMangaByStatusResponse
     {
 
     }

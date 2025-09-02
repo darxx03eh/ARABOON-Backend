@@ -143,6 +143,7 @@ namespace Araboon.Infrastructure.Repositories
                 MangaName = TransableEntity.GetTransable(manga.MangaNameEn, manga.MangaNameAr),
                 MangaImageUrl = manga.MainImage,
                 IsFavorite = favoriteMangaIds.Contains(manga.MangaID),
+                AuthorName = TransableEntity.GetTransable(manga.AuthorEn, manga.AuthorAr),
                 LastChapter = manga.Chapters.OrderByDescending(chapter => chapter.ChapterNo)
                 .Select(chapter => new LastChapter()
                 {
