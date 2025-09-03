@@ -15,7 +15,7 @@
             public const string SendConfirmationEmail = $"{prefix}/SendConfirmationEmail";
             public const string ValidateAccessToken = $"{prefix}/ValidateAccessToken";
             public const string GenerateRefreshToken = $"{prefix}/GenerateRefreshToken";
-            public const string RevokeRefreshToken = $"{prefix}/RevokeRefreshToken";
+            public const string LogOut = $"{prefix}/LogOut";
             public const string SendForgetPasswordEmail = $"{prefix}/SendForgetPasswordEmail";
             public const string ForgetPasswordConfirmation = $"{prefix}/ForgetPasswordConfirmation";
             public const string ResetPassword = $"{prefix}/ResetPassword";

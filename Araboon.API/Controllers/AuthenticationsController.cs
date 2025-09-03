@@ -2,6 +2,7 @@
 using Araboon.Core.Features.Authentications.Commands.Models;
 using Araboon.Core.Features.Authentications.Queries.Models;
 using Araboon.Data.Routing;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Araboon.API.Controllers
@@ -58,15 +59,16 @@ namespace Araboon.API.Controllers
             return Result(result);
         }
         [HttpPost(Router.AuthenticationRouting.GenerateRefreshToken)]
-        public async Task<IActionResult> GenerateRefreshToken([FromBody] GenerateRefreshTokenCommand request)
+        public async Task<IActionResult> GenerateRefreshToken()
         {
-            var result = await mediator.Send(request);
+            var result = await mediator.Send(new GenerateRefreshTokenCommand());
             return Result(result);
         }
-        [HttpPost(Router.AuthenticationRouting.RevokeRefreshToken)]
-        public async Task<IActionResult> RevokeRefreshToken([FromBody] RevokeRefreshTokenCommand request)
+        [Authorize]
+        [HttpPost(Router.AuthenticationRouting.LogOut)]
+        public async Task<IActionResult> LogOut()
         {
-            var result = await mediator.Send(request);
+            var result = await mediator.Send(new LogOutCommand());
             return Result(result);
         }
     }

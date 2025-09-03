@@ -2,9 +2,11 @@
 using Araboon.Core.Features.Authentications.Commands.Models;
 using Araboon.Core.Translations;
 using Araboon.Data.Entities.Identity;
+using Araboon.Data.Response.Authentications;
 using Araboon.Service.Interfaces;
 using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Localization;
 
 namespace Araboon.Core.Features.Authentications.Commands.Handlers
@@ -15,7 +17,7 @@ namespace Araboon.Core.Features.Authentications.Commands.Handlers
         , IRequestHandler<SignInCommand, ApiResponse>
         , IRequestHandler<SendConfirmationEmailCommand, ApiResponse>
         , IRequestHandler<GenerateRefreshTokenCommand, ApiResponse>
-        , IRequestHandler<RevokeRefreshTokenCommand, ApiResponse>
+        , IRequestHandler<LogOutCommand, ApiResponse>
         , IRequestHandler<SendForgetPasswordCommand, ApiResponse>
         , IRequestHandler<ForgetPasswordConfirmationCommand, ApiResponse>
         , IRequestHandler<ResetPasswordCommand, ApiResponse>
@@ -23,15 +25,17 @@ namespace Araboon.Core.Features.Authentications.Commands.Handlers
         private readonly IStringLocalizer<SharedTranslation> stringLocalizer;
         private readonly IAuthenticationService authenticationService;
         private readonly IMapper mapper;
+        private readonly IHttpContextAccessor httpContextAccessor;
 
         public AuthenticationCommandHandler(IStringLocalizer<SharedTranslation> stringLocalizer
                                           , IAuthenticationService authenticationService,
-                                            IMapper mapper)
+                                            IMapper mapper, IHttpContextAccessor httpContextAccessor)
             : base(stringLocalizer)
         {
             this.stringLocalizer = stringLocalizer;
             this.authenticationService = authenticationService;
             this.mapper = mapper;
+            this.httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<ApiResponse> Handle(RegistrationUserCommand request, CancellationToken cancellationToken)
@@ -68,7 +72,17 @@ namespace Araboon.Core.Features.Authentications.Commands.Handlers
 
         public async Task<ApiResponse> Handle(SignInCommand request, CancellationToken cancellationToken)
         {
-            var (result, message) = await authenticationService.SignInAsync(request.UserName, request.Password);
+            var (result, message, refresh) = await authenticationService.SignInAsync(request.UserName, request.Password);
+            if(refresh is not null)
+            {
+                httpContextAccessor.HttpContext.Response.Cookies.Append("refresh", refresh, new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    SameSite = SameSiteMode.None,
+                    Expires = DateTime.UtcNow.AddDays(7)
+                });
+            }
             return message switch
             {
                 "EmailNotConfirmed" => BadRequest(stringLocalizer[SharedTranslationKeys.EmailNotConfirmed]),
@@ -102,7 +116,10 @@ namespace Araboon.Core.Features.Authentications.Commands.Handlers
 
         public async Task<ApiResponse> Handle(GenerateRefreshTokenCommand request, CancellationToken cancellationToken)
         {
-            var (response, result) = await authenticationService.GenerateRefreshTokenAsync(request.AccessToken, request.RefreshToken);
+            var refresh = httpContextAccessor.HttpContext?.Request.Cookies["refresh"];
+            if (string.IsNullOrWhiteSpace(refresh))
+                return NotFound(stringLocalizer[SharedTranslationKeys.RefreshTokenIsNotFound]);
+            var (response, result) = await authenticationService.GenerateRefreshTokenAsync(refresh);
             return result switch
             {
                 "ErrorInTheEncryptionAlgorithmUsed" =>
@@ -118,15 +135,24 @@ namespace Araboon.Core.Features.Authentications.Commands.Handlers
             };
         }
 
-        public async Task<ApiResponse> Handle(RevokeRefreshTokenCommand request, CancellationToken cancellationToken)
+        public async Task<ApiResponse> Handle(LogOutCommand request, CancellationToken cancellationToken)
         {
-            var result = await authenticationService.RevokeRefreshTokenAsync(request.RefreshToken);
+            var refresh = httpContextAccessor.HttpContext?.Request.Cookies["refresh"];
+            if (string.IsNullOrWhiteSpace(refresh))
+                return NotFound(stringLocalizer[SharedTranslationKeys.RefreshTokenIsNotFound]);
+            httpContextAccessor.HttpContext?.Response.Cookies.Delete("refresh", new CookieOptions
+            {
+                Path = "/",
+                Secure = true,
+                SameSite = SameSiteMode.None
+            });
+            var result = await authenticationService.LogOutAsync(refresh);
             return result switch
             {
                 "InvalidRefreshToken" => BadRequest(stringLocalizer[SharedTranslationKeys.InvalidRefreshToken]),
                 "AnErrorOccurredDuringTheRefreshTokenCancellationProcess" =>
                 InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredDuringTheRefreshTokenCancellationProcess]),
-                "TokenRevokedSuccessfully" => Success(null, message: stringLocalizer[SharedTranslationKeys.TokenRevokedSuccessfully]),
+                "LogOutSuccessfully" => Success(null, message: stringLocalizer[SharedTranslationKeys.LogOutSuccessfully]),
                 _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredDuringTheRefreshTokenCancellationProcess])
             };
         }

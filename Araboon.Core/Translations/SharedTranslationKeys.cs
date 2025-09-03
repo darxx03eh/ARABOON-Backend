@@ -63,7 +63,7 @@
         public const string AccessTokenRegenerated = "AccessTokenRegenerated";
         public const string InvalidRefreshToken = "InvalidRefreshToken";
         public const string AnErrorOccurredDuringTheRefreshTokenCancellationProcess = "AnErrorOccurredDuringTheRefreshTokenCancellationProcess";
-        public const string TokenRevokedSuccessfully = "TokenRevokedSuccessfully";
+        public const string LogOutSuccessfully = "LogOutSuccessfully";
         public const string AnErrorOccurredWhileSavingTheCode = "AnErrorOccurredWhileSavingTheCode";
         public const string AnErrorOccurredWhileSendingTheForgetPasswordEmailPleaseTryAgain = "AnErrorOccurredWhileSendingTheForgetPasswordEmailPleaseTryAgain";
         public const string ForgetPasswordEmailHasBeenSent = "ForgetPasswordEmailHasBeenSent";

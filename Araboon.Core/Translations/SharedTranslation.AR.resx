@@ -708,4 +708,7 @@
   <data name="AnErrorOccurredWhileProcessingYourCroppedCoverImageModificationRequest" xml:space="preserve">
     <value>حدث خطأ أثناء معالجة طلب تعديل صورة الغلاف المقصوصة الخاص بك</value>
   </data>
+  <data name="LogOutSuccessfully" xml:space="preserve">
+    <value>تم تسجيل الخروج بنجاح</value>
+  </data>
 </root>

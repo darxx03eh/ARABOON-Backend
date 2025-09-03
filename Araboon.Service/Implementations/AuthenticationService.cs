@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
 
 namespace Araboon.Service.Implementations
@@ -110,32 +111,32 @@ namespace Araboon.Service.Implementations
             throw new Exception();
         }
 
-        public async Task<(SignInResponse?, string)> SignInAsync(string username, string password)
+        public async Task<(SignInResponse?, string, string?)> SignInAsync(string username, string password)
         {
             try
             {
                 var user = await userManager.FindByNameAsync(username);
                 if (user is null)
-                    return (null, "PasswordOrUserNameWrnog");
+                    return (null, "PasswordOrUserNameWrnog", null);
                 if (user.LockoutEnd is not null && DateTime.UtcNow <= user.LockoutEnd)
-                    return (null, "YourAccountWasLockedDueToSuspiciousActivityPleaseTryAgainLaterorContactSupport");
+                    return (null, "YourAccountWasLockedDueToSuspiciousActivityPleaseTryAgainLaterorContactSupport", null);
                 var result = await signInManager.CheckPasswordSignInAsync(user, password, true);
                 if (!result.Succeeded)
                 {
                     if (!user.EmailConfirmed)
-                        return (null, "EmailNotConfirmed");
-                    return (null, "PasswordOrUserNameWrnog");
+                        return (null, "EmailNotConfirmed", null);
+                    return (null, "PasswordOrUserNameWrnog", null);
                 }
                 if (!user.IsActive)
-                    return (null, "YourAccountIsInactivePleaseCheckWithTechnicalSupport");
-                var token = await tokenService.GenerateAccessTokenAsync(user);
+                    return (null, "YourAccountIsInactivePleaseCheckWithTechnicalSupport", null);
+                var (token, refresh) = await tokenService.GenerateAccessTokenAsync(user);
                 if (token is null)
-                    return (null, "AnErrorOccurredWhileGeneratingTheToken");
-                return (token, "DataVerifiedAndLogin");
+                    return (null, "AnErrorOccurredWhileGeneratingTheToken", null);
+                return (token, "DataVerifiedAndLogin", refresh);
             }
             catch (Exception exp)
             {
-                return (null, "AnErrorOccurredDuringTheLoginProcess");
+                return (null, "AnErrorOccurredDuringTheLoginProcess", null);
             }
         }
 
@@ -171,7 +172,7 @@ namespace Araboon.Service.Implementations
                 var result = await userManager.UpdateAsync(user);
                 if (!result.Succeeded)
                     return ("AnErrorOccurredWhileDeletingTheCode", null);
-                var token = await tokenService.GenerateRandomRefreshToken();
+                var token = await tokenService.GenerateRandomToken();
                 user.ForgetPasswordToken = token;
                 var tokenResult = await userManager.UpdateAsync(user);
                 if (!tokenResult.Succeeded)
@@ -184,70 +185,51 @@ namespace Araboon.Service.Implementations
             }
         }
 
-        public async Task<(SignInResponse?, string)> GenerateRefreshTokenAsync(string accessToken, string refreshToken)
+        public async Task<(SignInResponse?, string)> GenerateRefreshTokenAsync(string refresh)
         {
-            var jwtToken = await tokenService.ReadJwtTokenAsync(accessToken);
-            var (message, expireDate) = await ValidateDetails(jwtToken, accessToken, refreshToken);
+            var jwtToken = await tokenService.ReadJwtTokenAsync(refresh);
+            var (message, expireDate) = await ValidateDetails(jwtToken, refresh);
             switch (message)
             {
                 case "AlgorithmIsWrong":
                     return (null, "ErrorInTheEncryptionAlgorithmUsed");
-                case "TokenIsNotExpire":
-                    return (null, "TokenIsStillValidCannotRefreshYet");
                 case "RefreshTokenIsNotFound":
                     return (null, "RefreshTokenIsNotFound");
                 case "RefreshTokenIsExpire":
                     return (null, "RefreshTokenHasExpire");
             }
-            var user = await userManager.FindByIdAsync(message);
+            var userId = jwtToken.Claims.FirstOrDefault(claim => claim.Type.Equals(nameof(UserClaimModel.ID)))?.Value;
+            var user = await userManager.FindByIdAsync(userId);
             if (user is null)
                 return (null, "UserNotFound");
-            var result = await GenerateRefreshTokenAsync(user, jwtToken, expireDate, refreshToken);
+            var result = await GenerateRefreshTokenAsync(user);
             if (result is null)
                 return (null, "AnErrorOccurredDuringTheTokenGenerationProcess");
             return (result, "AccessTokenRegenerated");
         }
-        private async Task<(string, DateTime?)> ValidateDetails(JwtSecurityToken jwtToken, string accessToken, string refreshToken)
+        private async Task<(string, DateTime?)> ValidateDetails(JwtSecurityToken jwtToken, string refresh)
         {
             if (jwtToken is null || !jwtToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256Signature))
                 return ("AlgorithmIsWrong", null);
-            if (jwtToken.ValidTo > DateTime.UtcNow)
-                return ("TokenIsNotExpire", null);
             var userId = jwtToken.Claims.FirstOrDefault(claim => claim.Type.Equals(nameof(UserClaimModel.ID)))?.Value;
-            var userRefreshToken = await refreshTokenRepository.GetTableNoTracking()
-                                   .FirstOrDefaultAsync(user => user.Token.Equals(accessToken) &&
-                                                        user.RefreshToken.Equals(refreshToken) &&
-                                                        user.UserID.Equals(int.Parse(userId)));
-            if (userRefreshToken is null)
+            var jti = jwtToken.Claims.FirstOrDefault(claim => claim.Type.Equals(nameof(UserClaimModel.Jti)))?.Value;
+            var refreshToken = await refreshTokenRepository.GetTableNoTracking().Where(r => r.Jti.Equals(jti)).FirstOrDefaultAsync();
+            if (refreshToken is null)
                 return ("RefreshTokenIsNotFound", null);
-            if (userRefreshToken.ExpirydDate < DateTime.UtcNow)
+            if (refreshToken.ExpirydDate < DateTime.UtcNow)
             {
-                userRefreshToken.IsRevoked = true;
-                userRefreshToken.IsUsed = false;
-                await refreshTokenRepository.UpdateAsync(userRefreshToken);
+                refreshToken.IsRevoked = true;
+                refreshToken.IsUsed = false;
+                await refreshTokenRepository.UpdateAsync(refreshToken);
                 return ("RefreshTokenIsExpire", null);
             }
-            var expireDate = userRefreshToken.ExpirydDate;
+            var expireDate = refreshToken.ExpirydDate;
             return (userId, expireDate);
         }
-        private async Task<SignInResponse> GenerateRefreshTokenAsync(AraboonUser user, JwtSecurityToken jwtToken,
-                                                                     DateTime? expiryDate, string refreshToken)
+        private async Task<SignInResponse> GenerateRefreshTokenAsync(AraboonUser user)
         {
             var (jwtSecurityToken, responseToken) = await tokenService.GenerateJwtTokenAsync(user);
-            var userRefreshToken = await refreshTokenRepository.GetTableNoTracking()
-                                   .FirstOrDefaultAsync(x => x.UserID.Equals(user.Id) && x.RefreshToken.Equals(refreshToken));
-            userRefreshToken.Token = responseToken;
-            await refreshTokenRepository.UpdateAsync(userRefreshToken);
-            return new SignInResponse()
-            {
-                AccessToken = responseToken,
-                RefreshToken = new RefreshToken()
-                {
-                    Token = refreshToken,
-                    UserName = jwtToken.Claims.FirstOrDefault(claim => claim.Type.Equals(nameof(UserClaimModel.UserName)))?.Value,
-                    ExpireAt = (DateTime)expiryDate
-                }
-            };
+            return new SignInResponse() { Access = responseToken };
         }
         public async Task<string> ResetPasswordAsync(string email, string password, string token)
         {
@@ -292,17 +274,19 @@ namespace Araboon.Service.Implementations
             }
         }
 
-        public async Task<string> RevokeRefreshTokenAsync(string refreshToken)
+        public async Task<string> LogOutAsync(string refresh)
         {
-            var token = await refreshTokenRepository.GetTableNoTracking()
-                          .FirstOrDefaultAsync(refresh => refresh.RefreshToken.Equals(refreshToken));
+            var jwtToken = await tokenService.ReadJwtTokenAsync(refresh);
+            var jti = jwtToken.Claims.FirstOrDefault(claim => claim.Type.Equals(nameof(UserClaimModel.Jti)))?.Value;
+
+            var token = await refreshTokenRepository.GetTableNoTracking().FirstOrDefaultAsync(r => r.Jti.Equals(jti));
             if (token is null || token.IsRevoked || token.ExpirydDate <= DateTime.UtcNow)
                 return "InvalidRefreshToken";
             token.IsUsed = false;
             token.IsRevoked = true;
             token.ExpirydDate = DateTime.UtcNow;
             await refreshTokenRepository.UpdateAsync(token);
-            return "TokenRevokedSuccessfully";
+            return "LogOutSuccessfully";
         }
 
         public async Task<string> SendConfirmationEmailAsync(string username)

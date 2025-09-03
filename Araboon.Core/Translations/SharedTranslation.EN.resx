@@ -709,4 +709,7 @@
   <data name="AnErrorOccurredWhileProcessingYourCroppedCoverImageModificationRequest" xml:space="preserve">
     <value>An error occurred while processing your cropped cover image modification request</value>
   </data>
+  <data name="LogOutSuccessfully" xml:space="preserve">
+    <value>Logged out successfully</value>
+  </data>
 </root>

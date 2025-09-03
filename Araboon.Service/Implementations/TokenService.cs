@@ -21,27 +21,22 @@ namespace Araboon.Service.Implementations
         private readonly UserManager<AraboonUser> userManager = userManager;
         private readonly JwtSettings jwtSettings = jwtSettings;
         private readonly IRefreshTokenRepository refreshTokenRepository = refreshTokenRepository;
-        public async Task<SignInResponse> GenerateAccessTokenAsync(AraboonUser user)
+        public async Task<(SignInResponse, string)> GenerateAccessTokenAsync(AraboonUser user)
         {
             var (jwtToken, accessToken) = await GenerateJwtTokenAsync(user);
-            var refreshToken = await GenerateRefreshToken(user.UserName);
+            var (refreshToken, jti) = await GenerateRefreshToken(user);
             var userRefreshToken = new UserRefreshToken()
             {
                 AddedTime = DateTime.UtcNow,
                 ExpirydDate = DateTime.UtcNow.AddDays(jwtSettings.RefreshTokenExpireDate),
                 IsUsed = true,
                 IsRevoked = false,
-                JwtID = jwtToken.Id,
-                Token = accessToken,
+                Token = refreshToken,
+                Jti = jti,
                 UserID = user.Id,
-                RefreshToken = refreshToken.Token
             };
             await refreshTokenRepository.AddAsync(userRefreshToken);
-            return new SignInResponse()
-            {
-                AccessToken = accessToken,
-                RefreshToken = refreshToken
-            };
+            return (new SignInResponse() { Access = accessToken }, refreshToken);
         }
         public async Task<(JwtSecurityToken, string)> GenerateJwtTokenAsync(AraboonUser user)
         {
@@ -76,6 +71,7 @@ namespace Araboon.Service.Implementations
             };
             var claims = new List<Claim>()
             {
+                new Claim(nameof(UserClaimModel.Type), "access"),
                 new Claim(nameof(UserClaimModel.UserName), user.UserName),
                 new Claim(nameof(UserClaimModel.Email), user.Email),
                 new Claim(nameof(UserClaimModel.FirstName), user.FirstName),
@@ -86,14 +82,27 @@ namespace Araboon.Service.Implementations
             claims.AddRange(roles.Select(role => new Claim(nameof(UserClaimModel.Role), role)));
             return claims;
         }
-        private async Task<RefreshToken> GenerateRefreshToken(string username)
-            => new RefreshToken()
+        public async Task<(string, string)> GenerateRefreshToken(AraboonUser user)
+        {
+            var jti = Guid.NewGuid().ToString();
+            var claims = new List<Claim>()
             {
-                UserName = username,
-                ExpireAt = DateTime.UtcNow.AddDays(jwtSettings.RefreshTokenExpireDate),
-                Token = await GenerateRandomRefreshToken()
+                new Claim(nameof(UserClaimModel.Jti), jti),
+                new Claim(nameof(UserClaimModel.ID), user.Id.ToString()),
+                new Claim(nameof(UserClaimModel.Type), "refresh")
             };
-        public async Task<string> GenerateRandomRefreshToken()
+            var jwtToken = new JwtSecurityToken(
+                issuer: jwtSettings.Issuer,
+                audience: jwtSettings.Audience,
+                claims: claims,
+                expires: DateTime.UtcNow.AddDays(jwtSettings.RefreshTokenExpireDate),
+                signingCredentials: new SigningCredentials(
+                    new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSettings.SecretKey))
+                    , SecurityAlgorithms.HmacSha256Signature));
+            var refreshToken = new JwtSecurityTokenHandler().WriteToken(jwtToken);
+            return (refreshToken, jti);
+        }
+        public async Task<string> GenerateRandomToken()
         {
             var random = new byte[32];
             var randomGenerate = RandomNumberGenerator.Create();
