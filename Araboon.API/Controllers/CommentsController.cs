@@ -16,5 +16,11 @@ namespace Araboon.API.Controllers
             var result = await mediator.Send(request);
             return Result(result);
         }
+        [HttpDelete(Router.CommentRouting.DeleteComment)]
+        public async Task<IActionResult> DeleteComment(int id)
+        {
+            var result = await mediator.Send(new DeleteCommentCommand(id));
+            return Result(result);
+        }
     }
 }

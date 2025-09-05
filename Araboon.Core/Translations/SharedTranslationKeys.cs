@@ -198,5 +198,9 @@
         public const string AnErrorOccurredWhileProcessingYourCroppedCoverImageModificationRequest = "AnErrorOccurredWhileProcessingYourCroppedCoverImageModificationRequest";
         public const string AnErrorOccurredWhileCommenting = "AnErrorOccurredWhileCommenting";
         public const string CommentCompletedSuccessfully = "CommentCompletedSuccessfully";
+        public const string CommentNotFound = "CommentNotFound";
+        public const string YouAreNotTheOwnerOfThisCommentOrYouAreNotTheAdmin = "YouAreNotTheOwnerOfThisCommentOrYouAreNotTheAdmin";
+        public const string AnErrorOccurredWhileDeletingTheComment = "AnErrorOccurredWhileDeletingTheComment";
+        public const string TheCommentHasBeenSuccessfullyDeleted = "TheCommentHasBeenSuccessfullyDeleted";
     }
 }

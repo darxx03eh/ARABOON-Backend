@@ -717,4 +717,16 @@
   <data name="CommentCompletedSuccessfully" xml:space="preserve">
     <value>تم إضافة التعليق بنجاح</value>
   </data>
+  <data name="CommentNotFound" xml:space="preserve">
+    <value>التعليق غير موجود</value>
+  </data>
+  <data name="YouAreNotTheOwnerOfThisCommentOrYouAreNotTheAdmin" xml:space="preserve">
+    <value>لست مالك هذا التعليق أو لست المسؤول</value>
+  </data>
+  <data name="AnErrorOccurredWhileDeletingTheComment" xml:space="preserve">
+    <value>حدث خطأ أثناء حذف التعليق</value>
+  </data>
+  <data name="TheCommentHasBeenSuccessfullyDeleted" xml:space="preserve">
+    <value>تم حذف التعليق بنجاح</value>
+  </data>
 </root>

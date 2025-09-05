@@ -718,4 +718,16 @@
   <data name="CommentCompletedSuccessfully" xml:space="preserve">
     <value>Comment completed successfully</value>
   </data>
+  <data name="CommentNotFound" xml:space="preserve">
+    <value>Comment not found</value>
+  </data>
+  <data name="YouAreNotTheOwnerOfThisCommentOrYouAreNotTheAdmin" xml:space="preserve">
+    <value>You are not the owner of this comment or you are not the admin</value>
+  </data>
+  <data name="AnErrorOccurredWhileDeletingTheComment" xml:space="preserve">
+    <value>An error occurred while deleting the comment</value>
+  </data>
+  <data name="TheCommentHasBeenSuccessfullyDeleted" xml:space="preserve">
+    <value>The comment has been successfully deleted</value>
+  </data>
 </root>

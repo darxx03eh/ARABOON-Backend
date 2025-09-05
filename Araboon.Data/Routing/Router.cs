@@ -104,6 +104,7 @@
         {
             public const string prefix = $"{rule}comment";
             public const string AddComment = $"{prefix}";
+            public const string DeleteComment = $"{prefix}{singleRoute}";
         }
     }
 }
