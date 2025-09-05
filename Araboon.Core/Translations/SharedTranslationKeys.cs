@@ -202,5 +202,7 @@
         public const string YouAreNotTheOwnerOfThisCommentOrYouAreNotTheAdmin = "YouAreNotTheOwnerOfThisCommentOrYouAreNotTheAdmin";
         public const string AnErrorOccurredWhileDeletingTheComment = "AnErrorOccurredWhileDeletingTheComment";
         public const string TheCommentHasBeenSuccessfullyDeleted = "TheCommentHasBeenSuccessfullyDeleted";
+        public const string AnErrorOccurredWhileUpdatingTheComment = "AnErrorOccurredWhileUpdatingTheComment";
+        public const string TheCommentHasBeenSuccessfullyUpdated = "TheCommentHasBeenSuccessfullyUpdated";
     }
 }

@@ -10,6 +10,7 @@ namespace Araboon.Core.Features.Comments.Commands.Handlers
     public class CommentCommandHandler : ApiResponseHandler
         , IRequestHandler<AddCommentCommand, ApiResponse>
         , IRequestHandler<DeleteCommentCommand, ApiResponse>
+        , IRequestHandler<UpdateCommentCommand, ApiResponse>
     {
         private readonly ICommentService commentService;
         private readonly IStringLocalizer<SharedTranslation> stringLocalizer;
@@ -47,6 +48,23 @@ namespace Araboon.Core.Features.Comments.Commands.Handlers
                 "TheCommentHasBeenSuccessfullyDeleted" =>
                 Success(null, message: stringLocalizer[SharedTranslationKeys.TheCommentHasBeenSuccessfullyDeleted]),
                 _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileDeletingTheComment])
+            };
+        }
+
+        public async Task<ApiResponse> Handle(UpdateCommentCommand request, CancellationToken cancellationToken)
+        {
+            var result = await commentService.UpdateCommentAsync(request.Content.Trim(), request.Id);
+            return result switch
+            {
+                "CommentNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.CommentNotFound]),
+                "UserNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.UserNotFound]),
+                "YouAreNotTheOwnerOfThisCommentOrYouAreNotTheAdmin" =>
+                BadRequest(stringLocalizer[SharedTranslationKeys.YouAreNotTheOwnerOfThisCommentOrYouAreNotTheAdmin]),
+                "AnErrorOccurredWhileDeletingTheComment" =>
+                InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileUpdatingTheComment]),
+                "TheCommentHasBeenSuccessfullyUpdated" => 
+                Success(null, message: stringLocalizer[SharedTranslationKeys.TheCommentHasBeenSuccessfullyUpdated]),
+                _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileUpdatingTheComment])
             };
         }
     }

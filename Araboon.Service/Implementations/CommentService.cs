@@ -11,13 +11,11 @@ namespace Araboon.Service.Implementations
     {
         private readonly IUnitOfWork unitOfWork;
         private readonly UserManager<AraboonUser> userManager;
-        private readonly RoleManager<AraboonRole> roleManager;
 
-        public CommentService(IUnitOfWork unitOfWork, UserManager<AraboonUser> userManager, RoleManager<AraboonRole> roleManager)
+        public CommentService(IUnitOfWork unitOfWork, UserManager<AraboonUser> userManager)
         {
             this.unitOfWork = unitOfWork;
             this.userManager = userManager;
-            this.roleManager = roleManager;
         }
 
         public async Task<string> AddCommentAsync(string content, int mangaId)
@@ -69,9 +67,38 @@ namespace Araboon.Service.Implementations
                 await unitOfWork.CommentRepository.DeleteAsync(comment);
                 return "TheCommentHasBeenSuccessfullyDeleted";
 
-            }catch(Exception exp)
+            }
+            catch (Exception exp)
             {
                 return "AnErrorOccurredWhileDeletingTheComment";
+            }
+        }
+
+        public async Task<string> UpdateCommentAsync(string content, int id)
+        {
+            var comment = await unitOfWork.CommentRepository.GetByIdAsync(id);
+            if (comment is null)
+                return "CommentNotFound";
+            var userId = unitOfWork.CommentRepository.ExtractUserIdFromToken();
+            if (string.IsNullOrWhiteSpace(userId))
+                return "UserNotFound";
+            var user = await userManager.FindByIdAsync(userId);
+            if (user is null)
+                return "UserNotFound";
+            var userRole = await userManager.GetRolesAsync(user);
+            if (!comment.UserID.Equals(user.Id) && !userRole.Contains(Roles.Admin))
+                return "YouAreNotTheOwnerOfThisCommentOrYouAreNotTheAdmin";
+            try
+            {
+                comment.Content = content;
+                comment.UpdatedAt = DateTime.UtcNow;
+                await unitOfWork.CommentRepository.UpdateAsync(comment);
+                return "TheCommentHasBeenSuccessfullyUpdated";
+
+            }
+            catch (Exception exp)
+            {
+                return "AnErrorOccurredWhileUpdatingTheComment";
             }
         }
     }
