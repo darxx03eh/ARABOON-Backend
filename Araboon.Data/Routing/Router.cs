@@ -102,7 +102,7 @@
         }
         public static class CommentRouting
         {
-            public const string prefix = $"{rule}comment";
+            public const string prefix = $"{rule}comments";
             public const string AddComment = $"{prefix}";
             public const string DeleteComment = $"{prefix}{singleRoute}";
             public const string UpdateComment = $"{prefix}{singleRoute}";
