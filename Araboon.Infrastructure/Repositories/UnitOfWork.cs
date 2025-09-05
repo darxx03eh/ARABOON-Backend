@@ -24,7 +24,7 @@ namespace Araboon.Infrastructure.Repositories
             ReadingLaterRepository = new ReadingLaterRepository(context, httpContextAccessor);
             RefreshTokenRepository = new RefreshTokenRepository(context, httpContextAccessor);
             UserRepository = new UserRepository(context, httpContextAccessor);
-
+            CommentRepository = new CommentRepository(context, httpContextAccessor);
         }
         public ICategoryRepository CategoryRepository { get; set; }
         public IChapterRepository ChapterRepository { get; set; }
@@ -37,5 +37,6 @@ namespace Araboon.Infrastructure.Repositories
         public IReadingLaterRepository ReadingLaterRepository { get; set; }
         public IRefreshTokenRepository RefreshTokenRepository { get; set; }
         public IUserRepository UserRepository { get; set; }
+        public ICommentRepository CommentRepository { get; set; }
     }
 }

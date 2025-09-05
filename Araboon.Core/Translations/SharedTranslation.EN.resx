@@ -712,4 +712,10 @@
   <data name="LogOutSuccessfully" xml:space="preserve">
     <value>Logged out successfully</value>
   </data>
+  <data name="AnErrorOccurredWhileCommenting" xml:space="preserve">
+    <value>An error occurred while commenting</value>
+  </data>
+  <data name="CommentCompletedSuccessfully" xml:space="preserve">
+    <value>Comment completed successfully</value>
+  </data>
 </root>

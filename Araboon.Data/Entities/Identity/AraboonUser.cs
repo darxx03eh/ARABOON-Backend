@@ -34,6 +34,8 @@ namespace Araboon.Data.Entities.Identity
         public virtual ICollection<Reply>? Replies { get; set; } = new HashSet<Reply>();
         public virtual ICollection<ChapterView>? ChapterViews { get; set; } = new HashSet<ChapterView>();
         public virtual ICollection<Ratings>? Ratings { get; set; } = new HashSet<Ratings>();
+        public virtual ICollection<ReplyLikes>? ReplyLikes { get; set; } = new HashSet<ReplyLikes>();
+        public virtual ICollection<CommentLikes>? CommentLikes { get; set; } = new HashSet<CommentLikes>();
         public virtual CoverImage? CoverImage { get; set; }
         public virtual ProfileImage? ProfileImage { get; set; }
     }

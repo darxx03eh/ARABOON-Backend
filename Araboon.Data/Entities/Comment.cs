@@ -11,9 +11,9 @@ namespace Araboon.Data.Entities
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
         public string Content { get; set; }
         public int? Likes { get; set; }
-        public int? DisLikes { get; set; }
         public virtual Manga? Manga { get; set; }
         public virtual AraboonUser? User { get; set; }
         public virtual ICollection<Reply>? Replies { get; set; } = new HashSet<Reply>();
+        public virtual ICollection<CommentLikes> CommentLikes { get; set; } = new HashSet<CommentLikes>();
     }
 }

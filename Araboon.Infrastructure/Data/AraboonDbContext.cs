@@ -32,6 +32,8 @@ namespace Araboon.Infrastructure.Data
         public DbSet<ReadingLater> ReadingLaters { get; set; }
         public DbSet<Reply> Replies { get; set; }
         public DbSet<ChapterView> ChapterViews { get; set; }
+        public DbSet<CommentLikes> CommentLikes { get; set; }
+        public DbSet<ReplyLikes> ReplyLikes { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

@@ -22,8 +22,11 @@ namespace Araboon.Infrastructure.Configurations
 
             builder.Property(x => x.Likes)
                 .HasDefaultValue(0);
-            builder.Property(x => x.DisLikes)
-                .HasDefaultValue(0);
+
+            builder.HasMany(x => x.ReplyLikes)
+                .WithOne(x => x.Reply)
+                .HasForeignKey(x => x.ReplyId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

@@ -23,8 +23,10 @@ namespace Araboon.Infrastructure.Configurations
                 .OnDelete(DeleteBehavior.Restrict);
             builder.Property(x => x.Likes)
                 .HasDefaultValue(0);
-            builder.Property(x => x.DisLikes)
-                .HasDefaultValue(0);
+            builder.HasMany(x => x.CommentLikes)
+                .WithOne(x => x.Comment)
+                .HasForeignKey(x => x.CommentId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

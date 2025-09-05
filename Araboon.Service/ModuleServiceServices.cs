@@ -23,6 +23,7 @@ namespace Araboon.Service
             services.AddTransient(typeof(INotificationsService), typeof(NotificationsService));
             services.AddTransient(typeof(IReadingLaterService), typeof(ReadingLaterService));
             services.AddTransient(typeof(IUserService), typeof(UserService));
+            services.AddTransient(typeof(ICommentService), typeof(CommentService));
             return services;
         }
     }

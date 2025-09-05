@@ -100,5 +100,10 @@
             public const string ChangeCroppedData = $"{prefix}/crop-data";
             public const string ChangeCroppedCoverImage = $"{prefix}/cover-image/cropped-image";
         }
+        public static class CommentRouting
+        {
+            public const string prefix = $"{rule}comment";
+            public const string AddComment = $"{prefix}";
+        }
     }
 }

@@ -196,5 +196,7 @@
         public const string AnErrorOccurredWhileEditingCroppedCoverImage = "AnErrorOccurredWhileEditingCroppedCoverImage";
         public const string TheCroppedCoverImageHasBeenChangedSuccessfully = "TheCroppedCoverImageHasBeenChangedSuccessfully";
         public const string AnErrorOccurredWhileProcessingYourCroppedCoverImageModificationRequest = "AnErrorOccurredWhileProcessingYourCroppedCoverImageModificationRequest";
+        public const string AnErrorOccurredWhileCommenting = "AnErrorOccurredWhileCommenting";
+        public const string CommentCompletedSuccessfully = "CommentCompletedSuccessfully";
     }
 }

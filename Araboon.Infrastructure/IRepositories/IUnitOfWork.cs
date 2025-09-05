@@ -13,5 +13,6 @@
         public IReadingLaterRepository ReadingLaterRepository { get; set; }
         public IRefreshTokenRepository RefreshTokenRepository { get; set; }
         public IUserRepository UserRepository { get; set; }
+        public ICommentRepository CommentRepository { get; set; }
     }
 }

@@ -68,6 +68,16 @@ namespace Araboon.Infrastructure.Configurations
                 .WithOne(x => x.User)
                 .HasForeignKey(x => x.UserID)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(x => x.CommentLikes)
+                .WithOne(x => x.User)
+                .HasForeignKey(x => x.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(x => x.ReplyLikes)
+                .WithOne(x => x.User)
+                .HasForeignKey(x => x.UserId)
+                .OnDelete (DeleteBehavior.Cascade);
         }
     }
 }
