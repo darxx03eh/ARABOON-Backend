@@ -28,5 +28,17 @@ namespace Araboon.API.Controllers
             var result = await mediator.Send(new UpdateCommentCommand(id) { Content = content.Content });
             return Result(result);
         }
+        [HttpPost(Router.CommentRouting.AddLike)]
+        public async Task<IActionResult> AddLike(int id)
+        {
+            var result = await mediator.Send(new AddLikeToCommentCommand(id));
+            return Result(result);
+        }
+        [HttpDelete(Router.CommentRouting.DeleteLike)]
+        public async Task<IActionResult> DeleteLike(int id)
+        {
+            var result = await mediator.Send(new DeleteLikeFromCommentCommand(id));
+            return Result(result);
+        }
     }
 }

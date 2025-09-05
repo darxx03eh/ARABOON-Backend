@@ -14,5 +14,6 @@
         public IRefreshTokenRepository RefreshTokenRepository { get; set; }
         public IUserRepository UserRepository { get; set; }
         public ICommentRepository CommentRepository { get; set; }
+        public ICommentLikesRepository CommentLikesRepository { get; set; }
     }
 }

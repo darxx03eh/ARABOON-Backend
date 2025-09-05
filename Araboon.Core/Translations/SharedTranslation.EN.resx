@@ -736,4 +736,25 @@
   <data name="TheCommentHasBeenSuccessfullyUpdated" xml:space="preserve">
     <value>The comment has been successfully updated</value>
   </data>
+  <data name="YouAreAlreadyAddedLikeToThisComment" xml:space="preserve">
+    <value>You have already liked this comment</value>
+  </data>
+  <data name="TheLikeProcessForThisCommentFailed" xml:space="preserve">
+    <value>The like process for this comment failed</value>
+  </data>
+  <data name="AnErrorOccurredWhileAddingALikeToTheComment" xml:space="preserve">
+    <value>An error occurred while adding a like to the comment</value>
+  </data>
+  <data name="TheLikeHasBeenAddedToTheCommentSuccessfully" xml:space="preserve">
+    <value>The like has been added to the comment successfully</value>
+  </data>
+  <data name="YouAreNotLikedThisComment" xml:space="preserve">
+    <value>You have not liked this comment</value>
+  </data>
+  <data name="AnErrorOccurredWhileRemovingALikeFromTheComment" xml:space="preserve">
+    <value>An error occurred while removing a like from the comment</value>
+  </data>
+  <data name="TheLikeHasBeenDeletedFromTheCommentSuccessfully" xml:space="preserve">
+    <value>The like has been deleted from the comment successfully</value>
+  </data>
 </root>

@@ -11,6 +11,8 @@ namespace Araboon.Core.Features.Comments.Commands.Handlers
         , IRequestHandler<AddCommentCommand, ApiResponse>
         , IRequestHandler<DeleteCommentCommand, ApiResponse>
         , IRequestHandler<UpdateCommentCommand, ApiResponse>
+        , IRequestHandler<AddLikeToCommentCommand, ApiResponse>
+        , IRequestHandler<DeleteLikeFromCommentCommand, ApiResponse>
     {
         private readonly ICommentService commentService;
         private readonly IStringLocalizer<SharedTranslation> stringLocalizer;
@@ -65,6 +67,39 @@ namespace Araboon.Core.Features.Comments.Commands.Handlers
                 "TheCommentHasBeenSuccessfullyUpdated" => 
                 Success(null, message: stringLocalizer[SharedTranslationKeys.TheCommentHasBeenSuccessfullyUpdated]),
                 _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileUpdatingTheComment])
+            };
+        }
+
+        public async Task<ApiResponse> Handle(AddLikeToCommentCommand request, CancellationToken cancellationToken)
+        {
+            var result = await commentService.AddLikeAsync(request.Id);
+            return result switch
+            {
+                "CommentNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.CommentNotFound]),
+                "UserNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.UserNotFound]),
+                "YouAreAlreadyAddedLikeToThisComment" => BadRequest(stringLocalizer[SharedTranslationKeys.YouAreAlreadyAddedLikeToThisComment]),
+                "TheLikeProcessForThisCommentFailed" => InternalServerError(stringLocalizer[SharedTranslationKeys.TheLikeProcessForThisCommentFailed]),
+                "AnErrorOccurredWhileAddingALikeToTheComment" =>
+                InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileAddingALikeToTheComment]),
+                "TheLikeHasBeenAddedToTheCommentSuccessfully" => 
+                Success(null, message: stringLocalizer[SharedTranslationKeys.TheLikeHasBeenAddedToTheCommentSuccessfully]),
+                _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileAddingALikeToTheComment])
+            };
+        }
+
+        public async Task<ApiResponse> Handle(DeleteLikeFromCommentCommand request, CancellationToken cancellationToken)
+        {
+            var result = await commentService.DeleteLikeAsync(request.Id);
+            return result switch
+            {
+                "CommentNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.CommentNotFound]),
+                "UserNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.UserNotFound]),
+                "YouAreNotLikedThisComment" => BadRequest(stringLocalizer[SharedTranslationKeys.YouAreNotLikedThisComment]),
+                "AnErrorOccurredWhileRemovingALikeFromTheComment" =>
+                InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileRemovingALikeFromTheComment]),
+                "TheLikeHasBeenDeletedFromTheCommentSuccessfully" => 
+                Success(null, message: stringLocalizer[SharedTranslationKeys.TheLikeHasBeenDeletedFromTheCommentSuccessfully]),
+                _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileRemovingALikeFromTheComment])
             };
         }
     }

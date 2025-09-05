@@ -735,4 +735,25 @@
   <data name="TheCommentHasBeenSuccessfullyUpdated" xml:space="preserve">
     <value>تم تحديث التعليق بنجاح</value>
   </data>
+  <data name="YouAreAlreadyAddedLikeToThisComment" xml:space="preserve">
+    <value>لقد قمت بالإعجاب بهذا التعليق مسبقًا</value>
+  </data>
+  <data name="TheLikeProcessForThisCommentFailed" xml:space="preserve">
+    <value>فشلت عملية الإعجاب بهذا التعليق</value>
+  </data>
+  <data name="AnErrorOccurredWhileAddingALikeToTheComment" xml:space="preserve">
+    <value>حدث خطأ أثناء إضافة إعجاب للتعليق</value>
+  </data>
+  <data name="TheLikeHasBeenAddedToTheCommentSuccessfully" xml:space="preserve">
+    <value>تم إضافة الإعجاب للتعليق بنجاح</value>
+  </data>
+  <data name="YouAreNotLikedThisComment" xml:space="preserve">
+    <value>أنت لم تقم بالإعجاب بهذا التعليق</value>
+  </data>
+  <data name="AnErrorOccurredWhileRemovingALikeFromTheComment" xml:space="preserve">
+    <value>حدث خطأ أثناء إزالة الإعجاب من التعليق</value>
+  </data>
+  <data name="TheLikeHasBeenDeletedFromTheCommentSuccessfully" xml:space="preserve">
+    <value>تم ازالة الإعجاب من التعليق بنجاح</value>
+  </data>
 </root>

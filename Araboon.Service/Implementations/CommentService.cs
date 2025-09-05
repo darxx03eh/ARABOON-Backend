@@ -1,9 +1,12 @@
 ﻿using Araboon.Data.Entities;
 using Araboon.Data.Entities.Identity;
 using Araboon.Data.Helpers;
+using Araboon.Infrastructure.Data;
 using Araboon.Infrastructure.IRepositories;
 using Araboon.Service.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Araboon.Service.Implementations
 {
@@ -11,11 +14,13 @@ namespace Araboon.Service.Implementations
     {
         private readonly IUnitOfWork unitOfWork;
         private readonly UserManager<AraboonUser> userManager;
+        private readonly AraboonDbContext context;
 
-        public CommentService(IUnitOfWork unitOfWork, UserManager<AraboonUser> userManager)
+        public CommentService(IUnitOfWork unitOfWork, UserManager<AraboonUser> userManager, AraboonDbContext context)
         {
             this.unitOfWork = unitOfWork;
             this.userManager = userManager;
+            this.context = context;
         }
 
         public async Task<string> AddCommentAsync(string content, int mangaId)
@@ -47,6 +52,50 @@ namespace Araboon.Service.Implementations
             }
         }
 
+        public async Task<string> AddLikeAsync(int id)
+        {
+            var comment = await unitOfWork.CommentRepository.GetByIdAsync(id);
+            if (comment is null)
+                return "CommentNotFound";
+            var userId = unitOfWork.CommentRepository.ExtractUserIdFromToken();
+            if (string.IsNullOrWhiteSpace(userId))
+                return "UserNotFound";
+            var user = await userManager.FindByIdAsync(userId);
+            if (user is null)
+                return "UserNotFound";
+
+            var usersLikesComment = await context.CommentLikes.Where(comment => comment.CommentId.Equals(id))
+                                    .Select(user => user.UserId).ToListAsync();
+            if (usersLikesComment.Contains(user.Id))
+                return "YouAreAlreadyAddedLikeToThisComment";
+            using (var transaction = await context.Database.BeginTransactionAsync())
+            {
+                try
+                {
+                    var like = await unitOfWork.CommentLikesRepository.AddAsync(new CommentLikes()
+                    {
+                        CommentId = id,
+                        UserId = user.Id
+                    });
+                    if (like is null)
+                    {
+                        await transaction.RollbackAsync();
+                        return "TheLikeProcessForThisCommentFailed";
+                    }
+                    comment.Likes += 1;
+                    await unitOfWork.CommentRepository.UpdateAsync(comment);
+                    await transaction.CommitAsync();
+                    return "TheLikeHasBeenAddedToTheCommentSuccessfully";
+                }
+                catch (Exception)
+                {
+                    if(transaction.GetDbTransaction().Connection is null)
+                        await transaction.RollbackAsync();
+                    return "AnErrorOccurredWhileAddingALikeToTheComment";
+                }
+            }
+        }
+
         public async Task<string> DeleteCommentAsync(int id)
         {
             var comment = await unitOfWork.CommentRepository.GetByIdAsync(id);
@@ -71,6 +120,42 @@ namespace Araboon.Service.Implementations
             catch (Exception exp)
             {
                 return "AnErrorOccurredWhileDeletingTheComment";
+            }
+        }
+
+        public async Task<string> DeleteLikeAsync(int id)
+        {
+            var comment = await unitOfWork.CommentRepository.GetByIdAsync(id);
+            if (comment is null)
+                return "CommentNotFound";
+            var userId = unitOfWork.CommentRepository.ExtractUserIdFromToken();
+            if (string.IsNullOrWhiteSpace(userId))
+                return "UserNotFound";
+            var user = await userManager.FindByIdAsync(userId);
+            if (user is null)
+                return "UserNotFound";
+
+            var usersLikesComment = await context.CommentLikes.Where(comment => comment.CommentId.Equals(id))
+                                    .Select(user => user.UserId).ToListAsync();
+            if (!usersLikesComment.Contains(user.Id))
+                return "YouAreNotLikedThisComment";
+            using (var transaction = await context.Database.BeginTransactionAsync())
+            {
+                try
+                {
+                    var like = await context.CommentLikes.Where(l => l.UserId.Equals(user.Id) && l.CommentId.Equals(id)).FirstOrDefaultAsync();
+                    await unitOfWork.CommentLikesRepository.DeleteAsync(like);
+                    comment.Likes -= 1;
+                    await unitOfWork.CommentRepository.UpdateAsync(comment);
+                    await transaction.CommitAsync();
+                    return "TheLikeHasBeenDeletedFromTheCommentSuccessfully";
+                }
+                catch (Exception)
+                {
+                    if (transaction.GetDbTransaction().Connection is null)
+                        await transaction.RollbackAsync();
+                    return "AnErrorOccurredWhileRemovingALikeFromTheComment";
+                }
             }
         }
 

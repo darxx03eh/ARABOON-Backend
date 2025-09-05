@@ -204,5 +204,12 @@
         public const string TheCommentHasBeenSuccessfullyDeleted = "TheCommentHasBeenSuccessfullyDeleted";
         public const string AnErrorOccurredWhileUpdatingTheComment = "AnErrorOccurredWhileUpdatingTheComment";
         public const string TheCommentHasBeenSuccessfullyUpdated = "TheCommentHasBeenSuccessfullyUpdated";
+        public const string YouAreAlreadyAddedLikeToThisComment = "YouAreAlreadyAddedLikeToThisComment";
+        public const string TheLikeProcessForThisCommentFailed = "TheLikeProcessForThisCommentFailed";
+        public const string AnErrorOccurredWhileAddingALikeToTheComment = "AnErrorOccurredWhileAddingALikeToTheComment";
+        public const string TheLikeHasBeenAddedToTheCommentSuccessfully = "TheLikeHasBeenAddedToTheCommentSuccessfully";
+        public const string YouAreNotLikedThisComment = "YouAreNotLikedThisComment";
+        public const string AnErrorOccurredWhileRemovingALikeFromTheComment = "AnErrorOccurredWhileRemovingALikeFromTheComment";
+        public const string TheLikeHasBeenDeletedFromTheCommentSuccessfully = "TheLikeHasBeenDeletedFromTheCommentSuccessfully";
     }
 }

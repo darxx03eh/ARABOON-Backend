@@ -92,6 +92,8 @@ namespace Araboon.Infrastructure
             services.AddTransient(typeof(ICategoryRepository), typeof(CategoryRepository));
             services.AddTransient(typeof(IUnitOfWork), typeof(UnitOfWork));
             services.AddTransient(typeof(IUserRepository), typeof(UserRepository));
+            services.AddTransient(typeof(ICommentRepository), typeof(CommentRepository));
+            services.AddTransient(typeof(ICommentLikesRepository), typeof(CommentLikesRepository));
             #endregion
 
             return services;
