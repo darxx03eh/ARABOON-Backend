@@ -68,9 +68,10 @@ namespace Araboon.API
                 options.AddPolicy(name: CORS,
                                   policy =>
                                   {
-                                      policy.AllowAnyHeader();
-                                      policy.AllowAnyMethod();
-                                      policy.AllowAnyOrigin();
+                                      policy.AllowAnyOrigin()
+                                      .AllowAnyMethod()
+                                      .AllowAnyHeader()
+                                      .WithExposedHeaders("Content-Type", "Authorization");
                                   });
             });
             #endregion
@@ -132,7 +133,34 @@ namespace Araboon.API
             });
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(c =>
+            {
+                c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Type = Microsoft.OpenApi.Models.SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+                    Description = "√œŒ· JWT token »Â«·‘ﬂ·: Bearer {your token}"
+                });
+
+                //  ›⁄Ì· «·‹ Requirement
+                c.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+    {
+        {
+            new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+            {
+                Reference = new Microsoft.OpenApi.Models.OpenApiReference
+                {
+                    Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
+            });
             builder.Services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
             builder.Services.AddTransient<MangaDateFormatResolver>();
             builder.Services.AddSingleton<IHostEnvironment>(sp => sp.GetRequiredService<IWebHostEnvironment>());
@@ -158,8 +186,8 @@ namespace Araboon.API
             app.UseResponseCaching();
             app.UseRequestLocalization(locOptions.Value);
             app.UseCors(CORS);
-            app.UseMiddleware<ErrorHandlerMiddleware>();
             app.UseMiddleware<TokenValidationMiddleware>();
+            app.UseMiddleware<ErrorHandlerMiddleware>();
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseAuthorization();

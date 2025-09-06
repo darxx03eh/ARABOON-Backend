@@ -94,13 +94,13 @@ namespace Araboon.Core.Middleware
                 var principal = handler.ValidateToken(token, parameters, out SecurityToken validatedToken);
                 if (validatedToken is not JwtSecurityToken jwtToken)
                 {
-                    await WriteJsonResponse(context, HttpStatusCode.BadRequest, stringLocalizer[SharedTranslationKeys.InvalidTokenFormat]);
+                    await WriteJsonResponse(context, HttpStatusCode.Unauthorized, stringLocalizer[SharedTranslationKeys.InvalidTokenFormat]);
                     return;
                 }
             }
             catch (SecurityTokenExpiredException exp)
             {
-                await WriteJsonResponse(context, HttpStatusCode.BadRequest, stringLocalizer[SharedTranslationKeys.TokenExpired]);
+                await WriteJsonResponse(context, HttpStatusCode.Unauthorized, stringLocalizer[SharedTranslationKeys.TokenExpired]);
                 return;
             }
             catch
@@ -112,11 +112,12 @@ namespace Araboon.Core.Middleware
         }
         private async Task WriteJsonResponse(HttpContext context, HttpStatusCode statusCode, string message)
         {
+
             if (context.Response.HasStarted) 
                 return;
 
             context.Response.StatusCode = (int)statusCode;
-            context.Response.ContentType = "application/json";
+            context.Response.ContentType = "application/json; charset=utf-8";
 
             var response = new ApiResponse
             {
@@ -126,7 +127,7 @@ namespace Araboon.Core.Middleware
             };
 
             var json = JsonSerializer.Serialize(response, JSONOPTIONS);
-            await context.Response.WriteAsync(json);
+            await context.Response.WriteAsync(json, Encoding.UTF8);
         }
     }
 }

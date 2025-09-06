@@ -1,12 +1,12 @@
-﻿using System.Net;
-using System.Text.Json;
-using Araboon.Core.Bases;
+﻿using Araboon.Core.Bases;
 using Araboon.Core.Exceptions;
 using Araboon.Core.Translations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
+using System.Net;
+using System.Text;
+using System.Text.Json;
 
 namespace Araboon.Core.Middleware
 {
@@ -19,8 +19,8 @@ namespace Araboon.Core.Middleware
         {
             this.next = next;
             this.stringLocalizer = stringLocalizer;
-            this.stringLocalizer = stringLocalizer;
         }
+
         public async Task Invoke(HttpContext context)
         {
             var options = new JsonSerializerOptions
@@ -28,92 +28,99 @@ namespace Araboon.Core.Middleware
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
                 DictionaryKeyPolicy = JsonNamingPolicy.CamelCase
             };
-            context.RequestServices.GetRequiredService<IStringLocalizer<SharedTranslation>>();
+
             try
             {
                 await next(context);
-                if (context.Response.StatusCode.Equals(StatusCodes.Status403Forbidden))
+
+                if (context.Response.StatusCode == StatusCodes.Status403Forbidden)
                 {
-                    context.Response.ContentType = "application/json";
-                    var responseModel = new ApiResponse()
-                    {
-                        Succeeded = false,
-                        StatusCode = HttpStatusCode.Forbidden,
-                        Message = stringLocalizer[SharedTranslationKeys.Forbidden]
-                    };
-                    var result = JsonSerializer.Serialize(responseModel, options);
-                    await context.Response.WriteAsync(result);
+                    await WriteErrorResponse(context, HttpStatusCode.Forbidden,
+                        stringLocalizer[SharedTranslationKeys.Forbidden], options);
                     return;
                 }
-                else if (context.Response.StatusCode.Equals(StatusCodes.Status401Unauthorized))
+                else if (context.Response.StatusCode == StatusCodes.Status401Unauthorized)
                 {
-                    context.Response.ContentType = "application/json";
-                    var responseModel = new ApiResponse()
-                    {
-                        Succeeded = false,
-                        StatusCode = HttpStatusCode.Unauthorized,
-                        Message = stringLocalizer[SharedTranslationKeys.Unauthorized]
-                    };
-                    var result = JsonSerializer.Serialize(responseModel, options);
-                    await context.Response.WriteAsync(result);
+                    await WriteErrorResponse(context, HttpStatusCode.Unauthorized,
+                        stringLocalizer[SharedTranslationKeys.Unauthorized], options);
                     return;
                 }
             }
             catch (Exception error)
             {
-                var response = context.Response;
-                response.ContentType = "application/json";
-                var responseModel = new ApiResponse()
-                {
-                    Succeeded = false,
-                    Message = error?.Message
-                };
-                switch (error)
-                {
-                    case UnauthorizedAccessException e:
-                        responseModel.Message = stringLocalizer[SharedTranslationKeys.UnauthorizedAccessException];
-                        responseModel.StatusCode = HttpStatusCode.Unauthorized;
-                        response.StatusCode = (int)HttpStatusCode.Unauthorized;
-                        break;
-                    case CustomValidationException e:
-                        responseModel.Message = stringLocalizer[SharedTranslationKeys.ValidationFailed];
-                        responseModel.StatusCode = HttpStatusCode.UnprocessableEntity;
-                        response.StatusCode = (int)HttpStatusCode.UnprocessableEntity;
-                        responseModel.Errors = e.Errors;
-                        break;
-                    case KeyNotFoundException e:
-                        responseModel.Message = stringLocalizer[SharedTranslationKeys.KeyNotFoundException];
-                        responseModel.StatusCode = HttpStatusCode.NotFound;
-                        response.StatusCode = (int)HttpStatusCode.NotFound;
-                        break;
-                    case DbUpdateException e:
-                        responseModel.Message = e.Message;
-                        responseModel.StatusCode = HttpStatusCode.BadRequest;
-                        response.StatusCode = (int)HttpStatusCode.BadRequest;
-                        break;
-                    case Exception e:
-                        if (e.GetType().ToString().Equals("ApiException"))
-                        {
-                            responseModel.Message += e.Message;
-                            responseModel.Message += e.InnerException is null ? "" : $"\n{e.InnerException.Message}";
-                            responseModel.StatusCode = HttpStatusCode.BadRequest;
-                            response.StatusCode = (int)HttpStatusCode.BadRequest;
-                        }
-                        responseModel.Message = e.Message;
-                        responseModel.Message += e.InnerException is null ? "" : $"\n{e.InnerException.Message}";
-                        responseModel.StatusCode = HttpStatusCode.InternalServerError;
-                        response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                        break;
-                    default:
-                        responseModel.Message = error.Message;
-                        responseModel.StatusCode = HttpStatusCode.BadRequest;
-                        response.StatusCode = (int)HttpStatusCode.BadRequest;
-                        break;
-                }
-                var result = JsonSerializer.Serialize(responseModel, options);
-                await response.WriteAsync(result);
-                return;
+                await HandleException(context, error, options);
             }
+        }
+
+        private async Task WriteErrorResponse(HttpContext context, HttpStatusCode statusCode,
+            string message, JsonSerializerOptions options)
+        {
+            if (context.Response.HasStarted)
+                return;
+
+            context.Response.StatusCode = (int)statusCode;
+            context.Response.ContentType = "application/json; charset=utf-8";
+
+            var responseModel = new ApiResponse()
+            {
+                Succeeded = false,
+                StatusCode = statusCode,
+                Message = message
+            };
+
+            var result = JsonSerializer.Serialize(responseModel, options);
+            await context.Response.WriteAsync(result, Encoding.UTF8);
+        }
+
+        private async Task HandleException(HttpContext context, Exception error, JsonSerializerOptions options)
+        {
+            if (context.Response.HasStarted)
+                return;
+
+            var responseModel = new ApiResponse()
+            {
+                Succeeded = false,
+                Message = error?.Message
+            };
+
+            switch (error)
+            {
+                case UnauthorizedAccessException e:
+                    responseModel.Message = stringLocalizer[SharedTranslationKeys.UnauthorizedAccessException];
+                    responseModel.StatusCode = HttpStatusCode.Unauthorized;
+                    context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                    break;
+
+                case CustomValidationException e:
+                    responseModel.Message = stringLocalizer[SharedTranslationKeys.ValidationFailed];
+                    responseModel.StatusCode = HttpStatusCode.UnprocessableEntity;
+                    context.Response.StatusCode = (int)HttpStatusCode.UnprocessableEntity;
+                    responseModel.Errors = e.Errors;
+                    break;
+
+                case KeyNotFoundException e:
+                    responseModel.Message = stringLocalizer[SharedTranslationKeys.KeyNotFoundException];
+                    responseModel.StatusCode = HttpStatusCode.NotFound;
+                    context.Response.StatusCode = (int)HttpStatusCode.NotFound;
+                    break;
+
+                case DbUpdateException e:
+                    responseModel.Message = e.Message;
+                    responseModel.StatusCode = HttpStatusCode.BadRequest;
+                    context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    break;
+
+                default:
+                    responseModel.Message = error.Message;
+                    responseModel.Message += error.InnerException != null ? $"\n{error.InnerException.Message}" : "";
+                    responseModel.StatusCode = HttpStatusCode.InternalServerError;
+                    context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                    break;
+            }
+
+            context.Response.ContentType = "application/json; charset=utf-8";
+            var result = JsonSerializer.Serialize(responseModel, options);
+            await context.Response.WriteAsync(result, Encoding.UTF8);
         }
     }
 }

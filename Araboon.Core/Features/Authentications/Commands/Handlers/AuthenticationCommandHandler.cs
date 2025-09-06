@@ -85,8 +85,8 @@ namespace Araboon.Core.Features.Authentications.Commands.Handlers
             }
             return message switch
             {
-                "EmailNotConfirmed" => BadRequest(stringLocalizer[SharedTranslationKeys.EmailNotConfirmed]),
-                "PasswordOrUserNameWrnog" => BadRequest(stringLocalizer[SharedTranslationKeys.PasswordOrUserNameWrnog]),
+                "EmailNotConfirmed" => Forbidden(stringLocalizer[SharedTranslationKeys.EmailNotConfirmed]),
+                "PasswordOrUserNameWrnog" => Unauthorized(stringLocalizer[SharedTranslationKeys.PasswordOrUserNameWrnog]),
                 "AnErrorOccurredWhileGeneratingTheToken" =>
                 InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileGeneratingTheToken]),
                 "AnErrorOccurredDuringTheLoginProcess" =>
