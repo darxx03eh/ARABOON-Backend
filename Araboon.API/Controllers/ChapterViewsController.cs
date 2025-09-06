@@ -1,10 +1,12 @@
 ﻿using Araboon.API.Bases;
 using Araboon.Core.Features.ChapterViews.Commands.Models;
 using Araboon.Data.Routing;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Araboon.API.Controllers
 {
+    [Authorize]
     [ApiController]
     public class ChapterViewsController : AppBaseController
     {

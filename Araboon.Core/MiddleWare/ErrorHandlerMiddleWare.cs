@@ -8,14 +8,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
 
-namespace Araboon.Core.MiddleWare
+namespace Araboon.Core.Middleware
 {
-    public class ErrorHandlerMiddleWare
+    public class ErrorHandlerMiddleware
     {
         private readonly RequestDelegate next;
         private readonly IStringLocalizer<SharedTranslation> stringLocalizer;
 
-        public ErrorHandlerMiddleWare(RequestDelegate next, IStringLocalizer<SharedTranslation> stringLocalizer)
+        public ErrorHandlerMiddleware(RequestDelegate next, IStringLocalizer<SharedTranslation> stringLocalizer)
         {
             this.next = next;
             this.stringLocalizer = stringLocalizer;
@@ -43,6 +43,7 @@ namespace Araboon.Core.MiddleWare
                     };
                     var result = JsonSerializer.Serialize(responseModel, options);
                     await context.Response.WriteAsync(result);
+                    return;
                 }
                 else if (context.Response.StatusCode.Equals(StatusCodes.Status401Unauthorized))
                 {
@@ -55,6 +56,7 @@ namespace Araboon.Core.MiddleWare
                     };
                     var result = JsonSerializer.Serialize(responseModel, options);
                     await context.Response.WriteAsync(result);
+                    return;
                 }
             }
             catch (Exception error)
@@ -110,6 +112,7 @@ namespace Araboon.Core.MiddleWare
                 }
                 var result = JsonSerializer.Serialize(responseModel, options);
                 await response.WriteAsync(result);
+                return;
             }
         }
     }
