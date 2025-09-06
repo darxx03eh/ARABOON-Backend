@@ -211,5 +211,7 @@
         public const string YouAreNotLikedThisComment = "YouAreNotLikedThisComment";
         public const string AnErrorOccurredWhileRemovingALikeFromTheComment = "AnErrorOccurredWhileRemovingALikeFromTheComment";
         public const string TheLikeHasBeenDeletedFromTheCommentSuccessfully = "TheLikeHasBeenDeletedFromTheCommentSuccessfully";
+        public const string CommentsNotFound = "CommentsNotFound";
+        public const string CommentsFound = "CommentsFound";
     }
 }

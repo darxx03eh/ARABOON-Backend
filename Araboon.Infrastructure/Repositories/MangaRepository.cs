@@ -6,8 +6,9 @@ using Araboon.Infrastructure.Commons;
 using Araboon.Infrastructure.Data;
 using Araboon.Infrastructure.IRepositories;
 using Microsoft.AspNetCore.Http;
+using Humanizer;
 using Microsoft.EntityFrameworkCore;
-using System;
+using System.Globalization;
 
 namespace Araboon.Infrastructure.Repositories
 {
@@ -235,6 +236,65 @@ namespace Araboon.Infrastructure.Repositories
             if (!string.IsNullOrEmpty(langHeader))
                 lang = langHeader.Split(',')[0].Split('-')[0];
             return lang.Equals("ar");
+        }
+
+        public async Task<(string, PaginatedResult<GetMangaCommentsResponse>?)> GetMangaCommentsAsync(int id, int pageNumber, int pageSize)
+        {
+            var commentQueryable = context.Comments.AsNoTracking().Where(c => c.MangaID.Equals(id))
+                .OrderByDescending(c => c.UpdatedAt).AsQueryable();
+            if (commentQueryable is null)
+                return ("CommentsNotFound", null);
+            string? userId = ExtractUserIdFromToken();
+            IList<int> likes = new List<int>();
+            if (!string.IsNullOrWhiteSpace(userId))
+                likes = await context.CommentLikes.Where(x => x.UserId.Equals(int.Parse(userId))).Select(x => x.CommentId).ToListAsync();
+
+            var pagedComments = await commentQueryable.ToPaginatedListAsync(pageNumber, pageSize);
+            if (pagedComments.Data.Equals(0))
+                return ("CommentsNotFound", null);
+
+            var comments = pagedComments.Data.Select(x => new GetMangaCommentsResponse()
+            {
+                User = new User()
+                {
+                    Id = x.UserID,
+                    Name = $"{x.User.FirstName} {x.User.LastName}",
+                    ProfileImage = new Araboon.Data.Response.Users.Queries.ProfileImage()
+                    {
+                        OriginalImage = x.User.ProfileImage.OriginalImage,
+                        CropData = new Araboon.Data.Response.Users.Queries.CropData()
+                        {
+                            Position = new Araboon.Data.Response.Users.Queries.Position()
+                            {
+                                X = x.User.ProfileImage.X,
+                                Y = x.User.ProfileImage.Y,
+                            },
+                            Scale = x.User.ProfileImage.Scale,
+                            Rotate = x.User.ProfileImage.Rotate,
+                        }
+                    },
+                    Comment = new UserComment()
+                    {
+                        Id = x.CommentID,
+                        Content = x.Content,
+                        Since = IsArabic()
+                        ? x.UpdatedAt.Humanize(culture: new CultureInfo("ar"))
+                        : x.UpdatedAt.Humanize(culture: new CultureInfo("en")),
+                        Likes = x.Likes,
+                        IsLike = likes.Contains(x.CommentID)
+                    }
+                }
+            }).ToList();
+            var result = PaginatedResult<GetMangaCommentsResponse>.Success(
+                comments, 
+                pagedComments.TotalCount, 
+                pagedComments.TotalPages,
+                pagedComments.PageSize
+                );
+            result.CurrentPage = pagedComments.CurrentPage;
+            if (result.Data.Count.Equals(0))
+                return ("CommentsNotFound", null);
+            return ("CommentsFound", result);
         }
     }
 }

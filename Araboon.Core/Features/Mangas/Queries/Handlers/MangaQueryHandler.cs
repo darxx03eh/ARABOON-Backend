@@ -18,6 +18,7 @@ namespace Araboon.Core.Features.Mangas.Queries.Handlers
         , IRequestHandler<GetPaginatedHottestMangaQuery, ApiResponse>
         , IRequestHandler<GetMangaByStatusQuery, ApiResponse>
         , IRequestHandler<MangaSearchQuery, ApiResponse>
+        , IRequestHandler<GetMangaCommentsQuery, ApiResponse>
     {
         private readonly IStringLocalizer<SharedTranslation> stringLocalizer;
         private readonly IMangaService mangaService;
@@ -115,6 +116,17 @@ namespace Araboon.Core.Features.Mangas.Queries.Handlers
                 "MangaNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.MangaNotFound]),
                 "MangaFound" => Success(mangas, message: stringLocalizer[SharedTranslationKeys.MangaFound]),
                 _ => NotFound(stringLocalizer[SharedTranslationKeys.MangaNotFound])
+            };
+        }
+
+        public async Task<ApiResponse> Handle(GetMangaCommentsQuery request, CancellationToken cancellationToken)
+        {
+            var (result, comments) = await mangaService.GetMangaCommentsAsync(request.Id, request.PageNumber, request.PageSize);
+            return result switch
+            {
+                "CommentsNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.CommentsNotFound]),
+                "CommentsFound" => Success(comments, message: stringLocalizer[SharedTranslationKeys.CommentsFound]),
+                _ => NotFound(stringLocalizer[SharedTranslationKeys.CommentsNotFound])
             };
         }
     }

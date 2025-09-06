@@ -57,5 +57,12 @@ namespace Araboon.API.Controllers
             var result = await mediator.Send(request);
             return Result(result);
         }
+
+        [HttpGet(Router.MangaRouting.GetMangaComments)]
+        public async Task<IActionResult> GetMangaComments(int id, int pageNumber = 1)
+        {
+            var result = await mediator.Send(new GetMangaCommentsQuery(id) { PageNumber = pageNumber });
+            return Result(result);
+        }
     }
 }

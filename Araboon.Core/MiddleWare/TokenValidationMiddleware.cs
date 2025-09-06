@@ -40,7 +40,6 @@ namespace Araboon.Core.Middleware
             Router.CategoryRouting.GetCategories,
 
             // chapters paths
-
             Router.ChaptersRouting.ViewChaptersForSpecificMangaByLanguage,
 
             // mangas paths
@@ -50,7 +49,11 @@ namespace Araboon.Core.Middleware
             Router.MangaRouting.GetPaginatedHottestManga,
             Router.MangaRouting.GetMangaByStatus,
             Router.MangaRouting.MangaSearch,
-            "Api/V1/Manga/GetMangaByID"
+            "Api/V1/Manga/GetMangaByID",
+
+            // users paths
+            Router.UserRouting.Profile,
+            Router.UserRouting.ChangeEmailConfirmation
         };
 
         public TokenValidationMiddleware(RequestDelegate next, IStringLocalizer<SharedTranslation> stringLocalizer, JwtSettings jwtSettings)

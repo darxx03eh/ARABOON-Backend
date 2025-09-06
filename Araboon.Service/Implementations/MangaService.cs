@@ -82,5 +82,15 @@ namespace Araboon.Service.Implementations
                 _ => ("MangaNotFound", null)
             };
         }
+        public async Task<(string, PaginatedResult<GetMangaCommentsResponse>?)> GetMangaCommentsAsync(int id, int pageNumber, int pageSize)
+        {
+            var (message, comments) = await mangaRepository.GetMangaCommentsAsync(id, pageNumber, pageSize);
+            return message switch
+            {
+                "CommentsNotFound" => ("CommentsNotFound", null),
+                "CommentsFound" => ("CommentsFound", comments),
+                _ => ("CommentsNotFound", null)
+            };
+        }
     }
 }
