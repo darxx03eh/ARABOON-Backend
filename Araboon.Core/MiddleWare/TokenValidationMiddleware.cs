@@ -62,8 +62,10 @@ namespace Araboon.Core.Middleware
         public async Task Invoke(HttpContext context)
         {
             var path = context.Request.Path.Value.Substring(1) ?? string.Empty;
-            var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Replace("Bearer ", "");
-
+            var header = context.Request.Headers["Authorization"].FirstOrDefault();
+            string token = null;
+            if (!string.IsNullOrEmpty(header) && header.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
+                token = header.Substring("Bearer ".Length).Trim();
             var isPublic = PUBLICPATHS.Any(p => path.StartsWith(p, StringComparison.OrdinalIgnoreCase));
             if (string.IsNullOrWhiteSpace(token))
             {
