@@ -52,7 +52,7 @@ namespace Araboon.Core.Middleware
             "Api/V1/Manga/GetMangaByID",
 
             // users paths
-            Router.UserRouting.Profile,
+            "Api/V1/users/profile",
             Router.UserRouting.ChangeEmailConfirmation
         };
 

@@ -68,10 +68,11 @@ namespace Araboon.API
                 options.AddPolicy(name: CORS,
                                   policy =>
                                   {
-                                      policy.AllowAnyOrigin()
-                                      .AllowAnyMethod()
-                                      .AllowAnyHeader()
-                                      .WithExposedHeaders("Content-Type", "Authorization");
+                                      policy.WithOrigins("https://araboon.vercel.app")
+                                            .AllowAnyMethod()
+                                            .AllowAnyHeader()
+                                            .AllowCredentials()  
+                                            .WithExposedHeaders("Content-Type", "Authorization", "Content-Length");
                                   });
             });
             #endregion
@@ -184,8 +185,8 @@ namespace Araboon.API
             app.UseResponseCaching();
             app.UseRequestLocalization(locOptions.Value);
             app.UseCors(CORS);
-            app.UseMiddleware<TokenValidationMiddleware>();
             app.UseMiddleware<ErrorHandlerMiddleware>();
+            app.UseMiddleware<TokenValidationMiddleware>();
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseAuthorization();
