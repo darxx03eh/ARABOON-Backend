@@ -21,8 +21,4 @@
     <ProjectReference Include="..\Araboon.Service\Araboon.Service.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Features\Comments\Queries\" />
-  </ItemGroup>
-
 </Project>

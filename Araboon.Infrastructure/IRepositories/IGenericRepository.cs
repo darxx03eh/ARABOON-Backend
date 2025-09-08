@@ -21,6 +21,7 @@ namespace Araboon.Infrastructure.IRepositories
         public Task CommitAsync();
         public Task RollBackAsync();
         public string? ExtractUserIdFromToken();
+        public bool IsArabic();
 
     }
 }

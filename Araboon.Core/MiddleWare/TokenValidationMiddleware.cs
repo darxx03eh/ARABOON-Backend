@@ -53,7 +53,10 @@ namespace Araboon.Core.Middleware
 
             // users paths
             "Api/V1/users/profile",
-            Router.UserRouting.ChangeEmailConfirmation
+            Router.UserRouting.ChangeEmailConfirmation,
+
+            // comments paths 
+            "Api/V1/comments"
         };
 
         public TokenValidationMiddleware(RequestDelegate next, IStringLocalizer<SharedTranslation> stringLocalizer, JwtSettings jwtSettings)

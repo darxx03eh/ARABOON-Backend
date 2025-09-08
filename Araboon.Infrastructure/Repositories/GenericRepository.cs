@@ -82,5 +82,15 @@ namespace Araboon.Infrastructure.Repositories
                 return null;
             }
         }
+        public bool IsArabic()
+        {
+            var httpContext = httpContextAccessor.HttpContext;
+            var langHeader = httpContext?.Request.Headers["Accept-Language"].ToString();
+
+            var lang = "en";
+            if (!string.IsNullOrEmpty(langHeader))
+                lang = langHeader.Split(',')[0].Split('-')[0];
+            return lang.Equals("ar");
+        }
     }
 }

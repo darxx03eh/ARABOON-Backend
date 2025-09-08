@@ -227,16 +227,6 @@ namespace Araboon.Infrastructure.Repositories
                 return ("MangaNotFound", null);
             return ("MangaFound", mangas);
         }
-        private bool IsArabic()
-        {
-            var httpContext = httpContextAccessor.HttpContext;
-            var langHeader = httpContext?.Request.Headers["Accept-Language"].ToString();
-
-            var lang = "en";
-            if (!string.IsNullOrEmpty(langHeader))
-                lang = langHeader.Split(',')[0].Split('-')[0];
-            return lang.Equals("ar");
-        }
 
         public async Task<(string, PaginatedResult<GetMangaCommentsResponse>?)> GetMangaCommentsAsync(int id, int pageNumber, int pageSize)
         {
@@ -259,6 +249,7 @@ namespace Araboon.Infrastructure.Repositories
                 {
                     Id = x.UserID,
                     Name = $"{x.User.FirstName} {x.User.LastName}",
+                    UserName = x.User.UserName,
                     ProfileImage = new Araboon.Data.Response.Users.Queries.ProfileImage()
                     {
                         OriginalImage = x.User.ProfileImage.OriginalImage,

@@ -1,6 +1,8 @@
 ﻿using Araboon.Data.Entities;
 using Araboon.Data.Entities.Identity;
 using Araboon.Data.Helpers;
+using Araboon.Data.Response.Comments.Queries;
+using Araboon.Data.Wrappers;
 using Araboon.Infrastructure.Data;
 using Araboon.Infrastructure.IRepositories;
 using Araboon.Service.Interfaces;
@@ -89,7 +91,7 @@ namespace Araboon.Service.Implementations
                 }
                 catch (Exception)
                 {
-                    if(transaction.GetDbTransaction().Connection is null)
+                    if (transaction.GetDbTransaction().Connection is null)
                         await transaction.RollbackAsync();
                     return "AnErrorOccurredWhileAddingALikeToTheComment";
                 }
@@ -185,6 +187,17 @@ namespace Araboon.Service.Implementations
             {
                 return "AnErrorOccurredWhileUpdatingTheComment";
             }
+        }
+        public async Task<(string, PaginatedResult<GetCommentRepliesResponse>?)> GetCommentRepliesAsync(int id, int pageNumber, int pageSize)
+        {
+            var (result, replies) = await unitOfWork.CommentRepository.GetCommentRepliesAsync(id, pageNumber, pageSize);
+            return result switch
+            {
+                "CommentNotFound" => ("CommentNotFound", null),
+                "RepliesNotFound" => ("RepliesNotFound", null),
+                "RepliesFound" => ("RepliesFound", replies),
+                _ => ("RepliesNotFound", null)
+            };
         }
     }
 }

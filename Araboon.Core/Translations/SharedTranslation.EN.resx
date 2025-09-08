@@ -757,4 +757,16 @@
   <data name="TheLikeHasBeenDeletedFromTheCommentSuccessfully" xml:space="preserve">
     <value>The like has been deleted from the comment successfully</value>
   </data>
+  <data name="CommentsNotFound" xml:space="preserve">
+    <value>Comments not found</value>
+  </data>
+  <data name="CommentsFound" xml:space="preserve">
+    <value>Comments found</value>
+  </data>
+  <data name="RepliesFound" xml:space="preserve">
+    <value>Replies found</value>
+  </data>
+  <data name="RepliesNotFound" xml:space="preserve">
+    <value>Replies not found</value>
+  </data>
 </root>

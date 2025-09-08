@@ -756,4 +756,16 @@
   <data name="TheLikeHasBeenDeletedFromTheCommentSuccessfully" xml:space="preserve">
     <value>تم ازالة الإعجاب من التعليق بنجاح</value>
   </data>
+  <data name="CommentsNotFound" xml:space="preserve">
+    <value>لم يتم العثور على تعليقات</value>
+  </data>
+  <data name="CommentsFound" xml:space="preserve">
+    <value>تم العثور على تعليقات</value>
+  </data>
+  <data name="RepliesFound" xml:space="preserve">
+    <value>تم العثور على الردود</value>
+  </data>
+  <data name="RepliesNotFound" xml:space="preserve">
+    <value>لم يتم العثور على ردود</value>
+  </data>
 </root>

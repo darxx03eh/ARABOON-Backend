@@ -213,5 +213,7 @@
         public const string TheLikeHasBeenDeletedFromTheCommentSuccessfully = "TheLikeHasBeenDeletedFromTheCommentSuccessfully";
         public const string CommentsNotFound = "CommentsNotFound";
         public const string CommentsFound = "CommentsFound";
+        public const string RepliesFound = "RepliesFound";
+        public const string RepliesNotFound = "RepliesNotFound";
     }
 }

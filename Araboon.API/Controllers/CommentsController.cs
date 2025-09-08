@@ -1,5 +1,6 @@
 ﻿using Araboon.API.Bases;
 using Araboon.Core.Features.Comments.Commands.Models;
+using Araboon.Core.Features.Comments.Queries.Models;
 using Araboon.Data.Routing;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -38,6 +39,13 @@ namespace Araboon.API.Controllers
         public async Task<IActionResult> DeleteLike(int id)
         {
             var result = await mediator.Send(new DeleteLikeFromCommentCommand(id));
+            return Result(result);
+        }
+        [AllowAnonymous]
+        [HttpGet(Router.CommentRouting.GetCommentReplies)]
+        public async Task<IActionResult> GetCommentReplies(int id, int pageNumber = 1)
+        {
+            var result = await mediator.Send(new GetCommentRepliesQuery(id) { PageNumber = pageNumber});
             return Result(result);
         }
     }

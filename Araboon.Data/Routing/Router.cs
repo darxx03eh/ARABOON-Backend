@@ -109,6 +109,7 @@
             public const string UpdateComment = $"{prefix}{singleRoute}";
             public const string AddLike = $"{prefix}{singleRoute}/like";
             public const string DeleteLike = $"{prefix}{singleRoute}/like";
+            public const string GetCommentReplies = $"{prefix}{singleRoute}/replies";
         }
     }
 }
