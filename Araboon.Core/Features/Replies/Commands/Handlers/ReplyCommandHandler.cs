@@ -10,6 +10,7 @@ namespace Araboon.Core.Features.Replies.Commands.Handlers
     public class ReplyCommandHandler : ApiResponseHandler
         , IRequestHandler<AddReplyToCommentCommand, ApiResponse>
         , IRequestHandler<DeleteReplyCommand, ApiResponse>
+        , IRequestHandler<UpdateReplyCommand, ApiResponse>
     {
         private readonly IReplyService replyService;
         private readonly IStringLocalizer<SharedTranslation> stringLocalizer;
@@ -47,6 +48,26 @@ namespace Araboon.Core.Features.Replies.Commands.Handlers
                 InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileDeletingTheReply]),
                 "TheReplyHasBeenSuccessfullyDeleted" => Success(null, message: stringLocalizer[SharedTranslationKeys.TheReplyHasBeenSuccessfullyDeleted]),
                 _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileDeletingTheReply])
+            };
+        }
+
+        public async Task<ApiResponse> Handle(UpdateReplyCommand request, CancellationToken cancellationToken)
+        {
+            var (result, content, since) = await replyService.UpdateReplyAsync(request.Content, request.Id);
+            return result switch
+            {
+                "ReplyNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.ReplyNotFound]),
+                "UserNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.UserNotFound]),
+                "YouAreNotTheOwnerOfThisReplyOrYouAreNotTheAdmin" => 
+                Forbidden(stringLocalizer[SharedTranslationKeys.YouAreNotTheOwnerOfThisReplyOrYouAreNotTheAdmin]),
+                "AnErrorOccurredWhileUpdatingTheReply" => 
+                InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileUpdatingTheReply]),
+                "TheReplyHasBeenSuccessfullyUpdated" => Success(new
+                {
+                    Content = content,
+                    Since = since
+                }, message: stringLocalizer[SharedTranslationKeys.TheReplyHasBeenSuccessfullyUpdated]),
+                _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileUpdatingTheReply])
             };
         }
     }

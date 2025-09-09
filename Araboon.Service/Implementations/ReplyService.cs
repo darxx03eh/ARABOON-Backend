@@ -6,7 +6,6 @@ using Araboon.Infrastructure.IRepositories;
 using Araboon.Service.Interfaces;
 using Humanizer;
 using Microsoft.AspNetCore.Identity;
-using Org.BouncyCastle.Ocsp;
 using System.Globalization;
 
 namespace Araboon.Service.Implementations
@@ -58,6 +57,20 @@ namespace Araboon.Service.Implementations
                         Id = user.Id,
                         Name = $"{user.FirstName} {user.LastName}",
                         UserName = user.UserName,
+                        ProfileImage = new Data.Response.Users.Queries.ProfileImage()
+                        {
+                            OriginalImage = user.ProfileImage.OriginalImage,
+                            CropData = new Data.Response.Users.Queries.CropData()
+                            {
+                                Position = new Data.Response.Users.Queries.Position()
+                                {
+                                    X = user.ProfileImage.X,
+                                    Y = user.ProfileImage.Y
+                                },
+                                Scale = user.ProfileImage.Scale,
+                                Rotate = user.ProfileImage.Rotate
+                            }
+                        }
                     },
                     ReplyToUser = new ToUser()
                     {
@@ -73,7 +86,6 @@ namespace Araboon.Service.Implementations
                 return ("AnErrorOccurredWhileRepling", null);
             }
         }
-
         public async Task<string> DeleteReplyAsync(int id)
         {
             var reply = await unitOfWork.ReplyRepository.GetByIdAsync(id);
@@ -95,9 +107,40 @@ namespace Araboon.Service.Implementations
                 await unitOfWork.ReplyRepository.DeleteAsync(reply);
                 return "TheReplyHasBeenSuccessfullyDeleted";
             }
-            catch(Exception exp)
+            catch (Exception exp)
             {
                 return "AnErrorOccurredWhileDeletingTheReply";
+            }
+        }
+
+        public async Task<(string, string?, string?)> UpdateReplyAsync(string content, int id)
+        {
+            var reply = await unitOfWork.ReplyRepository.GetByIdAsync(id);
+            if (reply is null)
+                return ("ReplyNotFound", null, null);
+            var userId = unitOfWork.ReplyRepository.ExtractUserIdFromToken();
+            if (string.IsNullOrWhiteSpace(userId))
+                return ("UserNotFound", null, null);
+
+            var user = await userManager.FindByIdAsync(userId);
+            if (user is null)
+                return ("UserNotFound", null, null);
+            var userRole = await userManager.GetRolesAsync(user);
+            if (!reply.UserID.Equals(user.Id) && !userRole.Contains(Roles.Admin))
+                return ("YouAreNotTheOwnerOfThisReplyOrYouAreNotTheAdmin", null, null);
+            try
+            {
+                reply.Content = content;
+                reply.UpdatedAt = DateTime.UtcNow;
+                await unitOfWork.ReplyRepository.UpdateAsync(reply);
+                var since = unitOfWork.ReplyRepository.IsArabic()
+                                    ? reply.UpdatedAt.Humanize(culture: new CultureInfo("ar"))
+                                    : reply.UpdatedAt.Humanize(culture: new CultureInfo("en"));
+                return ("TheReplyHasBeenSuccessfullyUpdated", content, since);
+            }
+            catch(Exception exp)
+            {
+                return ("AnErrorOccurredWhileUpdatingTheReply", null, null);
             }
         }
     }

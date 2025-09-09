@@ -786,4 +786,10 @@
   <data name="TheReplyHasBeenSuccessfullyDeleted" xml:space="preserve">
     <value>تم حذف الرد بنجاح</value>
   </data>
+  <data name="AnErrorOccurredWhileUpdatingTheReply" xml:space="preserve">
+    <value>حدث خطأ أثناء تحديث الرد</value>
+  </data>
+  <data name="TheReplyHasBeenSuccessfullyUpdated" xml:space="preserve">
+    <value>تم تحديث الرد بنجاح</value>
+  </data>
 </root>

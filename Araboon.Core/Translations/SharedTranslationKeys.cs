@@ -221,5 +221,7 @@
         public const string YouAreNotTheOwnerOfThisReplyOrYouAreNotTheAdmin = "YouAreNotTheOwnerOfThisReplyOrYouAreNotTheAdmin";
         public const string AnErrorOccurredWhileDeletingTheReply = "AnErrorOccurredWhileDeletingTheReply";
         public const string TheReplyHasBeenSuccessfullyDeleted = "TheReplyHasBeenSuccessfullyDeleted";
+        public const string AnErrorOccurredWhileUpdatingTheReply = "AnErrorOccurredWhileUpdatingTheReply";
+        public const string TheReplyHasBeenSuccessfullyUpdated = "TheReplyHasBeenSuccessfullyUpdated";
     }
 }

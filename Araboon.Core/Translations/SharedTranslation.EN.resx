@@ -787,4 +787,10 @@
   <data name="TheReplyHasBeenSuccessfullyDeleted" xml:space="preserve">
     <value>The reply has been successfully deleted</value>
   </data>
+  <data name="AnErrorOccurredWhileUpdatingTheReply" xml:space="preserve">
+    <value>An error occurred while updating the reply</value>
+  </data>
+  <data name="TheReplyHasBeenSuccessfullyUpdated" xml:space="preserve">
+    <value>The reply has been successfully updated</value>
+  </data>
 </root>
