@@ -230,5 +230,6 @@
         public const string YouAreNotLikedThisReply = "YouAreNotLikedThisReply";
         public const string AnErrorOccurredWhileRemovingALikeFromTheReply = "AnErrorOccurredWhileRemovingALikeFromTheReply";
         public const string TheLikeHasBeenDeletedFromTheReplySuccessfully = "TheLikeHasBeenDeletedFromTheReplySuccessfully";
+        public const string TheUserYouWantToReplyToNotFound = "TheUserYouWantToReplyToNotFound";
     }
 }

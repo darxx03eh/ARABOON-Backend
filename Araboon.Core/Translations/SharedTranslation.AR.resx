@@ -813,4 +813,7 @@
   <data name="TheLikeHasBeenDeletedFromTheReplySuccessfully" xml:space="preserve">
     <value>تم حذف الإعجاب من الرد بنجاح</value>
   </data>
+  <data name="TheUserYouWantToReplyToNotFound" xml:space="preserve">
+    <value>المستخدم الذي تريد الرد عليه غير موجود</value>
+  </data>
 </root>

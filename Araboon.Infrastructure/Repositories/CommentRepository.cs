@@ -37,8 +37,6 @@ namespace Araboon.Infrastructure.Repositories
             if (!string.IsNullOrWhiteSpace(userId))
                 likes = await context.ReplyLikes.Where(x => x.UserId.Equals(int.Parse(userId))).Select(x => x.ReplyId).ToListAsync();
 
-            var userOwnsId = await context.Comments.AsTracking().Where(c => c.CommentID.Equals(id)).Select(c => c.UserID).FirstOrDefaultAsync();
-            var user = await context.Users.FindAsync(userOwnsId);
             var pagedReplies = await replyQueryable.ToPaginatedListAsync(pageNumber, pageSize);
             if (pagedReplies.Data.Equals(0))
                 return ("RepliesNotFound", null);
@@ -54,29 +52,29 @@ namespace Araboon.Infrastructure.Repositories
                 IsLiked = likes.Contains(x.ReplyID),
                 User = new FromUser()
                 {
-                    Id = x.UserID,
-                    Name = $"{x.User.FirstName} {x.User.LastName}",
-                    UserName = x.User.UserName,
+                    Id = x.FromUserID,
+                    Name = $"{x.FromUser.FirstName} {x.FromUser.LastName}",
+                    UserName = x.FromUser.UserName,
                     ProfileImage = new Araboon.Data.Response.Users.Queries.ProfileImage()
                     {
-                        OriginalImage = x.User.ProfileImage.OriginalImage,
+                        OriginalImage = x.FromUser.ProfileImage.OriginalImage,
                         CropData = new Araboon.Data.Response.Users.Queries.CropData()
                         {
                             Position = new Araboon.Data.Response.Users.Queries.Position()
                             {
-                                X = x.User.ProfileImage.X,
-                                Y = x.User.ProfileImage.Y,
+                                X = x.FromUser.ProfileImage.X,
+                                Y = x.FromUser.ProfileImage.Y,
                             },
-                            Scale = x.User.ProfileImage.Scale,
-                            Rotate = x.User.ProfileImage.Rotate,
+                            Scale = x.FromUser.ProfileImage.Scale,
+                            Rotate = x.FromUser.ProfileImage.Rotate,
                         },
                     },
                 },
                 ReplyToUser = new ToUser()
                 {
-                    Id = user.Id,
-                    Name = $"{user.FirstName} {user.LastName}",
-                    UserName = user.UserName
+                    Id = x.ToUserID,
+                    Name = $"{x.ToUser.FirstName} {x.ToUser.LastName}",
+                    UserName = x.ToUser.UserName
                 }
             }).ToList();
             var result = PaginatedResult<GetCommentRepliesResponse>.Success(

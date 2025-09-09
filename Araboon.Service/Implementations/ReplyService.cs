@@ -70,7 +70,7 @@ namespace Araboon.Service.Implementations
             }
         }
 
-        public async Task<(string, GetCommentRepliesResponse?)> AddReplyAsync(string content, int commentId)
+        public async Task<(string, GetCommentRepliesResponse?)> AddReplyAsync(string content, int commentId, int toUserId)
         {
             var comment = await unitOfWork.CommentRepository.GetByIdAsync(commentId);
             if (comment is null)
@@ -81,17 +81,21 @@ namespace Araboon.Service.Implementations
             var user = await userManager.FindByIdAsync(userId);
             if (user is null)
                 return ("UserNotFound", null);
+            var toUser = await userManager.FindByIdAsync(toUserId.ToString());
+            if (toUser is null)
+                return ("TheUserYouWantToReplyToNotFound", null);
             try
             {
                 var result = await unitOfWork.ReplyRepository.AddAsync(new Reply()
                 {
                     Content = content,
                     CommentID = commentId,
-                    UserID = user.Id
+                    FromUserID = user.Id,
+                    ToUserID = toUserId
                 });
                 if (result is null)
                     return ("AnErrorOccurredWhileRepling", null);
-                var userOwnComment = await userManager.FindByIdAsync(comment.UserID.ToString());
+                
                 var response = new GetCommentRepliesResponse()
                 {
                     Id = result.ReplyID,
@@ -123,9 +127,9 @@ namespace Araboon.Service.Implementations
                     },
                     ReplyToUser = new ToUser()
                     {
-                        Id = userOwnComment.Id,
-                        Name = $"{userOwnComment.FirstName} {userOwnComment.LastName}",
-                        UserName = userOwnComment.UserName
+                        Id = toUser.Id,
+                        Name = $"{toUser.FirstName} {toUser.LastName}",
+                        UserName = toUser.UserName
                     }
                 };
                 return ("ReplyCompletedSuccessfully", response);
@@ -185,7 +189,7 @@ namespace Araboon.Service.Implementations
                 return "UserNotFound";
 
             var userRole = await userManager.GetRolesAsync(user);
-            if (!reply.UserID.Equals(user.Id) && !userRole.Contains(Roles.Admin))
+            if (!reply.FromUserID.Equals(user.Id) && !userRole.Contains(Roles.Admin))
                 return "YouAreNotTheOwnerOfThisReplyOrYouAreNotTheAdmin";
 
             try
@@ -212,7 +216,7 @@ namespace Araboon.Service.Implementations
             if (user is null)
                 return ("UserNotFound", null, null);
             var userRole = await userManager.GetRolesAsync(user);
-            if (!reply.UserID.Equals(user.Id) && !userRole.Contains(Roles.Admin))
+            if (!reply.FromUserID.Equals(user.Id) && !userRole.Contains(Roles.Admin))
                 return ("YouAreNotTheOwnerOfThisReplyOrYouAreNotTheAdmin", null, null);
             try
             {

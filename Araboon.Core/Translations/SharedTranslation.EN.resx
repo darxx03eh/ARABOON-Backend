@@ -814,4 +814,7 @@
   <data name="TheLikeHasBeenDeletedFromTheReplySuccessfully" xml:space="preserve">
     <value>The like has been deleted from the reply successfully</value>
   </data>
+  <data name="TheUserYouWantToReplyToNotFound" xml:space="preserve">
+    <value>The user you want to reply to was not found</value>
+  </data>
 </root>

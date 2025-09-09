@@ -32,6 +32,7 @@ namespace Araboon.Data.Entities.Identity
         public virtual ICollection<Notifications>? Notifications { get; set; } = new HashSet<Notifications>();
         public virtual ICollection<Comment>? Comments { get; set; } = new HashSet<Comment>();
         public virtual ICollection<Reply>? Replies { get; set; } = new HashSet<Reply>();
+        public virtual ICollection<Reply>? ToReplies { get; set; } = new HashSet<Reply>();
         public virtual ICollection<ChapterView>? ChapterViews { get; set; } = new HashSet<ChapterView>();
         public virtual ICollection<Ratings>? Ratings { get; set; } = new HashSet<Ratings>();
         public virtual ICollection<ReplyLikes>? ReplyLikes { get; set; } = new HashSet<ReplyLikes>();

@@ -12,9 +12,13 @@ namespace Araboon.Infrastructure.Configurations
             builder.Property(x => x.ReplyID)
                 .ValueGeneratedOnAdd();
 
-            builder.HasOne(x => x.User)
+            builder.HasOne(x => x.FromUser)
                 .WithMany(x => x.Replies)
-                .HasForeignKey(x => x.UserID);
+                .HasForeignKey(x => x.FromUserID);
+
+            builder.HasOne(x => x.ToUser)
+                .WithMany(x => x.ToReplies)
+                .HasForeignKey(x => x.ToUserID);
 
             builder.HasOne(x => x.Comment)
                 .WithMany(x => x.Replies)

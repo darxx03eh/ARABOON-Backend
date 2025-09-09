@@ -45,9 +45,14 @@ namespace Araboon.Infrastructure.Configurations
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(x => x.Replies)
-                .WithOne(x => x.User)
-                .HasForeignKey(x => x.UserID)
+                .WithOne(x => x.FromUser)
+                .HasForeignKey(x => x.FromUserID)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(x => x.ToReplies)
+                .WithOne(x => x.ToUser)
+                .HasForeignKey(x => x.ToUserID)
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasMany(x => x.ChapterViews)
                 .WithOne(x => x.User)
