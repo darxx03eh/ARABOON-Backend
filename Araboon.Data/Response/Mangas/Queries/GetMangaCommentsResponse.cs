@@ -4,6 +4,12 @@ namespace Araboon.Data.Response.Mangas.Queries
 {
     public class GetMangaCommentsResponse
     {
+        public int Id { get; set; }
+        public string Content { get; set; }
+        public string Since { get; set; }
+        public int? Likes { get; set; }
+        public bool IsLiked { get; set; }
+        public int replyCount { get; set; }
         public User User { get; set; }
     }
     public class User
@@ -12,14 +18,5 @@ namespace Araboon.Data.Response.Mangas.Queries
         public string Name { get; set; }
         public string UserName { get; set; }
         public ProfileImage? ProfileImage { get; set; }
-        public UserComment? Comment { get; set; }
-    }
-    public class UserComment
-    {
-        public int Id { get; set; }
-        public string Content { get; set; }
-        public string Since { get; set; }
-        public int? Likes { get; set; }
-        public bool IsLike { get; set; }
     }
 }

@@ -45,27 +45,24 @@ namespace Araboon.Service.Implementations
                 var userOwnComment = await userManager.FindByIdAsync(comment.UserID.ToString());
                 var response = new GetCommentRepliesResponse()
                 {
-                    From = new FromUser()
+                    Id = result.ReplyID,
+                    Content = result.Content,
+                    Since = unitOfWork.ReplyRepository.IsArabic()
+                                    ? result.UpdatedAt.Humanize(culture: new CultureInfo("ar"))
+                                    : result.UpdatedAt.Humanize(culture: new CultureInfo("en")),
+                    Likes = 0,
+                    IsLiked = false,
+                    User = new FromUser()
                     {
                         Id = user.Id,
                         Name = $"{user.FirstName} {user.LastName}",
                         UserName = user.UserName,
-                        To = new ToUser()
-                        {
-                            Id = userOwnComment.Id,
-                            Name = $"{userOwnComment.FirstName} {userOwnComment.LastName}",
-                            UserName = userOwnComment.UserName
-                        },
-                        Reply = new UserReply()
-                        {
-                            Id = result.ReplyID,
-                            Content = result.Content,
-                            Since = unitOfWork.ReplyRepository.IsArabic()
-                                    ? result.UpdatedAt.Humanize(culture: new CultureInfo("ar"))
-                                    : result.UpdatedAt.Humanize(culture: new CultureInfo("en")),
-                            Likes = 0,
-                            IsLike = false
-                        }
+                    },
+                    ReplyToUser = new ToUser()
+                    {
+                        Id = userOwnComment.Id,
+                        Name = $"{userOwnComment.FirstName} {userOwnComment.LastName}",
+                        UserName = userOwnComment.UserName
                     }
                 };
                 return ("ReplyCompletedSuccessfully", response);

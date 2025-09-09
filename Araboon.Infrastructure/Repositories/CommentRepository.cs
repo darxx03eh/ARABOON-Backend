@@ -45,8 +45,14 @@ namespace Araboon.Infrastructure.Repositories
 
             var replies = pagedReplies.Data.Select(x => new GetCommentRepliesResponse()
             {
-
-                From = new FromUser()
+                Id = x.ReplyID,
+                Content = x.Content,
+                Since = IsArabic()
+                        ? x.UpdatedAt.Humanize(culture: new CultureInfo("ar"))
+                        : x.UpdatedAt.Humanize(culture: new CultureInfo("en")),
+                Likes = x.Likes,
+                IsLiked = likes.Contains(x.ReplyID),
+                User = new FromUser()
                 {
                     Id = x.UserID,
                     Name = $"{x.User.FirstName} {x.User.LastName}",
@@ -65,22 +71,12 @@ namespace Araboon.Infrastructure.Repositories
                             Rotate = x.User.ProfileImage.Rotate,
                         },
                     },
-                    To = new ToUser()
-                    {
-                        Id = user.Id,
-                        Name = $"{user.FirstName} {user.LastName}",
-                        UserName = user.UserName
-                    },
-                    Reply = new UserReply()
-                    {
-                        Id = x.ReplyID,
-                        Content = x.Content,
-                        Since = IsArabic()
-                        ? x.UpdatedAt.Humanize(culture: new CultureInfo("ar"))
-                        : x.UpdatedAt.Humanize(culture: new CultureInfo("en")),
-                        Likes = x.Likes,
-                        IsLike = likes.Contains(x.ReplyID)
-                    }
+                },
+                ReplyToUser = new ToUser()
+                {
+                    Id = user.Id,
+                    Name = $"{user.FirstName} {user.LastName}",
+                    UserName = user.UserName
                 }
             }).ToList();
             var result = PaginatedResult<GetCommentRepliesResponse>.Success(

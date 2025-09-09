@@ -245,6 +245,14 @@ namespace Araboon.Infrastructure.Repositories
 
             var comments = pagedComments.Data.Select(x => new GetMangaCommentsResponse()
             {
+                Id = x.CommentID,
+                Content = x.Content,
+                Since = IsArabic()
+                        ? x.UpdatedAt.Humanize(culture: new CultureInfo("ar"))
+                        : x.UpdatedAt.Humanize(culture: new CultureInfo("en")),
+                Likes = x.Likes,
+                IsLiked = likes.Contains(x.CommentID),
+                replyCount = x.Replies.Where(r => r.CommentID.Equals(x.CommentID)).Count(),
                 User = new User()
                 {
                     Id = x.UserID,
@@ -264,16 +272,6 @@ namespace Araboon.Infrastructure.Repositories
                             Rotate = x.User.ProfileImage.Rotate,
                         }
                     },
-                    Comment = new UserComment()
-                    {
-                        Id = x.CommentID,
-                        Content = x.Content,
-                        Since = IsArabic()
-                        ? x.UpdatedAt.Humanize(culture: new CultureInfo("ar"))
-                        : x.UpdatedAt.Humanize(culture: new CultureInfo("en")),
-                        Likes = x.Likes,
-                        IsLike = likes.Contains(x.CommentID)
-                    }
                 }
             }).ToList();
             var result = PaginatedResult<GetMangaCommentsResponse>.Success(
