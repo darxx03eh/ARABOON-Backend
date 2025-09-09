@@ -115,6 +115,7 @@
         {
             public const string prefix = $"{rule}replies";
             public const string AddReply = $"{prefix}";
+            public const string DeleteReply = $"{prefix}{singleRoute}";
         }
     }
 }

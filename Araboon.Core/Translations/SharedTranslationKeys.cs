@@ -217,5 +217,9 @@
         public const string RepliesNotFound = "RepliesNotFound";
         public const string AnErrorOccurredWhileRepling = "AnErrorOccurredWhileRepling";
         public const string ReplyCompletedSuccessfully = "ReplyCompletedSuccessfully";
+        public const string ReplyNotFound = "ReplyNotFound";
+        public const string YouAreNotTheOwnerOfThisReplyOrYouAreNotTheAdmin = "YouAreNotTheOwnerOfThisReplyOrYouAreNotTheAdmin";
+        public const string AnErrorOccurredWhileDeletingTheReply = "AnErrorOccurredWhileDeletingTheReply";
+        public const string TheReplyHasBeenSuccessfullyDeleted = "TheReplyHasBeenSuccessfullyDeleted";
     }
 }

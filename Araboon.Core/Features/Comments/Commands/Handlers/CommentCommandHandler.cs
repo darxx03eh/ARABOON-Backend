@@ -44,7 +44,7 @@ namespace Araboon.Core.Features.Comments.Commands.Handlers
                 "CommentNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.CommentNotFound]),
                 "UserNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.UserNotFound]),
                 "YouAreNotTheOwnerOfThisCommentOrYouAreNotTheAdmin" =>
-                BadRequest(stringLocalizer[SharedTranslationKeys.YouAreNotTheOwnerOfThisCommentOrYouAreNotTheAdmin]),
+                Forbidden(stringLocalizer[SharedTranslationKeys.YouAreNotTheOwnerOfThisCommentOrYouAreNotTheAdmin]),
                 "AnErrorOccurredWhileDeletingTheComment" =>
                 InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileDeletingTheComment]),
                 "TheCommentHasBeenSuccessfullyDeleted" =>

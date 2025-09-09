@@ -775,4 +775,16 @@
   <data name="ReplyCompletedSuccessfully" xml:space="preserve">
     <value>Reply completed successfully</value>
   </data>
+  <data name="ReplyNotFound" xml:space="preserve">
+    <value>Reply not found</value>
+  </data>
+  <data name="YouAreNotTheOwnerOfThisReplyOrYouAreNotTheAdmin" xml:space="preserve">
+    <value>You are not the owner of this reply or you are not the admin</value>
+  </data>
+  <data name="AnErrorOccurredWhileDeletingTheReply" xml:space="preserve">
+    <value>An error occurred while deleting the reply</value>
+  </data>
+  <data name="TheReplyHasBeenSuccessfullyDeleted" xml:space="preserve">
+    <value>The reply has been successfully deleted</value>
+  </data>
 </root>

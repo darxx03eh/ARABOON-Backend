@@ -1,5 +1,6 @@
 ﻿using Araboon.Data.Entities;
 using Araboon.Data.Entities.Identity;
+using Araboon.Data.Helpers;
 using Araboon.Data.Response.Comments.Queries;
 using Araboon.Infrastructure.IRepositories;
 using Araboon.Service.Interfaces;
@@ -70,6 +71,33 @@ namespace Araboon.Service.Implementations
             catch (Exception exp)
             {
                 return ("AnErrorOccurredWhileRepling", null);
+            }
+        }
+
+        public async Task<string> DeleteReplyAsync(int id)
+        {
+            var reply = await unitOfWork.ReplyRepository.GetByIdAsync(id);
+            if (reply is null)
+                return "ReplyNotFound";
+            var userId = unitOfWork.ReplyRepository.ExtractUserIdFromToken();
+            if (string.IsNullOrWhiteSpace(userId))
+                return "UserNotFound";
+            var user = await userManager.FindByIdAsync(userId);
+            if (user is null)
+                return "UserNotFound";
+
+            var userRole = await userManager.GetRolesAsync(user);
+            if (!reply.UserID.Equals(user.Id) && !userRole.Contains(Roles.Admin))
+                return "YouAreNotTheOwnerOfThisReplyOrYouAreNotTheAdmin";
+
+            try
+            {
+                await unitOfWork.ReplyRepository.DeleteAsync(reply);
+                return "TheReplyHasBeenSuccessfullyDeleted";
+            }
+            catch(Exception exp)
+            {
+                return "AnErrorOccurredWhileDeletingTheReply";
             }
         }
     }

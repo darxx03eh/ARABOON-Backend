@@ -774,4 +774,16 @@
   <data name="ReplyCompletedSuccessfully" xml:space="preserve">
     <value>تم إضافة الرد بنجاح</value>
   </data>
+  <data name="ReplyNotFound" xml:space="preserve">
+    <value>الرد غير موجود</value>
+  </data>
+  <data name="YouAreNotTheOwnerOfThisReplyOrYouAreNotTheAdmin" xml:space="preserve">
+    <value>لست مالك هذا الرد أو لست المسؤول</value>
+  </data>
+  <data name="AnErrorOccurredWhileDeletingTheReply" xml:space="preserve">
+    <value>حدث خطأ أثناء حذف الرد</value>
+  </data>
+  <data name="TheReplyHasBeenSuccessfullyDeleted" xml:space="preserve">
+    <value>تم حذف الرد بنجاح</value>
+  </data>
 </root>
