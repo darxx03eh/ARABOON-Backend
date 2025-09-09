@@ -223,5 +223,12 @@
         public const string TheReplyHasBeenSuccessfullyDeleted = "TheReplyHasBeenSuccessfullyDeleted";
         public const string AnErrorOccurredWhileUpdatingTheReply = "AnErrorOccurredWhileUpdatingTheReply";
         public const string TheReplyHasBeenSuccessfullyUpdated = "TheReplyHasBeenSuccessfullyUpdated";
+        public const string YouAreAlreadyAddedLikeToThisReply = "YouAreAlreadyAddedLikeToThisReply";
+        public const string TheLikeProcessForThisReplyFailed = "TheLikeProcessForThisReplyFailed";
+        public const string AnErrorOccurredWhileAddingALikeToTheReply = "AnErrorOccurredWhileAddingALikeToTheReply";
+        public const string TheLikeHasBeenAddedToTheReplySuccessfully = "TheLikeHasBeenAddedToTheReplySuccessfully";
+        public const string YouAreNotLikedThisReply = "YouAreNotLikedThisReply";
+        public const string AnErrorOccurredWhileRemovingALikeFromTheReply = "AnErrorOccurredWhileRemovingALikeFromTheReply";
+        public const string TheLikeHasBeenDeletedFromTheReplySuccessfully = "TheLikeHasBeenDeletedFromTheReplySuccessfully";
     }
 }

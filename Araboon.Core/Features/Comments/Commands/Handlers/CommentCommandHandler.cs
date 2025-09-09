@@ -77,7 +77,7 @@ namespace Araboon.Core.Features.Comments.Commands.Handlers
             {
                 "CommentNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.CommentNotFound]),
                 "UserNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.UserNotFound]),
-                "YouAreAlreadyAddedLikeToThisComment" => BadRequest(stringLocalizer[SharedTranslationKeys.YouAreAlreadyAddedLikeToThisComment]),
+                "YouAreAlreadyAddedLikeToThisComment" => Conflict(stringLocalizer[SharedTranslationKeys.YouAreAlreadyAddedLikeToThisComment]),
                 "TheLikeProcessForThisCommentFailed" => InternalServerError(stringLocalizer[SharedTranslationKeys.TheLikeProcessForThisCommentFailed]),
                 "AnErrorOccurredWhileAddingALikeToTheComment" =>
                 InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileAddingALikeToTheComment]),

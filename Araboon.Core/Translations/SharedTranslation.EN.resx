@@ -562,9 +562,6 @@
   <data name="CategoriesFound" xml:space="preserve">
     <value>Categories found</value>
   </data>
-  <data name="AnErrorOccurredWhileRetrievingTheCategorie" xml:space="preserve">
-    <value>An error occurred while retrieving the categories</value>
-  </data>
   <data name="InvalidToken" xml:space="preserve">
     <value>Invalid token</value>
   </data>
@@ -792,5 +789,29 @@
   </data>
   <data name="TheReplyHasBeenSuccessfullyUpdated" xml:space="preserve">
     <value>The reply has been successfully updated</value>
+  </data>
+  <data name="YouAreAlreadyAddedLikeToThisReply" xml:space="preserve">
+    <value>You have already liked this reply</value>
+  </data>
+  <data name="TheLikeProcessForThisReplyFailed" xml:space="preserve">
+    <value>The like process for this reply failed</value>
+  </data>
+  <data name="AnErrorOccurredWhileAddingALikeToTheReply" xml:space="preserve">
+    <value>An error occurred while adding a like to the reply</value>
+  </data>
+  <data name="TheLikeHasBeenAddedToTheReplySuccessfully" xml:space="preserve">
+    <value>The like has been added to the reply successfully</value>
+  </data>
+  <data name="YouAreNotLikedThisReply" xml:space="preserve">
+    <value>You have not liked this reply</value>
+  </data>
+  <data name="AnErrorOccurredWhileRemovingALikeFromTheReply" xml:space="preserve">
+    <value>An error occurred while removing a like from the reply</value>
+  </data>
+  <data name="AnErrorOccurredWhileRetrievingTheCategorie" xml:space="preserve">
+    <value>An error occurred while retrieving the categories</value>
+  </data>
+  <data name="TheLikeHasBeenDeletedFromTheReplySuccessfully" xml:space="preserve">
+    <value>The like has been deleted from the reply successfully</value>
   </data>
 </root>

@@ -27,6 +27,7 @@ namespace Araboon.Infrastructure.Repositories
             CommentRepository = new CommentRepository(context, httpContextAccessor);
             CommentLikesRepository = new CommentLikesRepository(context, httpContextAccessor);
             ReplyRepository = new ReplyRepository(context, httpContextAccessor);
+            ReplyLikesRepository = new ReplyLikesRepository(context, httpContextAccessor);
         }
         public ICategoryRepository CategoryRepository { get; set; }
         public IChapterRepository ChapterRepository { get; set; }
@@ -42,5 +43,6 @@ namespace Araboon.Infrastructure.Repositories
         public ICommentRepository CommentRepository { get; set; }
         public ICommentLikesRepository CommentLikesRepository { get; set; }
         public IReplyRepository ReplyRepository { get; set; }
+        public IReplyLikesRepository ReplyLikesRepository { get; set; }
     }
 }

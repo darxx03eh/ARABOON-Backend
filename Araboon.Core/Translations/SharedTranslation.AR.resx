@@ -561,9 +561,6 @@
   <data name="CategoriesFound" xml:space="preserve">
     <value>تم العثور على الفئات</value>
   </data>
-  <data name="AnErrorOccurredWhileRetrievingTheCategorie" xml:space="preserve">
-    <value>حدثت مشكلة أثناء الحصول على الفئات</value>
-  </data>
   <data name="InvalidToken" xml:space="preserve">
     <value>الرمز غير صالح</value>
   </data>
@@ -791,5 +788,29 @@
   </data>
   <data name="TheReplyHasBeenSuccessfullyUpdated" xml:space="preserve">
     <value>تم تحديث الرد بنجاح</value>
+  </data>
+  <data name="YouAreAlreadyAddedLikeToThisReply" xml:space="preserve">
+    <value>لقد قمت بالإعجاب بهذا الرد مسبقًا</value>
+  </data>
+  <data name="TheLikeProcessForThisReplyFailed" xml:space="preserve">
+    <value>فشلت عملية الإعجاب بهذا الرد</value>
+  </data>
+  <data name="AnErrorOccurredWhileAddingALikeToTheReply" xml:space="preserve">
+    <value>حدث خطأ أثناء إضافة إعجاب للرد</value>
+  </data>
+  <data name="TheLikeHasBeenAddedToTheReplySuccessfully" xml:space="preserve">
+    <value>تم إضافة الإعجاب للرد بنجاح</value>
+  </data>
+  <data name="YouAreNotLikedThisReply" xml:space="preserve">
+    <value>أنت لم تقم بالإعجاب بهذا الرد</value>
+  </data>
+  <data name="AnErrorOccurredWhileRemovingALikeFromTheReply" xml:space="preserve">
+    <value>حدث خطأ أثناء إزالة الإعجاب من الرد</value>
+  </data>
+  <data name="AnErrorOccurredWhileRetrievingTheCategorie" xml:space="preserve">
+    <value>حدثت مشكلة أثناء الحصول على الفئات</value>
+  </data>
+  <data name="TheLikeHasBeenDeletedFromTheReplySuccessfully" xml:space="preserve">
+    <value>تم حذف الإعجاب من الرد بنجاح</value>
   </data>
 </root>

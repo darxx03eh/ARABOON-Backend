@@ -117,6 +117,8 @@
             public const string AddReply = $"{prefix}";
             public const string DeleteReply = $"{prefix}{singleRoute}";
             public const string UpdateReply = $"{prefix}{singleRoute}";
+            public const string AddLike = $"{prefix}{singleRoute}/like";
+            public const string DeleteLike = $"{prefix}{singleRoute}/like";
         }
     }
 }
