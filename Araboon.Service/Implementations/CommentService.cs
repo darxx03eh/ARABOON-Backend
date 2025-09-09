@@ -27,15 +27,15 @@ namespace Araboon.Service.Implementations
 
         public async Task<string> AddCommentAsync(string content, int mangaId)
         {
+            var manga = await unitOfWork.MangaRepository.GetByIdAsync(mangaId);
+            if (manga is null)
+                return "MangaNotFound";
             var userId = unitOfWork.CommentRepository.ExtractUserIdFromToken();
             if (string.IsNullOrWhiteSpace(userId))
                 return "UserNotFound";
             var user = await userManager.FindByIdAsync(userId);
             if (user is null)
                 return "UserNotFound";
-            var manga = await unitOfWork.MangaRepository.GetByIdAsync(mangaId);
-            if (manga is null)
-                return "MangaNotFound";
             try
             {
                 var result = await unitOfWork.CommentRepository.AddAsync(new Comment()

@@ -215,5 +215,7 @@
         public const string CommentsFound = "CommentsFound";
         public const string RepliesFound = "RepliesFound";
         public const string RepliesNotFound = "RepliesNotFound";
+        public const string AnErrorOccurredWhileRepling = "AnErrorOccurredWhileRepling";
+        public const string ReplyCompletedSuccessfully = "ReplyCompletedSuccessfully";
     }
 }

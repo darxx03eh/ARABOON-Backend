@@ -769,4 +769,10 @@
   <data name="RepliesNotFound" xml:space="preserve">
     <value>Replies not found</value>
   </data>
+  <data name="AnErrorOccurredWhileRepling" xml:space="preserve">
+    <value>An error occurred while replying</value>
+  </data>
+  <data name="ReplyCompletedSuccessfully" xml:space="preserve">
+    <value>Reply completed successfully</value>
+  </data>
 </root>

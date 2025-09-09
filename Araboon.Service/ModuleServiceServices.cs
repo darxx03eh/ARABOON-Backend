@@ -24,6 +24,7 @@ namespace Araboon.Service
             services.AddTransient(typeof(IReadingLaterService), typeof(ReadingLaterService));
             services.AddTransient(typeof(IUserService), typeof(UserService));
             services.AddTransient(typeof(ICommentService), typeof(CommentService));
+            services.AddTransient(typeof(IReplyService), typeof(ReplyService));
             return services;
         }
     }

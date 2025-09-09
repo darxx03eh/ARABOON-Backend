@@ -768,4 +768,10 @@
   <data name="RepliesNotFound" xml:space="preserve">
     <value>لم يتم العثور على ردود</value>
   </data>
+  <data name="AnErrorOccurredWhileRepling" xml:space="preserve">
+    <value>حدث خطأ أثناء إضافة الرد</value>
+  </data>
+  <data name="ReplyCompletedSuccessfully" xml:space="preserve">
+    <value>تم إضافة الرد بنجاح</value>
+  </data>
 </root>

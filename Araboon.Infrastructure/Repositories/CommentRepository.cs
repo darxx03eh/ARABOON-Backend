@@ -29,7 +29,7 @@ namespace Araboon.Infrastructure.Repositories
             if (comment is null)
                 return ("CommentNotFound", null);
             var replyQueryable = context.Replies.AsNoTracking().Where(c => c.CommentID.Equals(id))
-                .OrderByDescending(c => c.UpdatedAt).AsQueryable();
+                .OrderBy(c => c.UpdatedAt).AsQueryable();
             if (replyQueryable is null)
                 return ("RepliesNotFound", null);
             string? userId = ExtractUserIdFromToken();

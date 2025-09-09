@@ -111,5 +111,10 @@
             public const string DeleteLike = $"{prefix}{singleRoute}/like";
             public const string GetCommentReplies = $"{prefix}{singleRoute}/replies";
         }
+        public static class ReplyRouting
+        {
+            public const string prefix = $"{rule}replies";
+            public const string AddReply = $"{prefix}";
+        }
     }
 }
