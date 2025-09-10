@@ -2,13 +2,16 @@
 using Araboon.Data.Entities.Identity;
 using Araboon.Data.Helpers;
 using Araboon.Data.Response.Comments.Queries;
+using Araboon.Data.Response.Mangas.Queries;
 using Araboon.Data.Wrappers;
 using Araboon.Infrastructure.Data;
 using Araboon.Infrastructure.IRepositories;
 using Araboon.Service.Interfaces;
+using Humanizer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
+using System.Globalization;
 
 namespace Araboon.Service.Implementations
 {
@@ -25,17 +28,17 @@ namespace Araboon.Service.Implementations
             this.context = context;
         }
 
-        public async Task<string> AddCommentAsync(string content, int mangaId)
+        public async Task<(string, GetMangaCommentsResponse?)> AddCommentAsync(string content, int mangaId)
         {
             var manga = await unitOfWork.MangaRepository.GetByIdAsync(mangaId);
             if (manga is null)
-                return "MangaNotFound";
+                return ("MangaNotFound", null);
             var userId = unitOfWork.CommentRepository.ExtractUserIdFromToken();
             if (string.IsNullOrWhiteSpace(userId))
-                return "UserNotFound";
+                return ("UserNotFound", null);
             var user = await userManager.FindByIdAsync(userId);
             if (user is null)
-                return "UserNotFound";
+                return ("UserNotFound", null);
             try
             {
                 var result = await unitOfWork.CommentRepository.AddAsync(new Comment()
@@ -45,12 +48,43 @@ namespace Araboon.Service.Implementations
                     UserID = user.Id
                 });
                 if (result is null)
-                    return "AnErrorOccurredWhileCommenting";
-                return "CommentCompletedSuccessfully";
+                    return ("AnErrorOccurredWhileCommenting", null);
+                var comment = new GetMangaCommentsResponse()
+                {
+                    Id = result.CommentID,
+                    replyCount = 0,
+                    Content = result.Content,
+                    Since = unitOfWork.CommentRepository.IsArabic()
+                                    ? result.UpdatedAt.Humanize(culture: new CultureInfo("ar"))
+                                    : result.UpdatedAt.Humanize(culture: new CultureInfo("en")),
+                    Likes = 0,
+                    IsLiked = false,
+                    User = new User()
+                    {
+                        Id = user.Id,
+                        Name = $"{user.FirstName} {user.LastName}",
+                        UserName = user.UserName,
+                        ProfileImage = new Data.Response.Users.Queries.ProfileImage()
+                        {
+                            OriginalImage = user.ProfileImage.OriginalImage,
+                            CropData = new Data.Response.Users.Queries.CropData()
+                            {
+                                Position = new Data.Response.Users.Queries.Position()
+                                {
+                                    X = user.ProfileImage.X,
+                                    Y = user.ProfileImage.Y
+                                },
+                                Scale = user.ProfileImage.Scale,
+                                Rotate = user.ProfileImage.Rotate
+                            }
+                        }
+                    }
+                };
+                return ("CommentCompletedSuccessfully", comment);
             }
             catch (Exception exp)
             {
-                return "AnErrorOccurredWhileCommenting";
+                return ("AnErrorOccurredWhileCommenting", null);
             }
         }
 
@@ -161,31 +195,34 @@ namespace Araboon.Service.Implementations
             }
         }
 
-        public async Task<string> UpdateCommentAsync(string content, int id)
+        public async Task<(string, string?, string?)> UpdateCommentAsync(string content, int id)
         {
             var comment = await unitOfWork.CommentRepository.GetByIdAsync(id);
             if (comment is null)
-                return "CommentNotFound";
+                return ("CommentNotFound", null, null);
             var userId = unitOfWork.CommentRepository.ExtractUserIdFromToken();
             if (string.IsNullOrWhiteSpace(userId))
-                return "UserNotFound";
+                return ("UserNotFound", null, null);
             var user = await userManager.FindByIdAsync(userId);
             if (user is null)
-                return "UserNotFound";
+                return ("UserNotFound", null, null);
             var userRole = await userManager.GetRolesAsync(user);
             if (!comment.UserID.Equals(user.Id) && !userRole.Contains(Roles.Admin))
-                return "YouAreNotTheOwnerOfThisCommentOrYouAreNotTheAdmin";
+                return ("YouAreNotTheOwnerOfThisCommentOrYouAreNotTheAdmin", null, null);
             try
             {
                 comment.Content = content;
                 comment.UpdatedAt = DateTime.UtcNow;
                 await unitOfWork.CommentRepository.UpdateAsync(comment);
-                return "TheCommentHasBeenSuccessfullyUpdated";
+                var since = unitOfWork.CommentRepository.IsArabic()
+                                    ? comment.UpdatedAt.Humanize(culture: new CultureInfo("ar"))
+                                    : comment.UpdatedAt.Humanize(culture: new CultureInfo("en"));
+                return ("TheCommentHasBeenSuccessfullyUpdated", content, since);
 
             }
             catch (Exception exp)
             {
-                return "AnErrorOccurredWhileUpdatingTheComment";
+                return ("AnErrorOccurredWhileUpdatingTheComment", null, null);
             }
         }
         public async Task<(string, PaginatedResult<GetCommentRepliesResponse>?)> GetCommentRepliesAsync(int id, int pageNumber, int pageSize)

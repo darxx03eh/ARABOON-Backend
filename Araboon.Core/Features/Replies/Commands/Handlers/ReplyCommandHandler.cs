@@ -25,7 +25,7 @@ namespace Araboon.Core.Features.Replies.Commands.Handlers
 
         public async Task<ApiResponse> Handle(AddReplyToCommentCommand request, CancellationToken cancellationToken)
         {
-            var(result, replies) = await replyService.AddReplyAsync(request.Content, request.Id, request.UserId);
+            var(result, replies) = await replyService.AddReplyAsync(request.Content, request.CommentId, request.UserId);
             return result switch
             {
                 "CommentNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.CommentNotFound]),

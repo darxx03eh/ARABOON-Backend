@@ -25,13 +25,14 @@ namespace Araboon.Core.Features.Comments.Commands.Handlers
 
         public async Task<ApiResponse> Handle(AddCommentCommand request, CancellationToken cancellationToken)
         {
-            var result = await commentService.AddCommentAsync(request.Content.Trim(), request.MangaId);
+            var (result, comment) = await commentService.AddCommentAsync(request.Content.Trim(), request.MangaId);
             return result switch
             {
                 "UserNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.UserNotFound]),
                 "MangaNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.MangaNotFound]),
                 "AnErrorOccurredWhileCommenting" => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileCommenting]),
-                "CommentCompletedSuccessfully" => Success(null, message:stringLocalizer[SharedTranslationKeys.CommentCompletedSuccessfully]),
+                "CommentCompletedSuccessfully" => 
+                Success(comment, message:stringLocalizer[SharedTranslationKeys.CommentCompletedSuccessfully]),
                 _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileCommenting])
             };
         }
@@ -55,7 +56,7 @@ namespace Araboon.Core.Features.Comments.Commands.Handlers
 
         public async Task<ApiResponse> Handle(UpdateCommentCommand request, CancellationToken cancellationToken)
         {
-            var result = await commentService.UpdateCommentAsync(request.Content.Trim(), request.Id);
+            var (result, content, since) = await commentService.UpdateCommentAsync(request.Content.Trim(), request.Id);
             return result switch
             {
                 "CommentNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.CommentNotFound]),
@@ -65,7 +66,11 @@ namespace Araboon.Core.Features.Comments.Commands.Handlers
                 "AnErrorOccurredWhileDeletingTheComment" =>
                 InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileUpdatingTheComment]),
                 "TheCommentHasBeenSuccessfullyUpdated" => 
-                Success(null, message: stringLocalizer[SharedTranslationKeys.TheCommentHasBeenSuccessfullyUpdated]),
+                Success(new
+                {
+                    Content = content,
+                    Since = since,
+                }, message: stringLocalizer[SharedTranslationKeys.TheCommentHasBeenSuccessfullyUpdated]),
                 _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileUpdatingTheComment])
             };
         }
