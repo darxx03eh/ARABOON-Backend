@@ -192,14 +192,23 @@ namespace Araboon.Service.Implementations
             if (!reply.FromUserID.Equals(user.Id) && !userRole.Contains(Roles.Admin))
                 return "YouAreNotTheOwnerOfThisReplyOrYouAreNotTheAdmin";
 
-            try
+            var likes = await unitOfWork.ReplyLikesRepository.GetTableNoTracking().Where(l => l.ReplyId.Equals(id)).ToListAsync();
+            using (var transaction = await context.Database.BeginTransactionAsync())
             {
-                await unitOfWork.ReplyRepository.DeleteAsync(reply);
-                return "TheReplyHasBeenSuccessfullyDeleted";
-            }
-            catch (Exception exp)
-            {
-                return "AnErrorOccurredWhileDeletingTheReply";
+                try
+                {
+                    if (likes is not null)
+                        await unitOfWork.ReplyLikesRepository.DeleteRangeAsync(likes);
+                    await unitOfWork.ReplyRepository.DeleteAsync(reply);
+                    await transaction.CommitAsync();
+                    return "TheReplyHasBeenSuccessfullyDeleted";
+                }
+                catch (Exception exp)
+                {
+                    if(transaction.GetDbTransaction().Connection is not null)
+                        await transaction.RollbackAsync();
+                    return "AnErrorOccurredWhileDeletingTheReply";
+                }
             }
         }
 

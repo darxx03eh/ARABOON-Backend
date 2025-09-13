@@ -147,15 +147,28 @@ namespace Araboon.Service.Implementations
             if (!comment.UserID.Equals(user.Id) && !userRole.Contains(Roles.Admin))
                 return "YouAreNotTheOwnerOfThisCommentOrYouAreNotTheAdmin";
 
-            try
-            {
-                await unitOfWork.CommentRepository.DeleteAsync(comment);
-                return "TheCommentHasBeenSuccessfullyDeleted";
+            var replies = await unitOfWork.ReplyRepository.GetTableNoTracking().Where(r => r.CommentID.Equals(id)).ToListAsync();
+            var likes = await unitOfWork.CommentLikesRepository.GetTableNoTracking().Where(l => l.CommentId.Equals(id)).ToListAsync();
 
-            }
-            catch (Exception exp)
+            using (var transaction = await context.Database.BeginTransactionAsync())
             {
-                return "AnErrorOccurredWhileDeletingTheComment";
+                try
+                {
+                    if (replies is not null)
+                        await unitOfWork.ReplyRepository.DeleteRangeAsync(replies);
+                    if (likes is not null)
+                        await unitOfWork.CommentLikesRepository.DeleteRangeAsync(likes);
+                    await unitOfWork.CommentRepository.DeleteAsync(comment);
+                    await transaction.CommitAsync();
+                    return "TheCommentHasBeenSuccessfullyDeleted";
+
+                }
+                catch (Exception exp)
+                {
+                    if(transaction.GetDbTransaction().Connection is not null)
+                        await transaction.RollbackAsync();
+                    return "AnErrorOccurredWhileDeletingTheComment";
+                }
             }
         }
 
