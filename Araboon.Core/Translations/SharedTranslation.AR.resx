@@ -816,4 +816,10 @@
   <data name="TheUserYouWantToReplyToNotFound" xml:space="preserve">
     <value>المستخدم الذي تريد الرد عليه غير موجود</value>
   </data>
+  <data name="RefreshTokenWasRevoked" xml:space="preserve">
+    <value>رمز التحديث المستخدم تم إلغاؤه مسبقًا ولا يمكن استخدامه</value>
+  </data>
+  <data name="RefreshTokenNotUsedAnyMore" xml:space="preserve">
+    <value>لم يعد من الممكن استخدام رمز التحديث</value>
+  </data>
 </root>

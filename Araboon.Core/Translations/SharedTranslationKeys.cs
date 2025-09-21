@@ -62,6 +62,8 @@
         public const string AnErrorOccurredDuringTheTokenGenerationProcess = "AnErrorOccurredDuringTheTokenGenerationProcess";
         public const string AccessTokenRegenerated = "AccessTokenRegenerated";
         public const string InvalidRefreshToken = "InvalidRefreshToken";
+        public const string RefreshTokenWasRevoked = "RefreshTokenWasRevoked";
+        public const string RefreshTokenNotUsedAnyMore = "RefreshTokenNotUsedAnyMore";
         public const string AnErrorOccurredDuringTheRefreshTokenCancellationProcess = "AnErrorOccurredDuringTheRefreshTokenCancellationProcess";
         public const string LogOutSuccessfully = "LogOutSuccessfully";
         public const string AnErrorOccurredWhileSavingTheCode = "AnErrorOccurredWhileSavingTheCode";

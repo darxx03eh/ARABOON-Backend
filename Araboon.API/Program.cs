@@ -2,6 +2,7 @@
 using Araboon.Core;
 using Araboon.Core.Bases;
 using Araboon.Core.Middleware;
+using Araboon.Core.Middlewares;
 using Araboon.Core.Translations;
 using Araboon.Data.Entities.Identity;
 using Araboon.Data.Helpers;
@@ -181,9 +182,7 @@ namespace Araboon.API
                     app.UseSwagger();
                     app.UseSwaggerUI();
                 }
-            var locOptions = app.Services.GetService<IOptions<RequestLocalizationOptions>>();
             app.UseResponseCaching();
-            app.UseRequestLocalization(locOptions.Value);
             app.UseCors(CORS);
             app.UseMiddleware<ErrorHandlerMiddleware>();
             app.UseMiddleware<TokenValidationMiddleware>();

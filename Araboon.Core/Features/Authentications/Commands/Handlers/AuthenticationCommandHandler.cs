@@ -120,6 +120,13 @@ namespace Araboon.Core.Features.Authentications.Commands.Handlers
             if (string.IsNullOrWhiteSpace(refresh))
                 return NotFound(stringLocalizer[SharedTranslationKeys.RefreshTokenIsNotFound]);
             var (response, result) = await authenticationService.GenerateRefreshTokenAsync(refresh);
+            if(!result.Equals("AccessTokenRegenerated"))
+                httpContextAccessor.HttpContext?.Response.Cookies.Delete("refresh", new CookieOptions
+                {
+                    Path = "/",
+                    Secure = true,
+                    SameSite = SameSiteMode.None
+                });
             return result switch
             {
                 "ErrorInTheEncryptionAlgorithmUsed" =>
@@ -127,6 +134,8 @@ namespace Araboon.Core.Features.Authentications.Commands.Handlers
                 "TokenIsStillValidCannotRefreshYet" => BadRequest(stringLocalizer[SharedTranslationKeys.TokenIsStillValidCannotRefreshYet]),
                 "RefreshTokenIsNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.RefreshTokenIsNotFound]),
                 "RefreshTokenHasExpire" => Unauthorized(stringLocalizer[SharedTranslationKeys.RefreshTokenHasExpire]),
+                "RefreshTokenWasRevoked" => Unauthorized(stringLocalizer[SharedTranslationKeys.RefreshTokenWasRevoked]),
+                "RefreshTokenNotUsedAnyMore" => Unauthorized(stringLocalizer[SharedTranslationKeys.RefreshTokenNotUsedAnyMore]),
                 "UserNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.UserNotFound]),
                 "AnErrorOccurredDuringTheTokenGenerationProcess" =>
                 InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredDuringTheTokenGenerationProcess]),

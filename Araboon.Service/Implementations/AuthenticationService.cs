@@ -107,7 +107,6 @@ namespace Araboon.Service.Implementations
                     return "AnErrorOccurredDuringTheRegistrationProcess";
                 }
             }
-            throw new Exception();
         }
 
         public async Task<(SignInResponse?, string, string?)> SignInAsync(string username, string password)
@@ -196,6 +195,10 @@ namespace Araboon.Service.Implementations
                     return (null, "RefreshTokenIsNotFound");
                 case "RefreshTokenIsExpire":
                     return (null, "RefreshTokenHasExpire");
+                case "RefreshTokenWasRevoked":
+                    return (null, "RefreshTokenWasRevoked");
+                case "RefreshTokenNotUsedAnyMore":
+                    return (null, "RefreshTokenNotUsedAnyMore");
             }
             var userId = jwtToken.Claims.FirstOrDefault(claim => claim.Type.Equals(nameof(UserClaimModel.ID)))?.Value;
             var user = await userManager.FindByIdAsync(userId);
@@ -215,6 +218,10 @@ namespace Araboon.Service.Implementations
             var refreshToken = await refreshTokenRepository.GetTableNoTracking().Where(r => r.Jti.Equals(jti)).FirstOrDefaultAsync();
             if (refreshToken is null)
                 return ("RefreshTokenIsNotFound", null);
+            if (refreshToken.IsRevoked)
+                return ("RefreshTokenWasRevoked", null);
+            if (!refreshToken.IsUsed)
+                return ("RefreshTokenNotUsedAnyMore", null);
             if (refreshToken.ExpirydDate < DateTime.UtcNow)
             {
                 refreshToken.IsRevoked = true;

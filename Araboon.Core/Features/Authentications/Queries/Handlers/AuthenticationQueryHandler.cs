@@ -25,8 +25,8 @@ namespace Araboon.Core.Features.Authentications.Queries.Handlers
             var result = await authenticationService.ValidateAccessToken(request.AccessToken);
             return result switch
             {
-                "InvalidTokenFormat" => BadRequest(stringLocalizer[SharedTranslationKeys.InvalidTokenFormat]),
-                "TokenExpired" => BadRequest(stringLocalizer[SharedTranslationKeys.TokenExpired]),
+                "InvalidTokenFormat" => Unauthorized(stringLocalizer[SharedTranslationKeys.InvalidTokenFormat]),
+                "TokenExpired" => Unauthorized(stringLocalizer[SharedTranslationKeys.TokenExpired]),
                 "AnErrorOccurredWhileVerifyingTheToken" =>
                 InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileVerifyingTheToken]),
                 "InvalidToken" => Unauthorized(stringLocalizer[SharedTranslationKeys.InvalidToken]),

@@ -8,7 +8,7 @@ using System.Net;
 using System.Text;
 using System.Text.Json;
 
-namespace Araboon.Core.Middleware
+namespace Araboon.Core.Middlewares
 {
     public class ErrorHandlerMiddleware
     {

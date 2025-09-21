@@ -817,4 +817,10 @@
   <data name="TheUserYouWantToReplyToNotFound" xml:space="preserve">
     <value>The user you want to reply to was not found</value>
   </data>
+  <data name="RefreshTokenWasRevoked" xml:space="preserve">
+    <value>The refresh token used has already been revoked and cannot be used</value>
+  </data>
+  <data name="RefreshTokenNotUsedAnyMore" xml:space="preserve">
+    <value>The refresh token cannot be used anymore</value>
+  </data>
 </root>
