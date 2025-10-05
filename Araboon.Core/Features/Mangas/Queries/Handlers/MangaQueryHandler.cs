@@ -19,6 +19,7 @@ namespace Araboon.Core.Features.Mangas.Queries.Handlers
         , IRequestHandler<GetMangaByStatusQuery, ApiResponse>
         , IRequestHandler<MangaSearchQuery, ApiResponse>
         , IRequestHandler<GetMangaCommentsQuery, ApiResponse>
+        , IRequestHandler<GetCommentsCountQuery, ApiResponse>
     {
         private readonly IStringLocalizer<SharedTranslation> stringLocalizer;
         private readonly IMangaService mangaService;
@@ -60,13 +61,17 @@ namespace Araboon.Core.Features.Mangas.Queries.Handlers
         }
         public async Task<ApiResponse> Handle(GetMangaByIDQuery request, CancellationToken cancellationToken)
         {
-            var (result, manga, url) = await mangaService.GetMangaByIDAsync(request.ID);
+            var (result, manga, url, commentsCount) = await mangaService.GetMangaByIDAsync(request.ID);
             var httpContext = httpContextAccessor.HttpContext;
             var langHeader = httpContext?.Request.Headers["Accept-Language"].ToString();
             var lang = "en";
             if (!string.IsNullOrEmpty(langHeader))
                 lang = langHeader.Split(',')[0].Split('-')[0];
-            var mangaResponse = mapper.Map<GetMangaByIDResponse>(manga, opts => opts.Items["lang"] = lang);
+            var mangaResponse = mapper.Map<GetMangaByIDResponse>(manga, opts =>
+            {
+                opts.Items["lang"] = lang;
+                opts.Items["CommentsCount"] = commentsCount;
+            });
             return result switch
             {
                 "MangaNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.MangaNotFound]),
@@ -127,6 +132,22 @@ namespace Araboon.Core.Features.Mangas.Queries.Handlers
                 "CommentsNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.CommentsNotFound]),
                 "CommentsFound" => Success(comments, message: stringLocalizer[SharedTranslationKeys.CommentsFound]),
                 _ => NotFound(stringLocalizer[SharedTranslationKeys.CommentsNotFound])
+            };
+        }
+
+        public async Task<ApiResponse> Handle(GetCommentsCountQuery request, CancellationToken cancellationToken)
+        {
+            var (result, commentsCount) = await mangaService.GetCommentsCountAsync(request.Id);
+            return result switch
+            {
+                "MangaNotFound" => NotFound(SharedTranslationKeys.MangaNotFound),
+                "CommentsNotFound" => NotFound(SharedTranslationKeys.CommentsNotFound),
+                "CommentsFound" => Success(new
+                {
+                    MangaId = request.Id,
+                    CommentsCount = commentsCount,
+                }, message: SharedTranslationKeys.CommentsFound),
+                _ => NotFound(SharedTranslationKeys.MangaNotFound)
             };
         }
     }

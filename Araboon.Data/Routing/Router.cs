@@ -31,6 +31,7 @@
             public const string GetMangaByStatus = $"{prefix}/GetMangaByStatus";
             public const string MangaSearch = $"{prefix}";
             public const string GetMangaComments = $"{prefix}{singleRoute}/comments";
+            public const string GetMangaCommentsCounts = $"{prefix}{singleRoute}/comments-count";
         }
         public static class FavoritesRouting
         {

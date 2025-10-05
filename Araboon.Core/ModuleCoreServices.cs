@@ -1,6 +1,7 @@
 ﻿using Araboon.Core.Behaviors;
 using Araboon.Core.Mapping.Authentications;
 using Araboon.Data.Helpers.Resolvers.ChaptersResolver;
+using Araboon.Data.Helpers.Resolvers.Mangas;
 using Araboon.Data.Helpers.Resolvers.MangasResolver;
 using Araboon.Infrastructure.Resolvers.ChaptersResolver;
 using Araboon.Infrastructure.Resolvers.MangasResolver;
@@ -35,6 +36,8 @@ namespace Araboon.Core
             services.AddTransient<IsNotificationResolver>();
             services.AddTransient<IsViewResolver>();
             services.AddTransient<ChapterIsArabicResolver>();
+            services.AddTransient<MangaDateFormatResolver>();
+            services.AddTransient<CommentsCountResolver>();
             // Get Validators
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly(), ServiceLifetime.Scoped);
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));

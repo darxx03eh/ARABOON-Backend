@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Humanizer;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
+using System.Threading.Tasks;
 
 namespace Araboon.Infrastructure.Repositories
 {
@@ -285,5 +286,8 @@ namespace Araboon.Infrastructure.Repositories
                 return ("CommentsNotFound", null);
             return ("CommentsFound", result);
         }
+
+        public async Task<int> CommentsCountByIdAsync(int id)
+            => await context.Comments.Where(comment => comment.MangaID.Equals(id)).CountAsync();
     }
 }

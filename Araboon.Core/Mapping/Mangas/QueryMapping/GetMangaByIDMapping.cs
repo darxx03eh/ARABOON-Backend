@@ -30,7 +30,8 @@ namespace Araboon.Core.Mapping.Mangas
                 .ForMember(to => to.IsCompletedReading, from => from.MapFrom<IsCompletedReadingResolver>())
                 .ForMember(to => to.IsCurrentlyReading, from => from.MapFrom<IsCurrentlyReadingResolver>())
                 .ForMember(to => to.IsReadingLater, from => from.MapFrom<IsReadingLaterResolver>())
-                .ForMember(to => to.IsNotification, from => from.MapFrom<IsNotificationResolver>());
+                .ForMember(to => to.IsNotification, from => from.MapFrom<IsNotificationResolver>())
+                .ForMember(to => to.CommentsCount, from => from.MapFrom<CommentsCountResolver>());
         }
     }
 }

@@ -9,15 +9,12 @@ namespace Araboon.Service.Implementations
 {
     public class MangaService : IMangaService
     {
-        private readonly IMangaRepository mangaRepository;
+        private readonly IUnitOfWork unitOfWork;
 
-        public MangaService(IMangaRepository mangaRepository)
-        {
-            this.mangaRepository = mangaRepository;
-        }
+        public MangaService(IUnitOfWork unitOfWork) => this.unitOfWork = unitOfWork;
         public async Task<(string, IList<HomePageResponse>?, IList<string>?)> GetCategoriesHomePageAsync()
         {
-            var (message, list, categories) = await mangaRepository.GetCategoriesHomePageAsync();
+            var (message, list, categories) = await unitOfWork.MangaRepository.GetCategoriesHomePageAsync();
             return message switch
             {
                 "MangaNotFound" => ("MangaNotFound", null, null),
@@ -27,7 +24,7 @@ namespace Araboon.Service.Implementations
         }
         public async Task<(string, IList<GetHottestMangasResponse>?)> GetHottestMangasAsync()
         {
-            var (message, hottestMangas) = await mangaRepository.GetHottestMangasAsync();
+            var (message, hottestMangas) = await unitOfWork.MangaRepository.GetHottestMangasAsync();
             return message switch
             {
                 "MangaNotFound" => ("MangaNotFound", null),
@@ -37,7 +34,7 @@ namespace Araboon.Service.Implementations
         }
         public async Task<(string, PaginatedResult<GetPaginatedHottestMangaResponse>?)> GetPaginatedHottestMangaAsync(int pageNumber, int pageSize)
         {
-            var (message, hottestMangas) = await mangaRepository.GetPaginatedHottestMangaAsync(pageNumber, pageSize);
+            var (message, hottestMangas) = await unitOfWork.MangaRepository.GetPaginatedHottestMangaAsync(pageNumber, pageSize);
             return message switch
             {
                 "MangaNotFound" => ("MangaNotFound", null),
@@ -47,7 +44,7 @@ namespace Araboon.Service.Implementations
         }
         public async Task<(string, PaginatedResult<GetMangaByCategoryNameResponse>?)> GetMangaByCategoryNameAsync(string category, int pageNumber, int pageSize)
         {
-            var (message, mangas) = await mangaRepository.GetMangaByCategoryNameAsync(category, pageNumber, pageSize);
+            var (message, mangas) = await unitOfWork.MangaRepository.GetMangaByCategoryNameAsync(category, pageNumber, pageSize);
             return message switch
             {
                 "MangaNotFound" => ("MangaNotFound", null),
@@ -57,7 +54,7 @@ namespace Araboon.Service.Implementations
         }
         public async Task<(string, PaginatedResult<GetMangaByStatusResponse>?)> GetMangaByStatusAsync(int pageNumber, int pageSize, string status, MangaOrderingEnum orderBy, string? filter)
         {
-            var (message, mangas) = await mangaRepository.GetMangaByStatusAsync(pageNumber, pageSize, status, orderBy, filter);
+            var (message, mangas) = await unitOfWork.MangaRepository.GetMangaByStatusAsync(pageNumber, pageSize, status, orderBy, filter);
             return message switch
             {
                 "MangaNotFound" => ("MangaNotFound", null),
@@ -65,16 +62,17 @@ namespace Araboon.Service.Implementations
                 _ => ("MangaNotFound", null)
             };
         }
-        public async Task<(string, Manga?, string?)> GetMangaByIDAsync(int id)
+        public async Task<(string, Manga?, string?, int?)> GetMangaByIDAsync(int id)
         {
-            var manga = await mangaRepository.GetByIdAsync(id);
+            var manga = await unitOfWork.MangaRepository.GetByIdAsync(id);
             if (manga is null)
-                return ("MangaNotFound", null, null);
-            return ("MangaFound", manga, manga.MangaNameEn);
+                return ("MangaNotFound", null, null, null);
+            var commentCounts = await unitOfWork.MangaRepository.CommentsCountByIdAsync(id);
+            return ("MangaFound", manga, manga.MangaNameEn, commentCounts);
         }
         public async Task<(string, PaginatedResult<MangaSearchResponse>?)> SearchAsync(string? search, int pageNumber, int pageSize)
         {
-            var (message, mangas) = await mangaRepository.SearchAsync(search, pageNumber, pageSize);
+            var (message, mangas) = await unitOfWork.MangaRepository.SearchAsync(search, pageNumber, pageSize);
             return message switch
             {
                 "MangaNotFound" => ("MangaNotFound", null),
@@ -84,12 +82,24 @@ namespace Araboon.Service.Implementations
         }
         public async Task<(string, PaginatedResult<GetMangaCommentsResponse>?)> GetMangaCommentsAsync(int id, int pageNumber, int pageSize)
         {
-            var (message, comments) = await mangaRepository.GetMangaCommentsAsync(id, pageNumber, pageSize);
+            var (message, comments) = await unitOfWork.MangaRepository.GetMangaCommentsAsync(id, pageNumber, pageSize);
             return message switch
             {
                 "CommentsNotFound" => ("CommentsNotFound", null),
                 "CommentsFound" => ("CommentsFound", comments),
                 _ => ("CommentsNotFound", null)
+            };
+        }
+
+        public async Task<(string, int?)> GetCommentsCountAsync(int id)
+        {
+            var (message, commentsCount) = await unitOfWork.CommentRepository.GetCommentsCountForMangaAsync(id);
+            return message switch
+            {
+                "MangaNotFound" => ("MangaNotFound", null),
+                "CommentsNotFound" => ("CommentsNotFound", null),
+                "CommentsFound" => ("CommentsFound", commentsCount),
+                _ => ("MangaNotFound", null)
             };
         }
     }

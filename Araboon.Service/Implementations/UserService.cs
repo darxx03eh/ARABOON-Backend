@@ -313,7 +313,7 @@ namespace Araboon.Service.Implementations
         public async Task<string> UploadProfileImageAsync(IFormFile image, CropData cropData)
         {
             var userId = unitOfWork.UserRepository.ExtractUserIdFromToken();
-            if (String.IsNullOrWhiteSpace(userId))
+            if (string.IsNullOrWhiteSpace(userId))
                 return "UserNotFound";
             var user = await userManager.FindByIdAsync(userId);
             if (user is null)

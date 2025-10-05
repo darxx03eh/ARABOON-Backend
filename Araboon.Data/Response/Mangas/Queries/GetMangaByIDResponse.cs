@@ -20,5 +20,6 @@ namespace Araboon.Data.Response.Mangas.Queries
         public string PublishedOn { get; set; }
         public string UpdatedOn { get; set; }
         public string Description { get; set; }
+        public int CommentsCount { get; set; }
     }
 }

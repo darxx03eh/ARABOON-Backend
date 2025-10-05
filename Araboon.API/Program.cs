@@ -9,6 +9,7 @@ using Araboon.Data.Helpers;
 using Araboon.Data.Helpers.Resolvers.Mangas;
 using Araboon.Infrastructure;
 using Araboon.Infrastructure.Data;
+using Araboon.Infrastructure.Resolvers.MangasResolver;
 using Araboon.Infrastructure.Seeder;
 using Araboon.Service;
 using Microsoft.AspNetCore.Identity;
@@ -162,7 +163,6 @@ namespace Araboon.API
                 });
             });
             builder.Services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
-            builder.Services.AddTransient<MangaDateFormatResolver>();
             builder.Services.AddSingleton<IHostEnvironment>(sp => sp.GetRequiredService<IWebHostEnvironment>());
             builder.Services.Configure<DataProtectionTokenProviderOptions>(options =>
             {

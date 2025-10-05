@@ -88,5 +88,18 @@ namespace Araboon.Infrastructure.Repositories
                 return ("RepliesNotFound", null);
             return ("RepliesFound", result);
         }
+
+        public async Task<(string, int?)> GetCommentsCountForMangaAsync(int id)
+        {
+            var manga = await context.Mangas.Where(manga => manga.MangaID.Equals(id)).FirstOrDefaultAsync();
+            if (manga is null)
+                return ("MangaNotFound", null);
+
+            var commentsCount = await GetTableNoTracking().Where(comment => comment.MangaID.Equals(id)).CountAsync();
+            if (commentsCount.Equals(0))
+                return ("CommentsNotFound", null);
+
+            return ("CommentsFound", commentsCount);
+        }
     }
 }
