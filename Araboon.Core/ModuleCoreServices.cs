@@ -1,5 +1,4 @@
 ﻿using Araboon.Core.Behaviors;
-using Araboon.Core.Mapping.Authentications;
 using Araboon.Data.Helpers.Resolvers.ChaptersResolver;
 using Araboon.Data.Helpers.Resolvers.Mangas;
 using Araboon.Data.Helpers.Resolvers.MangasResolver;
@@ -23,8 +22,8 @@ namespace Araboon.Core
             {
                 cfg.AddMaps(new[]
                 {
-                    typeof(ModuleCoreServices).Assembly,       
-                    typeof(ChapterDateFormatResolver).Assembly, 
+                    typeof(ModuleCoreServices).Assembly,
+                    typeof(ChapterDateFormatResolver).Assembly,
                     typeof(IsFavoriteResolver).Assembly
                 });
             });

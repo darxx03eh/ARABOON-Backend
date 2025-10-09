@@ -822,4 +822,40 @@
   <data name="RefreshTokenNotUsedAnyMore" xml:space="preserve">
     <value>لم يعد من الممكن استخدام رمز التحديث</value>
   </data>
+  <data name="RateShouldBeGreaterThanOrEqualToZero" xml:space="preserve">
+    <value>يجب أن يكون التقيم أكبر من أو يساوي صفر</value>
+  </data>
+  <data name="RateShouldBeLessThanOrEqualToFive" xml:space="preserve">
+    <value>يجب أن يكون التقييم أقل من أو يساوي خمسة</value>
+  </data>
+  <data name="AnErrorOccurredWhileAddingTheRate" xml:space="preserve">
+    <value>حدث خطأ أثناء إضافة التقييم</value>
+  </data>
+  <data name="TheRateHasBeenAddedSuccessfully" xml:space="preserve">
+    <value>تم إضافة التقييم بنجاح</value>
+  </data>
+  <data name="TheRateHasBeenModifiedSuccessfully" xml:space="preserve">
+    <value>تم تعديل التقييم بنجاح</value>
+  </data>
+  <data name="AnErrorOccurredWhileModifyingTheRate" xml:space="preserve">
+    <value>حدث خطأ أثناء تعديل التقييم</value>
+  </data>
+  <data name="AnErrorOccurredDuringTheRateProcess" xml:space="preserve">
+    <value>حدث خطأ أثناء عملية التقييم</value>
+  </data>
+  <data name="RateNotFound" xml:space="preserve">
+    <value>لم يتم العثور على التقييم</value>
+  </data>
+  <data name="ThisRateDoNotBelongToYou" xml:space="preserve">
+    <value>هذا التقييم لا يخصك</value>
+  </data>
+  <data name="TheRateHasBeenSuccessfullyDeleted" xml:space="preserve">
+    <value>تم حذف التقييم بنجاح</value>
+  </data>
+  <data name="AnErrorOccurredWhileDeletingTheRate" xml:space="preserve">
+    <value>حدث خطأ أثناء حذف التقييم</value>
+  </data>
+  <data name="RateFound" xml:space="preserve">
+    <value>تم العثور على التقييم</value>
+  </data>
 </root>

@@ -8,7 +8,7 @@ namespace Araboon.Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<Ratings> builder)
         {
-            builder.HasKey(x => new { x.UserID, x.MangaID });
+            builder.HasKey(x => x.Id);
             builder.HasOne(x => x.Manga)
                 .WithMany(x => x.Ratings)
                 .HasForeignKey(x => x.MangaID);

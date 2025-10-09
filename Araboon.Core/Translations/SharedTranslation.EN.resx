@@ -823,4 +823,40 @@
   <data name="RefreshTokenNotUsedAnyMore" xml:space="preserve">
     <value>The refresh token cannot be used anymore</value>
   </data>
+  <data name="RateShouldBeGreaterThanOrEqualToZero" xml:space="preserve">
+    <value>The rating must be greater than or equal to zero.</value>
+  </data>
+  <data name="RateShouldBeLessThanOrEqualToFive" xml:space="preserve">
+    <value>The rating must be less than or equal to five</value>
+  </data>
+  <data name="AnErrorOccurredWhileAddingTheRate" xml:space="preserve">
+    <value>An error occurred while adding the rating</value>
+  </data>
+  <data name="TheRateHasBeenAddedSuccessfully" xml:space="preserve">
+    <value>The rating has been added successfully</value>
+  </data>
+  <data name="TheRateHasBeenModifiedSuccessfully" xml:space="preserve">
+    <value>The rating has been modified successfully</value>
+  </data>
+  <data name="AnErrorOccurredWhileModifyingTheRate" xml:space="preserve">
+    <value>An error occurred while modifying the rating</value>
+  </data>
+  <data name="AnErrorOccurredDuringTheRateProcess" xml:space="preserve">
+    <value>An error occurred during the rating process</value>
+  </data>
+  <data name="RateNotFound" xml:space="preserve">
+    <value>Rating not found</value>
+  </data>
+  <data name="ThisRateDoNotBelongToYou" xml:space="preserve">
+    <value>This rating does not belong to you</value>
+  </data>
+  <data name="TheRateHasBeenSuccessfullyDeleted" xml:space="preserve">
+    <value>The rating has been successfully deleted</value>
+  </data>
+  <data name="AnErrorOccurredWhileDeletingTheRate" xml:space="preserve">
+    <value>An error occurred while deleting the rating</value>
+  </data>
+  <data name="RateFound" xml:space="preserve">
+    <value>Rating found</value>
+  </data>
 </root>

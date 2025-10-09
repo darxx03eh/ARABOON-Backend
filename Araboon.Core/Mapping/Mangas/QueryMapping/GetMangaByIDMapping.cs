@@ -12,6 +12,7 @@ namespace Araboon.Core.Mapping.Mangas
         void GetMangaByIDMapping()
         {
             CreateMap<Manga, GetMangaByIDResponse>()
+                .ForMember(to => to.MangaId, from => from.MapFrom(src => src.MangaID))
                 .ForMember(to => to.MangaName, from => from.MapFrom(src => TransableEntity.GetTransable(src.MangaNameEn, src.MangaNameAr)))
                 .ForMember(to => to.Author, from => from.MapFrom(src => TransableEntity.GetTransable(src.AuthorEn, src.AuthorAr)))
                 .ForMember(to => to.MangaImageUrl, from => from.MapFrom(src => src.MainImage))

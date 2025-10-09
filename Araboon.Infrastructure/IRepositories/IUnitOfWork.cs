@@ -17,5 +17,6 @@
         public ICommentLikesRepository CommentLikesRepository { get; set; }
         public IReplyRepository ReplyRepository { get; set; }
         public IReplyLikesRepository ReplyLikesRepository { get; set; }
+        public IRatingsRepository RatingsRepository { get; set; }
     }
 }

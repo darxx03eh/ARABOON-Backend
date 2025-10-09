@@ -4,6 +4,7 @@ using Araboon.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Araboon.Infrastructure.Migrations
 {
     [DbContext(typeof(AraboonDbContext))]
-    partial class AraboonDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251009101819_AddRateFieldToRatings")]
+    partial class AddRateFieldToRatings
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -617,11 +620,8 @@ namespace Araboon.Infrastructure.Migrations
 
             modelBuilder.Entity("Araboon.Data.Entities.Ratings", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("UserID")
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("MangaID")
                         .HasColumnType("int");
@@ -629,14 +629,9 @@ namespace Araboon.Infrastructure.Migrations
                     b.Property<double>("Rate")
                         .HasColumnType("float");
 
-                    b.Property<int>("UserID")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
+                    b.HasKey("UserID", "MangaID");
 
                     b.HasIndex("MangaID");
-
-                    b.HasIndex("UserID");
 
                     b.ToTable("Ratings");
                 });

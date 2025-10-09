@@ -121,5 +121,11 @@
             public const string AddLike = $"{prefix}{singleRoute}/like";
             public const string DeleteLike = $"{prefix}{singleRoute}/like";
         }
+        public static class RatingRouting
+        {
+            public const string prefix = $"{rule}ratings";
+            public const string DeleteRate = $"{prefix}{singleRoute}";
+            public const string GetRate = $"{prefix}/manga{singleRoute}";
+        }
     }
 }

@@ -233,5 +233,17 @@
         public const string AnErrorOccurredWhileRemovingALikeFromTheReply = "AnErrorOccurredWhileRemovingALikeFromTheReply";
         public const string TheLikeHasBeenDeletedFromTheReplySuccessfully = "TheLikeHasBeenDeletedFromTheReplySuccessfully";
         public const string TheUserYouWantToReplyToNotFound = "TheUserYouWantToReplyToNotFound";
+        public const string RateShouldBeGreaterThanOrEqualToZero = "RateShouldBeGreaterThanOrEqualToZero";
+        public const string RateShouldBeLessThanOrEqualToFive = "RateShouldBeLessThanOrEqualToFive";
+        public const string AnErrorOccurredWhileAddingTheRate = "AnErrorOccurredWhileAddingTheRate";
+        public const string TheRateHasBeenAddedSuccessfully = "TheRateHasBeenAddedSuccessfully";
+        public const string TheRateHasBeenModifiedSuccessfully = "TheRateHasBeenModifiedSuccessfully";
+        public const string AnErrorOccurredWhileModifyingTheRate = "AnErrorOccurredWhileModifyingTheRate";
+        public const string AnErrorOccurredDuringTheRateProcess = "AnErrorOccurredDuringTheRateProcess";
+        public const string RateNotFound = "RateNotFound";
+        public const string ThisRateDoNotBelongToYou = "ThisRateDoNotBelongToYou";
+        public const string TheRateHasBeenSuccessfullyDeleted = "TheRateHasBeenSuccessfullyDeleted";
+        public const string AnErrorOccurredWhileDeletingTheRate = "AnErrorOccurredWhileDeletingTheRate";
+        public const string RateFound = "RateFound";
     }
 }

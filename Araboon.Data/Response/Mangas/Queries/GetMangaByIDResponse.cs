@@ -1,8 +1,8 @@
-﻿using Araboon.Data.Entities;
-namespace Araboon.Data.Response.Mangas.Queries
+﻿namespace Araboon.Data.Response.Mangas.Queries
 {
     public class GetMangaByIDResponse
     {
+        public int MangaId { get; set; }
         public string MangaName { get; set; }
         public Double? Rate { get; set; }
         public bool IsFavorite { get; set; } = false;
