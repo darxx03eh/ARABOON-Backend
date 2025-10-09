@@ -18,21 +18,21 @@ namespace Araboon.Service.Implementations
             this.userManager = userManager;
         }
 
-        public async Task<string> DeleteRateAsync(int id)
+        public async Task<(string, double?)> DeleteRateAsync(int id)
         {
             var userId = unitOfWork.RatingsRepository.ExtractUserIdFromToken();
             if (string.IsNullOrWhiteSpace(userId))
-                return "UserNotFound";
+                return ("UserNotFound", null);
 
             var user = await userManager.FindByIdAsync(userId);
             if (user is null)
-                return "UserNotFound";
+                return ("UserNotFound", null);
 
             var rate = await unitOfWork.RatingsRepository.GetByIdAsync(id);
             if (rate is null)
-                return "RateNotFound";
+                return ("RateNotFound", null);
             if (!rate.UserID.Equals(user.Id))
-                return "ThisRateDoNotBelongToYou";
+                return ("ThisRateDoNotBelongToYou", null);
 
             try
             {
@@ -43,11 +43,11 @@ namespace Araboon.Service.Implementations
                 else manga.Rate = Convert.ToDouble(((manga.Rate * manga.RatingsCount) - rate.Rate) / manga.RatingsCount - 1);
                 manga.RatingsCount--;
                 await unitOfWork.MangaRepository.UpdateAsync(manga);
-                return "TheRateHasBeenSuccessfullyDeleted";
+                return (("TheRateHasBeenSuccessfullyDeleted", manga.Rate));
             }
             catch (Exception exp)
             {
-                return "AnErrorOccurredWhileDeletingTheRate";
+                return ("AnErrorOccurredWhileDeletingTheRate", null);
             }
         }
 
@@ -72,19 +72,19 @@ namespace Araboon.Service.Implementations
             });
         }
 
-        public async Task<(string, double?, int?)> RateAsync(int mangaId, double rate)
+        public async Task<(string, double?, int?, double?)> RateAsync(int mangaId, double rate)
         {
             var userId = unitOfWork.RatingsRepository.ExtractUserIdFromToken();
             if (string.IsNullOrWhiteSpace(userId))
-                return ("UserNotFound", null, null);
+                return ("UserNotFound", null, null, null);
 
             var user = await userManager.FindByIdAsync(userId);
             if (user is null)
-                return ("UserNotFound", null, null);
+                return ("UserNotFound", null, null, null);
 
             var manga = await unitOfWork.MangaRepository.GetByIdAsync(mangaId);
             if (manga is null)
-                return ("MangaNotFound", null, null);
+                return ("MangaNotFound", null, null, null);
 
             double newRate = 0.0;
             var isRateBefore = unitOfWork.RatingsRepository.IsUserMakeRateForMangaAsync(user.Id, mangaId);
@@ -98,11 +98,11 @@ namespace Araboon.Service.Implementations
                     Rate = rate,
                 });
                 if (rateObject is null)
-                    return ("AnErrorOccurredWhileAddingTheRate", null, null);
+                    return ("AnErrorOccurredWhileAddingTheRate", null, null, null);
                 manga.Rate = newRate;
                 manga.RatingsCount++;
                 await unitOfWork.MangaRepository.UpdateAsync(manga);
-                return ("TheRateHasBeenAddedSuccessfully", rate, rateObject.Id);
+                return ("TheRateHasBeenAddedSuccessfully", rate, rateObject.Id, manga.Rate);
             }
             else
             {
@@ -114,11 +114,11 @@ namespace Araboon.Service.Implementations
                     await unitOfWork.RatingsRepository.UpdateAsync(rateObject);
                     manga.Rate = newRate;
                     await unitOfWork.MangaRepository.UpdateAsync(manga);
-                    return ("TheRateHasBeenModifiedSuccessfully", rate, rateObject.Id);
+                    return ("TheRateHasBeenModifiedSuccessfully", rate, rateObject.Id, manga.Rate);
                 }
                 catch (Exception exp)
                 {
-                    return ("AnErrorOccurredWhileModifyingTheRate", null, null);
+                    return ("AnErrorOccurredWhileModifyingTheRate", null, null, null);
                 }
             }
         }

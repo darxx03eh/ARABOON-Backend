@@ -22,7 +22,7 @@ namespace Araboon.Core.Features.Ratings.Commands.Handlers
 
         public async Task<ApiResponse> Handle(AddUpdateRatingsCommand request, CancellationToken cancellationToken)
         {
-            var (result, rate, id) = await ratingService.RateAsync(request.MangaId, request.Rate);
+            var (result, rate, id, newRate) = await ratingService.RateAsync(request.MangaId, request.Rate);
             return result switch
             {
                 "UserNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.UserNotFound]),
@@ -37,6 +37,7 @@ namespace Araboon.Core.Features.Ratings.Commands.Handlers
                 {
                     Id = id,
                     Rate = rate,
+                    NewRate = newRate,
                 }, message: stringLocalizer[SharedTranslationKeys.TheRateHasBeenModifiedSuccessfully]),
                 "AnErrorOccurredWhileModifyingTheRate" => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileModifyingTheRate]),
                 _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredDuringTheRateProcess])
@@ -45,13 +46,16 @@ namespace Araboon.Core.Features.Ratings.Commands.Handlers
 
         public async Task<ApiResponse> Handle(DeleteRatingsCommand request, CancellationToken cancellationToken)
         {
-            var result = await ratingService.DeleteRateAsync(request.Id);
+            var (result, rate) = await ratingService.DeleteRateAsync(request.Id);
             return result switch
             {
                 "UserNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.UserNotFound]),
                 "RateNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.RateNotFound]),
                 "ThisRateDoNotBelongToYou" => Forbidden(stringLocalizer[SharedTranslationKeys.ThisRateDoNotBelongToYou]),
-                "TheRateHasBeenSuccessfullyDeleted" => Deleted(stringLocalizer[SharedTranslationKeys.TheRateHasBeenSuccessfullyDeleted]),
+                "TheRateHasBeenSuccessfullyDeleted" => Success(new
+                {
+                    NewRate = rate,
+                }, message: stringLocalizer[SharedTranslationKeys.TheRateHasBeenSuccessfullyDeleted]),
                 "AnErrorOccurredWhileDeletingTheRate" => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileDeletingTheRate]),
                 _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileDeletingTheRate])
             };
