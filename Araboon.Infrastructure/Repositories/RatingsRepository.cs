@@ -19,7 +19,7 @@ namespace Araboon.Infrastructure.Repositories
         }
 
         public async Task<Ratings> GetRateByMangaIdAndUserIdAsync(int userId, int mangaId)
-            => await GetTableNoTracking().Where(rate => rate.MangaID.Equals(mangaId) && rate.UserID.Equals(userId)).FirstOrDefaultAsync();
+            => await GetTableAsTracking().Where(rate => rate.MangaID.Equals(mangaId) && rate.UserID.Equals(userId)).FirstOrDefaultAsync();
 
         public bool IsUserMakeRateForMangaAsync(int userId, int mangaId)
             => GetTableNoTracking().Any(rate => rate.MangaID.Equals(mangaId) && rate.UserID.Equals(userId));

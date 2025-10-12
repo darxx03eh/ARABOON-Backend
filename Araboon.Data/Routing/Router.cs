@@ -78,6 +78,7 @@
         {
             public const string prefix = $"{rule}Chapters";
             public const string ViewChaptersForSpecificMangaByLanguage = $"{prefix}/ViewChaptersForSpecificMangaByLanguage";
+            public const string ViewChapterImages = $"{prefix}/images";
         }
         public static class CategoryRouting
         {

@@ -41,6 +41,7 @@ namespace Araboon.Core.Middleware
 
             // chapters paths
             Router.ChaptersRouting.ViewChaptersForSpecificMangaByLanguage,
+            Router.ChaptersRouting.ViewChapterImages,
 
             // mangas paths
             Router.MangaRouting.GetCategoriesHomePageMangas,

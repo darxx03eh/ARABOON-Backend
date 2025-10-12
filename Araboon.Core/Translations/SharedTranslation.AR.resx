@@ -858,4 +858,19 @@
   <data name="RateFound" xml:space="preserve">
     <value>تم العثور على التقييم</value>
   </data>
+  <data name="ChapterNotFound" xml:space="preserve">
+    <value>لم يتم العثور على الفصل</value>
+  </data>
+  <data name="ImagesNotFound" xml:space="preserve">
+    <value>لم يتم العثور على الصور</value>
+  </data>
+  <data name="ImagesFound" xml:space="preserve">
+    <value>تم العثور على الصور</value>
+  </data>
+  <data name="ChapterForArabicLanguageNotExist" xml:space="preserve">
+    <value>الفصل باللغة العربية غير موجود</value>
+  </data>
+  <data name="ChapterForEnglishLanguageNotExist" xml:space="preserve">
+    <value>الفصل باللغة الإنجليزية غير موجود</value>
+  </data>
 </root>

@@ -17,8 +17,7 @@ namespace Araboon.Core.Features.Ratings.Commands.Validators
         private void ApplyValidationRules()
         {
             RuleFor(rate => rate.Rate)
-                .LessThan(5).WithMessage(stringLocalizer[SharedTranslationKeys.RateShouldBeLessThanOrEqualToFive])
-                .GreaterThan(0).WithMessage(stringLocalizer[SharedTranslationKeys.RateShouldBeGreaterThanOrEqualToZero]);
-        }
+                .LessThanOrEqualTo(5).WithMessage(stringLocalizer[SharedTranslationKeys.RateShouldBeLessThanOrEqualToFive])
+                .GreaterThanOrEqualTo(0).WithMessage(stringLocalizer[SharedTranslationKeys.RateShouldBeGreaterThanOrEqualToZero]);        }
     }
 }

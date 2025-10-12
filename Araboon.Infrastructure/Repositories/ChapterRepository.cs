@@ -1,11 +1,8 @@
 ﻿using Araboon.Data.Entities;
-using Araboon.Data.Response.Chapters.Queries;
-using Araboon.Infrastructure.Commons;
 using Araboon.Infrastructure.Data;
 using Araboon.Infrastructure.IRepositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 
 namespace Araboon.Infrastructure.Repositories
 {
@@ -21,6 +18,9 @@ namespace Araboon.Infrastructure.Repositories
             this.httpContextAccessor = httpContextAccessor;
         }
 
+        public async Task<Chapter> GetChapterByMangaIdAndChapterNoAsync(int mangaId, int ChapterNo)
+            => await GetTableNoTracking().Where(chapter => chapter.MangaID.Equals(mangaId) && chapter.ChapterNo.Equals(ChapterNo)).FirstOrDefaultAsync();
+
         public async Task<(string, IList<Chapter>?)> GetChaptersForSpecificMangaByLanguage(int mangaId, string language)
         {
             var isMangaExist = context.Mangas.Any(manga => manga.MangaID.Equals(mangaId));
@@ -30,7 +30,7 @@ namespace Araboon.Infrastructure.Repositories
             if (!isLanguageExist)
                 return ("TheLanguageYouRequestedIsNotAvailableForThisManga", null);
             var chapters = await GetTableNoTracking().Where(
-                chapter => chapter.Language.ToLower().Equals(language.ToLower())&&
+                chapter => chapter.Language.ToLower().Equals(language.ToLower()) &&
                 chapter.MangaID.Equals(mangaId)
                 ).ToListAsync();
             if (chapters.Count.Equals(0))

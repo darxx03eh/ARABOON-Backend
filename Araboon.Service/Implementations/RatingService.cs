@@ -38,9 +38,9 @@ namespace Araboon.Service.Implementations
             {
                 await unitOfWork.RatingsRepository.DeleteAsync(rate);
                 var manga = await unitOfWork.MangaRepository.GetByIdAsync(rate.MangaID);
-                if (manga.RatingsCount.Equals(0))
+                if (manga.RatingsCount.Equals(1))
                     manga.Rate = 0;
-                else manga.Rate = Convert.ToDouble(((manga.Rate * manga.RatingsCount) - rate.Rate) / manga.RatingsCount - 1);
+                else manga.Rate = Math.Abs(Convert.ToDouble(((manga.Rate * manga.RatingsCount) - rate.Rate) / manga.RatingsCount - 1));
                 manga.RatingsCount--;
                 await unitOfWork.MangaRepository.UpdateAsync(manga);
                 return (("TheRateHasBeenSuccessfullyDeleted", manga.Rate));
@@ -107,7 +107,7 @@ namespace Araboon.Service.Implementations
             else
             {
                 var rateObject = await unitOfWork.RatingsRepository.GetRateByMangaIdAndUserIdAsync(user.Id, mangaId);
-                newRate = Convert.ToDouble(((manga.Rate * manga.RatingsCount) - (rateObject.Rate + rate)) / manga.RatingsCount);
+                newRate = Math.Abs(Convert.ToDouble(((manga.Rate * manga.RatingsCount) + (rate - rateObject.Rate)) / manga.RatingsCount));
                 rateObject.Rate = rate;
                 try
                 {

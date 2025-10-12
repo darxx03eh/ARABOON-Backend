@@ -859,4 +859,19 @@
   <data name="RateFound" xml:space="preserve">
     <value>Rating found</value>
   </data>
+  <data name="ChapterNotFound" xml:space="preserve">
+    <value>Chapter not found</value>
+  </data>
+  <data name="ImagesNotFound" xml:space="preserve">
+    <value>Images not found</value>
+  </data>
+  <data name="ImagesFound" xml:space="preserve">
+    <value>Images found</value>
+  </data>
+  <data name="ChapterForArabicLanguageNotExist" xml:space="preserve">
+    <value>Chapter for Arabic language does not exist</value>
+  </data>
+  <data name="ChapterForEnglishLanguageNotExist" xml:space="preserve">
+    <value>Chapter for English language does not exist</value>
+  </data>
 </root>

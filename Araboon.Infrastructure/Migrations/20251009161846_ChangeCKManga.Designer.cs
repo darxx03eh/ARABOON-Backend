@@ -4,6 +4,7 @@ using Araboon.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Araboon.Infrastructure.Migrations
 {
     [DbContext(typeof(AraboonDbContext))]
-    partial class AraboonDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251009161846_ChangeCKManga")]
+    partial class ChangeCKManga
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,7 +43,7 @@ namespace Araboon.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("OrderImage")
+                    b.Property<int>("Order")
                         .HasColumnType("int");
 
                     b.HasKey("ImageID");
@@ -130,8 +133,7 @@ namespace Araboon.Infrastructure.Migrations
 
                     b.HasKey("ChapterID");
 
-                    b.HasIndex("MangaID", "ChapterNo")
-                        .HasDatabaseName("IX_MangaId_ChapterNo");
+                    b.HasIndex("MangaID");
 
                     b.ToTable("Chapters");
                 });
@@ -282,7 +284,7 @@ namespace Araboon.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("OrderImage")
+                    b.Property<int>("Order")
                         .HasColumnType("int");
 
                     b.HasKey("ImageID");

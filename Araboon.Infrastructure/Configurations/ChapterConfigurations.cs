@@ -30,6 +30,12 @@ namespace Araboon.Infrastructure.Configurations
                 .HasDefaultValue(0);
             builder.Property(x => x.Language)
                 .HasDefaultValue("Arabic");
+
+            builder.HasIndex(x => new
+            {
+                x.MangaID,
+                x.ChapterNo
+            }).HasDatabaseName("IX_MangaId_ChapterNo");
         }
     }
 }

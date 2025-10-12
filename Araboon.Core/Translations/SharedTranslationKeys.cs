@@ -245,5 +245,10 @@
         public const string TheRateHasBeenSuccessfullyDeleted = "TheRateHasBeenSuccessfullyDeleted";
         public const string AnErrorOccurredWhileDeletingTheRate = "AnErrorOccurredWhileDeletingTheRate";
         public const string RateFound = "RateFound";
+        public const string ChapterNotFound = "ChapterNotFound";
+        public const string ImagesNotFound = "ImagesNotFound";
+        public const string ImagesFound = "ImagesFound";
+        public const string ChapterForArabicLanguageNotExist = "ChapterForArabicLanguageNotExist";
+        public const string ChapterForEnglishLanguageNotExist = "ChapterForEnglishLanguageNotExist";
     }
 }

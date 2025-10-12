@@ -32,6 +32,7 @@ namespace Araboon.Core.Features.Ratings.Commands.Handlers
                 {
                     Id = id,
                     Rate = rate,
+                    NewRate = newRate,
                 }, message: stringLocalizer[SharedTranslationKeys.TheRateHasBeenAddedSuccessfully]),
                 "TheRateHasBeenModifiedSuccessfully" => Success(new
                 {
