@@ -874,4 +874,7 @@
   <data name="ChapterForEnglishLanguageNotExist" xml:space="preserve">
     <value>Chapter for English language does not exist</value>
   </data>
+  <data name="ThisLanguageNotExist" xml:space="preserve">
+    <value>This language does not exist</value>
+  </data>
 </root>

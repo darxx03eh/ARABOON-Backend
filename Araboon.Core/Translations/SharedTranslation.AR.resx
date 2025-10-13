@@ -873,4 +873,7 @@
   <data name="ChapterForEnglishLanguageNotExist" xml:space="preserve">
     <value>الفصل باللغة الإنجليزية غير موجود</value>
   </data>
+  <data name="ThisLanguageNotExist" xml:space="preserve">
+    <value>هذه اللغة غير موجودة</value>
+  </data>
 </root>

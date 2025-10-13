@@ -250,5 +250,6 @@
         public const string ImagesFound = "ImagesFound";
         public const string ChapterForArabicLanguageNotExist = "ChapterForArabicLanguageNotExist";
         public const string ChapterForEnglishLanguageNotExist = "ChapterForEnglishLanguageNotExist";
+        public const string ThisLanguageNotExist = "ThisLanguageNotExist";
     }
 }

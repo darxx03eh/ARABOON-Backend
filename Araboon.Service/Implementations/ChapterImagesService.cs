@@ -17,22 +17,24 @@ namespace Araboon.Service.Implementations
             this.userManager = userManager;
         }
 
-        public async Task<(string, ChapterImagesResponse?)> GetChapterImagesAsync(int mangaId, int chapterNo, string language)
+        public async Task<(string, ChapterImagesResponse?, string?, int?)> GetChapterImagesAsync(int mangaId, int chapterNo, string language)
         {
 
             var manga = await unitOfWork.MangaRepository.GetByIdAsync(mangaId);
             if (manga is null)
-                return ("MangaNotFound", null);
+                return ("MangaNotFound", null, null, null);
 
             var chapter = await unitOfWork.ChapterRepository.GetChapterByMangaIdAndChapterNoAsync(mangaId, chapterNo);
             if (chapter is null)
-                return ("ChapterNotFound", null);
+                return ("ChapterNotFound", null, null, null);
 
             ChapterImagesResponse images = null;
+            string mangaName = "";
+            int chaptersCounts = 0;
             if (language.ToLower().Equals("ar"))
             {
                 if (Convert.ToBoolean(!manga.ArabicAvailable))
-                    return ("ChapterForArabicLanguageNotExist", null);
+                    return ("ChapterForArabicLanguageNotExist", null, null, null);
                 images = new ChapterImagesResponse()
                 {
                     ChapterId = chapter.ChapterID,
@@ -41,11 +43,12 @@ namespace Araboon.Service.Implementations
                     Images = chapter.ArabicChapterImages.OrderBy(image => image.OrderImage)
                              .Select(image => image.ImageUrl).ToList()
                 };
+                mangaName = manga.MangaNameAr;
             }
-            else
+            else if (language.ToLower().Equals("en"))
             {
                 if (Convert.ToBoolean(!manga.EnglishAvilable))
-                    return ("ChapterForEnglishLanguageNotExist", null);
+                    return ("ChapterForEnglishLanguageNotExist", null, null, null);
                 images = new ChapterImagesResponse()
                 {
                     ChapterId = chapter.ChapterID,
@@ -54,11 +57,13 @@ namespace Araboon.Service.Implementations
                     Images = chapter.EnglishChapterImages.OrderBy(image => image.OrderImage)
                              .Select(image => image.ImageUrl).ToList()
                 };
+                mangaName = manga.MangaNameEn;
             }
+            else return ("ThisLanguageNotExist", null, null, null);
             if (images is null || images.Images.Count().Equals(0))
-                return ("ImagesNotFound", null);
-
-            return ("ImagesFound", images);
+                return ("ImagesNotFound", null, null, null);
+            chaptersCounts = manga.Chapters.Count();
+            return ("ImagesFound", images, mangaName, chaptersCounts);
         }
     }
 }
