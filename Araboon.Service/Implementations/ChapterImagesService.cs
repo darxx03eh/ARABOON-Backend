@@ -19,12 +19,13 @@ namespace Araboon.Service.Implementations
 
         public async Task<(string, ChapterImagesResponse?, string?, int?)> GetChapterImagesAsync(int mangaId, int chapterNo, string language)
         {
-
+            var userId = unitOfWork.UserRepository.ExtractUserIdFromToken();
             var manga = await unitOfWork.MangaRepository.GetByIdAsync(mangaId);
             if (manga is null)
                 return ("MangaNotFound", null, null, null);
-
-            var chapter = await unitOfWork.ChapterRepository.GetChapterByMangaIdAndChapterNoAsync(mangaId, chapterNo);
+            var chapter = await unitOfWork.ChapterRepository.GetChapterByMangaIdAndChapterNoAsync(
+                mangaId, chapterNo, language.ToLower().Equals("ar") ? "arabic":"english"
+                );
             if (chapter is null)
                 return ("ChapterNotFound", null, null, null);
 
@@ -38,8 +39,11 @@ namespace Araboon.Service.Implementations
                 images = new ChapterImagesResponse()
                 {
                     ChapterId = chapter.ChapterID,
-                    IsArabic = true,
-                    IsEnglish = false,
+                    IsView = string.IsNullOrWhiteSpace(userId) ? false:
+                    unitOfWork.ChapterViewRepository.GetTableNoTracking()
+                    .Any(x => x.UserID.Equals(Convert.ToInt32(userId)) && x.ChapterID.Equals(chapter.ChapterID)),
+                    IsArabic = Convert.ToBoolean(manga.ArabicAvailable),
+                    IsEnglish = Convert.ToBoolean(manga.EnglishAvilable),
                     Images = chapter.ArabicChapterImages.OrderBy(image => image.OrderImage)
                              .Select(image => image.ImageUrl).ToList()
                 };
@@ -52,8 +56,11 @@ namespace Araboon.Service.Implementations
                 images = new ChapterImagesResponse()
                 {
                     ChapterId = chapter.ChapterID,
-                    IsArabic = false,
-                    IsEnglish = true,
+                    IsView = string.IsNullOrWhiteSpace(userId) ? false :
+                    unitOfWork.ChapterViewRepository.GetTableNoTracking()
+                    .Any(x => x.UserID.Equals(Convert.ToInt32(userId)) && x.ChapterID.Equals(chapter.ChapterID)),
+                    IsArabic = Convert.ToBoolean(manga.ArabicAvailable),
+                    IsEnglish = Convert.ToBoolean(manga.EnglishAvilable),
                     Images = chapter.EnglishChapterImages.OrderBy(image => image.OrderImage)
                              .Select(image => image.ImageUrl).ToList()
                 };

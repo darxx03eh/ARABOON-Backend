@@ -877,4 +877,10 @@
   <data name="ThisLanguageNotExist" xml:space="preserve">
     <value>This language does not exist</value>
   </data>
+  <data name="ViewsIncreasedBy1" xml:space="preserve">
+    <value>Views increased by 1</value>
+  </data>
+  <data name="AnErrorOccurredWhileIncreasingTheViewByOne" xml:space="preserve">
+    <value>An error occurred while increasing the view count by one</value>
+  </data>
 </root>

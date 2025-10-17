@@ -5,6 +5,7 @@
         public int ChapterId { get; set; }
         public bool IsArabic { get; set; }
         public bool IsEnglish { get; set; }
+        public bool IsView { get; set; }
         public IList<string> Images { get; set; }
     }
 }

@@ -251,5 +251,7 @@
         public const string ChapterForArabicLanguageNotExist = "ChapterForArabicLanguageNotExist";
         public const string ChapterForEnglishLanguageNotExist = "ChapterForEnglishLanguageNotExist";
         public const string ThisLanguageNotExist = "ThisLanguageNotExist";
+        public const string ViewsIncreasedBy1 = "ViewsIncreasedBy1";
+        public const string AnErrorOccurredWhileIncreasingTheViewByOne = "AnErrorOccurredWhileIncreasingTheViewByOne";
     }
 }

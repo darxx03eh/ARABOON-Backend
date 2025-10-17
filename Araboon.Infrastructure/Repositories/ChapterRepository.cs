@@ -18,8 +18,12 @@ namespace Araboon.Infrastructure.Repositories
             this.httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<Chapter> GetChapterByMangaIdAndChapterNoAsync(int mangaId, int ChapterNo)
-            => await GetTableNoTracking().Where(chapter => chapter.MangaID.Equals(mangaId) && chapter.ChapterNo.Equals(ChapterNo)).FirstOrDefaultAsync();
+        public async Task<Chapter> GetChapterByMangaIdAndChapterNoAsync(int mangaId, int ChapterNo, string lang)
+            => await GetTableNoTracking().Where(
+                chapter => chapter.MangaID.Equals(mangaId)&&
+                chapter.ChapterNo.Equals(ChapterNo)&&
+                chapter.Language.ToLower().Equals(lang)
+                ).FirstOrDefaultAsync();
 
         public async Task<(string, IList<Chapter>?)> GetChaptersForSpecificMangaByLanguage(int mangaId, string language)
         {
@@ -29,8 +33,9 @@ namespace Araboon.Infrastructure.Repositories
             var isLanguageExist = await IsLanguageExist(mangaId, language);
             if (!isLanguageExist)
                 return ("TheLanguageYouRequestedIsNotAvailableForThisManga", null);
+            var lang = language.ToLower().Equals("ar") ? "arabic" : "english";
             var chapters = await GetTableNoTracking().Where(
-                chapter => chapter.Language.ToLower().Equals(language.ToLower()) &&
+                chapter => chapter.Language.ToLower().Equals(lang.ToLower()) &&
                 chapter.MangaID.Equals(mangaId)
                 ).ToListAsync();
             if (chapters.Count.Equals(0))
@@ -39,22 +44,23 @@ namespace Araboon.Infrastructure.Repositories
         }
         private async Task<bool> IsLanguageExist(int mangaId, string language)
         {
-            if (language.ToLower().Equals("arabic"))
+            if (language.ToLower().Equals("ar"))
             {
                 var isExist = await context.Mangas.Where(chapter => chapter.MangaID.Equals(mangaId))
                                     .Select(chapter => chapter.ArabicAvailable).FirstOrDefaultAsync();
                 if (isExist is null)
                     return false;
-                return (bool)isExist;
+                return Convert.ToBoolean(isExist);
             }
-            else
+            else if (language.ToLower().Equals("en"))
             {
                 var isExist = await context.Mangas.Where(chapter => chapter.MangaID.Equals(mangaId))
                                     .Select(chapter => chapter.EnglishAvilable).FirstOrDefaultAsync();
                 if (isExist is null)
                     return false;
-                return (bool)isExist;
+                return Convert.ToBoolean(isExist);
             }
+            else return false;
         }
     }
 }
