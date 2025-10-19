@@ -17,9 +17,13 @@ namespace Araboon.API.Controllers
             return Result(result);
         }
         [HttpDelete(Router.ChapterViewRouting.MarkAsUnRead)]
-        public async Task<IActionResult> MarkAsUnRead(MarkAsUnReadCommand request)
+        public async Task<IActionResult> MarkAsUnRead(int mangaId, int chapterId)
         {
-            var result = await mediator.Send(request);
+            var result = await mediator.Send(new MarkAsUnReadCommand()
+            {
+                MangaID = mangaId,
+                ChapterID = chapterId
+            });
             return Result(result);
         }
     }

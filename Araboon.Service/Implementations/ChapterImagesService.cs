@@ -69,7 +69,9 @@ namespace Araboon.Service.Implementations
             else return ("ThisLanguageNotExist", null, null, null);
             if (images is null || images.Images.Count().Equals(0))
                 return ("ImagesNotFound", null, null, null);
-            chaptersCounts = manga.Chapters.Count();
+            chaptersCounts = manga.Chapters.Where(chapter => chapter.Language.ToLower().Equals(
+                language.ToLower().Equals("ar") ? "arabic" : "english"
+                )).Count();
             return ("ImagesFound", images, mangaName, chaptersCounts);
         }
     }
