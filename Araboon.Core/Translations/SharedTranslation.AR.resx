@@ -882,4 +882,73 @@
   <data name="AnErrorOccurredWhileIncreasingTheViewByOne" xml:space="preserve">
     <value>حدث خطأ أثناء زيادة عدد المشاهدات بمقدار واحد</value>
   </data>
+  <data name="AnErrorOccurredWhileAddingtheCategory" xml:space="preserve">
+    <value>حدث خطأ أثناء إضافة التصنيف</value>
+  </data>
+  <data name="CategoryAddedSuccessfully" xml:space="preserve">
+    <value>تمت إضافة التصنيف بنجاح</value>
+  </data>
+  <data name="CategoryNameEnIsRequired" xml:space="preserve">
+    <value>اسم التصنيف باللغة الإنجليزية مطلوب</value>
+  </data>
+  <data name="CategoryNameEnNotNull" xml:space="preserve">
+    <value>اسم التصنيف باللغة الإنجليزية لا يمكن أن يكون فارغًا</value>
+  </data>
+  <data name="CategoryNameEnMaxLengthIs100" xml:space="preserve">
+    <value>يجب ألا يتجاوز اسم التصنيف باللغة الإنجليزية 100 حرف</value>
+  </data>
+  <data name="CategoryNameArIsRequired" xml:space="preserve">
+    <value>اسم التصنيف باللغة العربية مطلوب</value>
+  </data>
+  <data name="CategoryNameArNotNull" xml:space="preserve">
+    <value>اسم التصنيف باللغة العربية لا يمكن أن يكون فارغاً</value>
+  </data>
+  <data name="CategoryNameArMaxLengthIs100" xml:space="preserve">
+    <value>يجب ألا يتجاوز اسم التصنيف باللغة العربية 100 حرف</value>
+  </data>
+  <data name="IsActiveIsRequired" xml:space="preserve">
+    <value>حقل "IsActive" مطلوب</value>
+  </data>
+  <data name="CategoryNotFound" xml:space="preserve">
+    <value>لم يتم العثور على التصنيف</value>
+  </data>
+  <data name="AnErrorOccurredWhileDeletingtheCategory" xml:space="preserve">
+    <value>حدث خطأ أثناء حذف التصنيف</value>
+  </data>
+  <data name="CategoryDeletedSuccessfully" xml:space="preserve">
+    <value>تم حذف التصنيف بنجاح</value>
+  </data>
+  <data name="CategoryAlreadyActive" xml:space="preserve">
+    <value>التصنيف مفعل بالفعل</value>
+  </data>
+  <data name="AnErrorOccurredWhileActivateTheCategory" xml:space="preserve">
+    <value>حدث خطأ أثناء تفعيل التصنيف</value>
+  </data>
+  <data name="CategoryActivateSuccessfully" xml:space="preserve">
+    <value>تم تفعيل التصنيف بنجاح</value>
+  </data>
+  <data name="CategoryAlreadDeActive" xml:space="preserve">
+    <value>التصنيف معطل بالفعل</value>
+  </data>
+  <data name="AnErrorOccurredWhileDeActivateTheCategory" xml:space="preserve">
+    <value>حدث خطأ أثناء تعطيل التصنيف</value>
+  </data>
+  <data name="CategoryDeActivateSuccessfully" xml:space="preserve">
+    <value>تم تعطيل التصنيف بنجاح</value>
+  </data>
+  <data name="CategoryIdIsRequired" xml:space="preserve">
+    <value>معرف التصنيف مطلوب</value>
+  </data>
+  <data name="CategoryIdNotNull" xml:space="preserve">
+    <value>معرف التصنيف لا يمكن أن يكون فارغًا</value>
+  </data>
+  <data name="AnErrorOccurredWhileUpdatingTheCategory" xml:space="preserve">
+    <value>حدث خطأ أثناء تحديث التصنيف</value>
+  </data>
+  <data name="CategoryUpdatedSuccessfully" xml:space="preserve">
+    <value>تم تحديث التصنيف بنجاح</value>
+  </data>
+  <data name="CategoryFound" xml:space="preserve">
+    <value>تم العثور على التصنيف</value>
+  </data>
 </root>

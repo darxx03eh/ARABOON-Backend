@@ -253,5 +253,27 @@
         public const string ThisLanguageNotExist = "ThisLanguageNotExist";
         public const string ViewsIncreasedBy1 = "ViewsIncreasedBy1";
         public const string AnErrorOccurredWhileIncreasingTheViewByOne = "AnErrorOccurredWhileIncreasingTheViewByOne";
+        public const string AnErrorOccurredWhileAddingtheCategory = "AnErrorOccurredWhileAddingtheCategory";
+        public const string CategoryAddedSuccessfully = "CategoryAddedSuccessfully";
+        public const string CategoryNameEnIsRequired = "CategoryNameEnIsRequired";
+        public const string CategoryNameEnNotNull = "CategoryNameEnNotNull";
+        public const string CategoryNameEnMaxLengthIs100 = "CategoryNameEnMaxLengthIs100";
+        public const string CategoryNameArIsRequired = "CategoryNameArIsRequired";
+        public const string CategoryNameArNotNull = "CategoryNameArNotNull";
+        public const string CategoryNameArMaxLengthIs100 = "CategoryNameArMaxLengthIs100";
+        public const string CategoryNotFound = "CategoryNotFound";
+        public const string AnErrorOccurredWhileDeletingtheCategory = "AnErrorOccurredWhileDeletingtheCategory";
+        public const string CategoryDeletedSuccessfully = "CategoryDeletedSuccessfully";
+        public const string CategoryAlreadyActive = "CategoryAlreadyActive";
+        public const string AnErrorOccurredWhileActivateTheCategory = "AnErrorOccurredWhileActivateTheCategory";
+        public const string CategoryActivateSuccessfully = "CategoryActivateSuccessfully";
+        public const string CategoryAlreadDeActive = "CategoryAlreadDeActive";
+        public const string AnErrorOccurredWhileDeActivateTheCategory = "AnErrorOccurredWhileDeActivateTheCategory";
+        public const string CategoryDeActivateSuccessfully = "CategoryDeActivateSuccessfully";
+        public const string CategoryIdIsRequired = "CategoryIdIsRequired";
+        public const string CategoryIdNotNull = "CategoryIdNotNull";
+        public const string AnErrorOccurredWhileUpdatingTheCategory = "AnErrorOccurredWhileUpdatingTheCategory";
+        public const string CategoryUpdatedSuccessfully = "CategoryUpdatedSuccessfully";
+        public const string CategoryFound = "CategoryFound";
     }
 }

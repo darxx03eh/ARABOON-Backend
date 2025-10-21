@@ -1,4 +1,6 @@
 ﻿using Araboon.Data.Entities;
+using Araboon.Data.Response.Categories.Queries;
+using Araboon.Data.Wrappers;
 using Araboon.Infrastructure.IRepositories;
 using Araboon.Service.Interfaces;
 
@@ -6,20 +8,151 @@ namespace Araboon.Service.Implementations
 {
     public class CategoryService : ICategoryService
     {
-        private readonly ICategoryRepository categoryRepository;
-        public CategoryService(ICategoryRepository categoryRepository)
+        private readonly IUnitOfWork unitOfWork;
+
+        public CategoryService(IUnitOfWork unitOfWork)
         {
-            this.categoryRepository = categoryRepository;
+            this.unitOfWork = unitOfWork;
         }
+
+        public async Task<string> ActivateCategoryAsync(int id)
+        {
+            var category = await unitOfWork.CategoryRepository.GetByIdAsync(id);
+            if (category is null)
+                return "CategoryNotFound";
+
+            if (category.IsActive)
+                return "CategoryAlreadyActive";
+            try
+            {
+                category.IsActive = true;
+                await unitOfWork.CategoryRepository.UpdateAsync(category);
+                return "CategoryActivateSuccessfully";
+            }catch(Exception ex)
+            {
+                return "AnErrorOccurredWhileActivateTheCategory";
+            }
+        }
+
+        public async Task<(string, int?)> AddNewCategoryAsync(string categoryNameEn, string categoryNameAr)
+        {
+            var result = await unitOfWork.CategoryRepository.AddAsync(new Category()
+            {
+                CategoryNameEn = categoryNameEn,
+                CategoryNameAr = categoryNameAr,
+            });
+            if (result is null)
+                return ("AnErrorOccurredWhileAddingtheCategory", null);
+            return ("CategoryAddedSuccessfully", result.CategoryID);
+        }
+
+        public async Task<string> DeActivateCategoryAsync(int id)
+        {
+            var category = await unitOfWork.CategoryRepository.GetByIdAsync(id);
+            if (category is null)
+                return "CategoryNotFound";
+
+            if (!category.IsActive)
+                return "CategoryAlreadDeActive";
+
+            try
+            {
+                category.IsActive = false;
+                await unitOfWork.CategoryRepository.UpdateAsync(category);
+                return "CategoryDeActivateSuccessfully";
+            }
+            catch(Exception exp)
+            {
+                return "AnErrorOccurredWhileDeActivateTheCategory";
+            }
+        }
+
+        public async Task<string> DeleteCategoryAsync(int id)
+        {
+            var category = await unitOfWork.CategoryRepository.GetByIdAsync(id);
+            if (category is null)
+                return "CategoryNotFound";
+            try
+            {
+                await unitOfWork.CategoryRepository.DeleteAsync(category);
+                return "CategoryDeletedSuccessfully";
+            }
+            catch(Exception exp)
+            {
+                return "AnErrorOccurredWhileDeletingtheCategory";
+            }
+        }
+
         public async Task<(string, IList<Category>?)> GetCategoriesAsync()
         {
-            var (message, categories) = await categoryRepository.GetCategoriesAsync();
+            var (message, categories) = await unitOfWork.CategoryRepository.GetCategoriesAsync();
             return message switch
             {
                 "CategoriesNotFound" => ("CategoriesNotFound", null),
                 "CategoriesFound" => ("CategoriesFound", categories),
                 _ => ("AnErrorOccurredWhileRetrievingTheCategorie", null)
             };
+        }
+
+        public async Task<(string, GetDashboardCategoriesResponse?)> GetCategoryByIdAsync(int id)
+        {
+            var category = await unitOfWork.CategoryRepository.GetByIdAsync(id);
+            if (category is null)
+                return ("CategoryNotFound", null);
+
+            return ("CategoryFound", new GetDashboardCategoriesResponse()
+            {
+                Id = category.CategoryID,
+                En = category.CategoryNameEn,
+                Ar = category.CategoryNameAr,
+                IsActive = category.IsActive,
+                AvailableMangaCounts = category.CategoryMangas.Where(x => x.CategoryID.Equals(category.CategoryID)).Count()
+            });
+        }
+
+        public async Task<(string, PaginatedResult<GetDashboardCategoriesResponse>?)> GetDashboardCategoriesAsync(int pageNumber, int pageSize, string? search)
+        {
+            var categoriesQueryable = unitOfWork.CategoryRepository.GetTableNoTracking();
+            if (!string.IsNullOrWhiteSpace(search))
+                categoriesQueryable = categoriesQueryable.Where(
+                    category => category.CategoryNameEn.ToLower().Equals(search.ToLower()) ||
+                    category.CategoryNameAr.ToLower().Equals(search.ToLower())
+                );
+
+            if (categoriesQueryable is null)
+                return ("CategoriesNotFound", null);
+
+            var categories = await categoriesQueryable.Select(category => new GetDashboardCategoriesResponse()
+            {
+                Id = category.CategoryID,
+                En = category.CategoryNameEn,
+                Ar = category.CategoryNameAr,
+                IsActive = category.IsActive,
+                AvailableMangaCounts = category.CategoryMangas.Where(x => x.CategoryID.Equals(category.CategoryID)).Count()
+            }).ToPaginatedListAsync(pageNumber, pageSize);
+
+            if (categories is null || categories.Data.Count().Equals(0))
+                return ("CategoriesNotFound", null);
+
+            return ("CategoriesFound", categories);
+        }
+
+        public async Task<string> UpdateCategoryAsync(int id, string categoryNameEn, string categoryNameAr)
+        {
+            var category = await unitOfWork.CategoryRepository.GetByIdAsync(id);
+            if (category is null)
+                return "CategoryNotFound";
+
+            try
+            {
+                category.CategoryNameEn = categoryNameEn;
+                category.CategoryNameAr = categoryNameAr;
+                await unitOfWork.CategoryRepository.UpdateAsync(category);
+                return "CategoryUpdatedSuccessfully";
+            }catch(Exception exp)
+            {
+                return "AnErrorOccurredWhileUpdatingTheCategory";
+            }
         }
     }
 }

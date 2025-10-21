@@ -85,6 +85,13 @@
         {
             public const string prefix = $"{rule}Categories";
             public const string GetCategories = $"{prefix}/GetCategories";
+            public const string AddNewCategory = prefix;
+            public const string DeleteCategory = $"{prefix}{singleRoute}";
+            public const string ActivateCategory = $"{prefix}{singleRoute}/active";
+            public const string DeActivateCategory = $"{prefix}{singleRoute}/deactive";
+            public const string UpdateCategory = prefix;
+            public const string GetDashboardCategories = prefix;
+            public const string GetCategoryById = $"{prefix}{singleRoute}";
         }
         public static class UserRouting
         {

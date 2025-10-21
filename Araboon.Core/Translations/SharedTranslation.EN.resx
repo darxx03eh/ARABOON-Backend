@@ -883,4 +883,73 @@
   <data name="AnErrorOccurredWhileIncreasingTheViewByOne" xml:space="preserve">
     <value>An error occurred while increasing the view count by one</value>
   </data>
+  <data name="AnErrorOccurredWhileAddingtheCategory" xml:space="preserve">
+    <value>An error occurred while adding the category</value>
+  </data>
+  <data name="CategoryAddedSuccessfully" xml:space="preserve">
+    <value>The category has been added successfully</value>
+  </data>
+  <data name="CategoryNameEnIsRequired" xml:space="preserve">
+    <value>The English category name is required</value>
+  </data>
+  <data name="CategoryNameEnNotNull" xml:space="preserve">
+    <value>The English category name cannot be null</value>
+  </data>
+  <data name="CategoryNameEnMaxLengthIs100" xml:space="preserve">
+    <value>The English category name must not exceed 100 characters</value>
+  </data>
+  <data name="CategoryNameArIsRequired" xml:space="preserve">
+    <value>The Arabic category name is required</value>
+  </data>
+  <data name="CategoryNameArNotNull" xml:space="preserve">
+    <value>The Arabic category name cannot be null</value>
+  </data>
+  <data name="CategoryNameArMaxLengthIs100" xml:space="preserve">
+    <value>The Arabic category name must not exceed 100 characters</value>
+  </data>
+  <data name="IsActiveIsRequired" xml:space="preserve">
+    <value>The “IsActive” field is required</value>
+  </data>
+  <data name="CategoryNotFound" xml:space="preserve">
+    <value>Category not found</value>
+  </data>
+  <data name="AnErrorOccurredWhileDeletingtheCategory" xml:space="preserve">
+    <value>An error occurred while deleting the category</value>
+  </data>
+  <data name="CategoryDeletedSuccessfully" xml:space="preserve">
+    <value>The category has been deleted successfully</value>
+  </data>
+  <data name="CategoryAlreadyActive" xml:space="preserve">
+    <value>The category is already active</value>
+  </data>
+  <data name="AnErrorOccurredWhileActivateTheCategory" xml:space="preserve">
+    <value>An error occurred while activating the category</value>
+  </data>
+  <data name="CategoryActivateSuccessfully" xml:space="preserve">
+    <value>The category has been activated successfully</value>
+  </data>
+  <data name="CategoryAlreadDeActive" xml:space="preserve">
+    <value>The category is already deactivated</value>
+  </data>
+  <data name="AnErrorOccurredWhileDeActivateTheCategory" xml:space="preserve">
+    <value>An error occurred while deactivating the category</value>
+  </data>
+  <data name="CategoryDeActivateSuccessfully" xml:space="preserve">
+    <value>The category has been deactivated successfully</value>
+  </data>
+  <data name="CategoryIdIsRequired" xml:space="preserve">
+    <value>The category ID is required</value>
+  </data>
+  <data name="CategoryIdNotNull" xml:space="preserve">
+    <value>The category ID cannot be null</value>
+  </data>
+  <data name="AnErrorOccurredWhileUpdatingTheCategory" xml:space="preserve">
+    <value>An error occurred while updating the category</value>
+  </data>
+  <data name="CategoryUpdatedSuccessfully" xml:space="preserve">
+    <value>The category has been updated successfully</value>
+  </data>
+  <data name="CategoryFound" xml:space="preserve">
+    <value>Category found</value>
+  </data>
 </root>
