@@ -5,5 +5,6 @@
         public int Id { get; set; }
         public bool IsActive { get; set; }
         public int AvailableMangaCounts { get; set; }
+        public string CreatedAt { get; set; }
     }
 }

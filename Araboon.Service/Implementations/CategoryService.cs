@@ -3,6 +3,7 @@ using Araboon.Data.Response.Categories.Queries;
 using Araboon.Data.Wrappers;
 using Araboon.Infrastructure.IRepositories;
 using Araboon.Service.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Araboon.Service.Implementations
 {
@@ -26,6 +27,7 @@ namespace Araboon.Service.Implementations
             try
             {
                 category.IsActive = true;
+                category.UpdatedAt = DateTime.UtcNow;
                 await unitOfWork.CategoryRepository.UpdateAsync(category);
                 return "CategoryActivateSuccessfully";
             }catch(Exception ex)
@@ -110,9 +112,15 @@ namespace Araboon.Service.Implementations
             });
         }
 
-        public async Task<(string, PaginatedResult<GetDashboardCategoriesResponse>?)> GetDashboardCategoriesAsync(int pageNumber, int pageSize, string? search)
+        public async Task<(string, PaginatedResult<GetDashboardCategoriesResponse>?, CategoryMetaDataRsponse?)> GetDashboardCategoriesAsync(int pageNumber, int pageSize, string? search)
         {
             var categoriesQueryable = unitOfWork.CategoryRepository.GetTableNoTracking();
+            var meta = new CategoryMetaDataRsponse()
+            {
+                TotalCategories = await categoriesQueryable.CountAsync(),
+                ActiveCategories = await categoriesQueryable.Where(category => category.IsActive).CountAsync(),
+                InActiveCategories = await categoriesQueryable.Where(category => !category.IsActive).CountAsync()
+            };
             if (!string.IsNullOrWhiteSpace(search))
                 categoriesQueryable = categoriesQueryable.Where(
                     category => category.CategoryNameEn.ToLower().Equals(search.ToLower()) ||
@@ -120,7 +128,7 @@ namespace Araboon.Service.Implementations
                 );
 
             if (categoriesQueryable is null)
-                return ("CategoriesNotFound", null);
+                return ("CategoriesNotFound", null, null);
 
             var categories = await categoriesQueryable.Select(category => new GetDashboardCategoriesResponse()
             {
@@ -128,13 +136,14 @@ namespace Araboon.Service.Implementations
                 En = category.CategoryNameEn,
                 Ar = category.CategoryNameAr,
                 IsActive = category.IsActive,
+                CreatedAt = category.CreatedAt.ToString("yyyy-MM-dd"),
                 AvailableMangaCounts = category.CategoryMangas.Where(x => x.CategoryID.Equals(category.CategoryID)).Count()
             }).ToPaginatedListAsync(pageNumber, pageSize);
 
             if (categories is null || categories.Data.Count().Equals(0))
-                return ("CategoriesNotFound", null);
+                return ("CategoriesNotFound", null, null);
 
-            return ("CategoriesFound", categories);
+            return ("CategoriesFound", categories, meta);
         }
 
         public async Task<string> UpdateCategoryAsync(int id, string categoryNameEn, string categoryNameAr)
