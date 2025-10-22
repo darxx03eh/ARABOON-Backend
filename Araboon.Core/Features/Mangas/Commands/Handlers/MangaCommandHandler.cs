@@ -31,7 +31,7 @@ namespace Araboon.Core.Features.Mangas.Commands.Handlers
                 {
                     Id = id,
                     ImageUrl = imageUrl,
-                }, message: SharedTranslationKeys.MangaAddedSuccessfully),
+                }, message: stringLocalizer[SharedTranslationKeys.MangaAddedSuccessfully]),
                 "AnErrorOccurredWhileAddingTheManga" => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileAddingTheManga]),
                 _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileAddingTheManga])
             };
