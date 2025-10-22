@@ -32,6 +32,7 @@
             public const string MangaSearch = $"{prefix}";
             public const string GetMangaComments = $"{prefix}{singleRoute}/comments";
             public const string GetMangaCommentsCounts = $"{prefix}{singleRoute}/comments-count";
+            public const string AddNewManga = $"{prefix}";
         }
         public static class FavoritesRouting
         {

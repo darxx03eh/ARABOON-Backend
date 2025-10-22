@@ -952,4 +952,82 @@
   <data name="CategoryFound" xml:space="preserve">
     <value>Category found</value>
   </data>
+  <data name="MangaNameEnIsRequired" xml:space="preserve">
+    <value>Manga name in English is required</value>
+  </data>
+  <data name="MangaNameEnNotNull" xml:space="preserve">
+    <value>Manga name in English cannot be null</value>
+  </data>
+  <data name="MangaNameEnMustNotExceed100Characters" xml:space="preserve">
+    <value>Manga name in English must not exceed 100 characters</value>
+  </data>
+  <data name="MangaNameArIsRequired" xml:space="preserve">
+    <value>Manga name in Arabic is required</value>
+  </data>
+  <data name="MangaNameArNotNull" xml:space="preserve">
+    <value>Manga name in Arabic cannot be null</value>
+  </data>
+  <data name="MangaNameArMustNotExceed100Characters" xml:space="preserve">
+    <value>Manga name in Arabic must not exceed 100 characters</value>
+  </data>
+  <data name="StatusEnIsRequired" xml:space="preserve">
+    <value>Status in English is required</value>
+  </data>
+  <data name="StatusEnNotNull" xml:space="preserve">
+    <value>Status in English cannot be null</value>
+  </data>
+  <data name="StatusEnMustNotExceed50Characters" xml:space="preserve">
+    <value>Status in English must not exceed 50 characters</value>
+  </data>
+  <data name="StatusArIsRequired" xml:space="preserve">
+    <value>Status in Arabic is required</value>
+  </data>
+  <data name="StatusArNotNull" xml:space="preserve">
+    <value>Status in Arabic cannot be null</value>
+  </data>
+  <data name="StatusArMustNotExceed50Characters" xml:space="preserve">
+    <value>Status in Arabic must not exceed 50 characters</value>
+  </data>
+  <data name="TypeEnIsRequired" xml:space="preserve">
+    <value>Type in English is required</value>
+  </data>
+  <data name="TypeEnNotNull" xml:space="preserve">
+    <value>Type in English cannot be null</value>
+  </data>
+  <data name="TypeEnMustNotExceed50Characters" xml:space="preserve">
+    <value>Type in English must not exceed 50 characters</value>
+  </data>
+  <data name="TypeArIsRequired" xml:space="preserve">
+    <value>Type in Arabic is required</value>
+  </data>
+  <data name="TypeArNotNull" xml:space="preserve">
+    <value>Type in Arabic cannot be null</value>
+  </data>
+  <data name="TypeArMustNotExceed50Characters" xml:space="preserve">
+    <value>Type in Arabic must not exceed 50 characters</value>
+  </data>
+  <data name="AuthorEnMustNotExceed100Characters" xml:space="preserve">
+    <value>Author in English must not exceed 100 characters</value>
+  </data>
+  <data name="AuthorArMustNotExceed100Characters" xml:space="preserve">
+    <value>Author in Arabic must not exceed 100 characters</value>
+  </data>
+  <data name="DescriptionEnMustNotExceed1000Characters" xml:space="preserve">
+    <value>Description in English must not exceed 1000 characters</value>
+  </data>
+  <data name="DescriptionArMustNotExceed1000Characters" xml:space="preserve">
+    <value>Description in Arabic must not exceed 1000 characters</value>
+  </data>
+  <data name="ThereWasAProblemAddingTheManga" xml:space="preserve">
+    <value>There was a problem adding the manga</value>
+  </data>
+  <data name="AnErrorOccurredWhileAddingTheImageForManga" xml:space="preserve">
+    <value>An error occurred while adding the image for the manga</value>
+  </data>
+  <data name="MangaAddedSuccessfully" xml:space="preserve">
+    <value>Manga added successfully</value>
+  </data>
+  <data name="AnErrorOccurredWhileAddingTheManga" xml:space="preserve">
+    <value>An error occurred while adding the manga</value>
+  </data>
 </root>

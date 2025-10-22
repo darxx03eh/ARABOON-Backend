@@ -951,4 +951,82 @@
   <data name="CategoryFound" xml:space="preserve">
     <value>تم العثور على التصنيف</value>
   </data>
+  <data name="MangaNameEnIsRequired" xml:space="preserve">
+    <value>اسم المانجا بالإنجليزية مطلوب</value>
+  </data>
+  <data name="MangaNameEnNotNull" xml:space="preserve">
+    <value>لا يمكن أن يكون اسم المانجا بالإنجليزية فارغًا</value>
+  </data>
+  <data name="MangaNameEnMustNotExceed100Characters" xml:space="preserve">
+    <value>يجب ألا يتجاوز اسم المانجا بالإنجليزية 100 حرف</value>
+  </data>
+  <data name="MangaNameArIsRequired" xml:space="preserve">
+    <value>اسم المانجا بالعربية مطلوب</value>
+  </data>
+  <data name="MangaNameArNotNull" xml:space="preserve">
+    <value>لا يمكن أن يكون اسم المانجا بالعربية فارغًا</value>
+  </data>
+  <data name="MangaNameArMustNotExceed100Characters" xml:space="preserve">
+    <value>يجب ألا يتجاوز اسم المانجا بالعربية 100 حرف</value>
+  </data>
+  <data name="StatusEnIsRequired" xml:space="preserve">
+    <value>الحالة بالإنجليزية مطلوبة</value>
+  </data>
+  <data name="StatusEnNotNull" xml:space="preserve">
+    <value>لا يمكن أن تكون الحالة بالإنجليزية فارغة</value>
+  </data>
+  <data name="StatusEnMustNotExceed50Characters" xml:space="preserve">
+    <value>يجب ألا تتجاوز الحالة بالإنجليزية 50 حرفًا</value>
+  </data>
+  <data name="StatusArIsRequired" xml:space="preserve">
+    <value>الحالة بالعربية مطلوبة</value>
+  </data>
+  <data name="StatusArNotNull" xml:space="preserve">
+    <value>لا يمكن أن تكون الحالة بالعربية فارغة</value>
+  </data>
+  <data name="StatusArMustNotExceed50Characters" xml:space="preserve">
+    <value>يجب ألا تتجاوز الحالة بالعربية 50 حرفًا</value>
+  </data>
+  <data name="TypeEnIsRequired" xml:space="preserve">
+    <value>النوع بالإنجليزية مطلوب</value>
+  </data>
+  <data name="TypeEnNotNull" xml:space="preserve">
+    <value>لا يمكن أن يكون النوع بالإنجليزية فارغًا</value>
+  </data>
+  <data name="TypeEnMustNotExceed50Characters" xml:space="preserve">
+    <value>يجب ألا يتجاوز النوع بالإنجليزية 50 حرفًا</value>
+  </data>
+  <data name="TypeArIsRequired" xml:space="preserve">
+    <value>النوع بالعربية مطلوب</value>
+  </data>
+  <data name="TypeArNotNull" xml:space="preserve">
+    <value>لا يمكن أن يكون النوع بالعربية فارغًا</value>
+  </data>
+  <data name="TypeArMustNotExceed50Characters" xml:space="preserve">
+    <value>يجب ألا يتجاوز النوع بالعربية 50 حرفًا</value>
+  </data>
+  <data name="AuthorEnMustNotExceed100Characters" xml:space="preserve">
+    <value>يجب ألا يتجاوز اسم المؤلف بالإنجليزية 100 حرف</value>
+  </data>
+  <data name="AuthorArMustNotExceed100Characters" xml:space="preserve">
+    <value>يجب ألا يتجاوز اسم المؤلف بالعربية 100 حرف</value>
+  </data>
+  <data name="DescriptionEnMustNotExceed1000Characters" xml:space="preserve">
+    <value>يجب ألا تتجاوز الوصف بالإنجليزية 1000 حرف</value>
+  </data>
+  <data name="DescriptionArMustNotExceed1000Characters" xml:space="preserve">
+    <value>يجب ألا يتجاوز الوصف بالعربية 1000 حرف</value>
+  </data>
+  <data name="ThereWasAProblemAddingTheManga" xml:space="preserve">
+    <value>حدثت مشكلة أثناء إضافة المانجا</value>
+  </data>
+  <data name="AnErrorOccurredWhileAddingTheImageForManga" xml:space="preserve">
+    <value>حدث خطأ أثناء إضافة الصورة الخاصة بالمانجا</value>
+  </data>
+  <data name="MangaAddedSuccessfully" xml:space="preserve">
+    <value>تم إضافة المانجا بنجاح</value>
+  </data>
+  <data name="AnErrorOccurredWhileAddingTheManga" xml:space="preserve">
+    <value>حدث خطأ أثناء إضافة المانجا</value>
+  </data>
 </root>

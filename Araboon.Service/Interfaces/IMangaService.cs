@@ -1,4 +1,5 @@
-﻿using Araboon.Data.Entities;
+﻿using Araboon.Data.DTOs.Mangas;
+using Araboon.Data.Entities;
 using Araboon.Data.Enums;
 using Araboon.Data.Response.Mangas.Queries;
 using Araboon.Data.Wrappers;
@@ -16,5 +17,6 @@ namespace Araboon.Service.Interfaces
         public Task<(string, PaginatedResult<MangaSearchResponse>?)> SearchAsync(string? search, int pageNumber, int pageSize);
         public Task<(string, PaginatedResult<GetMangaCommentsResponse>?)> GetMangaCommentsAsync(int id, int pageNumber, int pageSize);
         public Task<(string, int?)> GetCommentsCountAsync(int id);
+        public Task<(string, int?, string?)> AddNewMangaCommandAsync(MangaInfoDTO mangaInfo);
     }
 }

@@ -275,5 +275,31 @@
         public const string AnErrorOccurredWhileUpdatingTheCategory = "AnErrorOccurredWhileUpdatingTheCategory";
         public const string CategoryUpdatedSuccessfully = "CategoryUpdatedSuccessfully";
         public const string CategoryFound = "CategoryFound";
+        public const string MangaNameEnIsRequired = "MangaNameEnIsRequired";
+        public const string MangaNameEnNotNull = "MangaNameEnNotNull";
+        public const string MangaNameEnMustNotExceed100Characters = "MangaNameEnMustNotExceed100Characters";
+        public const string MangaNameArIsRequired = "MangaNameArIsRequired";
+        public const string MangaNameArNotNull = "MangaNameArNotNull";
+        public const string MangaNameArMustNotExceed100Characters = "MangaNameArMustNotExceed100Characters";
+        public const string StatusEnIsRequired = "StatusEnIsRequired";
+        public const string StatusEnNotNull = "StatusEnNotNull";
+        public const string StatusEnMustNotExceed50Characters = "StatusEnMustNotExceed50Characters";
+        public const string StatusArIsRequired = "StatusArIsRequired";
+        public const string StatusArNotNull = "StatusArNotNull";
+        public const string StatusArMustNotExceed50Characters = "StatusArMustNotExceed50Characters";
+        public const string TypeEnIsRequired = "TypeEnIsRequired";
+        public const string TypeEnNotNull = "TypeEnNotNull";
+        public const string TypeEnMustNotExceed50Characters = "TypeEnMustNotExceed50Characters";
+        public const string TypeArIsRequired = "TypeArIsRequired";
+        public const string TypeArNotNull = "TypeArNotNull";
+        public const string TypeArMustNotExceed50Characters = "TypeArMustNotExceed50Characters";
+        public const string AuthorEnMustNotExceed100Characters = "AuthorEnMustNotExceed100Characters";
+        public const string AuthorArMustNotExceed100Characters = "AuthorArMustNotExceed100Characters";
+        public const string DescriptionEnMustNotExceed1000Characters = "DescriptionEnMustNotExceed1000Characters";
+        public const string DescriptionArMustNotExceed1000Characters = "DescriptionArMustNotExceed1000Characters";
+        public const string ThereWasAProblemAddingTheManga = "ThereWasAProblemAddingTheManga";
+        public const string AnErrorOccurredWhileAddingTheImageForManga = "AnErrorOccurredWhileAddingTheImageForManga";
+        public const string MangaAddedSuccessfully = "MangaAddedSuccessfully";
+        public const string AnErrorOccurredWhileAddingTheManga = "AnErrorOccurredWhileAddingTheManga";
     }
 }

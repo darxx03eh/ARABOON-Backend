@@ -1,5 +1,7 @@
 ﻿using Araboon.API.Bases;
+using Araboon.Core.Features.Mangas.Commands.Models;
 using Araboon.Core.Features.Mangas.Queries.Models;
+using Araboon.Data.Helpers;
 using Araboon.Data.Routing;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -68,6 +70,13 @@ namespace Araboon.API.Controllers
         public async Task<IActionResult> GetMangaCommentsCounts(int id)
         {
             var result = await mediator.Send(new GetCommentsCountQuery(id));
+            return Result(result);
+        }
+        [Authorize(Roles = Roles.Admin)]
+        [HttpPost(Router.MangaRouting.AddNewManga)]
+        public async Task<IActionResult> AddNewManga([FromForm] AddNewMangaCommand request)
+        {
+            var result = await mediator.Send(request);
             return Result(result);
         }
     }

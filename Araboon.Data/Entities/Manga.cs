@@ -18,7 +18,8 @@
         public string? DescriptionEn { get; set; }
         public string? DescriptionAr { get; set; }
         public Double? Rate { get; set; }
-        public bool? ArabicAvailable { get; set; } = true;
+        public bool IsActive { get; set; } = false;
+        public bool? ArabicAvailable { get; set; } = false;
         public bool? EnglishAvilable { get; set; } = false;
         public int? RatingsCount { get; set; }
         public virtual ICollection<Favorite>? Favorites { get; set; } = new HashSet<Favorite>();
