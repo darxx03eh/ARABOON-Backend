@@ -33,6 +33,15 @@
             public const string GetMangaComments = $"{prefix}{singleRoute}/comments";
             public const string GetMangaCommentsCounts = $"{prefix}{singleRoute}/comments-count";
             public const string AddNewManga = $"{prefix}";
+            public const string DeleteManga = $"{prefix}{singleRoute}";
+            public const string DeleteMangaImage = $"{prefix}{singleRoute}/image";
+            public const string UploadNewImage = $"{prefix}/upload-image";
+            public const string ArabicAvailable = $"{prefix}{singleRoute}/arabic";
+            public const string ArabicUnAvailable = $"{prefix}{singleRoute}/arabic";
+            public const string EnglishAvailable = $"{prefix}{singleRoute}/english";
+            public const string EnglishUnAvailable = $"{prefix}{singleRoute}/english";
+            public const string ActivateManga = $"{prefix}{singleRoute}/activate";
+            public const string DeActivateManga = $"{prefix}{singleRoute}/deactivate";
         }
         public static class FavoritesRouting
         {

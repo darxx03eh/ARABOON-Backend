@@ -1,4 +1,5 @@
 ﻿using Araboon.Data.Entities;
+using Araboon.Data.Entities.Identity;
 using Araboon.Data.Response.Favorites.Queries;
 using Araboon.Data.Response.Mangas.Queries;
 using Araboon.Data.Wrappers;
@@ -6,6 +7,7 @@ using Araboon.Infrastructure.Commons;
 using Araboon.Infrastructure.Data;
 using Araboon.Infrastructure.IRepositories;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 
 namespace Araboon.Infrastructure.Repositories
 {
@@ -13,15 +15,17 @@ namespace Araboon.Infrastructure.Repositories
     {
         private readonly AraboonDbContext context;
         private readonly IHttpContextAccessor httpContextAccessor;
+        private readonly UserManager<AraboonUser> userManager;
 
-        public FavoriteRepository(AraboonDbContext context, IHttpContextAccessor httpContextAccessor)
-            : base(context, httpContextAccessor)
+        public FavoriteRepository(AraboonDbContext context, IHttpContextAccessor httpContextAccessor, UserManager<AraboonUser> userManager)
+            : base(context, httpContextAccessor, userManager)
         {
             this.context = context;
             this.httpContextAccessor = httpContextAccessor;
+            this.userManager = userManager;
         }
 
-        public async Task<(string, PaginatedResult<GetPaginatedFavoritesMangaResponse>?)> GetPaginatedFavoritesMangaAsync(int pageNumber, int pageSize)
+        public async Task<(string, PaginatedResult<GetPaginatedFavoritesMangaResponse>?)> GetPaginatedFavoritesMangaAsync(int pageNumber, int pageSize, bool isAdmin)
         {
             string? userId = ExtractUserIdFromToken();
             if (string.IsNullOrEmpty(userId))
@@ -30,7 +34,8 @@ namespace Araboon.Infrastructure.Repositories
                                  .OrderByDescending(f => f.Manga.Rate).AsQueryable();
             if (favoritesManga is null)
                 return ("ThereAreNoMangaInYourFavoritesList", null);
-            var mangas = await favoritesManga.Select(f => new GetPaginatedFavoritesMangaResponse()
+            var mangas = await favoritesManga.Where(f => isAdmin ? true:f.Manga.IsActive)
+                .Select(f => new GetPaginatedFavoritesMangaResponse()
             {
                 MangaID = f.MangaID,
                 MangaName = TransableEntity.GetTransable(f.Manga.MangaNameEn, f.Manga.MangaNameAr),

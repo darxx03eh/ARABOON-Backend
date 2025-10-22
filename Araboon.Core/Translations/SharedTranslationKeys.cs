@@ -301,5 +301,26 @@
         public const string AnErrorOccurredWhileAddingTheImageForManga = "AnErrorOccurredWhileAddingTheImageForManga";
         public const string MangaAddedSuccessfully = "MangaAddedSuccessfully";
         public const string AnErrorOccurredWhileAddingTheManga = "AnErrorOccurredWhileAddingTheManga";
+        public const string AnErrorOccurredWhileDeletingTheManga = "AnErrorOccurredWhileDeletingTheManga";
+        public const string MangaDeletedSuccessfully = "MangaDeletedSuccessfully";
+        public const string AnErrorOccurredWhileProcessingImageModificationRequest = "AnErrorOccurredWhileProcessingImageModificationRequest";
+        public const string ArabicAvailableForThisMangaAlready = "ArabicAvailableForThisMangaAlready";
+        public const string MakeArabicAvilableForThisMangaSuccessfully = "MakeArabicAvilableForThisMangaSuccessfully";
+        public const string AnErrorOccurredWhileMakingArabicAvilableForThisManga = "AnErrorOccurredWhileMakingArabicAvilableForThisManga";
+        public const string ArabicNotAvailableForThisMangaAlready = "ArabicNotAvailableForThisMangaAlready";
+        public const string MakeArabicNotAvilableForThisMangaSuccessfully = "MakeArabicNotAvilableForThisMangaSuccessfully";
+        public const string AnErrorOccurredWhileMakingArabicNotAvilableForThisManga = "AnErrorOccurredWhileMakingArabicNotAvilableForThisManga";
+        public const string EnglishAvailableForThisMangaAlready = "EnglishAvailableForThisMangaAlready";
+        public const string MakeEnglishAvilableForThisMangaSuccessfully = "MakeEnglishAvilableForThisMangaSuccessfully";
+        public const string AnErrorOccurredWhileMakingEnglishAvilableForThisManga = "AnErrorOccurredWhileMakingEnglishAvilableForThisManga";
+        public const string EnglishNotAvailableForThisMangaAlready = "EnglishNotAvailableForThisMangaAlready";
+        public const string MakeEnglishNotAvilableForThisMangaSuccessfully = "MakeEnglishNotAvilableForThisMangaSuccessfully";
+        public const string AnErrorOccurredWhileMakingEnglishNotAvilableForThisManga = "AnErrorOccurredWhileMakingEnglishNotAvilableForThisManga";
+        public const string MangaAlreadyActive = "MangaAlreadyActive";
+        public const string ActivateMangaSuccessfully = "ActivateMangaSuccessfully";
+        public const string AnErrorOccurredWhileActivateThisManga = "AnErrorOccurredWhileActivateThisManga";
+        public const string MangaAlreadyDeActive = "MangaAlreadyDeActive";
+        public const string DeActivateMangaSuccessfully = "DeActivateMangaSuccessfully";
+        public const string AnErrorOccurredWhileDeActivateThisManga = "AnErrorOccurredWhileDeActivateThisManga";
     }
 }

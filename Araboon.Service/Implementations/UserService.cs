@@ -323,7 +323,7 @@ namespace Araboon.Service.Implementations
                 try
                 {
                     var originalUrl = user.ProfileImage?.OriginalImage;
-                    if (string.IsNullOrWhiteSpace(originalUrl))
+                    if (!string.IsNullOrWhiteSpace(originalUrl))
                     {
                         var cloudinaryResult = await cloudinaryService.DeleteFileAsync(originalUrl);
                         if (cloudinaryResult.Equals("FailedToDeleteImageFromCloudinary"))

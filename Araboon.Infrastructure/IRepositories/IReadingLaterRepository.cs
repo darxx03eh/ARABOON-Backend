@@ -7,7 +7,7 @@ namespace Araboon.Infrastructure.IRepositories
 {
     public interface IReadingLaterRepository : IGenericRepository<ReadingLater>
     {
-        public Task<(string, PaginatedResult<GetPaginatedReadingLaterMangaResponse>?)> GetPaginatedReadingLaterMangaAsync(int pageNumber, int pageSize);
+        public Task<(string, PaginatedResult<GetPaginatedReadingLaterMangaResponse>?)> GetPaginatedReadingLaterMangaAsync(int pageNumber, int pageSize, bool isAdmin);
         public Task<bool> IsMangaExistForUser(int mangaId, int userId);
     }
 }

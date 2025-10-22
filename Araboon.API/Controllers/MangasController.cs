@@ -79,5 +79,68 @@ namespace Araboon.API.Controllers
             var result = await mediator.Send(request);
             return Result(result);
         }
+        [Authorize(Roles = Roles.Admin)]
+        [HttpDelete(Router.MangaRouting.DeleteManga)]
+        public async Task<IActionResult> DeleteManga(int id)
+        {
+            var result = await mediator.Send(new DeleteMangaCommand(id));
+            return Result(result);
+        }
+        [Authorize(Roles = Roles.Admin)]
+        [HttpDelete(Router.MangaRouting.DeleteMangaImage)]
+        public async Task<IActionResult> DeleteMangaImage(int id)
+        {
+            var result = await mediator.Send(new DeleteMangaImageCommand(id));
+            return Result(result);
+        }
+        [Authorize(Roles = Roles.Admin)]
+        [HttpPatch(Router.MangaRouting.UploadNewImage)]
+        public async Task<IActionResult> UploadNewImage([FromForm] UploadNewMangaImageCommand request)
+        {
+            var result = await mediator.Send(request);
+            return Result(result);
+        }
+        [Authorize(Roles = Roles.Admin)]
+        [HttpPost(Router.MangaRouting.ArabicAvailable)]
+        public async Task<IActionResult> ArabicAvailable(int id)
+        {
+            var result = await mediator.Send(new MakeArabicAvailableCommand(id));
+            return Result(result);
+        }
+        [Authorize(Roles = Roles.Admin)]
+        [HttpDelete(Router.MangaRouting.ArabicUnAvailable)]
+        public async Task<IActionResult> ArabicUnAvilable(int id)
+        {
+            var result = await mediator.Send(new MakeArabicUnAvailableCommand(id));
+            return Result(result);
+        }
+        [Authorize(Roles = Roles.Admin)]
+        [HttpPost(Router.MangaRouting.EnglishAvailable)]
+        public async Task<IActionResult> EnglishAvilable(int id)
+        {
+            var result = await mediator.Send(new MakeEnglishAvailableCommand(id));
+            return Result(result);
+        }
+        [Authorize(Roles = Roles.Admin)]
+        [HttpDelete(Router.MangaRouting.EnglishUnAvailable)]
+        public async Task<IActionResult> EnglishUnAvailable(int id)
+        {
+            var result = await mediator.Send(new MakeEnglishUnAvailableCommand(id));
+            return Result(result);
+        }
+        [Authorize(Roles = Roles.Admin)]
+        [HttpPost(Router.MangaRouting.ActivateManga)]
+        public async Task<IActionResult> ActivateManga(int id)
+        {
+            var result = await mediator.Send(new ActivateMangaCommand(id));
+            return Result(result);
+        }
+        [Authorize(Roles = Roles.Admin)]
+        [HttpDelete(Router.MangaRouting.DeActivateManga)]
+        public async Task<IActionResult> DeActivateManga(int id)
+        {
+            var result = await mediator.Send(new DeActivateMangaCommand(id));
+            return Result(result);
+        }
     }
 }

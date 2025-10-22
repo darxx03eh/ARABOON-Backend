@@ -123,8 +123,8 @@ namespace Araboon.Service.Implementations
             };
             if (!string.IsNullOrWhiteSpace(search))
                 categoriesQueryable = categoriesQueryable.Where(
-                    category => category.CategoryNameEn.ToLower().Equals(search.ToLower()) ||
-                    category.CategoryNameAr.ToLower().Equals(search.ToLower())
+                    category => category.CategoryNameEn.ToLower().Contains(search.ToLower()) ||
+                    category.CategoryNameAr.ToLower().Contains(search.ToLower())
                 );
 
             if (categoriesQueryable is null)

@@ -1,18 +1,22 @@
-﻿using Araboon.Data.Helpers;
+﻿using Araboon.Data.Entities.Identity;
+using Araboon.Data.Helpers;
 using Araboon.Infrastructure.Data;
 using Araboon.Infrastructure.IRepositories;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using System.IdentityModel.Tokens.Jwt;
 
 namespace Araboon.Infrastructure.Repositories
 {
-    public class GenericRepository<T>(AraboonDbContext context, IHttpContextAccessor httpContextAccessor) : IGenericRepository<T>
+    public class GenericRepository<T>(AraboonDbContext context, IHttpContextAccessor httpContextAccessor, UserManager<AraboonUser> userManager) : IGenericRepository<T>
         where T : class
     {
         private readonly AraboonDbContext context = context;
         private readonly IHttpContextAccessor httpContextAccessor = httpContextAccessor;
+        private readonly UserManager<AraboonUser> userManager = userManager;
+
         public virtual async Task<T> GetByIdAsync(int id)
             => await context.Set<T>().FindAsync(id);
         public IQueryable<T> GetTableNoTracking()
@@ -91,6 +95,22 @@ namespace Araboon.Infrastructure.Repositories
             if (!string.IsNullOrEmpty(langHeader))
                 lang = langHeader.Split(',')[0].Split('-')[0];
             return lang.Equals("ar");
+        }
+        public async Task<bool> IsAdmin()
+        {
+            var userId = ExtractUserIdFromToken();
+            if (string.IsNullOrWhiteSpace(userId))
+                return false;
+
+            var user = await userManager.FindByIdAsync(userId);
+            if (user is null)
+                return false;
+
+            var roles = await userManager.GetRolesAsync(user);
+            foreach (var role in roles)
+                if (role.ToLower().Equals("admin"))
+                    return true;
+            return false;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Araboon.Data.Entities;
+using Araboon.Data.Entities.Identity;
 using Araboon.Data.Response.Comments.Queries;
 using Araboon.Data.Response.Mangas.Queries;
 using Araboon.Data.Wrappers;
@@ -6,6 +7,7 @@ using Araboon.Infrastructure.Data;
 using Araboon.Infrastructure.IRepositories;
 using Humanizer;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 
@@ -15,12 +17,14 @@ namespace Araboon.Infrastructure.Repositories
     {
         private readonly AraboonDbContext context;
         private readonly IHttpContextAccessor httpContextAccessor;
+        private readonly UserManager<AraboonUser> userManager;
 
-        public CommentRepository(AraboonDbContext context, IHttpContextAccessor httpContextAccessor) 
-            : base(context, httpContextAccessor)
+        public CommentRepository(AraboonDbContext context, IHttpContextAccessor httpContextAccessor, UserManager<AraboonUser> userManager) 
+            : base(context, httpContextAccessor, userManager)
         {
             this.context = context;
             this.httpContextAccessor = httpContextAccessor;
+            this.userManager = userManager;
         }
 
         public async Task<(string, PaginatedResult<GetCommentRepliesResponse>?)> GetCommentRepliesAsync(int id, int pageNumber, int pageSize)

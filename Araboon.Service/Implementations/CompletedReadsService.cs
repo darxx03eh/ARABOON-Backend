@@ -69,7 +69,8 @@ namespace Araboon.Service.Implementations
         }
         public async Task<(string, PaginatedResult<GetPaginatedCompletedReadsMangaResponse>?)> GetPaginatedCompletedReadsMangaAsync(int pageNumber, int pageSize)
         {
-            var (message, mangas) = await completedReadsRepository.GetPaginatedCompletedReadsMangaAsync(pageNumber, pageSize);
+            var flag = await completedReadsRepository.IsAdmin();
+            var (message, mangas) = await completedReadsRepository.GetPaginatedCompletedReadsMangaAsync(pageNumber, pageSize, flag);
             return message switch
             {
                 "CompletedReadsServiceforRegisteredUsersOnly" => ("CompletedReadsServiceforRegisteredUsersOnly", null),

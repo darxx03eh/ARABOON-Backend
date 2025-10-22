@@ -1029,4 +1029,67 @@
   <data name="AnErrorOccurredWhileAddingTheManga" xml:space="preserve">
     <value>حدث خطأ أثناء إضافة المانجا</value>
   </data>
+  <data name="AnErrorOccurredWhileDeletingTheManga" xml:space="preserve">
+    <value>حدث خطأ أثناء حذف المانجا</value>
+  </data>
+  <data name="MangaDeletedSuccessfully" xml:space="preserve">
+    <value>تم حذف المانجا بنجاح</value>
+  </data>
+  <data name="AnErrorOccurredWhileProcessingImageModificationRequest" xml:space="preserve">
+    <value>حدث خطأ أثناء معالجة طلب تعديل الصورة</value>
+  </data>
+  <data name="ArabicAvailableForThisMangaAlready" xml:space="preserve">
+    <value>اللغة العربية متوفرة بالفعل لهذه المانجا</value>
+  </data>
+  <data name="MakeArabicAvilableForThisMangaSuccessfully" xml:space="preserve">
+    <value>تم تفعيل اللغة العربية لهذه المانجا بنجاح</value>
+  </data>
+  <data name="AnErrorOccurredWhileMakingArabicAvilableForThisManga" xml:space="preserve">
+    <value>حدث خطأ أثناء تفعيل اللغة العربية لهذه المانجا</value>
+  </data>
+  <data name="ArabicNotAvailableForThisMangaAlready" xml:space="preserve">
+    <value>اللغة العربية غير متوفرة بالفعل لهذه المانجا</value>
+  </data>
+  <data name="MakeArabicNotAvilableForThisMangaSuccessfully" xml:space="preserve">
+    <value>تم إلغاء تفعيل اللغة العربية لهذه المانجا بنجاح</value>
+  </data>
+  <data name="AnErrorOccurredWhileMakingArabicNotAvilableForThisManga" xml:space="preserve">
+    <value>حدث خطأ أثناء إلغاء تفعيل اللغة العربية لهذه المانجا</value>
+  </data>
+  <data name="EnglishAvailableForThisMangaAlready" xml:space="preserve">
+    <value>اللغة الإنجليزية متوفرة بالفعل لهذه المانجا</value>
+  </data>
+  <data name="MakeEnglishAvilableForThisMangaSuccessfully" xml:space="preserve">
+    <value>تم تفعيل اللغة الإنجليزية لهذه المانجا بنجاح</value>
+  </data>
+  <data name="AnErrorOccurredWhileMakingEnglishAvilableForThisManga" xml:space="preserve">
+    <value>حدث خطأ أثناء تفعيل اللغة الإنجليزية لهذه المانجا</value>
+  </data>
+  <data name="EnglishNotAvailableForThisMangaAlready" xml:space="preserve">
+    <value>اللغة الإنجليزية غير متوفرة بالفعل لهذه المانجا</value>
+  </data>
+  <data name="MakeEnglishNotAvilableForThisMangaSuccessfully" xml:space="preserve">
+    <value>تم إلغاء تفعيل اللغة الإنجليزية لهذه المانجا بنجاح</value>
+  </data>
+  <data name="AnErrorOccurredWhileMakingEnglishNotAvilableForThisManga" xml:space="preserve">
+    <value>حدث خطأ أثناء إلغاء تفعيل اللغة الإنجليزية لهذه المانجا</value>
+  </data>
+  <data name="MangaAlreadyActive" xml:space="preserve">
+    <value>المانجا مفعلة بالفعل</value>
+  </data>
+  <data name="ActivateMangaSuccessfully" xml:space="preserve">
+    <value>تم تفعيل المانجا بنجاح</value>
+  </data>
+  <data name="AnErrorOccurredWhileActivateThisManga" xml:space="preserve">
+    <value>حدث خطأ أثناء تفعيل هذه المانجا</value>
+  </data>
+  <data name="MangaAlreadyDeActive" xml:space="preserve">
+    <value>المانجا معطلة بالفعل</value>
+  </data>
+  <data name="DeActivateMangaSuccessfully" xml:space="preserve">
+    <value>تم تعطيل المانجا بنجاح</value>
+  </data>
+  <data name="AnErrorOccurredWhileDeActivateThisManga" xml:space="preserve">
+    <value>حدث خطأ أثناء تعطيل هذه المانجا</value>
+  </data>
 </root>

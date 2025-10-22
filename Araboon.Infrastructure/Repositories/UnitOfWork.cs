@@ -1,6 +1,8 @@
-﻿using Araboon.Infrastructure.Data;
+﻿using Araboon.Data.Entities.Identity;
+using Araboon.Infrastructure.Data;
 using Araboon.Infrastructure.IRepositories;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 
 namespace Araboon.Infrastructure.Repositories
 {
@@ -8,27 +10,29 @@ namespace Araboon.Infrastructure.Repositories
     {
         private readonly AraboonDbContext context;
         private readonly IHttpContextAccessor httpContextAccessor;
+        private readonly UserManager<AraboonUser> userManager;
 
-        public UnitOfWork(AraboonDbContext context, IHttpContextAccessor httpContextAccessor)
+        public UnitOfWork(AraboonDbContext context, IHttpContextAccessor httpContextAccessor, UserManager<AraboonUser> userManager)
         {
             this.context = context;
             this.httpContextAccessor = httpContextAccessor;
-            CategoryRepository = new CategoryRepository(context, httpContextAccessor);
-            ChapterRepository = new ChapterRepository(context, httpContextAccessor);
-            ChapterViewRepository = new ChapterViewRepository(context, httpContextAccessor);
-            CompletedReadsRepository = new CompletedReadsRepository(context, httpContextAccessor);
-            CurrentlyReadingRepository = new CurrentlyReadingRepository(context, httpContextAccessor);
-            FavoriteRepository = new FavoriteRepository(context, httpContextAccessor);
-            MangaRepository = new MangaRepository(context, httpContextAccessor);
-            NotificationsRepository = new NotificationsRepository(context, httpContextAccessor);
-            ReadingLaterRepository = new ReadingLaterRepository(context, httpContextAccessor);
-            RefreshTokenRepository = new RefreshTokenRepository(context, httpContextAccessor);
-            UserRepository = new UserRepository(context, httpContextAccessor);
-            CommentRepository = new CommentRepository(context, httpContextAccessor);
-            CommentLikesRepository = new CommentLikesRepository(context, httpContextAccessor);
-            ReplyRepository = new ReplyRepository(context, httpContextAccessor);
-            ReplyLikesRepository = new ReplyLikesRepository(context, httpContextAccessor);
-            RatingsRepository = new RatingsRepository(context, httpContextAccessor);
+            this.userManager = userManager;
+            CategoryRepository = new CategoryRepository(context, httpContextAccessor, userManager);
+            ChapterRepository = new ChapterRepository(context, httpContextAccessor, userManager);
+            ChapterViewRepository = new ChapterViewRepository(context, httpContextAccessor, userManager);
+            CompletedReadsRepository = new CompletedReadsRepository(context, httpContextAccessor, userManager);
+            CurrentlyReadingRepository = new CurrentlyReadingRepository(context, httpContextAccessor, userManager);
+            FavoriteRepository = new FavoriteRepository(context, httpContextAccessor, userManager);
+            MangaRepository = new MangaRepository(context, httpContextAccessor, userManager);
+            NotificationsRepository = new NotificationsRepository(context, httpContextAccessor, userManager);
+            ReadingLaterRepository = new ReadingLaterRepository(context, httpContextAccessor, userManager);
+            RefreshTokenRepository = new RefreshTokenRepository(context, httpContextAccessor, userManager);
+            UserRepository = new UserRepository(context, httpContextAccessor, userManager);
+            CommentRepository = new CommentRepository(context, httpContextAccessor, userManager);
+            CommentLikesRepository = new CommentLikesRepository(context, httpContextAccessor, userManager);
+            ReplyRepository = new ReplyRepository(context, httpContextAccessor, userManager);
+            ReplyLikesRepository = new ReplyLikesRepository(context, httpContextAccessor, userManager);
+            RatingsRepository = new RatingsRepository(context, httpContextAccessor, userManager);
         }
         public ICategoryRepository CategoryRepository { get; set; }
         public IChapterRepository ChapterRepository { get; set; }

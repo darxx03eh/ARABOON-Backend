@@ -2,6 +2,7 @@
 using Araboon.Infrastructure.Data;
 using Araboon.Infrastructure.IRepositories;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 
 namespace Araboon.Infrastructure.Repositories
 {
@@ -9,12 +10,14 @@ namespace Araboon.Infrastructure.Repositories
     {
         private readonly AraboonDbContext context;
         private readonly IHttpContextAccessor httpContextAccessor;
+        private readonly UserManager<AraboonUser> userManager;
 
-        public RefreshTokenRepository(AraboonDbContext context, IHttpContextAccessor httpContextAccessor)
-            : base(context, httpContextAccessor)
+        public RefreshTokenRepository(AraboonDbContext context, IHttpContextAccessor httpContextAccessor, UserManager<AraboonUser> userManager)
+            : base(context, httpContextAccessor, userManager)
         {
             this.context = context;
             this.httpContextAccessor = httpContextAccessor;
+            this.userManager = userManager;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Araboon.Data.Entities;
+using Araboon.Data.Entities.Identity;
 using Araboon.Data.Response.CurrentlyReadings.Queries;
 using Araboon.Data.Response.Favorites.Queries;
 using Araboon.Data.Response.Mangas.Queries;
@@ -8,6 +9,7 @@ using Araboon.Infrastructure.Commons;
 using Araboon.Infrastructure.Data;
 using Araboon.Infrastructure.IRepositories;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Araboon.Infrastructure.Repositories
@@ -16,13 +18,16 @@ namespace Araboon.Infrastructure.Repositories
     {
         private readonly AraboonDbContext context;
         private readonly IHttpContextAccessor httpContextAccessor;
-        public NotificationsRepository(AraboonDbContext context, IHttpContextAccessor httpContextAccessor) 
-            : base(context, httpContextAccessor)
+        private readonly UserManager<AraboonUser> userManager;
+
+        public NotificationsRepository(AraboonDbContext context, IHttpContextAccessor httpContextAccessor, UserManager<AraboonUser> userManager) 
+            : base(context, httpContextAccessor, userManager)
         {
             this.context = context;
             this.httpContextAccessor = httpContextAccessor;
+            this.userManager = userManager;
         }
-        public async Task<(string, PaginatedResult<GetPaginatedNotificationsMangaResponse>?)> GetPaginatedNotificationsMangaAsync(int pageNumber, int pageSize)
+        public async Task<(string, PaginatedResult<GetPaginatedNotificationsMangaResponse>?)> GetPaginatedNotificationsMangaAsync(int pageNumber, int pageSize, bool isAdmin)
         {
             string? userId = ExtractUserIdFromToken();
             if (string.IsNullOrEmpty(userId))
@@ -34,7 +39,8 @@ namespace Araboon.Infrastructure.Repositories
                                  .OrderByDescending(c => c.Manga.Rate).AsQueryable();
             if (notificationsManga is null)
                 return ("ThereAreNoMangaInYourNotificationsList", null);
-            var mangas = await notificationsManga.Select(c => new GetPaginatedNotificationsMangaResponse()
+            var mangas = await notificationsManga.Where(c => isAdmin ? true:c.Manga.IsActive)
+                .Select(c => new GetPaginatedNotificationsMangaResponse()
             {
                 MangaID = c.MangaID,
                 MangaName = TransableEntity.GetTransable(c.Manga.MangaNameEn, c.Manga.MangaNameAr),

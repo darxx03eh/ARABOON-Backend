@@ -1,4 +1,5 @@
 ﻿using Araboon.Data.Entities;
+using Araboon.Data.Entities.Identity;
 using Araboon.Data.Response.CurrentlyReadings.Queries;
 using Araboon.Data.Response.Mangas.Queries;
 using Araboon.Data.Response.ReadingLaters.Queries;
@@ -7,6 +8,7 @@ using Araboon.Infrastructure.Commons;
 using Araboon.Infrastructure.Data;
 using Araboon.Infrastructure.IRepositories;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Araboon.Infrastructure.Repositories
@@ -15,13 +17,16 @@ namespace Araboon.Infrastructure.Repositories
     {
         private readonly AraboonDbContext context;
         private readonly IHttpContextAccessor httpContextAccessor;
-        public ReadingLaterRepository(AraboonDbContext context, IHttpContextAccessor httpContextAccessor) 
-            : base(context, httpContextAccessor)
+        private readonly UserManager<AraboonUser> userManager;
+
+        public ReadingLaterRepository(AraboonDbContext context, IHttpContextAccessor httpContextAccessor, UserManager<AraboonUser> userManager) 
+            : base(context, httpContextAccessor, userManager)
         {
             this.context = context;
             this.httpContextAccessor = httpContextAccessor;
+            this.userManager = userManager;
         }
-        public async Task<(string, PaginatedResult<GetPaginatedReadingLaterMangaResponse>?)> GetPaginatedReadingLaterMangaAsync(int pageNumber, int pageSize)
+        public async Task<(string, PaginatedResult<GetPaginatedReadingLaterMangaResponse>?)> GetPaginatedReadingLaterMangaAsync(int pageNumber, int pageSize, bool isAdmin)
         {
             string? userId = ExtractUserIdFromToken();
             if (string.IsNullOrEmpty(userId))
@@ -33,7 +38,8 @@ namespace Araboon.Infrastructure.Repositories
                                  .OrderByDescending(r => r.Manga.Rate).AsQueryable();
             if (currentlyReadingsManga is null)
                 return ("ThereAreNoMangaInYourReadingLaterList", null);
-            var mangas = await currentlyReadingsManga.Select(r => new GetPaginatedReadingLaterMangaResponse()
+            var mangas = await currentlyReadingsManga.Where(r => isAdmin ? true:r.Manga.IsActive)
+                .Select(r => new GetPaginatedReadingLaterMangaResponse()
             {
                 MangaID = r.MangaID,
                 MangaName = TransableEntity.GetTransable(r.Manga.MangaNameEn, r.Manga.MangaNameAr),

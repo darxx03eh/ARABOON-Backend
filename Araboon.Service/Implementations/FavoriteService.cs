@@ -44,7 +44,8 @@ namespace Araboon.Service.Implementations
 
         public async Task<(string, PaginatedResult<GetPaginatedFavoritesMangaResponse>?)> GetPaginatedFavoritesMangaAsync(int pageNumber, int pageSize)
         {
-            var (message, mangas) = await favoriteRepository.GetPaginatedFavoritesMangaAsync(pageNumber, pageSize);
+            var flag = await favoriteRepository.IsAdmin();
+            var (message, mangas) = await favoriteRepository.GetPaginatedFavoritesMangaAsync(pageNumber, pageSize, flag);
             return message switch
             {
                 "FavoritesServiceforRegisteredUsersOnly" => ("FavoritesServiceforRegisteredUsersOnly", null),

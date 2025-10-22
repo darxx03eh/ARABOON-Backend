@@ -69,7 +69,8 @@ namespace Araboon.Service.Implementations
         }
         public async Task<(string, PaginatedResult<GetPaginatedCurrentlyReadingsMangaResponse>?)> GetPaginatedCurrentlyReadingsMangaAsync(int pageNumber, int pageSize)
         {
-            var (message, mangas) = await currentlyReadingRepository.GetPaginatedCurrentlyReadingsMangaAsync(pageNumber, pageSize);
+            var flag = await currentlyReadingRepository.IsAdmin();
+            var (message, mangas) = await currentlyReadingRepository.GetPaginatedCurrentlyReadingsMangaAsync(pageNumber, pageSize, flag);
             return message switch
             {
                 "CurrentlyReadingServiceforRegisteredUsersOnly" => ("CurrentlyReadingServiceforRegisteredUsersOnly", null),

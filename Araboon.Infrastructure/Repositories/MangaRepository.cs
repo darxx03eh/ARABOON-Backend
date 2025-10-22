@@ -1,15 +1,16 @@
 ﻿using Araboon.Data.Entities;
+using Araboon.Data.Entities.Identity;
 using Araboon.Data.Enums;
 using Araboon.Data.Response.Mangas.Queries;
 using Araboon.Data.Wrappers;
 using Araboon.Infrastructure.Commons;
 using Araboon.Infrastructure.Data;
 using Araboon.Infrastructure.IRepositories;
-using Microsoft.AspNetCore.Http;
 using Humanizer;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
-using System.Threading.Tasks;
 
 namespace Araboon.Infrastructure.Repositories
 {
@@ -17,14 +18,16 @@ namespace Araboon.Infrastructure.Repositories
     {
         private readonly AraboonDbContext context;
         private readonly IHttpContextAccessor httpContextAccessor;
+        private readonly UserManager<AraboonUser> userManager;
 
-        public MangaRepository(AraboonDbContext context, IHttpContextAccessor httpContextAccessor)
-            : base(context, httpContextAccessor)
+        public MangaRepository(AraboonDbContext context, IHttpContextAccessor httpContextAccessor, UserManager<AraboonUser> userManager)
+            : base(context, httpContextAccessor, userManager)
         {
             this.context = context;
             this.httpContextAccessor = httpContextAccessor;
+            this.userManager = userManager;
         }
-        public async Task<(string, IList<HomePageResponse>?, IList<string>?)> GetCategoriesHomePageAsync()
+        public async Task<(string, IList<HomePageResponse>?, IList<string>?)> GetCategoriesHomePageAsync(bool isAdmin)
         {
             string? userID = ExtractUserIdFromToken();
             IList<int> favoriteMangaIds = new List<int>();
@@ -44,6 +47,7 @@ namespace Araboon.Infrastructure.Repositories
                 var mangas = await GetTableNoTracking()
                              .Where(manga => manga.CategoryMangas.Any(c => c.Category.CategoryNameEn.Equals(en)))
                              .OrderByDescending(manga => manga.Rate)
+                             .Where(manga => isAdmin ? true:manga.IsActive)
                              .Take(10).Select(manga => new GetCategoriesHomePageResponse()
                              {
                                  MangaID = manga.MangaID,
@@ -74,10 +78,11 @@ namespace Araboon.Infrastructure.Repositories
                 return ("MangaNotFound", null, null);
             return ("MangaFound", mangasByCategory, categories);
         }
-        public async Task<(string, IList<GetHottestMangasResponse>?)> GetHottestMangasAsync()
+        public async Task<(string, IList<GetHottestMangasResponse>?)> GetHottestMangasAsync(bool flag)
         {
             var hottestMangas = await GetTableNoTracking()
                                 .OrderByDescending(manga => (manga.Rate * manga.RatingsCount))
+                                .Where(manga => flag ? true:manga.IsActive)
                                 .Select(manga => new GetHottestMangasResponse()
                                 {
                                     MangaID = manga.MangaID,
@@ -86,13 +91,14 @@ namespace Araboon.Infrastructure.Repositories
                                     AuthorName = TransableEntity.GetTransable(manga.AuthorEn, manga.AuthorAr),
                                     PopularityScore = (int?)(manga.Rate * manga.RatingsCount)
                                 }).Take(10).ToListAsync();
-            if (hottestMangas is null)
+            if (hottestMangas is null || hottestMangas.Count().Equals(0))
                 return ("MangaNotFound", null);
             return ("MangaFound", hottestMangas);
         }
-        public async Task<(string, PaginatedResult<MangaSearchResponse>?)> SearchAsync(string? search, int pageNumber, int pageSize)
+        public async Task<(string, PaginatedResult<MangaSearchResponse>?)> SearchAsync(string? search, int pageNumber, int pageSize, bool isAdmin)
         {
-            var mangasQueryable = GetTableNoTracking().OrderByDescending(manga => manga.Rate * manga.RatingsCount).AsQueryable();
+            var mangasQueryable = GetTableNoTracking().Where(manga => isAdmin ? true:manga.IsActive)
+                .OrderByDescending(manga => manga.Rate * manga.RatingsCount).AsQueryable();
             if (!string.IsNullOrWhiteSpace(search))
                 mangasQueryable = mangasQueryable.Where(
                 manga => manga.MangaNameEn.ToLower().Contains(search.ToLower()) ||
@@ -126,9 +132,10 @@ namespace Araboon.Infrastructure.Repositories
                 return ("MangaNotFound", null);
             return ("MangaFound", mangas);
         }
-        public async Task<(string, PaginatedResult<GetPaginatedHottestMangaResponse>?)> GetPaginatedHottestMangaAsync(int pageNumber, int pageSize)
+        public async Task<(string, PaginatedResult<GetPaginatedHottestMangaResponse>?)> GetPaginatedHottestMangaAsync(int pageNumber, int pageSize, bool isAdmin)
         {
-            var hottestMangasQueryable = GetTableNoTracking().OrderByDescending(manga => (manga.Rate * manga.RatingsCount)).AsQueryable();
+            var hottestMangasQueryable = GetTableNoTracking().Where(manga => isAdmin ? true:manga.IsActive)
+                .OrderByDescending(manga => (manga.Rate * manga.RatingsCount)).AsQueryable();
             if (hottestMangasQueryable is null)
                 return ("MangaNotFound", null);
             var hottestMangas = await hottestMangasQueryable.Select(manga => new GetPaginatedHottestMangaResponse()
@@ -143,12 +150,12 @@ namespace Araboon.Infrastructure.Repositories
                 return ("MangaNotFound", null);
             return ("MangaFound", hottestMangas);
         }
-        public async Task<(string, PaginatedResult<GetMangaByCategoryNameResponse>?)> GetMangaByCategoryNameAsync(string category, int pageNumber, int pageSize)
+        public async Task<(string, PaginatedResult<GetMangaByCategoryNameResponse>?)> GetMangaByCategoryNameAsync(string category, int pageNumber, int pageSize, bool isAdmin)
         {
             var mangasQueryable = GetTableNoTracking().Where(manga => manga.CategoryMangas.Any(
                 c => c.Category.CategoryNameEn.ToLower()
                 .Equals(category.ToLower()) || c.Category.CategoryNameAr.ToLower().Equals(category.ToLower())
-                )).OrderByDescending(manga => manga.Rate).AsQueryable();
+                ) && isAdmin ? true:manga.IsActive).OrderByDescending(manga => manga.Rate).AsQueryable();
             if (mangasQueryable is null)
                 return ("MangaNotFound", null);
             string? userID = ExtractUserIdFromToken();
@@ -175,11 +182,11 @@ namespace Araboon.Infrastructure.Repositories
                 return ("MangaNotFound", null);
             return ("MangaFound", mangas);
         }
-        public async Task<(string, PaginatedResult<GetMangaByStatusResponse>?)> GetMangaByStatusAsync(int pageNumber, int pageSize, string status, MangaOrderingEnum orderBy, string? filter)
+        public async Task<(string, PaginatedResult<GetMangaByStatusResponse>?)> GetMangaByStatusAsync(int pageNumber, int pageSize, string status, MangaOrderingEnum orderBy, string? filter, bool isAdmin)
         {
             var mangaQueryable = GetTableNoTracking().Where(
-                manga => manga.StatusEn.ToLower().Equals(status.ToLower()) ||
-                manga.StatusAr.ToLower().Equals(status.ToLower())
+                manga => (manga.StatusEn.ToLower().Equals(status.ToLower()) ||
+                manga.StatusAr.ToLower().Equals(status.ToLower()))
                 ).AsQueryable();
             if (mangaQueryable is null)
                 return ("MangaNotFound", null);
@@ -209,7 +216,8 @@ namespace Araboon.Infrastructure.Repositories
             if (!string.IsNullOrEmpty(userID))
                 favoriteMangaIds = await context.Favorites.Where(f => f.UserID.ToString().Equals(userID))
                                    .Select(f => f.MangaID).ToListAsync();
-            var mangas = await mangaQueryable.Select(manga => new GetMangaByStatusResponse()
+            var mangas = await mangaQueryable.Where(manga => isAdmin ? true:manga.IsActive)
+                .Select(manga => new GetMangaByStatusResponse()
             {
                 MangaID = manga.MangaID,
                 MangaName = TransableEntity.GetTransable(manga.MangaNameEn, manga.MangaNameAr),
@@ -276,8 +284,8 @@ namespace Araboon.Infrastructure.Repositories
                 }
             }).ToList();
             var result = PaginatedResult<GetMangaCommentsResponse>.Success(
-                comments, 
-                pagedComments.TotalCount, 
+                comments,
+                pagedComments.TotalCount,
                 pagedComments.TotalPages,
                 pagedComments.PageSize
                 );

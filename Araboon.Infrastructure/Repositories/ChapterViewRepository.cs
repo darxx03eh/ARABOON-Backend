@@ -1,7 +1,9 @@
 ﻿using Araboon.Data.Entities;
+using Araboon.Data.Entities.Identity;
 using Araboon.Infrastructure.Data;
 using Araboon.Infrastructure.IRepositories;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Araboon.Infrastructure.Repositories
@@ -10,11 +12,14 @@ namespace Araboon.Infrastructure.Repositories
     {
         private readonly AraboonDbContext context;
         private readonly IHttpContextAccessor httpContextAccessor;
-        public ChapterViewRepository(AraboonDbContext context, IHttpContextAccessor httpContextAccessor)
-            : base(context, httpContextAccessor)
+        private readonly UserManager<AraboonUser> userManager;
+
+        public ChapterViewRepository(AraboonDbContext context, IHttpContextAccessor httpContextAccessor, UserManager<AraboonUser> userManager)
+            : base(context, httpContextAccessor, userManager)
         {
             this.context = context;
             this.httpContextAccessor = httpContextAccessor;
+            this.userManager = userManager;
         }
         public async Task<bool> IsMangaAndChapterExistForUser(int mangaId, int chapterId, int userId)
         {

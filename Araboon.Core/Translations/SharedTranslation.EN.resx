@@ -1030,4 +1030,67 @@
   <data name="AnErrorOccurredWhileAddingTheManga" xml:space="preserve">
     <value>An error occurred while adding the manga</value>
   </data>
+  <data name="AnErrorOccurredWhileDeletingTheManga" xml:space="preserve">
+    <value>An error occurred while deleting the manga</value>
+  </data>
+  <data name="MangaDeletedSuccessfully" xml:space="preserve">
+    <value>Manga deleted successfully.</value>
+  </data>
+  <data name="AnErrorOccurredWhileProcessingImageModificationRequest" xml:space="preserve">
+    <value>An error occurred while processing the image modification request</value>
+  </data>
+  <data name="ArabicAvailableForThisMangaAlready" xml:space="preserve">
+    <value>Arabic is already available for this manga</value>
+  </data>
+  <data name="MakeArabicAvilableForThisMangaSuccessfully" xml:space="preserve">
+    <value>Arabic made available for this manga successfully</value>
+  </data>
+  <data name="AnErrorOccurredWhileMakingArabicAvilableForThisManga" xml:space="preserve">
+    <value>An error occurred while making Arabic available for this manga</value>
+  </data>
+  <data name="ArabicNotAvailableForThisMangaAlready" xml:space="preserve">
+    <value>Arabic is not available for this manga already</value>
+  </data>
+  <data name="MakeArabicNotAvilableForThisMangaSuccessfully" xml:space="preserve">
+    <value>Arabic made unavailable for this manga successfully</value>
+  </data>
+  <data name="AnErrorOccurredWhileMakingArabicNotAvilableForThisManga" xml:space="preserve">
+    <value>An error occurred while making Arabic unavailable for this manga</value>
+  </data>
+  <data name="EnglishAvailableForThisMangaAlready" xml:space="preserve">
+    <value>English is already available for this manga</value>
+  </data>
+  <data name="MakeEnglishAvilableForThisMangaSuccessfully" xml:space="preserve">
+    <value>English made available for this manga successfully</value>
+  </data>
+  <data name="AnErrorOccurredWhileMakingEnglishAvilableForThisManga" xml:space="preserve">
+    <value>An error occurred while making English available for this manga</value>
+  </data>
+  <data name="EnglishNotAvailableForThisMangaAlready" xml:space="preserve">
+    <value>English is not available for this manga already</value>
+  </data>
+  <data name="MakeEnglishNotAvilableForThisMangaSuccessfully" xml:space="preserve">
+    <value>English made unavailable for this manga successfully</value>
+  </data>
+  <data name="AnErrorOccurredWhileMakingEnglishNotAvilableForThisManga" xml:space="preserve">
+    <value>An error occurred while making English unavailable for this manga</value>
+  </data>
+  <data name="MangaAlreadyActive" xml:space="preserve">
+    <value>Manga is already active</value>
+  </data>
+  <data name="ActivateMangaSuccessfully" xml:space="preserve">
+    <value>Manga activated successfully</value>
+  </data>
+  <data name="AnErrorOccurredWhileActivateThisManga" xml:space="preserve">
+    <value>An error occurred while activating this manga</value>
+  </data>
+  <data name="MangaAlreadyDeActive" xml:space="preserve">
+    <value>Manga is already deactivated</value>
+  </data>
+  <data name="DeActivateMangaSuccessfully" xml:space="preserve">
+    <value>Manga deactivated successfully</value>
+  </data>
+  <data name="AnErrorOccurredWhileDeActivateThisManga" xml:space="preserve">
+    <value>An error occurred while deactivating this manga</value>
+  </data>
 </root>

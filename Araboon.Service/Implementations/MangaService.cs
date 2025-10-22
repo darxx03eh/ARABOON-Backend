@@ -1,5 +1,6 @@
 ﻿using Araboon.Data.DTOs.Mangas;
 using Araboon.Data.Entities;
+using Araboon.Data.Entities.Identity;
 using Araboon.Data.Enums;
 using Araboon.Data.Response.Mangas.Queries;
 using Araboon.Data.Wrappers;
@@ -7,8 +8,9 @@ using Araboon.Infrastructure.Data;
 using Araboon.Infrastructure.IRepositories;
 using Araboon.Service.Interfaces;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Araboon.Service.Implementations
 {
@@ -17,17 +19,21 @@ namespace Araboon.Service.Implementations
         private readonly IUnitOfWork unitOfWork;
         private readonly ICloudinaryService cloudinaryService;
         private readonly AraboonDbContext context;
+        private readonly UserManager<AraboonUser> userManager;
 
-        public MangaService(IUnitOfWork unitOfWork, ICloudinaryService cloudinaryService, AraboonDbContext context)
+        public MangaService(IUnitOfWork unitOfWork, ICloudinaryService cloudinaryService, AraboonDbContext context,
+            UserManager<AraboonUser> userManager)
         {
             this.unitOfWork = unitOfWork;
             this.cloudinaryService = cloudinaryService;
             this.context = context;
+            this.userManager = userManager;
         }
 
         public async Task<(string, IList<HomePageResponse>?, IList<string>?)> GetCategoriesHomePageAsync()
         {
-            var (message, list, categories) = await unitOfWork.MangaRepository.GetCategoriesHomePageAsync();
+            bool flag = await unitOfWork.MangaRepository.IsAdmin();
+            var (message, list, categories) = await unitOfWork.MangaRepository.GetCategoriesHomePageAsync(flag);
             return message switch
             {
                 "MangaNotFound" => ("MangaNotFound", null, null),
@@ -37,7 +43,8 @@ namespace Araboon.Service.Implementations
         }
         public async Task<(string, IList<GetHottestMangasResponse>?)> GetHottestMangasAsync()
         {
-            var (message, hottestMangas) = await unitOfWork.MangaRepository.GetHottestMangasAsync();
+            bool flag = await unitOfWork.MangaRepository.IsAdmin();
+            var (message, hottestMangas) = await unitOfWork.MangaRepository.GetHottestMangasAsync(flag);
             return message switch
             {
                 "MangaNotFound" => ("MangaNotFound", null),
@@ -47,7 +54,8 @@ namespace Araboon.Service.Implementations
         }
         public async Task<(string, PaginatedResult<GetPaginatedHottestMangaResponse>?)> GetPaginatedHottestMangaAsync(int pageNumber, int pageSize)
         {
-            var (message, hottestMangas) = await unitOfWork.MangaRepository.GetPaginatedHottestMangaAsync(pageNumber, pageSize);
+            bool flag = await unitOfWork.MangaRepository.IsAdmin();
+            var (message, hottestMangas) = await unitOfWork.MangaRepository.GetPaginatedHottestMangaAsync(pageNumber, pageSize, flag);
             return message switch
             {
                 "MangaNotFound" => ("MangaNotFound", null),
@@ -57,7 +65,8 @@ namespace Araboon.Service.Implementations
         }
         public async Task<(string, PaginatedResult<GetMangaByCategoryNameResponse>?)> GetMangaByCategoryNameAsync(string category, int pageNumber, int pageSize)
         {
-            var (message, mangas) = await unitOfWork.MangaRepository.GetMangaByCategoryNameAsync(category, pageNumber, pageSize);
+            bool flag = await unitOfWork.MangaRepository.IsAdmin();
+            var (message, mangas) = await unitOfWork.MangaRepository.GetMangaByCategoryNameAsync(category, pageNumber, pageSize, flag);
             return message switch
             {
                 "MangaNotFound" => ("MangaNotFound", null),
@@ -67,7 +76,8 @@ namespace Araboon.Service.Implementations
         }
         public async Task<(string, PaginatedResult<GetMangaByStatusResponse>?)> GetMangaByStatusAsync(int pageNumber, int pageSize, string status, MangaOrderingEnum orderBy, string? filter)
         {
-            var (message, mangas) = await unitOfWork.MangaRepository.GetMangaByStatusAsync(pageNumber, pageSize, status, orderBy, filter);
+            bool flag = await unitOfWork.MangaRepository.IsAdmin();
+            var (message, mangas) = await unitOfWork.MangaRepository.GetMangaByStatusAsync(pageNumber, pageSize, status, orderBy, filter, flag);
             return message switch
             {
                 "MangaNotFound" => ("MangaNotFound", null),
@@ -77,15 +87,19 @@ namespace Araboon.Service.Implementations
         }
         public async Task<(string, Manga?, string?, int?)> GetMangaByIDAsync(int id)
         {
+            bool flag = await unitOfWork.MangaRepository.IsAdmin();
             var manga = await unitOfWork.MangaRepository.GetByIdAsync(id);
             if (manga is null)
+                return ("MangaNotFound", null, null, null);
+            if(flag ? false:!manga.IsActive)
                 return ("MangaNotFound", null, null, null);
             var commentCounts = await unitOfWork.MangaRepository.CommentsCountByIdAsync(id);
             return ("MangaFound", manga, manga.MangaNameEn, commentCounts);
         }
         public async Task<(string, PaginatedResult<MangaSearchResponse>?)> SearchAsync(string? search, int pageNumber, int pageSize)
         {
-            var (message, mangas) = await unitOfWork.MangaRepository.SearchAsync(search, pageNumber, pageSize);
+            bool flag = await unitOfWork.MangaRepository.IsAdmin();
+            var (message, mangas) = await unitOfWork.MangaRepository.SearchAsync(search, pageNumber, pageSize, flag);
             return message switch
             {
                 "MangaNotFound" => ("MangaNotFound", null),
@@ -189,6 +203,225 @@ namespace Araboon.Service.Implementations
             catch
             {
                 return null;
+            }
+        }
+
+        public async Task<string> DeleteMangaAsync(int id)
+        {
+            var manga = await unitOfWork.MangaRepository.GetByIdAsync(id);
+            if (manga is null)
+                return "MangaNotFound";
+
+            var comments = await unitOfWork.CommentRepository.GetTableNoTracking()
+                           .Where(comment => comment.MangaID.Equals(id)).ToListAsync();
+
+            var chapters = await unitOfWork.ChapterRepository.GetTableNoTracking()
+                           .Where(chapter => chapter.MangaID.Equals(id)).ToListAsync();
+
+            await using var transaction = await context.Database.BeginTransactionAsync();
+            try
+            {
+                if (comments is not null)
+                    await unitOfWork.CommentRepository.DeleteRangeAsync(comments);
+                if (chapters is not null)
+                    await unitOfWork.ChapterRepository.DeleteRangeAsync(chapters);
+
+                await unitOfWork.MangaRepository.DeleteAsync(manga);
+                await transaction.CommitAsync();
+                return "MangaDeletedSuccessfully";
+            }
+            catch (Exception exp)
+            {
+                if (transaction.GetDbTransaction().Connection is not null)
+                    await transaction.RollbackAsync();
+                return "AnErrorOccurredWhileDeletingTheManga";
+            }
+        }
+
+        public async Task<string> DeleteMangaImageAsync(int id)
+        {
+            var manga = await unitOfWork.MangaRepository.GetByIdAsync(id);
+            if (manga is null)
+                return "MangaNotFound";
+
+            var url = manga.MainImage;
+            if (string.IsNullOrWhiteSpace(url))
+                return "ThereIsNoImageToDelete";
+            try
+            {
+                var cloudinaryResult = cloudinaryService.DeleteFileAsync(url);
+                if (cloudinaryResult.Equals("FailedToDeleteImageFromCloudinary"))
+                    return "FailedToDeleteImageFromCloudinary";
+                manga.MainImage = null;
+                await unitOfWork.MangaRepository.UpdateAsync(manga);
+                return "ImageHasBeenSuccessfullyDeleted";
+            }
+            catch (Exception exp)
+            {
+                return "AnErrorOccurredWhileDeletingTheImage";
+            }
+        }
+
+        public async Task<(string, string?)> UploadMangaImageAsync(int id, IFormFile image)
+        {
+            var manga = await unitOfWork.MangaRepository.GetByIdAsync(id);
+            if (manga is null)
+                return ("MangaNotFound", null);
+
+            await using var transaction = await context.Database.BeginTransactionAsync();
+            try
+            {
+                var originalUrl = manga.MainImage;
+                if (!string.IsNullOrWhiteSpace(originalUrl))
+                {
+                    var cloudinaryResult = await cloudinaryService.DeleteFileAsync(originalUrl);
+                    if (cloudinaryResult.Equals("FailedToDeleteImageFromCloudinary"))
+                        return ("FailedToDeleteOldImageFromCloudinary", null);
+                }
+                var guidPart = Guid.NewGuid().ToString("N").Substring(0, 12);
+                var datePart = DateTime.UtcNow.ToString("yyyyMMddHHmmss");
+                var fullPart = $"{guidPart}-{datePart}";
+                using (var stream = image.OpenReadStream())
+                {
+                    var (imageName, folderName) = (fullPart, $"ARABOON/Mangas/{manga.MangaID}/img");
+                    var url = await cloudinaryService.UploadFileAsync(stream, folderName, imageName);
+                    manga.MainImage = url;
+                }
+                await unitOfWork.MangaRepository.UpdateAsync(manga);
+                await transaction.CommitAsync();
+                return ("TheImageHasBeenChangedSuccessfully", manga.MainImage);
+            }
+            catch (Exception exp)
+            {
+                if (transaction.GetDbTransaction().Connection is not null)
+                    await transaction.RollbackAsync();
+                return ("AnErrorOccurredWhileProcessingImageModificationRequest", null);
+            }
+        }
+
+        public async Task<string> MakeArabicAvailableAsync(int id)
+        {
+            var manga = await unitOfWork.MangaRepository.GetByIdAsync(id);
+            if (manga is null)
+                return "MangaNotFound";
+
+            if (Convert.ToBoolean(manga.ArabicAvailable))
+                return "ArabicAvailableForThisMangaAlready";
+
+            try
+            {
+                manga.ArabicAvailable = true;
+                await unitOfWork.MangaRepository.UpdateAsync(manga);
+                return "MakeArabicAvilableForThisMangaSuccessfully";
+            }
+            catch (Exception exp)
+            {
+                return "AnErrorOccurredWhileMakingArabicAvilableForThisManga";
+            }
+        }
+
+        public async Task<string> MakeArabicUnAvailableAsync(int id)
+        {
+            var manga = await unitOfWork.MangaRepository.GetByIdAsync(id);
+            if (manga is null)
+                return "MangaNotFound";
+
+            if (!Convert.ToBoolean(manga.ArabicAvailable))
+                return "ArabicNotAvailableForThisMangaAlready";
+
+            try
+            {
+                manga.ArabicAvailable = false;
+                await unitOfWork.MangaRepository.UpdateAsync(manga);
+                return "MakeArabicNotAvilableForThisMangaSuccessfully";
+            }
+            catch (Exception exp)
+            {
+                return "AnErrorOccurredWhileMakingArabicNotAvilableForThisManga";
+            }
+        }
+
+        public async Task<string> MakeEnglishAvailableAsync(int id)
+        {
+            var manga = await unitOfWork.MangaRepository.GetByIdAsync(id);
+            if (manga is null)
+                return "MangaNotFound";
+
+            if (Convert.ToBoolean(manga.EnglishAvilable))
+                return "EnglishAvailableForThisMangaAlready";
+
+            try
+            {
+                manga.EnglishAvilable = true;
+                await unitOfWork.MangaRepository.UpdateAsync(manga);
+                return "MakeEnglishAvilableForThisMangaSuccessfully";
+            }
+            catch (Exception exp)
+            {
+                return "AnErrorOccurredWhileMakingEnglishAvilableForThisManga";
+            }
+        }
+
+        public async Task<string> MakeEnglishUnAvailableAsync(int id)
+        {
+            var manga = await unitOfWork.MangaRepository.GetByIdAsync(id);
+            if (manga is null)
+                return "MangaNotFound";
+
+            if (!Convert.ToBoolean(manga.EnglishAvilable))
+                return "EnglishNotAvailableForThisMangaAlready";
+
+            try
+            {
+                manga.EnglishAvilable = false;
+                await unitOfWork.MangaRepository.UpdateAsync(manga);
+                return "MakeEnglishNotAvilableForThisMangaSuccessfully";
+            }
+            catch (Exception exp)
+            {
+                return "AnErrorOccurredWhileMakingEnglishNotAvilableForThisManga";
+            }
+        }
+
+        public async Task<string> ActivateMangaAsync(int id)
+        {
+            var manga = await unitOfWork.MangaRepository.GetByIdAsync(id);
+            if (manga is null)
+                return "MangaNotFound";
+
+            if (manga.IsActive)
+                return "MangaAlreadyActive";
+
+            try
+            {
+                manga.IsActive = true;
+                await unitOfWork.MangaRepository.UpdateAsync(manga);
+                return "ActivateMangaSuccessfully";
+            }
+            catch (Exception exp)
+            {
+                return "AnErrorOccurredWhileActivateThisManga";
+            }
+        }
+
+        public async Task<string> DeActivateMangaAsync(int id)
+        {
+            var manga = await unitOfWork.MangaRepository.GetByIdAsync(id);
+            if (manga is null)
+                return "MangaNotFound";
+
+            if (!manga.IsActive)
+                return "MangaAlreadyDeActive";
+
+            try
+            {
+                manga.IsActive = false;
+                await unitOfWork.MangaRepository.UpdateAsync(manga);
+                return "DeActivateMangaSuccessfully";
+            }
+            catch (Exception exp)
+            {
+                return "AnErrorOccurredWhileDeActivateThisManga";
             }
         }
     }

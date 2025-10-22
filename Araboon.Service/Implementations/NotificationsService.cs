@@ -45,7 +45,8 @@ namespace Araboon.Service.Implementations
 
         public async Task<(string, PaginatedResult<GetPaginatedNotificationsMangaResponse>?)> GetPaginatedNotificationsMangaAsync(int pageNumber, int pageSize)
         {
-            var (message, mangas) = await notificationsRepository.GetPaginatedNotificationsMangaAsync(pageNumber, pageSize);
+            var flag = await notificationsRepository.IsAdmin();
+            var (message, mangas) = await notificationsRepository.GetPaginatedNotificationsMangaAsync(pageNumber, pageSize, flag);
             return message switch
             {
                 "NotificationsServiceforRegisteredUsersOnly" => ("NotificationsServiceforRegisteredUsersOnly", null),
