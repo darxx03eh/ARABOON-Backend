@@ -112,7 +112,7 @@ namespace Araboon.Service.Implementations
             });
         }
 
-        public async Task<(string, PaginatedResult<GetDashboardCategoriesResponse>?, CategoryMetaDataRsponse?)> GetDashboardCategoriesAsync(int pageNumber, int pageSize, string? search)
+        public async Task<(string, IList<GetDashboardCategoriesResponse>?, CategoryMetaDataRsponse?)> GetDashboardCategoriesAsync(string? search)
         {
             var categoriesQueryable = unitOfWork.CategoryRepository.GetTableNoTracking();
             var meta = new CategoryMetaDataRsponse()
@@ -138,9 +138,9 @@ namespace Araboon.Service.Implementations
                 IsActive = category.IsActive,
                 CreatedAt = category.CreatedAt.ToString("yyyy-MM-dd"),
                 AvailableMangaCounts = category.CategoryMangas.Where(x => x.CategoryID.Equals(category.CategoryID)).Count()
-            }).ToPaginatedListAsync(pageNumber, pageSize);
+            }).ToListAsync();
 
-            if (categories is null || categories.Data.Count().Equals(0))
+            if (categories is null)
                 return ("CategoriesNotFound", null, null);
 
             return ("CategoriesFound", categories, meta);

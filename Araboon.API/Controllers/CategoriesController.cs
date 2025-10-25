@@ -50,14 +50,9 @@ namespace Araboon.API.Controllers
             return Result(result);
         }
         [HttpGet(Router.CategoryRouting.GetDashboardCategories)]
-        public async Task<IActionResult> GetDashboardCategories(string? search, int pageNumber = 1, int pageSize = 5)
+        public async Task<IActionResult> GetDashboardCategories(string? search)
         {
-            var result = await mediator.Send(new GetDashboardCategoriesQuery()
-            {
-                PageNumber = pageNumber,
-                PageSize = pageSize,
-                search = search
-            });
+            var result = await mediator.Send(new GetDashboardCategoriesQuery() { search = search});
             return Result(result);
         }
         [HttpGet(Router.CategoryRouting.GetCategoryById)]

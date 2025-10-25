@@ -40,7 +40,7 @@ namespace Araboon.Core.Features.Categories.Queries.Handlers
 
         public async Task<ApiResponse> Handle(GetDashboardCategoriesQuery request, CancellationToken cancellationToken)
         {
-            var (result, categories, meta) = await categoryService.GetDashboardCategoriesAsync(request.PageNumber, request.PageSize, request.search);
+            var (result, categories, meta) = await categoryService.GetDashboardCategoriesAsync(request.search);
             return result switch
             {
                 "CategoriesNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.CategoriesNotFound]),
