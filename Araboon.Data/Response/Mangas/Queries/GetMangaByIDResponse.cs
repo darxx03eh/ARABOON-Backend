@@ -15,6 +15,7 @@
         public string Author { get; set; }
         public string MangaImageUrl { get; set; }
         public IList<string> Categories { get; set; }
+        public IList<int> CategoriesIds { get; set; }
         public string Status { get; set; }
         public string Type { get; set; }
         public string PublishedOn { get; set; }

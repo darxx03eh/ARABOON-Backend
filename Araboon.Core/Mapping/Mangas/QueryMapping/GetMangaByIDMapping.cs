@@ -19,6 +19,9 @@ namespace Araboon.Core.Mapping.Mangas
                 .ForMember(to => to.Categories, from => from.MapFrom(src => src.CategoryMangas.Select(c =>
                     TransableEntity.GetTransable(c.Category.CategoryNameEn, c.Category.CategoryNameAr)
                     )))
+                .ForMember(to => to.CategoriesIds, from => from.MapFrom(src => src.CategoryMangas.Select(c => 
+                    c.CategoryID
+                )))
                 .ForMember(to => to.IsArabicAvailable, from => from.MapFrom(src => src.ArabicAvailable))
                 .ForMember(to => to.IsEnglishAvailable, from => from.MapFrom(src => src.EnglishAvilable))
                 .ForMember(to => to.Status, from => from.MapFrom(src => TransableEntity.GetTransable(src.StatusEn, src.StatusAr)))
