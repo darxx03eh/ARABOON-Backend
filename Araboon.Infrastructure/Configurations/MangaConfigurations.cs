@@ -76,6 +76,9 @@ namespace Araboon.Infrastructure.Configurations
             builder.HasCheckConstraint("CK_Manga_Rate", "[Rate] >= 0 And [Rate] <= 5");
             builder.Property(x => x.RatingsCount)
                 .HasDefaultValue(0);
+
+            builder.HasIndex(x => x.MangaNameEn).IsUnique();
+            builder.HasIndex(x => x.MangaNameAr).IsUnique();
         }
     }
 }

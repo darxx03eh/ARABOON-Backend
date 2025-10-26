@@ -1104,4 +1104,16 @@
   <data name="AnErrorOccurredWhileUpdatingTheManga" xml:space="preserve">
     <value>حدث خطأ أثناء تحديث المانجا</value>
   </data>
+  <data name="CategoryNameEnAlreadyExist" xml:space="preserve">
+    <value>اسم التصنيف بالإنجليزية موجود بالفعل</value>
+  </data>
+  <data name="CategoryNameArAlreadyExist" xml:space="preserve">
+    <value>اسم التصنيف بالعربية موجود بالفعل</value>
+  </data>
+  <data name="MangaNameEnAlreadyExist" xml:space="preserve">
+    <value>اسم المانجا بالإنجليزية موجود بالفعل</value>
+  </data>
+  <data name="MangaNameArAlreadyExist" xml:space="preserve">
+    <value>اسم المانجا بالعربية موجود بالفعل</value>
+  </data>
 </root>

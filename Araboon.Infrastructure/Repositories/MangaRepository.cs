@@ -297,5 +297,13 @@ namespace Araboon.Infrastructure.Repositories
 
         public async Task<int> CommentsCountByIdAsync(int id)
             => await context.Comments.Where(comment => comment.MangaID.Equals(id)).CountAsync();
+
+        public async Task<bool> IsMangaNameArExist(string en)
+            => await GetTableNoTracking()
+            .Where(manga => manga.MangaNameAr.ToLower().Equals(en.ToLower())).FirstOrDefaultAsync() is not null;
+
+        public async Task<bool> IsMangaNameEnExist(string ar)
+            => await GetTableNoTracking()
+            .Where(manga => manga.MangaNameEn.ToLower().Equals(ar.ToLower())).FirstOrDefaultAsync() is not null;
     }
 }

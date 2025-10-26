@@ -14,6 +14,10 @@ namespace Araboon.Infrastructure.Configurations
             builder.HasMany(x => x.CategoryMangas)
                 .WithOne(x => x.Category)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasIndex(x => x.CategoryNameEn).IsUnique();
+            builder.HasIndex(x => x.CategoryNameAr).IsUnique();
+                
         }
     }
 }

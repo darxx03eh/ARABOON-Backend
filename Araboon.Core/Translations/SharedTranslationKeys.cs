@@ -326,5 +326,9 @@
         public const string MangaIdNotNull = "MangaIdNotNull";
         public const string MangaUpdatingSuccessfully = "MangaUpdatingSuccessfully";
         public const string AnErrorOccurredWhileUpdatingTheManga = "AnErrorOccurredWhileUpdatingTheManga";
+        public const string CategoryNameEnAlreadyExist = "CategoryNameEnAlreadyExist";
+        public const string CategoryNameArAlreadyExist = "CategoryNameArAlreadyExist";
+        public const string MangaNameEnAlreadyExist = "MangaNameEnAlreadyExist";
+        public const string MangaNameArAlreadyExist = "MangaNameArAlreadyExist";
     }
 }

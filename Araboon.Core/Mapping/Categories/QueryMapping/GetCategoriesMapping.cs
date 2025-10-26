@@ -9,6 +9,7 @@ namespace Araboon.Core.Mapping.Categories
         public void GetCategoriesMapping()
         {
             CreateMap<Category, CategoriesResponse>()
+                 .ForMember(to => to.Id, from => from.MapFrom(src => src.CategoryID))
                  .ForMember(to => to.En, from => from.MapFrom(src => src.CategoryNameEn))
                  .ForMember(to => to.Ar, from => from.MapFrom(src => src.CategoryNameAr));
         }

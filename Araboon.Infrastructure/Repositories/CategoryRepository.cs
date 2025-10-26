@@ -14,7 +14,7 @@ namespace Araboon.Infrastructure.Repositories
         private readonly IHttpContextAccessor httpContextAccessor;
         private readonly UserManager<AraboonUser> userManager;
 
-        public CategoryRepository(AraboonDbContext context, IHttpContextAccessor httpContextAccessor, UserManager<AraboonUser> userManager) 
+        public CategoryRepository(AraboonDbContext context, IHttpContextAccessor httpContextAccessor, UserManager<AraboonUser> userManager)
             : base(context, httpContextAccessor, userManager)
         {
             this.context = context;
@@ -29,5 +29,13 @@ namespace Araboon.Infrastructure.Repositories
                 return ("CategoriesNotFound", null);
             return ("CategoriesFound", categories);
         }
+
+        public async Task<bool> IsCategoryNameArExist(string en)
+            => await GetTableNoTracking()
+            .Where(category => category.CategoryNameAr.ToLower().Equals(en.ToLower())).FirstOrDefaultAsync() is not null;
+
+        public async Task<bool> IsCategoryNameEnExist(string ar)
+            => await GetTableNoTracking()
+            .Where(category => category.CategoryNameEn.ToLower().Equals(ar.ToLower())).FirstOrDefaultAsync() is not null;
     }
 }
