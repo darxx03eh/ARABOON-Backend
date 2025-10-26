@@ -1092,4 +1092,16 @@
   <data name="AnErrorOccurredWhileDeActivateThisManga" xml:space="preserve">
     <value>حدث خطأ أثناء تعطيل هذه المانجا</value>
   </data>
+  <data name="MangaIdIsRequired" xml:space="preserve">
+    <value>رقم تعريف المانجا مطلوب</value>
+  </data>
+  <data name="MangaIdNotNull" xml:space="preserve">
+    <value>لا يمكن أن يكون رقم تعريف المانجا فارغًا</value>
+  </data>
+  <data name="MangaUpdatingSuccessfully" xml:space="preserve">
+    <value>تم تحديث المانجا بنجاح</value>
+  </data>
+  <data name="AnErrorOccurredWhileUpdatingTheManga" xml:space="preserve">
+    <value>حدث خطأ أثناء تحديث المانجا</value>
+  </data>
 </root>

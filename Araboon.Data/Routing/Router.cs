@@ -42,6 +42,7 @@
             public const string EnglishUnAvailable = $"{prefix}{singleRoute}/english";
             public const string ActivateManga = $"{prefix}{singleRoute}/activate";
             public const string DeActivateManga = $"{prefix}{singleRoute}/deactivate";
+            public const string UpdateMangaInfo = prefix;
         }
         public static class FavoritesRouting
         {

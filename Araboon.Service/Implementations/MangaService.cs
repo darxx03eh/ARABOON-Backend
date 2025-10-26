@@ -7,6 +7,7 @@ using Araboon.Data.Wrappers;
 using Araboon.Infrastructure.Data;
 using Araboon.Infrastructure.IRepositories;
 using Araboon.Service.Interfaces;
+using CloudinaryDotNet;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -130,7 +131,7 @@ namespace Araboon.Service.Implementations
             };
         }
 
-        public async Task<(string, int?, string?)> AddNewMangaCommandAsync(MangaInfoDTO mangaInfo)
+        public async Task<(string, int?, string?)> AddNewMangaAsync(MangaInfoDTO mangaInfo)
         {
             await using var transaction = await context.Database.BeginTransactionAsync();
 
@@ -186,6 +187,51 @@ namespace Araboon.Service.Implementations
                 if (transaction.GetDbTransaction().Connection is not null)
                     await transaction.RollbackAsync();
                 return ("AnErrorOccurredWhileAddingTheManga", null, null);
+            }
+        }
+        public async Task<string> UpdateExistMangaAsync(UpdateMangaInfoDTO mangaInfo, int mangaId)
+        {
+            var manga = await unitOfWork.MangaRepository.GetByIdAsync(mangaId);
+            if (manga is null)
+                return "MangaNotFound";
+
+            var categories = new List<Category>();
+            foreach (var categoryId in mangaInfo.CategoriesIds)
+            {
+                var category = await unitOfWork.CategoryRepository.GetByIdAsync(categoryId);
+                if (category is null)
+                    return "CategoryNotFound";
+                categories.Add(category);
+            }
+
+            var deletedCategories = manga.CategoryMangas.ToList();
+            await using var transaction = await context.Database.BeginTransactionAsync();
+            try
+            {
+                await unitOfWork.CategoryMangaRepository.DeleteRangeAsync(deletedCategories);
+                manga.MangaNameEn = mangaInfo.MangaNameEn;
+                manga.MangaNameAr = mangaInfo.MangaNameAr;
+                manga.StatusEn = mangaInfo.StatusEn;
+                manga.StatusAr = mangaInfo.StatusAr;
+                manga.AuthorEn = mangaInfo.AuthorEn;
+                manga.AuthorAr = mangaInfo.AuthorAr;
+                manga.TypeEn = mangaInfo.TypeEn;
+                manga.TypeAr = mangaInfo.TypeAr;
+                manga.DescriptionEn = mangaInfo.DescriptionEn;
+                manga.DescriptionAr = mangaInfo.DescriptionAr;
+                manga.CategoryMangas = categories
+                .Select(c => new CategoryManga { MangaID = mangaId, CategoryID = c.CategoryID })
+                .ToList();
+
+                await unitOfWork.MangaRepository.UpdateAsync(manga);
+                await transaction.CommitAsync();
+                return "MangaUpdatingSuccessfully";
+            }
+            catch (Exception exp)
+            {
+                if(transaction.GetDbTransaction().Connection is not null)
+                    await transaction.RollbackAsync();
+                return "AnErrorOccurredWhileUpdatingTheManga";
             }
         }
         private async Task<string?> UploadMangaImageAsync(IFormFile image, int mangaId)
@@ -424,5 +470,7 @@ namespace Araboon.Service.Implementations
                 return "AnErrorOccurredWhileDeActivateThisManga";
             }
         }
+
+        
     }
 }

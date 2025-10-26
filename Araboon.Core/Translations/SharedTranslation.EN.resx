@@ -1093,4 +1093,16 @@
   <data name="AnErrorOccurredWhileDeActivateThisManga" xml:space="preserve">
     <value>An error occurred while deactivating this manga</value>
   </data>
+  <data name="MangaIdIsRequired" xml:space="preserve">
+    <value>Manga ID is required</value>
+  </data>
+  <data name="MangaIdNotNull" xml:space="preserve">
+    <value>Manga ID cannot be null</value>
+  </data>
+  <data name="MangaUpdatingSuccessfully" xml:space="preserve">
+    <value>Manga updated successfully</value>
+  </data>
+  <data name="AnErrorOccurredWhileUpdatingTheManga" xml:space="preserve">
+    <value>An error occurred while updating the manga</value>
+  </data>
 </root>

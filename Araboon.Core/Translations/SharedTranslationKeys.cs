@@ -322,5 +322,9 @@
         public const string MangaAlreadyDeActive = "MangaAlreadyDeActive";
         public const string DeActivateMangaSuccessfully = "DeActivateMangaSuccessfully";
         public const string AnErrorOccurredWhileDeActivateThisManga = "AnErrorOccurredWhileDeActivateThisManga";
+        public const string MangaIdIsRequired = "MangaIdIsRequired";
+        public const string MangaIdNotNull = "MangaIdNotNull";
+        public const string MangaUpdatingSuccessfully = "MangaUpdatingSuccessfully";
+        public const string AnErrorOccurredWhileUpdatingTheManga = "AnErrorOccurredWhileUpdatingTheManga";
     }
 }

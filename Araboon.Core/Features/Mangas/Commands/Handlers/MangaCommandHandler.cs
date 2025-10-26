@@ -18,6 +18,7 @@ namespace Araboon.Core.Features.Mangas.Commands.Handlers
         , IRequestHandler<MakeEnglishUnAvailableCommand, ApiResponse>
         , IRequestHandler<ActivateMangaCommand, ApiResponse>
         , IRequestHandler<DeActivateMangaCommand, ApiResponse>
+        , IRequestHandler<UpdateMangaCommand, ApiResponse>
     {
         private readonly IMangaService mangaService;
         private readonly IStringLocalizer<SharedTranslation> stringLocalizer;
@@ -29,7 +30,7 @@ namespace Araboon.Core.Features.Mangas.Commands.Handlers
         }
         public async Task<ApiResponse> Handle(AddNewMangaCommand request, CancellationToken cancellationToken)
         {
-            var (result, id, imageUrl) = await mangaService.AddNewMangaCommandAsync(request);
+            var (result, id, imageUrl) = await mangaService.AddNewMangaAsync(request);
             return result switch
             {
                 "CategoryNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.CategoryNotFound]),
@@ -172,6 +173,19 @@ namespace Araboon.Core.Features.Mangas.Commands.Handlers
                 "AnErrorOccurredWhileDeActivateThisManga" =>
                 InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileDeActivateThisManga]),
                 _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileDeActivateThisManga])
+            };
+        }
+
+        public async Task<ApiResponse> Handle(UpdateMangaCommand request, CancellationToken cancellationToken)
+        {
+            var result = await mangaService.UpdateExistMangaAsync(request, request.MangaId);
+            return result switch
+            {
+                "MangaNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.MangaNotFound]),
+                "CategoryNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.CategoryNotFound]),
+                "MangaUpdatingSuccessfully" => Success(null, message: stringLocalizer[SharedTranslationKeys.MangaUpdatingSuccessfully]),
+                "AnErrorOccurredWhileUpdatingTheManga" => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileUpdatingTheManga]),
+                _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileUpdatingTheManga])
             };
         }
     }

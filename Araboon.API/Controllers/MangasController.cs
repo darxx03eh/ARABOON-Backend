@@ -142,5 +142,12 @@ namespace Araboon.API.Controllers
             var result = await mediator.Send(new DeActivateMangaCommand(id));
             return Result(result);
         }
+        [Authorize(Roles = Roles.Admin)]
+        [HttpPut(Router.MangaRouting.UpdateMangaInfo)]
+        public async Task<IActionResult> UpdateMangaInfo([FromBody] UpdateMangaCommand request)
+        {
+            var result = await mediator.Send(request);
+            return Result(result);
+        }
     }
 }

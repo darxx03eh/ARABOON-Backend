@@ -18,5 +18,6 @@
         public IReplyRepository ReplyRepository { get; set; }
         public IReplyLikesRepository ReplyLikesRepository { get; set; }
         public IRatingsRepository RatingsRepository { get; set; }
+        public ICategoryMangaRepository CategoryMangaRepository { get; set; }
     }
 }
