@@ -1125,4 +1125,16 @@
   <data name="AnErrorOccurredWhileMakingArabicAvilableOrNotAvilableProcess" xml:space="preserve">
     <value>حدث خطأ أثناء عملية تفعيل أو إلغاء تفعيل اللغة العربية</value>
   </data>
+  <data name="StatusInEnglishMustBeEitherOngoingOrCompletedOrOneShot" xml:space="preserve">
+    <value>يجب أن تكون الحالة بالإنجليزية إما "Ongoing" أو "Completed" أو "One-shot"</value>
+  </data>
+  <data name="StatusInArabicMustBeEitherOngoingOrCompletedOrOneShot" xml:space="preserve">
+    <value>يجب أن تكون الحالة بالعربية إما "مستمر" أو "مكتمل" أو "ون شوت"</value>
+  </data>
+  <data name="TypeInEnglishMustBeEitherMangaOrManhwaOrManhua" xml:space="preserve">
+    <value>يجب أن يكون النوع بالإنجليزية إما "Manga" أو "Manhwa" أو "Manhua"</value>
+  </data>
+  <data name="TypeInArabicMustBeEitherMangaOrManhwaOrManhua" xml:space="preserve">
+    <value>يجب أن يكون النوع بالعربية إما "مانجا" أو "مانهوا" أو "مانهوا صينية"</value>
+  </data>
 </root>

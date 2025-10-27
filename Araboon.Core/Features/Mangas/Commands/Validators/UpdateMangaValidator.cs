@@ -32,22 +32,30 @@ namespace Araboon.Core.Features.Mangas.Commands.Validators
             RuleFor(x => x.StatusEn)
                 .NotEmpty().WithMessage(stringLocalizer[SharedTranslationKeys.StatusEnIsRequired])
                 .NotNull().WithMessage(stringLocalizer[SharedTranslationKeys.StatusEnNotNull])
-                .MaximumLength(50).WithMessage(stringLocalizer[SharedTranslationKeys.StatusEnMustNotExceed50Characters]);
+                .MaximumLength(50).WithMessage(stringLocalizer[SharedTranslationKeys.StatusEnMustNotExceed50Characters])
+                .Must(status => status == "Ongoing" || status == "Completed" || status == "One Shot")
+                .WithMessage(stringLocalizer[SharedTranslationKeys.StatusInEnglishMustBeEitherOngoingOrCompletedOrOneShot]);
 
             RuleFor(x => x.StatusAr)
                 .NotEmpty().WithMessage(stringLocalizer[SharedTranslationKeys.StatusArIsRequired])
                 .NotNull().WithMessage(stringLocalizer[SharedTranslationKeys.StatusArNotNull])
-                .MaximumLength(50).WithMessage(stringLocalizer[SharedTranslationKeys.StatusArMustNotExceed50Characters]);
+                .MaximumLength(50).WithMessage(stringLocalizer[SharedTranslationKeys.StatusArMustNotExceed50Characters])
+                .Must(status => status == "مستمر" || status == "مكتمل" || status == "ون شوت")
+                .WithMessage(stringLocalizer[SharedTranslationKeys.StatusInArabicMustBeEitherOngoingOrCompletedOrOneShot]);
 
             RuleFor(x => x.TypeEn)
                 .NotEmpty().WithMessage(stringLocalizer[SharedTranslationKeys.TypeEnIsRequired])
                 .NotNull().WithMessage(stringLocalizer[SharedTranslationKeys.TypeEnNotNull])
-                .MaximumLength(50).WithMessage(stringLocalizer[SharedTranslationKeys.TypeEnMustNotExceed50Characters]);
+                .MaximumLength(50).WithMessage(stringLocalizer[SharedTranslationKeys.TypeEnMustNotExceed50Characters])
+                .Must(type => type == "Manga" || type == "Manhwa" || type == "Manhua")
+                .WithMessage(stringLocalizer[SharedTranslationKeys.TypeInEnglishMustBeEitherMangaOrManhwaOrManhua]);
 
             RuleFor(x => x.TypeAr)
                 .NotEmpty().WithMessage(stringLocalizer[SharedTranslationKeys.TypeArIsRequired])
                 .NotNull().WithMessage(stringLocalizer[SharedTranslationKeys.TypeArNotNull])
-                .MaximumLength(50).WithMessage(stringLocalizer[SharedTranslationKeys.TypeArMustNotExceed50Characters]);
+                .MaximumLength(50).WithMessage(stringLocalizer[SharedTranslationKeys.TypeArMustNotExceed50Characters])
+                .Must(type => type == "مانجا" || type == "مانهوا" || type == "مانهوا صينية")
+                .WithMessage(stringLocalizer[SharedTranslationKeys.TypeInArabicMustBeEitherMangaOrManhwaOrManhua]);
 
             RuleFor(x => x.AuthorEn)
                 .MaximumLength(100).WithMessage(stringLocalizer[SharedTranslationKeys.AuthorEnMustNotExceed100Characters])

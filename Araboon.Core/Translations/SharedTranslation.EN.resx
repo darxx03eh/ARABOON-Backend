@@ -1126,4 +1126,16 @@
   <data name="AnErrorOccurredWhileMakingArabicAvilableOrNotAvilableProcess" xml:space="preserve">
     <value>An error occurred during the process of making Arabic available or unavailable</value>
   </data>
+  <data name="StatusInEnglishMustBeEitherOngoingOrCompletedOrOneShot" xml:space="preserve">
+    <value>Status in English must be either “Ongoing”, “Completed”, or “One-shot”</value>
+  </data>
+  <data name="StatusInArabicMustBeEitherOngoingOrCompletedOrOneShot" xml:space="preserve">
+    <value>Status in Arabic must be either “مستمر”, “مكتمل”, or “ون شوت”</value>
+  </data>
+  <data name="TypeInEnglishMustBeEitherMangaOrManhwaOrManhua" xml:space="preserve">
+    <value>Type in English must be either “Manga”, “Manhwa”, or “Manhua”</value>
+  </data>
+  <data name="TypeInArabicMustBeEitherMangaOrManhwaOrManhua" xml:space="preserve">
+    <value>Type in Arabic must be either “مانجا”, “مانهوا”, or “مانهوا صينية”</value>
+  </data>
 </root>

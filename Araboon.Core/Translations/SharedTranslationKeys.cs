@@ -333,5 +333,9 @@
         public const string AnErrorOccurredWhileActivatingOrDeActivatingProcess = "AnErrorOccurredWhileActivatingOrDeActivatingProcess";
         public const string AnErrorOccurredWhileMakingEnglishAvilableOrNotAvilableProcess = "AnErrorOccurredWhileMakingEnglishAvilableOrNotAvilableProcess";
         public const string AnErrorOccurredWhileMakingArabicAvilableOrNotAvilableProcess = "AnErrorOccurredWhileMakingArabicAvilableOrNotAvilableProcess";
+        public const string StatusInEnglishMustBeEitherOngoingOrCompletedOrOneShot = "StatusInEnglishMustBeEitherOngoingOrCompletedOrOneShot";
+        public const string StatusInArabicMustBeEitherOngoingOrCompletedOrOneShot = "StatusInArabicMustBeEitherOngoingOrCompletedOrOneShot";
+        public const string TypeInEnglishMustBeEitherMangaOrManhwaOrManhua = "TypeInEnglishMustBeEitherMangaOrManhwaOrManhua";
+        public const string TypeInArabicMustBeEitherMangaOrManhwaOrManhua = "TypeInArabicMustBeEitherMangaOrManhwaOrManhua";
     }
 }
