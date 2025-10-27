@@ -7,7 +7,6 @@ using Araboon.Data.Wrappers;
 using Araboon.Infrastructure.Data;
 using Araboon.Infrastructure.IRepositories;
 using Araboon.Service.Interfaces;
-using CloudinaryDotNet;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -92,7 +91,7 @@ namespace Araboon.Service.Implementations
             var manga = await unitOfWork.MangaRepository.GetByIdAsync(id);
             if (manga is null)
                 return ("MangaNotFound", null, null, null);
-            if(flag ? false:!manga.IsActive)
+            if (flag ? false : !manga.IsActive)
                 return ("MangaNotFound", null, null, null);
             var commentCounts = await unitOfWork.MangaRepository.CommentsCountByIdAsync(id);
             return ("MangaFound", manga, manga.MangaNameEn, commentCounts);
@@ -229,7 +228,7 @@ namespace Araboon.Service.Implementations
             }
             catch (Exception exp)
             {
-                if(transaction.GetDbTransaction().Connection is not null)
+                if (transaction.GetDbTransaction().Connection is not null)
                     await transaction.RollbackAsync();
                 return "AnErrorOccurredWhileUpdatingTheManga";
             }
@@ -345,132 +344,62 @@ namespace Araboon.Service.Implementations
             }
         }
 
-        public async Task<string> MakeArabicAvailableAsync(int id)
+        public async Task<string> MakeArabicAvailableOrUnAvailableAsync(int id)
         {
             var manga = await unitOfWork.MangaRepository.GetByIdAsync(id);
             if (manga is null)
                 return "MangaNotFound";
-
-            if (Convert.ToBoolean(manga.ArabicAvailable))
-                return "ArabicAvailableForThisMangaAlready";
-
             try
             {
-                manga.ArabicAvailable = true;
+                if (Convert.ToBoolean(manga.ArabicAvailable))
+                    manga.ArabicAvailable = false;
+                else manga.ArabicAvailable = true;
                 await unitOfWork.MangaRepository.UpdateAsync(manga);
-                return "MakeArabicAvilableForThisMangaSuccessfully";
-            }
-            catch (Exception exp)
-            {
-                return "AnErrorOccurredWhileMakingArabicAvilableForThisManga";
-            }
-        }
-
-        public async Task<string> MakeArabicUnAvailableAsync(int id)
-        {
-            var manga = await unitOfWork.MangaRepository.GetByIdAsync(id);
-            if (manga is null)
-                return "MangaNotFound";
-
-            if (!Convert.ToBoolean(manga.ArabicAvailable))
-                return "ArabicNotAvailableForThisMangaAlready";
-
-            try
-            {
-                manga.ArabicAvailable = false;
-                await unitOfWork.MangaRepository.UpdateAsync(manga);
+                if(Convert.ToBoolean(manga.ArabicAvailable)) return "MakeArabicAvilableForThisMangaSuccessfully";
                 return "MakeArabicNotAvilableForThisMangaSuccessfully";
             }
             catch (Exception exp)
             {
-                return "AnErrorOccurredWhileMakingArabicNotAvilableForThisManga";
+                return "AnErrorOccurredWhileMakingArabicAvilableOrNotAvilableProcess";
             }
         }
-
-        public async Task<string> MakeEnglishAvailableAsync(int id)
+        public async Task<string> MakeEnglishAvailableOrUnAvailableAsync(int id)
         {
             var manga = await unitOfWork.MangaRepository.GetByIdAsync(id);
             if (manga is null)
                 return "MangaNotFound";
-
-            if (Convert.ToBoolean(manga.EnglishAvilable))
-                return "EnglishAvailableForThisMangaAlready";
-
             try
             {
-                manga.EnglishAvilable = true;
+                if (Convert.ToBoolean(manga.EnglishAvilable))
+                    manga.EnglishAvilable = false;
+                else manga.EnglishAvilable = true;
                 await unitOfWork.MangaRepository.UpdateAsync(manga);
-                return "MakeEnglishAvilableForThisMangaSuccessfully";
-            }
-            catch (Exception exp)
-            {
-                return "AnErrorOccurredWhileMakingEnglishAvilableForThisManga";
-            }
-        }
-
-        public async Task<string> MakeEnglishUnAvailableAsync(int id)
-        {
-            var manga = await unitOfWork.MangaRepository.GetByIdAsync(id);
-            if (manga is null)
-                return "MangaNotFound";
-
-            if (!Convert.ToBoolean(manga.EnglishAvilable))
-                return "EnglishNotAvailableForThisMangaAlready";
-
-            try
-            {
-                manga.EnglishAvilable = false;
-                await unitOfWork.MangaRepository.UpdateAsync(manga);
+                if(Convert.ToBoolean(manga.EnglishAvilable)) return "MakeEnglishAvilableForThisMangaSuccessfully";
                 return "MakeEnglishNotAvilableForThisMangaSuccessfully";
             }
             catch (Exception exp)
             {
-                return "AnErrorOccurredWhileMakingEnglishNotAvilableForThisManga";
+                return "AnErrorOccurredWhileMakingEnglishAvilableOrNotAvilableProcess";
             }
         }
-
-        public async Task<string> ActivateMangaAsync(int id)
+        public async Task<string> ActivateAndDeActivateMangaAsync(int id)
         {
             var manga = await unitOfWork.MangaRepository.GetByIdAsync(id);
             if (manga is null)
                 return "MangaNotFound";
-
-            if (manga.IsActive)
-                return "MangaAlreadyActive";
-
             try
             {
-                manga.IsActive = true;
+                if (manga.IsActive)
+                    manga.IsActive = false;
+                else manga.IsActive = true;
                 await unitOfWork.MangaRepository.UpdateAsync(manga);
-                return "ActivateMangaSuccessfully";
-            }
-            catch (Exception exp)
-            {
-                return "AnErrorOccurredWhileActivateThisManga";
-            }
-        }
-
-        public async Task<string> DeActivateMangaAsync(int id)
-        {
-            var manga = await unitOfWork.MangaRepository.GetByIdAsync(id);
-            if (manga is null)
-                return "MangaNotFound";
-
-            if (!manga.IsActive)
-                return "MangaAlreadyDeActive";
-
-            try
-            {
-                manga.IsActive = false;
-                await unitOfWork.MangaRepository.UpdateAsync(manga);
+                if(manga.IsActive) return "ActivateMangaSuccessfully";
                 return "DeActivateMangaSuccessfully";
             }
             catch (Exception exp)
             {
-                return "AnErrorOccurredWhileDeActivateThisManga";
+                return "AnErrorOccurredWhileActivatingOrDeActivatingProcess";
             }
         }
-
-        
     }
 }

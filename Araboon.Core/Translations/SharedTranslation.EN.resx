@@ -1117,4 +1117,13 @@
   <data name="MangaNameArAlreadyExist" xml:space="preserve">
     <value>Manga name in Arabic already exists</value>
   </data>
+  <data name="AnErrorOccurredWhileActivatingOrDeActivatingProcess" xml:space="preserve">
+    <value>An error occurred during the activation or deactivation process</value>
+  </data>
+  <data name="AnErrorOccurredWhileMakingEnglishAvilableOrNotAvilableProcess" xml:space="preserve">
+    <value>An error occurred during the process of making English available or unavailable</value>
+  </data>
+  <data name="AnErrorOccurredWhileMakingArabicAvilableOrNotAvilableProcess" xml:space="preserve">
+    <value>An error occurred during the process of making Arabic available or unavailable</value>
+  </data>
 </root>

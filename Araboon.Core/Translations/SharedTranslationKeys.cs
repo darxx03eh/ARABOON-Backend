@@ -330,5 +330,8 @@
         public const string CategoryNameArAlreadyExist = "CategoryNameArAlreadyExist";
         public const string MangaNameEnAlreadyExist = "MangaNameEnAlreadyExist";
         public const string MangaNameArAlreadyExist = "MangaNameArAlreadyExist";
+        public const string AnErrorOccurredWhileActivatingOrDeActivatingProcess = "AnErrorOccurredWhileActivatingOrDeActivatingProcess";
+        public const string AnErrorOccurredWhileMakingEnglishAvilableOrNotAvilableProcess = "AnErrorOccurredWhileMakingEnglishAvilableOrNotAvilableProcess";
+        public const string AnErrorOccurredWhileMakingArabicAvilableOrNotAvilableProcess = "AnErrorOccurredWhileMakingArabicAvilableOrNotAvilableProcess";
     }
 }

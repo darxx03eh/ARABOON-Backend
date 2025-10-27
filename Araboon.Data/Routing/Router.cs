@@ -36,12 +36,9 @@
             public const string DeleteManga = $"{prefix}{singleRoute}";
             public const string DeleteMangaImage = $"{prefix}{singleRoute}/image";
             public const string UploadNewImage = $"{prefix}/upload-image";
-            public const string ArabicAvailable = $"{prefix}{singleRoute}/arabic";
-            public const string ArabicUnAvailable = $"{prefix}{singleRoute}/arabic";
-            public const string EnglishAvailable = $"{prefix}{singleRoute}/english";
-            public const string EnglishUnAvailable = $"{prefix}{singleRoute}/english";
-            public const string ActivateManga = $"{prefix}{singleRoute}/activate";
-            public const string DeActivateManga = $"{prefix}{singleRoute}/deactivate";
+            public const string ArabicAvailableOrUnAvailable = $"{prefix}{singleRoute}/arabic-toggle";
+            public const string EnglishAvailableOrUnAvailableAsync = $"{prefix}{singleRoute}/english-toggle";
+            public const string ActivateOrDeActivateManga = $"{prefix}{singleRoute}/active-toggle";
             public const string UpdateMangaInfo = prefix;
         }
         public static class FavoritesRouting

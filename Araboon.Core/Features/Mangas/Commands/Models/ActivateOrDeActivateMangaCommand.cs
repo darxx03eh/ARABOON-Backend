@@ -3,9 +3,9 @@ using MediatR;
 
 namespace Araboon.Core.Features.Mangas.Commands.Models
 {
-    public class MakeEnglishAvailableCommand : IRequest<ApiResponse>
+    public class ActivateOrDeActivateMangaCommand : IRequest<ApiResponse>
     {
         public int Id { get; set; }
-        public MakeEnglishAvailableCommand(int id) => Id = id;
+        public ActivateOrDeActivateMangaCommand(int id) => Id = id;
     }
 }

@@ -1116,4 +1116,13 @@
   <data name="MangaNameArAlreadyExist" xml:space="preserve">
     <value>اسم المانجا بالعربية موجود بالفعل</value>
   </data>
+  <data name="AnErrorOccurredWhileActivatingOrDeActivatingProcess" xml:space="preserve">
+    <value>حدث خطأ أثناء عملية التفعيل أو التعطيل</value>
+  </data>
+  <data name="AnErrorOccurredWhileMakingEnglishAvilableOrNotAvilableProcess" xml:space="preserve">
+    <value>حدث خطأ أثناء عملية تفعيل أو إلغاء تفعيل اللغة الإنجليزية</value>
+  </data>
+  <data name="AnErrorOccurredWhileMakingArabicAvilableOrNotAvilableProcess" xml:space="preserve">
+    <value>حدث خطأ أثناء عملية تفعيل أو إلغاء تفعيل اللغة العربية</value>
+  </data>
 </root>
