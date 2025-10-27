@@ -40,6 +40,7 @@
             public const string EnglishAvailableOrUnAvailableAsync = $"{prefix}{singleRoute}/english-toggle";
             public const string ActivateOrDeActivateManga = $"{prefix}{singleRoute}/active-toggle";
             public const string UpdateMangaInfo = prefix;
+            public const string GetMangaForDashboard = $"{prefix}/dashboard";
         }
         public static class FavoritesRouting
         {

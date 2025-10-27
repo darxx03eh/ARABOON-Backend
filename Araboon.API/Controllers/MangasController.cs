@@ -128,5 +128,12 @@ namespace Araboon.API.Controllers
             var result = await mediator.Send(request);
             return Result(result);
         }
+        [Authorize(Roles = Roles.Admin)]
+        [HttpGet(Router.MangaRouting.GetMangaForDashboard)]
+        public async Task<IActionResult> GetMangaForDashboard([FromQuery] GetMangaForDashboardQuery request)
+        {
+            var result = await mediator.Send(request);
+            return Result(result);
+        }
     }
 }

@@ -1,0 +1,9 @@
+﻿using Araboon.Core.Bases;
+using MediatR;
+
+namespace Araboon.Core.Features.Mangas.Queries.Models
+{
+    public class GetMangaForDashboardQuery : MangaSearchQuery, IRequest<ApiResponse>
+    {
+    }
+}

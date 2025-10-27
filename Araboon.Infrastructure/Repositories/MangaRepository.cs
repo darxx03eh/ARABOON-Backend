@@ -305,5 +305,48 @@ namespace Araboon.Infrastructure.Repositories
         public async Task<bool> IsMangaNameEnExist(string ar)
             => await GetTableNoTracking()
             .Where(manga => manga.MangaNameEn.ToLower().Equals(ar.ToLower())).FirstOrDefaultAsync() is not null;
+
+        public async Task<(string, PaginatedResult<GetMangaForDashboardResponse>?)> GetMangaForDashboardAsync(string? search, int pageNumber, int pageSize, bool isAdmin)
+        {
+            var mangasQueryable = GetTableNoTracking().Where(manga => isAdmin ? true : manga.IsActive)
+                .OrderByDescending(manga => manga.Rate * manga.RatingsCount).AsQueryable();
+            if (!string.IsNullOrWhiteSpace(search))
+                mangasQueryable = mangasQueryable.Where(
+                manga => manga.MangaNameEn.ToLower().Contains(search.ToLower()) ||
+                manga.MangaNameAr.ToLower().Contains(search.ToLower()) ||
+                manga.AuthorEn.ToLower().Contains(search.ToLower()) ||
+                manga.AuthorAr.ToLower().Contains(search.ToLower())
+                );
+            if (mangasQueryable is null)
+                return ("MangaNotFound", null);
+            string? userId = ExtractUserIdFromToken();
+            IList<int> favoriteMangaIds = new List<int>();
+            if (!string.IsNullOrEmpty(userId))
+                favoriteMangaIds = await context.Favorites.Where(f => f.UserID.ToString().Equals(userId))
+                                   .Select(f => f.MangaID).ToListAsync();
+            var mangas = await mangasQueryable.Select(manga => new GetMangaForDashboardResponse()
+            {
+                MangaID = manga.MangaID,
+                MangaName = TransableEntity.GetTransable(manga.MangaNameEn, manga.MangaNameAr),
+                MangaImageUrl = manga.MainImage,
+                AuthorName = TransableEntity.GetTransable(manga.AuthorEn, manga.AuthorAr),
+                IsFavorite = favoriteMangaIds.Contains(manga.MangaID),
+                LastChapter = manga.Chapters.OrderByDescending(chapter => chapter.ChapterNo)
+                .Select(chapter => new LastChapter()
+                {
+                    ChapterID = chapter.ChapterID,
+                    ChapterNo = chapter.ChapterNo,
+                    Views = chapter.ReadersCount
+                }).FirstOrDefault(),
+                Name = new MangaName() { En = manga.MangaNameEn, Ar = manga.MangaNameAr},
+                Description = new Description() { En = manga.DescriptionEn, Ar = manga.DescriptionAr},
+                Author = new Author() { En = manga.AuthorEn, Ar = manga.AuthorAr},
+                Type = new Araboon.Data.Response.Mangas.Queries.Type() { En = manga.TypeEn, Ar = manga.TypeAr},
+                Status = new Status() { En = manga.StatusEn, Ar = manga.StatusAr}
+            }).ToPaginatedListAsync(pageNumber, pageSize);
+            if (mangas.Data.Count().Equals(0))
+                return ("MangaNotFound", null);
+            return ("MangaFound", mangas);
+        }
     }
 }

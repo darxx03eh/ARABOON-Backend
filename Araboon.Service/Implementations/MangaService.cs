@@ -401,5 +401,17 @@ namespace Araboon.Service.Implementations
                 return "AnErrorOccurredWhileActivatingOrDeActivatingProcess";
             }
         }
+
+        public async Task<(string, PaginatedResult<GetMangaForDashboardResponse>?)> GetMangaForDashboardAsync(string? search, int pageNumber, int pageSize)
+        {
+            bool flag = await unitOfWork.MangaRepository.IsAdmin();
+            var (message, mangas) = await unitOfWork.MangaRepository.GetMangaForDashboardAsync(search, pageNumber, pageSize, flag);
+            return message switch
+            {
+                "MangaNotFound" => ("MangaNotFound", null),
+                "MangaFound" => ("MangaFound", mangas),
+                _ => ("MangaNotFound", null)
+            };
+        }
     }
 }

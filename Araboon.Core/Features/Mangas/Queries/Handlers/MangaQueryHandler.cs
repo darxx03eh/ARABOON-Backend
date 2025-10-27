@@ -20,6 +20,7 @@ namespace Araboon.Core.Features.Mangas.Queries.Handlers
         , IRequestHandler<MangaSearchQuery, ApiResponse>
         , IRequestHandler<GetMangaCommentsQuery, ApiResponse>
         , IRequestHandler<GetCommentsCountQuery, ApiResponse>
+        , IRequestHandler<GetMangaForDashboardQuery, ApiResponse>
     {
         private readonly IStringLocalizer<SharedTranslation> stringLocalizer;
         private readonly IMangaService mangaService;
@@ -148,6 +149,18 @@ namespace Araboon.Core.Features.Mangas.Queries.Handlers
                     CommentsCount = commentsCount,
                 }, message: SharedTranslationKeys.CommentsFound),
                 _ => NotFound(SharedTranslationKeys.MangaNotFound)
+            };
+        }
+
+        public async Task<ApiResponse> Handle(GetMangaForDashboardQuery request, CancellationToken cancellationToken)
+        {
+            var search = string.IsNullOrWhiteSpace(request.Search) ? "" : request.Search.Trim();
+            var (result, mangas) = await mangaService.GetMangaForDashboardAsync(search, request.PageNumber, request.PageSize);
+            return result switch
+            {
+                "MangaNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.MangaNotFound]),
+                "MangaFound" => Success(mangas, message: stringLocalizer[SharedTranslationKeys.MangaFound]),
+                _ => NotFound(stringLocalizer[SharedTranslationKeys.MangaNotFound])
             };
         }
     }
