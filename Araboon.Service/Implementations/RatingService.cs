@@ -4,6 +4,7 @@ using Araboon.Data.Response.Ratings;
 using Araboon.Infrastructure.IRepositories;
 using Araboon.Service.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Araboon.Service.Implementations
 {
@@ -40,10 +41,11 @@ namespace Araboon.Service.Implementations
                 var manga = await unitOfWork.MangaRepository.GetByIdAsync(rate.MangaID);
                 if (manga.RatingsCount.Equals(1))
                     manga.Rate = 0;
-                else manga.Rate = Math.Abs(Convert.ToDouble(((manga.Rate * manga.RatingsCount) - rate.Rate) / manga.RatingsCount - 1));
+                else var (result, totalStars) = await UpdateTotalStarsAsync(manga.MangaID);
+
                 manga.RatingsCount--;
                 await unitOfWork.MangaRepository.UpdateAsync(manga);
-                return (("TheRateHasBeenSuccessfullyDeleted", manga.Rate));
+                return ("TheRateHasBeenSuccessfullyDeleted", manga.Rate);
             }
             catch (Exception exp)
             {
@@ -90,7 +92,6 @@ namespace Araboon.Service.Implementations
             var isRateBefore = unitOfWork.RatingsRepository.IsUserMakeRateForMangaAsync(user.Id, mangaId);
             if (!isRateBefore)
             {
-                newRate = Convert.ToDouble(((manga.Rate * manga.RatingsCount) + rate) / (manga.RatingsCount + 1));
                 var rateObject = await unitOfWork.RatingsRepository.AddAsync(new Ratings()
                 {
                     UserID = user.Id,
@@ -99,28 +100,51 @@ namespace Araboon.Service.Implementations
                 });
                 if (rateObject is null)
                     return ("AnErrorOccurredWhileAddingTheRate", null, null, null);
-                manga.Rate = newRate;
+                var (result, totalStars) = await UpdateTotalStarsAsync(mangaId);
                 manga.RatingsCount++;
                 await unitOfWork.MangaRepository.UpdateAsync(manga);
-                return ("TheRateHasBeenAddedSuccessfully", rate, rateObject.Id, manga.Rate);
+                return ("TheRateHasBeenAddedSuccessfully", rate, rateObject.Id, totalStars);
             }
             else
             {
                 var rateObject = await unitOfWork.RatingsRepository.GetRateByMangaIdAndUserIdAsync(user.Id, mangaId);
-                newRate = Math.Abs(Convert.ToDouble(((manga.Rate * manga.RatingsCount) + (rate - rateObject.Rate)) / manga.RatingsCount));
                 rateObject.Rate = rate;
                 try
                 {
                     await unitOfWork.RatingsRepository.UpdateAsync(rateObject);
-                    manga.Rate = newRate;
+                    var (result, totalStars) = await UpdateTotalStarsAsync(mangaId);
                     await unitOfWork.MangaRepository.UpdateAsync(manga);
-                    return ("TheRateHasBeenModifiedSuccessfully", rate, rateObject.Id, manga.Rate);
+                    return ("TheRateHasBeenModifiedSuccessfully", rate, rateObject.Id, totalStars);
                 }
                 catch (Exception exp)
                 {
                     return ("AnErrorOccurredWhileModifyingTheRate", null, null, null);
                 }
             }
+        }
+        private async Task<(string, double?)> UpdateTotalStarsAsync(int mangaId)
+        {
+            var manga = await unitOfWork.MangaRepository.GetByIdAsync(mangaId);
+            if (manga is null)
+                return ("MangaNotFound", null);
+
+            var ratings = await unitOfWork.RatingsRepository.GetTableNoTracking()
+                            .Where(rate => rate.MangaID.Equals(mangaId)).ToListAsync();
+
+            if (ratings.Any())
+            {
+                try
+                {
+                    manga.Rate = ratings.Average(rate => rate.Rate);
+                    await unitOfWork.MangaRepository.UpdateAsync(manga);
+                    return ("TotalStarsHaveBeenUpdatedSuccessfully", manga.Rate);
+                }
+                catch(Exception exp)
+                {
+                    return ("AnErrorOccurredWhileUpdatingTheTotalStars", null);
+                }
+            }
+            return ("NoRateForThisMangaFound", null);
         }
     }
 }
