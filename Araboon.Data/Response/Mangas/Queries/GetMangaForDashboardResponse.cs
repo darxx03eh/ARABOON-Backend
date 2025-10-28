@@ -1,4 +1,6 @@
-﻿namespace Araboon.Data.Response.Mangas.Queries
+﻿using Araboon.Data.Response.Categories.Queries;
+
+namespace Araboon.Data.Response.Mangas.Queries
 {
     public class GetMangaForDashboardResponse : MangaSearchResponse
     {
@@ -7,6 +9,7 @@
         public Author Author { get; set; }
         public Type Type { get; set; }
         public Status Status { get; set; }
+        public IList<CategoriesResponse> Categories { get; set; }
     }
     public class MangaName
     {
