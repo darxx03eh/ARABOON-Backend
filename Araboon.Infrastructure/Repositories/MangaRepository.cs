@@ -153,10 +153,14 @@ namespace Araboon.Infrastructure.Repositories
         }
         public async Task<(string, PaginatedResult<GetMangaByCategoryNameResponse>?)> GetMangaByCategoryNameAsync(string category, int pageNumber, int pageSize, bool isAdmin)
         {
-            var mangasQueryable = GetTableNoTracking().Where(manga => manga.CategoryMangas.Any(
-                c => c.Category.CategoryNameEn.ToLower()
-                .Equals(category.ToLower()) || c.Category.CategoryNameAr.ToLower().Equals(category.ToLower())
-                ) && isAdmin ? true : manga.IsActive).OrderByDescending(manga => manga.Rate).AsQueryable();
+            var mangasQueryable = GetTableNoTracking()
+                                  .Where(manga =>
+                                      manga.CategoryMangas.Any(c =>
+                                          (c.Category.CategoryNameEn.ToLower() == category.ToLower() ||
+                                           c.Category.CategoryNameAr.ToLower() == category.ToLower()))
+                                      && (isAdmin || manga.IsActive))
+                                  .OrderByDescending(manga => manga.Rate)
+                                  .AsQueryable();
             if (mangasQueryable is null)
                 return ("MangaNotFound", null);
             string? userID = ExtractUserIdFromToken();
