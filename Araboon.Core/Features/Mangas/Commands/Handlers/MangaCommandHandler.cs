@@ -27,18 +27,14 @@ namespace Araboon.Core.Features.Mangas.Commands.Handlers
         }
         public async Task<ApiResponse> Handle(AddNewMangaCommand request, CancellationToken cancellationToken)
         {
-            var (result, id, imageUrl) = await mangaService.AddNewMangaAsync(request);
+            var (result, manga) = await mangaService.AddNewMangaAsync(request);
             return result switch
             {
                 "CategoryNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.CategoryNotFound]),
                 "ThereWasAProblemAddingTheManga" => InternalServerError(stringLocalizer[SharedTranslationKeys.ThereWasAProblemAddingTheManga]),
                 "AnErrorOccurredWhileAddingTheImageForManga" =>
                 InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileAddingTheImageForManga]),
-                "MangaAddedSuccessfully" => Created(new
-                {
-                    Id = id,
-                    ImageUrl = imageUrl,
-                }, message: stringLocalizer[SharedTranslationKeys.MangaAddedSuccessfully]),
+                "MangaAddedSuccessfully" => Created(manga, message: stringLocalizer[SharedTranslationKeys.MangaAddedSuccessfully]),
                 "AnErrorOccurredWhileAddingTheManga" => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileAddingTheManga]),
                 _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileAddingTheManga])
             };

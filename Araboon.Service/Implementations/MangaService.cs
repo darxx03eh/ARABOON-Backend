@@ -2,8 +2,10 @@
 using Araboon.Data.Entities;
 using Araboon.Data.Entities.Identity;
 using Araboon.Data.Enums;
+using Araboon.Data.Response.Categories.Queries;
 using Araboon.Data.Response.Mangas.Queries;
 using Araboon.Data.Wrappers;
+using Araboon.Infrastructure.Commons;
 using Araboon.Infrastructure.Data;
 using Araboon.Infrastructure.IRepositories;
 using Araboon.Service.Interfaces;
@@ -130,7 +132,7 @@ namespace Araboon.Service.Implementations
             };
         }
 
-        public async Task<(string, int?, string?)> AddNewMangaAsync(MangaInfoDTO mangaInfo)
+        public async Task<(string, GetMangaForDashboardResponse?)> AddNewMangaAsync(MangaInfoDTO mangaInfo)
         {
             await using var transaction = await context.Database.BeginTransactionAsync();
 
@@ -141,7 +143,7 @@ namespace Araboon.Service.Implementations
                 {
                     var category = await unitOfWork.CategoryRepository.GetByIdAsync(categoryId);
                     if (category is null)
-                        return ("CategoryNotFound", null, null);
+                        return ("CategoryNotFound", null);
                     categories.Add(category);
                 }
 
@@ -162,7 +164,7 @@ namespace Araboon.Service.Implementations
 
                 var mangaResult = await unitOfWork.MangaRepository.AddAsync(manga);
                 if (mangaResult is null)
-                    return ("ThereWasAProblemAddingTheManga", null, null);
+                    return ("ThereWasAProblemAddingTheManga", null);
 
 
                 mangaResult.CategoryMangas = categories
@@ -173,19 +175,44 @@ namespace Araboon.Service.Implementations
                 {
                     var url = await UploadMangaImageAsync(mangaInfo.Image, mangaResult.MangaID);
                     if (url is null)
-                        return ("AnErrorOccurredWhileAddingTheImageForManga", null, null);
+                        return ("AnErrorOccurredWhileAddingTheImageForManga", null);
                     mangaResult.MainImage = url;
                 }
 
                 await unitOfWork.MangaRepository.UpdateAsync(mangaResult);
                 await transaction.CommitAsync();
-                return ("MangaAddedSuccessfully", mangaResult.MangaID, mangaResult.MainImage);
+                return ("MangaAddedSuccessfully", new GetMangaForDashboardResponse()
+                {
+                    MangaID = mangaResult.MangaID,
+                    MangaName = TransableEntity.GetTransable(mangaResult.MangaNameEn, mangaResult.MangaNameAr),
+                    MangaImageUrl = mangaResult.MainImage,
+                    AuthorName = TransableEntity.GetTransable(mangaResult.AuthorEn, mangaResult.AuthorAr),
+                    IsFavorite = null,
+                    LastChapter = mangaResult.Chapters.OrderByDescending(chapter => chapter.ChapterNo)
+                .Select(chapter => new LastChapter()
+                {
+                    ChapterID = chapter.ChapterID,
+                    ChapterNo = chapter.ChapterNo,
+                    Views = chapter.ReadersCount
+                }).FirstOrDefault(),
+                    Name = new MangaName() { En = mangaResult.MangaNameEn, Ar = mangaResult.MangaNameAr },
+                    Description = new Description() { En = mangaResult.DescriptionEn, Ar = mangaResult.DescriptionAr },
+                    Author = new Author() { En = mangaResult.AuthorEn, Ar = mangaResult.AuthorAr },
+                    Type = new Araboon.Data.Response.Mangas.Queries.Type() { En = mangaResult.TypeEn, Ar = mangaResult.TypeAr },
+                    Status = new Status() { En = mangaResult.StatusEn, Ar = mangaResult.StatusAr },
+                    Categories = mangaResult.CategoryMangas.Select(category => new CategoriesResponse()
+                    {
+                        Id = category.CategoryID,
+                        En = category.Category.CategoryNameEn,
+                        Ar = category.Category.CategoryNameAr
+                    }).ToList()
+                });
             }
             catch
             {
                 if (transaction.GetDbTransaction().Connection is not null)
                     await transaction.RollbackAsync();
-                return ("AnErrorOccurredWhileAddingTheManga", null, null);
+                return ("AnErrorOccurredWhileAddingTheManga", null);
             }
         }
         public async Task<string> UpdateExistMangaAsync(UpdateMangaInfoDTO mangaInfo, int mangaId)

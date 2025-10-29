@@ -19,7 +19,7 @@ namespace Araboon.Service.Interfaces
         public Task<(string, PaginatedResult<GetMangaForDashboardResponse>?)> GetMangaForDashboardAsync(string? search, int pageNumber, int pageSize);
         public Task<(string, PaginatedResult<GetMangaCommentsResponse>?)> GetMangaCommentsAsync(int id, int pageNumber, int pageSize);
         public Task<(string, int?)> GetCommentsCountAsync(int id);
-        public Task<(string, int?, string?)> AddNewMangaAsync(MangaInfoDTO mangaInfo);
+        public Task<(string, GetMangaForDashboardResponse?)> AddNewMangaAsync(MangaInfoDTO mangaInfo);
         public Task<string> UpdateExistMangaAsync(UpdateMangaInfoDTO mangaInfo, int mangaId);
         public Task<string> DeleteMangaAsync(int id);
         public Task<string> DeleteMangaImageAsync(int id);
