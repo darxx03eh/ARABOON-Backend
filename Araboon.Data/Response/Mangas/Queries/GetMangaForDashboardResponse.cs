@@ -10,6 +10,9 @@ namespace Araboon.Data.Response.Mangas.Queries
         public Type Type { get; set; }
         public Status Status { get; set; }
         public IList<CategoriesResponse> Categories { get; set; }
+        public bool IsActive { get; set; }
+        public bool IsArabicAvailable { get; set; }
+        public bool IsEnglishAvailable { get; set; }
     }
     public class MangaName
     {

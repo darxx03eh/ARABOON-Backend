@@ -353,7 +353,10 @@ namespace Araboon.Infrastructure.Repositories
                     Id = category.CategoryID,
                     En = category.Category.CategoryNameEn,
                     Ar = category.Category.CategoryNameAr
-                }).ToList()
+                }).ToList(),
+                IsActive = manga.IsActive,
+                IsArabicAvailable = Convert.ToBoolean(manga.ArabicAvailable),
+                IsEnglishAvailable = Convert.ToBoolean(manga.EnglishAvilable)
             }).ToPaginatedListAsync(pageNumber, pageSize);
             if (mangas.Data.Count().Equals(0))
                 return ("MangaNotFound", null);

@@ -205,7 +205,10 @@ namespace Araboon.Service.Implementations
                         Id = category.CategoryID,
                         En = category.Category.CategoryNameEn,
                         Ar = category.Category.CategoryNameAr
-                    }).ToList()
+                    }).ToList(),
+                    IsActive = manga.IsActive,
+                    IsArabicAvailable = Convert.ToBoolean(manga.ArabicAvailable),
+                    IsEnglishAvailable = Convert.ToBoolean(manga.EnglishAvilable)
                 });
             }
             catch
