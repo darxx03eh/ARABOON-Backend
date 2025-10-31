@@ -1,5 +1,10 @@
 # 🃜🃚🃖🃁🂭🂺 ARABOON ﹏𓊝﹏
 
+[![.NET](https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white)](https://dotnet.microsoft.com/)
+[![ASP.NET Core](https://img.shields.io/badge/ASP.NET%20Core-5C2D91?style=for-the-badge&logo=dotnet&logoColor=white)](https://learn.microsoft.com/en-us/aspnet/core/)
+[![Entity Framework](https://img.shields.io/badge/Entity%20Framework-68217A?style=for-the-badge&logo=efcore&logoColor=white)](https://learn.microsoft.com/en-us/ef/)
+[![ARABOON](https://img.shields.io/badge/ARABOON-FF6600?style=for-the-badge&logoColor=white)](#)
+
 ### Table of Contents
 
 - [Overview](#-overview)
