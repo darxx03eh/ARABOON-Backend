@@ -139,12 +139,15 @@ namespace Araboon.Service.Implementations
             try
             {
                 var categories = new List<Category>();
-                foreach (var categoryId in mangaInfo.CategoriesIds)
+                if(mangaInfo.CategoriesIds is not null)
                 {
-                    var category = await unitOfWork.CategoryRepository.GetByIdAsync(categoryId);
-                    if (category is null)
-                        return ("CategoryNotFound", null);
-                    categories.Add(category);
+                    foreach (var categoryId in mangaInfo.CategoriesIds)
+                    {
+                        var category = await unitOfWork.CategoryRepository.GetByIdAsync(categoryId);
+                        if (category is null)
+                            return ("CategoryNotFound", null);
+                        categories.Add(category);
+                    }
                 }
 
                 var manga = new Manga
