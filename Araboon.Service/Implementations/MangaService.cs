@@ -221,18 +221,18 @@ namespace Araboon.Service.Implementations
                 return ("AnErrorOccurredWhileAddingTheManga", null);
             }
         }
-        public async Task<string> UpdateExistMangaAsync(UpdateMangaInfoDTO mangaInfo, int mangaId)
+        public async Task<(string, GetMangaForDashboardResponse?)> UpdateExistMangaAsync(UpdateMangaInfoDTO mangaInfo, int mangaId)
         {
             var manga = await unitOfWork.MangaRepository.GetByIdAsync(mangaId);
             if (manga is null)
-                return "MangaNotFound";
+                return ("MangaNotFound", null);
 
             var categories = new List<Category>();
             foreach (var categoryId in mangaInfo.CategoriesIds)
             {
                 var category = await unitOfWork.CategoryRepository.GetByIdAsync(categoryId);
                 if (category is null)
-                    return "CategoryNotFound";
+                    return ("CategoryNotFound", null);
                 categories.Add(category);
             }
 
@@ -257,13 +257,41 @@ namespace Araboon.Service.Implementations
 
                 await unitOfWork.MangaRepository.UpdateAsync(manga);
                 await transaction.CommitAsync();
-                return "MangaUpdatingSuccessfully";
+                return ("MangaUpdatingSuccessfully", new GetMangaForDashboardResponse()
+                {
+                    MangaID = manga.MangaID,
+                    MangaName = TransableEntity.GetTransable(manga.MangaNameEn, manga.MangaNameAr),
+                    MangaImageUrl = manga.MainImage,
+                    AuthorName = TransableEntity.GetTransable(manga.AuthorEn, manga.AuthorAr),
+                    IsFavorite = null,
+                    LastChapter = manga.Chapters.OrderByDescending(chapter => chapter.ChapterNo)
+                .Select(chapter => new LastChapter()
+                {
+                    ChapterID = chapter.ChapterID,
+                    ChapterNo = chapter.ChapterNo,
+                    Views = chapter.ReadersCount
+                }).FirstOrDefault(),
+                    Name = new MangaName() { En = manga.MangaNameEn, Ar = manga.MangaNameAr },
+                    Description = new Description() { En = manga.DescriptionEn, Ar = manga.DescriptionAr },
+                    Author = new Author() { En = manga.AuthorEn, Ar = manga.AuthorAr },
+                    Type = new Araboon.Data.Response.Mangas.Queries.Type() { En = manga.TypeEn, Ar = manga.TypeAr },
+                    Status = new Status() { En = manga.StatusEn, Ar = manga.StatusAr },
+                    Categories = manga.CategoryMangas.Select(category => new CategoriesResponse()
+                    {
+                        Id = category.CategoryID,
+                        En = category.Category.CategoryNameEn,
+                        Ar = category.Category.CategoryNameAr
+                    }).ToList(),
+                    IsActive = manga.IsActive,
+                    IsArabicAvailable = Convert.ToBoolean(manga.ArabicAvailable),
+                    IsEnglishAvailable = Convert.ToBoolean(manga.EnglishAvilable)
+                });
             }
             catch (Exception exp)
             {
                 if (transaction.GetDbTransaction().Connection is not null)
                     await transaction.RollbackAsync();
-                return "AnErrorOccurredWhileUpdatingTheManga";
+                return ("AnErrorOccurredWhileUpdatingTheManga", null);
             }
         }
         private async Task<string?> UploadMangaImageAsync(IFormFile image, int mangaId)
