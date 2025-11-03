@@ -2,6 +2,7 @@
 {
     public interface IUnitOfWork
     {
+        public IArabicChapterImagesRepository ArabicChapterImagesRepository { get; set; }
         public ICategoryRepository CategoryRepository { get; set; }
         public IChapterRepository ChapterRepository { get; set; }
         public IChapterViewRepository ChapterViewRepository { get; set; }
@@ -19,5 +20,6 @@
         public IReplyLikesRepository ReplyLikesRepository { get; set; }
         public IRatingsRepository RatingsRepository { get; set; }
         public ICategoryMangaRepository CategoryMangaRepository { get; set; }
+        public IEnglishChapterImagesRepository EnglishChapterImagesRepository { get; set; }
     }
 }

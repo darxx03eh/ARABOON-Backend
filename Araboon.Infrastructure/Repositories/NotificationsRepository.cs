@@ -20,13 +20,27 @@ namespace Araboon.Infrastructure.Repositories
         private readonly IHttpContextAccessor httpContextAccessor;
         private readonly UserManager<AraboonUser> userManager;
 
-        public NotificationsRepository(AraboonDbContext context, IHttpContextAccessor httpContextAccessor, UserManager<AraboonUser> userManager) 
+        public NotificationsRepository(AraboonDbContext context, IHttpContextAccessor httpContextAccessor, UserManager<AraboonUser> userManager)
             : base(context, httpContextAccessor, userManager)
         {
             this.context = context;
             this.httpContextAccessor = httpContextAccessor;
             this.userManager = userManager;
         }
+
+        public async Task<IList<(string Name, string Email)>> GetEmailsToNewChapterNotify(int mangaId)
+        {
+            var data = await GetTableNoTracking()
+                       .Where(notify => notify.MangaID.Equals(mangaId))
+                       .Select(notify => new EmailDTO()
+                       {
+                           Name = $"{notify.User.FirstName} {notify.User.LastName}",
+                           Email = notify.User.Email
+                       }).ToListAsync();
+
+            return data.Select(x => (x.Name, x.Email)).ToList();
+        }
+
         public async Task<(string, PaginatedResult<GetPaginatedNotificationsMangaResponse>?)> GetPaginatedNotificationsMangaAsync(int pageNumber, int pageSize, bool isAdmin)
         {
             string? userId = ExtractUserIdFromToken();
@@ -66,5 +80,10 @@ namespace Araboon.Infrastructure.Repositories
                 );
             return manga;
         }
+    }
+    public class EmailDTO
+    {
+        public string Name { get; set; }
+        public string Email { get; set; }
     }
 }

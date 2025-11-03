@@ -337,5 +337,21 @@
         public const string StatusInArabicMustBeEitherOngoingOrCompletedOrOneShot = "StatusInArabicMustBeEitherOngoingOrCompletedOrOneShot";
         public const string TypeInEnglishMustBeEitherMangaOrManhwaOrManhua = "TypeInEnglishMustBeEitherMangaOrManhwaOrManhua";
         public const string TypeInArabicMustBeEitherMangaOrManhwaOrManhua = "TypeInArabicMustBeEitherMangaOrManhwaOrManhua";
+        public const string MangaIdGreaterThanZero = "MangaIdGreaterThanZero";
+        public const string ChapterNoIsRequired = "ChapterNoIsRequired";
+        public const string ChapterNoNotNull = "ChapterNoNotNull";
+        public const string ChapterNoGreaterThanZero = "ChapterNoGreaterThanZero";
+        public const string LanguageIsRequired = "LanguageIsRequired";
+        public const string LanguageNotNull = "LanguageNotNull";
+        public const string LanguageMustNotExceed50Characters = "LanguageMustNotExceed50Characters";
+        public const string LanguageMustBeEitherArabicOrEnglish = "LanguageMustBeEitherArabicOrEnglish";
+        public const string ChapterImagesAreRequired = "ChapterImagesAreRequired";
+        public const string EnglishChapterTitleMustNotExceed100Characters = "EnglishChapterTitleMustNotExceed100Characters";
+        public const string ArabicChapterTitleMustNotExceed100Characters = "ArabicChapterTitleMustNotExceed100Characters";
+        public const string ChapterImageSizeMustNotExceed5MB = "ChapterImageSizeMustNotExceed5MB";
+        public const string ChapterNoForThisLanguageAlreadyExist = "ChapterNoForThisLanguageAlreadyExist";
+        public const string AnErrorOccurredWhileAddingTheImageForChapter = "AnErrorOccurredWhileAddingTheImageForChapter";
+        public const string AnErrorOccurredWhileAddingTheChapter = "AnErrorOccurredWhileAddingTheChapter";
+        public const string ChapterAddedSuccessfully = "ChapterAddedSuccessfully";
     }
 }

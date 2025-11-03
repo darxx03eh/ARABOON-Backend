@@ -1137,4 +1137,52 @@
   <data name="TypeInArabicMustBeEitherMangaOrManhwaOrManhua" xml:space="preserve">
     <value>يجب أن يكون النوع بالعربية إما "مانجا" أو "مانهوا" أو "مانهوا صينية"</value>
   </data>
+  <data name="MangaIdGreaterThanZero" xml:space="preserve">
+    <value>يجب أن يكون رقم تعريف المانجا أكبر من صفر</value>
+  </data>
+  <data name="ChapterNoIsRequired" xml:space="preserve">
+    <value>رقم الفصل مطلوب</value>
+  </data>
+  <data name="ChapterNoNotNull" xml:space="preserve">
+    <value>لا يمكن أن يكون رقم الفصل فارغًا</value>
+  </data>
+  <data name="ChapterNoGreaterThanZero" xml:space="preserve">
+    <value>يجب أن يكون رقم الفصل أكبر من صفر</value>
+  </data>
+  <data name="LanguageIsRequired" xml:space="preserve">
+    <value>اللغة مطلوبة</value>
+  </data>
+  <data name="LanguageNotNull" xml:space="preserve">
+    <value>لا يمكن أن تكون اللغة فارغة</value>
+  </data>
+  <data name="LanguageMustNotExceed50Characters" xml:space="preserve">
+    <value>يجب ألا تتجاوز اللغة 50 حرفًا</value>
+  </data>
+  <data name="LanguageMustBeEitherArabicOrEnglish" xml:space="preserve">
+    <value>يجب أن تكون اللغة إما "العربية" أو "الإنجليزية</value>
+  </data>
+  <data name="EnglishChapterTitleMustNotExceed100Characters" xml:space="preserve">
+    <value>يجب ألا يتجاوز عنوان الفصل بالإنجليزية 100 حرف</value>
+  </data>
+  <data name="ArabicChapterTitleMustNotExceed100Characters" xml:space="preserve">
+    <value>يجب ألا يتجاوز عنوان الفصل بالعربية 100 حرف</value>
+  </data>
+  <data name="ChapterImagesAreRequired" xml:space="preserve">
+    <value>صور الفصل مطلوبة</value>
+  </data>
+  <data name="ChapterImageSizeMustNotExceed5MB" xml:space="preserve">
+    <value>يجب ألا يتجاوز حجم صورة الفصل 5 ميغابايت</value>
+  </data>
+  <data name="ChapterNoForThisLanguageAlreadyExist" xml:space="preserve">
+    <value>رقم الفصل لهذه اللغة موجود بالفعل</value>
+  </data>
+  <data name="AnErrorOccurredWhileAddingTheImageForChapter" xml:space="preserve">
+    <value>حدث خطأ أثناء إضافة الصورة الخاصة بالفصل</value>
+  </data>
+  <data name="AnErrorOccurredWhileAddingTheChapter" xml:space="preserve">
+    <value>حدث خطأ أثناء إضافة الفصل</value>
+  </data>
+  <data name="ChapterAddedSuccessfully" xml:space="preserve">
+    <value>تم إضافة الفصل بنجاح</value>
+  </data>
 </root>

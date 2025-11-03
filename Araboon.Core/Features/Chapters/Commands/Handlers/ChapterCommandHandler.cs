@@ -1,22 +1,32 @@
 ﻿using Araboon.Core.Bases;
 using Araboon.Core.Features.Chapters.Commands.Models;
 using Araboon.Core.Translations;
+using Araboon.Data.Entities;
+using Araboon.Data.Response.Chapters.Queries;
 using Araboon.Service.Interfaces;
+using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Localization;
 
 namespace Araboon.Core.Features.Chapters.Commands.Handlers
 {
     public class ChapterCommandHandler : ApiResponseHandler
         , IRequestHandler<ChapterReadCommand, ApiResponse>
+        , IRequestHandler<AddNewChapterCommand, ApiResponse>
     {
         private readonly IChapterService chapterService;
         private readonly IStringLocalizer<SharedTranslation> stringLocalizer;
+        private readonly IHttpContextAccessor httpContextAccessor;
+        private readonly IMapper mapper;
 
-        public ChapterCommandHandler(IChapterService chapterService, IStringLocalizer<SharedTranslation> stringLocalizer)
+        public ChapterCommandHandler(IChapterService chapterService, IStringLocalizer<SharedTranslation> stringLocalizer, 
+            IHttpContextAccessor httpContextAccessor, IMapper mapper)
         {
             this.chapterService = chapterService;
             this.stringLocalizer = stringLocalizer;
+            this.httpContextAccessor = httpContextAccessor;
+            this.mapper = mapper;
         }
 
         public async Task<ApiResponse> Handle(ChapterReadCommand request, CancellationToken cancellationToken)
@@ -32,6 +42,26 @@ namespace Araboon.Core.Features.Chapters.Commands.Handlers
                 "AnErrorOccurredWhileIncreasingTheViewByOne" =>
                 InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileIncreasingTheViewByOne]),
                 _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileIncreasingTheViewByOne])
+            };
+        }
+
+        public async Task<ApiResponse> Handle(AddNewChapterCommand request, CancellationToken cancellationToken)
+        {
+            var (result, chapter) = await chapterService.AddNewChapterAsync(request);
+            var httpContext = httpContextAccessor.HttpContext;
+            var langHeader = httpContext?.Request.Headers["Accept-Language"].ToString();
+            var lang = "en";
+            if (!string.IsNullOrEmpty(langHeader))
+                lang = langHeader.Split(',')[0].Split('-')[0];
+            var chaptersResponse = mapper.Map<ChaptersResponse>(chapter, opts => opts.Items["lang"] = lang);
+            return result switch
+            {
+                "MangaNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.MangaNotFound]),
+                "AnErrorOccurredWhileAddingTheImageForChapter" =>
+                InternalServerError(SharedTranslationKeys.AnErrorOccurredWhileAddingTheImageForChapter),
+                "AnErrorOccurredWhileAddingTheChapter" => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileAddingTheChapter]),
+                "ChapterAddedSuccessfully" => Success(chaptersResponse , message: stringLocalizer[SharedTranslationKeys.ChapterAddedSuccessfully]),
+                _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileAddingTheChapter])
             };
         }
     }

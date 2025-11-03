@@ -43,10 +43,12 @@ namespace Araboon.Infrastructure
             var cloudinarySettings = new CloudinarySettings();
             var jwtSettings = new JwtSettings();
             var encryptionSettings = new EncryptionSettings();
+            var hangfireSettings = new HangfireSettings();
             configuration.GetSection(nameof(emailSettings)).Bind(emailSettings);
             configuration.GetSection(nameof(cloudinarySettings)).Bind(cloudinarySettings);
             configuration.GetSection(nameof(jwtSettings)).Bind(jwtSettings);
             configuration.GetSection(nameof(encryptionSettings)).Bind(encryptionSettings);
+            configuration.GetSection(nameof(hangfireSettings)).Bind(hangfireSettings);
             services.AddSingleton(emailSettings);
             services.AddSingleton(cloudinarySettings);
             services.AddSingleton(jwtSettings);

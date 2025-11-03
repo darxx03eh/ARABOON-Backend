@@ -46,6 +46,14 @@ namespace Araboon.Infrastructure.Repositories
                 return ("ThereAreNoChaptersYet", null);
             return ("TheChaptersWereFound", chapters);
         }
+
+        public async Task<bool> isChapterNoExistAsync(int mangaId, int chapterNo, string lang)
+            => await GetTableNoTracking().Where(
+                chapter => chapter.MangaID.Equals(mangaId)
+                && chapter.ChapterNo.Equals(chapterNo)
+                && chapter.Language.ToLower().Equals(lang.ToLower())
+            ).FirstOrDefaultAsync() is not null;
+
         private async Task<bool> IsLanguageExist(int mangaId, string language)
         {
             if (language.ToLower().Equals("ar"))

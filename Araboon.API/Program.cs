@@ -1,4 +1,3 @@
-
 using Araboon.Core;
 using Araboon.Core.Bases;
 using Araboon.Core.Middleware;
@@ -6,12 +5,12 @@ using Araboon.Core.Middlewares;
 using Araboon.Core.Translations;
 using Araboon.Data.Entities.Identity;
 using Araboon.Data.Helpers;
-using Araboon.Data.Helpers.Resolvers.Mangas;
 using Araboon.Infrastructure;
 using Araboon.Infrastructure.Data;
-using Araboon.Infrastructure.Resolvers.MangasResolver;
 using Araboon.Infrastructure.Seeder;
 using Araboon.Service;
+using Hangfire;
+using Hangfire.Dashboard.BasicAuthorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
@@ -31,6 +30,8 @@ namespace Araboon.API
             #region Initialize Encryption Key
             var encryptionSettings = new EncryptionSettings();
             builder.Configuration.GetSection(nameof(EncryptionSettings)).Bind(encryptionSettings);
+            var hangfireSettings = new HangfireSettings();
+            builder.Configuration.GetSection(nameof(HangfireSettings)).Bind(hangfireSettings);
             EncryptionHelper.Initialize(encryptionSettings.Key);
             #endregion
             #region SQL Srver Connection
@@ -39,6 +40,13 @@ namespace Araboon.API
                 options.UseSqlServer(builder.Configuration.GetConnectionString("AraboonConnection"))
                 .UseLazyLoadingProxies();
             });
+            #region Hangfire
+            builder.Services.AddHangfire(options =>
+            {
+                options.UseSqlServerStorage(builder.Configuration.GetConnectionString("AraboonConnection"));
+            });
+            builder.Services.AddHangfireServer();
+            #endregion
             #endregion
             #region Dependancy injection
             builder.Services.AddModuleInfrastructureServices(builder.Configuration)
@@ -73,7 +81,7 @@ namespace Araboon.API
                                       policy.WithOrigins("https://araboon.vercel.app")
                                             .AllowAnyMethod()
                                             .AllowAnyHeader()
-                                            .AllowCredentials()  
+                                            .AllowCredentials()
                                             .WithExposedHeaders("Content-Type", "Authorization", "Content-Length");
                                   });
             });
@@ -170,18 +178,38 @@ namespace Araboon.API
             });
             builder.Services.AddResponseCaching();
             var app = builder.Build();
-
+            app.UseHangfireDashboard("/hangfire", new DashboardOptions
+            {
+                Authorization = new[]
+                {
+                    new BasicAuthAuthorizationFilter(new BasicAuthAuthorizationFilterOptions
+                    {
+                        SslRedirect = true, // нои HTTPS
+                        RequireSsl = true,
+                        LoginCaseSensitive = true,
+                        Users = new[]
+                        {
+                            new BasicAuthAuthorizationUser
+                            {
+                                Login = hangfireSettings.UserName,
+                                PasswordClear = hangfireSettings.Password
+                            }
+                        }
+                    })
+                }
+            });
+            app.Map("/", () => "Hangfire running");
             using (var scope = app.Services.CreateScope())
             {
                 var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<AraboonRole>>();
                 await RoleSeeder.SeedAsync(roleManager);
             }
-                // Configure the HTTP request pipeline.
-                if (app.Environment.IsDevelopment())
-                {
-                    app.UseSwagger();
-                    app.UseSwaggerUI();
-                }
+            // Configure the HTTP request pipeline.
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
             app.UseResponseCaching();
             app.UseCors(CORS);
             app.UseMiddleware<ErrorHandlerMiddleware>();

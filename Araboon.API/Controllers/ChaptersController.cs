@@ -2,7 +2,9 @@
 using Araboon.Core.Features.ChapterImages.Queries.Models;
 using Araboon.Core.Features.Chapters.Commands.Models;
 using Araboon.Core.Features.Chapters.Queries.Models;
+using Araboon.Data.Helpers;
 using Araboon.Data.Routing;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Araboon.API.Controllers
@@ -24,6 +26,13 @@ namespace Araboon.API.Controllers
         }
         [HttpPost(Router.ChaptersRouting.ChapterRead)]
         public async Task<IActionResult> ChapterRead([FromBody] ChapterReadCommand request)
+        {
+            var result = await mediator.Send(request);
+            return Result(result);
+        }
+        [Authorize(Roles = Roles.Admin)]
+        [HttpPost(Router.ChaptersRouting.AddNewChapter)]
+        public async Task<IActionResult> AddNewChapter([FromForm] AddNewChapterCommand request)
         {
             var result = await mediator.Send(request);
             return Result(result);

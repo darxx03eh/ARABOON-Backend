@@ -1138,4 +1138,52 @@
   <data name="TypeInArabicMustBeEitherMangaOrManhwaOrManhua" xml:space="preserve">
     <value>Type in Arabic must be either “مانجا”, “مانهوا”, or “مانهوا صينية”</value>
   </data>
+  <data name="MangaIdGreaterThanZero" xml:space="preserve">
+    <value>Manga ID must be greater than zero</value>
+  </data>
+  <data name="ChapterNoIsRequired" xml:space="preserve">
+    <value>Chapter number is required</value>
+  </data>
+  <data name="ChapterNoNotNull" xml:space="preserve">
+    <value>Chapter number cannot be null</value>
+  </data>
+  <data name="ChapterNoGreaterThanZero" xml:space="preserve">
+    <value>Chapter number must be greater than zero</value>
+  </data>
+  <data name="LanguageIsRequired" xml:space="preserve">
+    <value>Language is required</value>
+  </data>
+  <data name="LanguageNotNull" xml:space="preserve">
+    <value>Language cannot be null</value>
+  </data>
+  <data name="LanguageMustNotExceed50Characters" xml:space="preserve">
+    <value>Language must not exceed 50 characters</value>
+  </data>
+  <data name="LanguageMustBeEitherArabicOrEnglish" xml:space="preserve">
+    <value>Language must be either “Arabic” or “English”</value>
+  </data>
+  <data name="EnglishChapterTitleMustNotExceed100Characters" xml:space="preserve">
+    <value>Chapter title in English must not exceed 100 characters</value>
+  </data>
+  <data name="ArabicChapterTitleMustNotExceed100Characters" xml:space="preserve">
+    <value>Chapter title in Arabic must not exceed 100 characters</value>
+  </data>
+  <data name="ChapterImagesAreRequired" xml:space="preserve">
+    <value>Chapter images are required</value>
+  </data>
+  <data name="ChapterImageSizeMustNotExceed5MB" xml:space="preserve">
+    <value>Chapter image size must not exceed 5 MB</value>
+  </data>
+  <data name="ChapterNoForThisLanguageAlreadyExist" xml:space="preserve">
+    <value>Chapter number for this language already exists</value>
+  </data>
+  <data name="AnErrorOccurredWhileAddingTheImageForChapter" xml:space="preserve">
+    <value>An error occurred while adding the image for the chapter</value>
+  </data>
+  <data name="AnErrorOccurredWhileAddingTheChapter" xml:space="preserve">
+    <value>An error occurred while adding the chapter</value>
+  </data>
+  <data name="ChapterAddedSuccessfully" xml:space="preserve">
+    <value>Chapter added successfully</value>
+  </data>
 </root>

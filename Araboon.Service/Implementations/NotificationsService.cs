@@ -2,7 +2,6 @@
 using Araboon.Data.Response.Notifications.Queries;
 using Araboon.Data.Wrappers;
 using Araboon.Infrastructure.IRepositories;
-using Araboon.Infrastructure.Repositories;
 using Araboon.Service.Interfaces;
 
 namespace Araboon.Service.Implementations
@@ -11,11 +10,13 @@ namespace Araboon.Service.Implementations
     {
         private readonly INotificationsRepository notificationsRepository;
         private readonly IMangaRepository mangaRepository;
+        private readonly IEmailService emailService;
 
-        public NotificationsService(INotificationsRepository notificationsRepository, IMangaRepository mangaRepository)
+        public NotificationsService(INotificationsRepository notificationsRepository, IMangaRepository mangaRepository, IEmailService emailService)
         {
             this.notificationsRepository = notificationsRepository;
             this.mangaRepository = mangaRepository;
+            this.emailService = emailService;
         }
         public async Task<string> AddToNotificationsAsync(int mangaId)
         {
@@ -79,6 +80,29 @@ namespace Araboon.Service.Implementations
             catch (Exception exp)
             {
                 return "ThereWasAProblemDeletingFromNotifications";
+            }
+        }
+
+        public async Task SendNotificationsAsync(
+            string mangaName,
+            int chapterNo,
+            string chapterTitle,
+            string lang,
+            string link,
+            IList<(string Name, string Email)> data
+        )
+        {
+            foreach(var d in data)
+            {
+                await emailService.SendNotificationsEmailsAsync(
+                    d.Name,
+                    mangaName,
+                    chapterNo,
+                    chapterTitle,
+                    lang,
+                    link,
+                    d.Email
+                );
             }
         }
     }

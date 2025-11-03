@@ -8,5 +8,6 @@ namespace Araboon.Infrastructure.IRepositories
     {
         public Task<(string, PaginatedResult<GetPaginatedNotificationsMangaResponse>?)> GetPaginatedNotificationsMangaAsync(int pageNumber, int pageSize, bool isAdmin);
         public Task<bool> IsMangaExistForUser(int mangaId, int userId);
+        public Task<IList<(string Name, string Email)>> GetEmailsToNewChapterNotify(int mangaId);
     }
 }
