@@ -112,16 +112,16 @@ To run this project locally:
      "Key": "YOUR-ENCRYPTION-KEY"
    },
    "HangfireSettings": {
-	 "UserName": "HANGFIRE-USERNAME",
-	 "Password": "HANGFIRE-PASSWORD"
+    "UserName": "HANGFIRE-USERNAME",
+    "Password": "HANGFIRE-PASSWORD"
    }
-  ```
+   ```
 
 3. **Apply Migrations**:
 
-   ```bash
-   dotnet ef database update --project ARABOON.Infrastructure
-   ```
+```bash
+dotnet ef database update --project ARABOON.Infrastructure
+```
 
 4. **Run the application** (WebAPI only):
 
@@ -247,11 +247,11 @@ GET | /Api/V1/Authentication/EmailConfirmation?email={value}&token={value} | con
 
 **Chapters**
 
-| HTTP Method | Endpoint                                                                                 | Description                                                 									|
-| ----------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------|
-| GET         | /Api/V1/Chapters/ViewChaptersForSpecificMangaByLanguage?MangaID={value}&Language={value} | view chapters as arabic or english                          									|
-| GET         | /Api/V1/Chapters/images?MangaId={value}&ChapterNo={value}&Language={value}               | get images for specific chapter                             									|
-| POST        | /Api/V1/Chapters/read                                                                    | increaming views by 1 when you finished reading the chapter								    |
+| HTTP Method | Endpoint                                                                                 | Description                                                                                  |
+| ----------- | ---------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| GET         | /Api/V1/Chapters/ViewChaptersForSpecificMangaByLanguage?MangaID={value}&Language={value} | view chapters as arabic or english                                                           |
+| GET         | /Api/V1/Chapters/images?MangaId={value}&ChapterNo={value}&Language={value}               | get images for specific chapter                                                              |
+| POST        | /Api/V1/Chapters/read                                                                    | increaming views by 1 when you finished reading the chapter                                  |
 | POST        | /Api/V1/Chapters                                                                         | add new chapter to specific manga and upload images and send notifications in the background |
 
 **Categories**
