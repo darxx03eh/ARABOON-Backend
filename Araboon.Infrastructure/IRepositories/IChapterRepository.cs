@@ -1,5 +1,4 @@
 ﻿using Araboon.Data.Entities;
-using Araboon.Data.Response.Chapters.Queries;
 
 namespace Araboon.Infrastructure.IRepositories
 {

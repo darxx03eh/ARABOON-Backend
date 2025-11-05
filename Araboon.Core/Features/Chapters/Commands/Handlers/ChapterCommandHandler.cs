@@ -14,6 +14,7 @@ namespace Araboon.Core.Features.Chapters.Commands.Handlers
     public class ChapterCommandHandler : ApiResponseHandler
         , IRequestHandler<ChapterReadCommand, ApiResponse>
         , IRequestHandler<AddNewChapterCommand, ApiResponse>
+        , IRequestHandler<DeleteExistingChapterCommand, ApiResponse>
     {
         private readonly IChapterService chapterService;
         private readonly IStringLocalizer<SharedTranslation> stringLocalizer;
@@ -61,7 +62,27 @@ namespace Araboon.Core.Features.Chapters.Commands.Handlers
                 InternalServerError(SharedTranslationKeys.AnErrorOccurredWhileAddingTheImageForChapter),
                 "AnErrorOccurredWhileAddingTheChapter" => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileAddingTheChapter]),
                 "ChapterAddedSuccessfully" => Success(chaptersResponse , message: stringLocalizer[SharedTranslationKeys.ChapterAddedSuccessfully]),
+                "ChapterAddedSuccessfullyAndArabicBecameInactiveDueToIncompleteChapters" => 
+                Success(chaptersResponse, message: stringLocalizer[SharedTranslationKeys.ChapterAddedSuccessfullyAndArabicBecameInactiveDueToIncompleteChapters]),
+                "ChapterAddedSuccessfullyAndEnglishBecameInactiveDueToIncompleteChapters" => 
+                Success(chaptersResponse, message: stringLocalizer[SharedTranslationKeys.ChapterAddedSuccessfullyAndEnglishBecameInactiveDueToIncompleteChapters]),
                 _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileAddingTheChapter])
+            };
+        }
+
+        public async Task<ApiResponse> Handle(DeleteExistingChapterCommand request, CancellationToken cancellationToken)
+        {
+            var result = await chapterService.DeleteExistingChapterAsync(request.Id);
+            return result switch
+            {
+                "ChapterNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.ChapterNotFound]),
+                "ChapterDeletedSuccessfully" => Success(null, message: stringLocalizer[SharedTranslationKeys.ChapterDeletedSuccessfully]),
+                "ChapterDeletedSuccessfullyAndArabicBecameInactiveDueToIncompleteChapters" => 
+                Success(null, message: stringLocalizer[SharedTranslationKeys.ChapterDeletedSuccessfullyAndArabicBecameInactiveDueToIncompleteChapters]),
+                "ChapterDeletedSuccessfullyAndEnglishBecameInactiveDueToIncompleteChapters" => 
+                Success(null, message: stringLocalizer[SharedTranslationKeys.ChapterDeletedSuccessfullyAndEnglishBecameInactiveDueToIncompleteChapters]),
+                "AnErrorOccurredWhileDeletingTheChapter" => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileDeletingTheChapter]),
+                _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileDeletingTheChapter])
             };
         }
     }

@@ -37,5 +37,12 @@ namespace Araboon.API.Controllers
             var result = await mediator.Send(request);
             return Result(result);
         }
+        [Authorize(Roles = Roles.Admin)]
+        [HttpDelete(Router.ChaptersRouting.DeleteExistingChapter)]
+        public async Task<IActionResult> DeleteExistingChapter(int id)
+        {
+            var result = await mediator.Send(new DeleteExistingChapterCommand(id));
+            return Result(result);
+        }
     }
 }

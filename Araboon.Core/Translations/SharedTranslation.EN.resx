@@ -1127,7 +1127,7 @@
     <value>An error occurred during the process of making Arabic available or unavailable</value>
   </data>
   <data name="StatusInEnglishMustBeEitherOngoingOrCompletedOrOneShot" xml:space="preserve">
-    <value>Status in English must be either “Ongoing”, “Completed”, or “One-shot”</value>
+    <value>Status in English must be either “Ongoing”, “Completed”, or “One shot”</value>
   </data>
   <data name="StatusInArabicMustBeEitherOngoingOrCompletedOrOneShot" xml:space="preserve">
     <value>Status in Arabic must be either “مستمر”, “مكتمل”, or “ون شوت”</value>
@@ -1185,5 +1185,23 @@
   </data>
   <data name="ChapterAddedSuccessfully" xml:space="preserve">
     <value>Chapter added successfully</value>
+  </data>
+  <data name="ChapterAddedSuccessfullyAndArabicBecameInactiveDueToIncompleteChapters" xml:space="preserve">
+    <value>Chapter added successfully, but Arabic became inactive due to incomplete chapters</value>
+  </data>
+  <data name="ChapterAddedSuccessfullyAndEnglishBecameInactiveDueToIncompleteChapters" xml:space="preserve">
+    <value>Chapter added successfully, but English became inactive due to incomplete chapters</value>
+  </data>
+  <data name="ChapterDeletedSuccessfully" xml:space="preserve">
+    <value>Chapter deleted successfully</value>
+  </data>
+  <data name="ChapterDeletedSuccessfullyAndArabicBecameInactiveDueToIncompleteChapters" xml:space="preserve">
+    <value>Chapter deleted successfully, and Arabic became inactive due to incomplete chapters</value>
+  </data>
+  <data name="ChapterDeletedSuccessfullyAndEnglishBecameInactiveDueToIncompleteChapters" xml:space="preserve">
+    <value>Chapter deleted successfully, and English became inactive due to incomplete chapters</value>
+  </data>
+  <data name="AnErrorOccurredWhileDeletingTheChapter" xml:space="preserve">
+    <value>An error occurred while deleting the chapter</value>
   </data>
 </root>

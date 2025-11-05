@@ -10,5 +10,6 @@ namespace Araboon.Service.Interfaces
         public Task<(string, int?)> ChapterReadAsync(int chapterId);
         public Task<(string, Chapter?)> AddNewChapterAsync(ChapterInfoDTO chapterInfo);
         public Task UploadChapterImagesAsync(int mangaId, int chapterNo, IList<string> images, string lang, int chapterId);
+        public Task<string> DeleteExistingChapterAsync(int id);
     }
 }

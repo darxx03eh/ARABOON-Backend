@@ -90,6 +90,7 @@
             public const string ViewChapterImages = $"{prefix}/images";
             public const string ChapterRead = $"{prefix}/read";
             public const string AddNewChapter = prefix;
+            public const string DeleteExistingChapter = $"{prefix}{singleRoute}";
         }
         public static class CategoryRouting
         {

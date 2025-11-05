@@ -353,5 +353,11 @@
         public const string AnErrorOccurredWhileAddingTheImageForChapter = "AnErrorOccurredWhileAddingTheImageForChapter";
         public const string AnErrorOccurredWhileAddingTheChapter = "AnErrorOccurredWhileAddingTheChapter";
         public const string ChapterAddedSuccessfully = "ChapterAddedSuccessfully";
+        public const string ChapterAddedSuccessfullyAndArabicBecameInactiveDueToIncompleteChapters = "ChapterAddedSuccessfullyAndArabicBecameInactiveDueToIncompleteChapters";
+        public const string ChapterAddedSuccessfullyAndEnglishBecameInactiveDueToIncompleteChapters = "ChapterAddedSuccessfullyAndEnglishBecameInactiveDueToIncompleteChapters";
+        public const string ChapterDeletedSuccessfully = "ChapterDeletedSuccessfully";
+        public const string ChapterDeletedSuccessfullyAndArabicBecameInactiveDueToIncompleteChapters = "ChapterDeletedSuccessfullyAndArabicBecameInactiveDueToIncompleteChapters";
+        public const string ChapterDeletedSuccessfullyAndEnglishBecameInactiveDueToIncompleteChapters = "ChapterDeletedSuccessfullyAndEnglishBecameInactiveDueToIncompleteChapters";
+        public const string AnErrorOccurredWhileDeletingTheChapter = "AnErrorOccurredWhileDeletingTheChapter";
     }
 }

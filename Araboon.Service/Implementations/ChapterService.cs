@@ -5,6 +5,7 @@ using Araboon.Infrastructure.IRepositories;
 using Araboon.Service.Interfaces;
 using Hangfire;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using System.Collections.Concurrent;
 
@@ -32,10 +33,11 @@ namespace Araboon.Service.Implementations
                 return ("MangaNotFound", null);
 
             var imageUrl = "";
-            var transaction = await context.Database.BeginTransactionAsync();
+            await using var transaction = await context.Database.BeginTransactionAsync();
+
             try
             {
-                if(chapterInfo.Image is not null)
+                if (chapterInfo.Image is not null)
                 {
                     imageUrl = await UploadChapterImageAsync(
                         chapterInfo.Image, chapterInfo.MangaId, chapterInfo.ChapterNo, chapterInfo.Language
@@ -53,6 +55,7 @@ namespace Araboon.Service.Implementations
                     Language = chapterInfo.Language,
                     ImageUrl = imageUrl
                 };
+
                 var result = await unitOfWork.ChapterRepository.AddAsync(chapter);
                 if (result is null)
                 {
@@ -61,11 +64,10 @@ namespace Araboon.Service.Implementations
                 }
 
                 var tempPaths = new ConcurrentBag<string>();
-
                 await Task.WhenAll(chapterInfo.ChapterImages.Select(async file =>
                 {
                     var tempPath = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid()}{Path.GetExtension(file.FileName)}");
-                    using var stream = System.IO.File.Create(tempPath);
+                    await using var stream = System.IO.File.Create(tempPath);
                     await file.CopyToAsync(stream);
                     tempPaths.Add(tempPath);
                 }));
@@ -82,19 +84,61 @@ namespace Araboon.Service.Implementations
                     chapterInfo.ChapterNo,
                     chapterInfo.EnglishChapterTitle,
                     chapterInfo.Language,
-                    chapterInfo.Language.ToLower().Equals("ar") ? $"{domain}/manga/{chapterInfo.MangaId}/chapter/{chapterInfo.ChapterNo}?lang=ar" 
-                                                                : $"{domain}/manga/{chapterInfo.MangaId}/chapter/{chapterInfo.ChapterNo}?lang=en",
+                    chapterInfo.Language.Equals("arabic", StringComparison.OrdinalIgnoreCase)
+                        ? $"{domain}/manga/{chapterInfo.MangaId}/chapter/{chapterInfo.ChapterNo}?lang=ar"
+                        : $"{domain}/manga/{chapterInfo.MangaId}/chapter/{chapterInfo.ChapterNo}?lang=en",
                     data
                 ));
+
+                string lang = chapterInfo.Language.ToLower() == "arabic" ? "ar" : "en";
+                var chaptersForLang = await context.Chapters
+                    .Where(c => c.MangaID == chapterInfo.MangaId && c.Language.ToLower().Contains(lang))
+                    .OrderBy(c => c.ChapterNo)
+                    .Select(c => c.ChapterNo)
+                    .ToListAsync();
+
+                bool noGapsAndStartsAtOne = chaptersForLang.Count > 0 &&
+                                            chaptersForLang.First() == 1 &&
+                                            chaptersForLang.Zip(chaptersForLang.Skip(1), (a, b) => b - a).All(diff => diff == 1);
+
+                string inactiveLang = string.Empty;
+
+                if (chapterInfo.Language.Equals("arabic", StringComparison.OrdinalIgnoreCase))
+                {
+                    if (!noGapsAndStartsAtOne)
+                    {
+                        manga.ArabicAvailable = false;
+                        inactiveLang = "Arabic";
+                    }
+                    else if (Convert.ToBoolean(manga.ArabicAvailable)) manga.ArabicAvailable = true;
+                }
+                else
+                {
+                    if (!noGapsAndStartsAtOne)
+                    {
+                        manga.EnglishAvilable = false;
+                        inactiveLang = "English";
+                    }
+                    else if (Convert.ToBoolean(manga.EnglishAvilable)) manga.EnglishAvilable = true;
+                }
+
+                await unitOfWork.MangaRepository.UpdateAsync(manga);
                 await transaction.CommitAsync();
+
+                if (!string.IsNullOrEmpty(inactiveLang))
+                    return ($"ChapterAddedSuccessfullyAnd{inactiveLang}BecameInactiveDueToIncompleteChapters", result);
+
                 return ("ChapterAddedSuccessfully", result);
-            }catch(Exception exp)
+            }
+            catch
             {
                 if (transaction.GetDbTransaction().Connection is not null)
                     await transaction.RollbackAsync();
                 return ("AnErrorOccurredWhileAddingTheChapter", null);
             }
         }
+
+
         public async Task UploadChapterImagesAsync(int mangaId, int chapterNo, IList<string> imagePaths, string lang, int chapterId)
         {
             int order = 1;
@@ -160,7 +204,7 @@ namespace Araboon.Service.Implementations
             var guidPart = Guid.NewGuid().ToString("N").Substring(0, 12);
             var datePart = DateTime.UtcNow.ToString("yyyyMMddHHmmss");
             var id = $"{guidPart}-{datePart}";
-            var folderName = $"ARABOON/Mangas/{mangaId}/Chapters/{chapterNo}-{language}";
+            var folderName = $"ARABOON/Mangas/{mangaId}/Chapters/{language}/{chapterNo}";
             return (folderName, id);
         }
         private async Task<string?> UploadChapterImageAsync(IFormFile image, int mangaId, int chapterNo, string lang)
@@ -173,7 +217,7 @@ namespace Araboon.Service.Implementations
                 var id = $"{guidPart}-{datePart}";
 
                 using var stream = image.OpenReadStream();
-                var folderName = $"ARABOON/Mangas/{mangaId}/Chapters/{chapterNo}-{language}/img";
+                var folderName = $"ARABOON/Mangas/{mangaId}/Chapters/{language}/{chapterNo}/img";
                 return await cloudinaryService.UploadFileAsync(stream, folderName, id);
             }
             catch
@@ -209,6 +253,76 @@ namespace Araboon.Service.Implementations
                 "TheChaptersWereFound" => ("TheChaptersWereFound", chapters),
                 _ => ("ThereAreNoChaptersYet", null)
             };
+        }
+
+        public async Task<string> DeleteExistingChapterAsync(int id)
+        {
+            var chapter = await unitOfWork.ChapterRepository.GetByIdAsync(id);
+            if (chapter is null)
+                return "ChapterNotFound";
+
+            await using var transaction = await context.Database.BeginTransactionAsync();
+            try
+            {
+                IList<string> imageUrls = chapter.Language.ToLower() == "arabic"
+                    ? chapter.ArabicChapterImages.Select(i => i.ImageUrl).ToList()
+                    : chapter.EnglishChapterImages.Select(i => i.ImageUrl).ToList();
+
+                var mainImage = chapter.ImageUrl;
+
+                await unitOfWork.ChapterRepository.DeleteAsync(chapter);
+
+                string lang = chapter.Language.ToLower() == "arabic" ? "ar" : "en";
+                var chaptersForLang = await context.Chapters
+                    .Where(c => c.MangaID == chapter.MangaID && c.Language.ToLower().Contains(lang))
+                    .OrderBy(c => c.ChapterNo)
+                    .Select(c => c.ChapterNo)
+                    .ToListAsync();
+
+                bool noGapsAndStartsAtOne = false;
+                if (chaptersForLang.Count > 0)
+                {
+                    var ordered = chaptersForLang.OrderBy(n => n).ToList();
+                    noGapsAndStartsAtOne = ordered.First() == 1 &&
+                                           ordered.Zip(ordered.Skip(1), (a, b) => b - a).All(diff => diff == 1);
+                }
+
+                var manga = await unitOfWork.MangaRepository.GetByIdAsync(chapter.MangaID);
+                string responseMessage;
+                if (manga != null)
+                {
+                    if (chapter.Language.Equals("arabic", StringComparison.OrdinalIgnoreCase))
+                    {
+                        manga.ArabicAvailable = noGapsAndStartsAtOne;
+                        responseMessage = noGapsAndStartsAtOne
+                            ? "ChapterDeletedSuccessfully"
+                            : "ChapterDeletedSuccessfullyAndArabicBecameInactiveDueToIncompleteChapters";
+                    }
+
+                    else manga.EnglishAvilable = noGapsAndStartsAtOne;
+                    responseMessage = noGapsAndStartsAtOne
+                        ? "ChapterDeletedSuccessfully"
+                        : "ChapterDeletedSuccessfullyAndEnglishBecameInactiveDueToIncompleteChapters";
+
+                    await unitOfWork.MangaRepository.UpdateAsync(manga);
+                }
+                else responseMessage = "ChapterDeletedSuccessfully";
+
+                foreach (var url in imageUrls)
+                    if(!string.IsNullOrWhiteSpace(url))
+                        BackgroundJob.Enqueue<ICloudinaryService>(service => service.DeleteFileAsync(url));
+                if (!string.IsNullOrWhiteSpace(mainImage))
+                    BackgroundJob.Enqueue<ICloudinaryService>(service => service.DeleteFileAsync(mainImage));
+
+                await transaction.CommitAsync();
+                return responseMessage;
+            }
+            catch
+            {
+                if (transaction.GetDbTransaction().Connection is not null)
+                    await transaction.RollbackAsync();
+                return "AnErrorOccurredWhileDeletingTheChapter";
+            }
         }
     }
 }

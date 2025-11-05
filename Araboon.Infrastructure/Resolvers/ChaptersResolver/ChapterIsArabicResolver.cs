@@ -2,7 +2,7 @@
 using Araboon.Data.Response.Chapters.Queries;
 using Araboon.Infrastructure.Data;
 using AutoMapper;
-using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 
 namespace Araboon.Infrastructure.Resolvers.ChaptersResolver
 {
@@ -12,6 +12,9 @@ namespace Araboon.Infrastructure.Resolvers.ChaptersResolver
         public ChapterIsArabicResolver(AraboonDbContext _context)
             => this._context = _context;
         public bool Resolve(Chapter source, ChaptersResponse destination, bool destMember, ResolutionContext context)
-            => _context.Chapters.Any(chapter => chapter.Language.ToLower().Equals("arabic"));
+            => _context.Chapters.Any(
+                chapter => EF.Functions.Like(chapter.Language, "arabic")
+                && chapter.ChapterID.Equals(source.ChapterID)
+            );
     }
 }
