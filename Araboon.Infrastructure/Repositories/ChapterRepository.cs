@@ -35,7 +35,7 @@ namespace Araboon.Infrastructure.Repositories
             if (!isMangaExist)
                 return ("MangaNotFound", null);
             var isLanguageExist = await IsLanguageExist(mangaId, language);
-            if (!isLanguageExist)
+            if (!isLanguageExist && !await IsAdmin())
                 return ("TheLanguageYouRequestedIsNotAvailableForThisManga", null);
             var lang = language.ToLower().Equals("ar") ? "arabic" : "english";
             var chapters = await GetTableNoTracking().Where(

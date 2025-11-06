@@ -92,7 +92,7 @@ namespace Araboon.Service.Implementations
 
                 string lang = chapterInfo.Language.ToLower() == "arabic" ? "ar" : "en";
                 var chaptersForLang = await context.Chapters
-                    .Where(c => c.MangaID == chapterInfo.MangaId && c.Language.ToLower().Contains(lang))
+                    .Where(c => c.MangaID == chapterInfo.MangaId && c.Language.ToLower().Equals(lang))
                     .OrderBy(c => c.ChapterNo)
                     .Select(c => c.ChapterNo)
                     .ToListAsync();
@@ -274,7 +274,7 @@ namespace Araboon.Service.Implementations
 
                 string lang = chapter.Language.ToLower() == "arabic" ? "ar" : "en";
                 var chaptersForLang = await context.Chapters
-                    .Where(c => c.MangaID == chapter.MangaID && c.Language.ToLower().Contains(lang))
+                    .Where(c => c.MangaID == chapter.MangaID && c.Language.ToLower().Equals(lang))
                     .OrderBy(c => c.ChapterNo)
                     .Select(c => c.ChapterNo)
                     .ToListAsync();

@@ -11,5 +11,6 @@ namespace Araboon.Data.DTOs.Chapters
         public IFormFile Image { get; set; }
         public string Language { get; set; }
         public IList<IFormFile> ChapterImages { get; set; }
+        
     }
 }

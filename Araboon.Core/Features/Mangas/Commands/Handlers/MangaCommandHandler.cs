@@ -96,6 +96,7 @@ namespace Araboon.Core.Features.Mangas.Commands.Handlers
                 "MakeArabicAvilableForThisMangaSuccessfully" => Success(null, message: stringLocalizer[SharedTranslationKeys.MakeArabicAvilableForThisMangaSuccessfully]),
                 "MakeArabicNotAvilableForThisMangaSuccessfully" => Success(null, message: stringLocalizer[SharedTranslationKeys.MakeArabicNotAvilableForThisMangaSuccessfully]),
                 "AnErrorOccurredWhileMakingArabicAvilableOrNotAvilableProcess" => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileMakingArabicAvilableOrNotAvilableProcess]),
+                "CanNotMakeArabicAvialableDueToIncompleteChapters" => BadRequest(stringLocalizer[SharedTranslationKeys.CanNotMakeArabicAvialableDueToIncompleteChapters]),
                 _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileMakingArabicAvilableOrNotAvilableProcess])
             };
         }
@@ -109,6 +110,7 @@ namespace Araboon.Core.Features.Mangas.Commands.Handlers
                 "MakeEnglishNotAvilableForThisMangaSuccessfully" => Success(null, message: stringLocalizer[SharedTranslationKeys.MakeEnglishNotAvilableForThisMangaSuccessfully]),
                 "AnErrorOccurredWhileMakingEnglishAvilableOrNotAvilableProcess" =>
                 InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileMakingEnglishAvilableOrNotAvilableProcess]),
+                "CanNotMakeEnglishAvialableDueToIncompleteChapters" => BadRequest(stringLocalizer[SharedTranslationKeys.CanNotMakeEnglishAvialableDueToIncompleteChapters]),
                 _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileMakingEnglishAvilableOrNotAvilableProcess])
             };
         }

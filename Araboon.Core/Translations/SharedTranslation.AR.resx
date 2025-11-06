@@ -1203,4 +1203,10 @@
   <data name="AnErrorOccurredWhileDeletingTheChapter" xml:space="preserve">
     <value>حدث خطأ أثناء حذف الفصل</value>
   </data>
+  <data name="CanNotMakeArabicAvialableDueToIncompleteChapters" xml:space="preserve">
+    <value>لا يمكن تفعيل اللغة العربية بسبب فصول غير مكتملة</value>
+  </data>
+  <data name="CanNotMakeEnglishAvialableDueToIncompleteChapters" xml:space="preserve">
+    <value>لا يمكن تفعيل اللغة الإنجليزية بسبب فصول غير مكتملة</value>
+  </data>
 </root>

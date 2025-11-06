@@ -37,6 +37,8 @@ namespace Araboon.Core
             services.AddTransient<ChapterIsArabicResolver>();
             services.AddTransient<MangaDateFormatResolver>();
             services.AddTransient<CommentsCountResolver>();
+            services.AddTransient<IsEnglishAvilableResolver>();
+            services.AddTransient<IsArabicAvilableResolver>();
             // Get Validators
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly(), ServiceLifetime.Scoped);
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));

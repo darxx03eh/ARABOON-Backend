@@ -359,5 +359,7 @@
         public const string ChapterDeletedSuccessfullyAndArabicBecameInactiveDueToIncompleteChapters = "ChapterDeletedSuccessfullyAndArabicBecameInactiveDueToIncompleteChapters";
         public const string ChapterDeletedSuccessfullyAndEnglishBecameInactiveDueToIncompleteChapters = "ChapterDeletedSuccessfullyAndEnglishBecameInactiveDueToIncompleteChapters";
         public const string AnErrorOccurredWhileDeletingTheChapter = "AnErrorOccurredWhileDeletingTheChapter";
+        public const string CanNotMakeArabicAvialableDueToIncompleteChapters = "CanNotMakeArabicAvialableDueToIncompleteChapters";
+        public const string CanNotMakeEnglishAvialableDueToIncompleteChapters = "CanNotMakeEnglishAvialableDueToIncompleteChapters";
     }
 }

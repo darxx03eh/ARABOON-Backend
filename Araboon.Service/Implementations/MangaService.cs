@@ -412,9 +412,28 @@ namespace Araboon.Service.Implementations
                 return "MangaNotFound";
             try
             {
+                var response = "";
                 if (Convert.ToBoolean(manga.ArabicAvailable))
                     manga.ArabicAvailable = false;
-                else manga.ArabicAvailable = true;
+                else
+                {
+                    var chaptersForLang = await context.Chapters
+                    .Where(c => c.MangaID.Equals(manga.MangaID) && c.Language.ToLower().Equals("arabic"))
+                    .OrderBy(c => c.ChapterNo)
+                    .Select(c => c.ChapterNo)
+                    .ToListAsync();
+
+                    bool noGapsAndStartsAtOne = false;
+                    if (chaptersForLang.Count > 0)
+                    {
+                        var ordered = chaptersForLang.OrderBy(n => n).ToList();
+                        noGapsAndStartsAtOne = ordered.First() == 1 &&
+                                               ordered.Zip(ordered.Skip(1), (a, b) => b - a).All(diff => diff == 1);
+                    }
+                    manga.ArabicAvailable = noGapsAndStartsAtOne;
+                    if (!noGapsAndStartsAtOne)
+                        return "CanNotMakeArabicAvialableDueToIncompleteChapters";
+                }
                 await unitOfWork.MangaRepository.UpdateAsync(manga);
                 if(Convert.ToBoolean(manga.ArabicAvailable)) return "MakeArabicAvilableForThisMangaSuccessfully";
                 return "MakeArabicNotAvilableForThisMangaSuccessfully";
@@ -433,7 +452,25 @@ namespace Araboon.Service.Implementations
             {
                 if (Convert.ToBoolean(manga.EnglishAvilable))
                     manga.EnglishAvilable = false;
-                else manga.EnglishAvilable = true;
+                else
+                {
+                    var chaptersForLang = await context.Chapters
+                    .Where(c => c.MangaID.Equals(manga.MangaID) && c.Language.ToLower().Equals("arabic"))
+                    .OrderBy(c => c.ChapterNo)
+                    .Select(c => c.ChapterNo)
+                    .ToListAsync();
+
+                    bool noGapsAndStartsAtOne = false;
+                    if (chaptersForLang.Count > 0)
+                    {
+                        var ordered = chaptersForLang.OrderBy(n => n).ToList();
+                        noGapsAndStartsAtOne = ordered.First() == 1 &&
+                                               ordered.Zip(ordered.Skip(1), (a, b) => b - a).All(diff => diff == 1);
+                    }
+                    manga.EnglishAvilable = noGapsAndStartsAtOne;
+                    if (!noGapsAndStartsAtOne)
+                        return "CanNotMakeEnglishAvialableDueToIncompleteChapters";
+                }
                 await unitOfWork.MangaRepository.UpdateAsync(manga);
                 if(Convert.ToBoolean(manga.EnglishAvilable)) return "MakeEnglishAvilableForThisMangaSuccessfully";
                 return "MakeEnglishNotAvilableForThisMangaSuccessfully";

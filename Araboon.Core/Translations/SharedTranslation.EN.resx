@@ -1204,4 +1204,10 @@
   <data name="AnErrorOccurredWhileDeletingTheChapter" xml:space="preserve">
     <value>An error occurred while deleting the chapter</value>
   </data>
+  <data name="CanNotMakeArabicAvialableDueToIncompleteChapters" xml:space="preserve">
+    <value>Cannot make Arabic available due to incomplete chapters</value>
+  </data>
+  <data name="CanNotMakeEnglishAvialableDueToIncompleteChapters" xml:space="preserve">
+    <value>Cannot make English available due to incomplete chapters</value>
+  </data>
 </root>
