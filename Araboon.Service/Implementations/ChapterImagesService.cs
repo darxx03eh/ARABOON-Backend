@@ -3,6 +3,7 @@ using Araboon.Data.Response.ChapterImages;
 using Araboon.Infrastructure.IRepositories;
 using Araboon.Service.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Araboon.Service.Implementations
 {
@@ -34,7 +35,7 @@ namespace Araboon.Service.Implementations
             int chaptersCounts = 0;
             if (language.ToLower().Equals("ar"))
             {
-                if (Convert.ToBoolean(!manga.ArabicAvailable))
+                if (Convert.ToBoolean(!manga.ArabicAvailable) && !await unitOfWork.ChapterRepository.IsAdmin())
                     return ("ChapterForArabicLanguageNotExist", null, null, null);
                 images = new ChapterImagesResponse()
                 {
@@ -42,8 +43,8 @@ namespace Araboon.Service.Implementations
                     IsView = string.IsNullOrWhiteSpace(userId) ? false:
                     unitOfWork.ChapterViewRepository.GetTableNoTracking()
                     .Any(x => x.UserID.Equals(Convert.ToInt32(userId)) && x.ChapterID.Equals(chapter.ChapterID)),
-                    IsArabic = Convert.ToBoolean(manga.ArabicAvailable),
-                    IsEnglish = Convert.ToBoolean(manga.EnglishAvilable),
+                    IsArabic = Convert.ToBoolean(manga.ArabicAvailable) || manga.Chapters.Any(c => c.Language.ToLower().Equals("arabic")),
+                    IsEnglish = Convert.ToBoolean(manga.EnglishAvilable) || manga.Chapters.Any(c => c.Language.ToLower().Equals("english")),
                     Images = chapter.ArabicChapterImages.OrderBy(image => image.OrderImage)
                              .Select(image => image.ImageUrl).ToList()
                 };
@@ -51,7 +52,7 @@ namespace Araboon.Service.Implementations
             }
             else if (language.ToLower().Equals("en"))
             {
-                if (Convert.ToBoolean(!manga.EnglishAvilable))
+                if (Convert.ToBoolean(!manga.EnglishAvilable) && !await unitOfWork.ChapterRepository.IsAdmin())
                     return ("ChapterForEnglishLanguageNotExist", null, null, null);
                 images = new ChapterImagesResponse()
                 {
@@ -59,8 +60,8 @@ namespace Araboon.Service.Implementations
                     IsView = string.IsNullOrWhiteSpace(userId) ? false :
                     unitOfWork.ChapterViewRepository.GetTableNoTracking()
                     .Any(x => x.UserID.Equals(Convert.ToInt32(userId)) && x.ChapterID.Equals(chapter.ChapterID)),
-                    IsArabic = Convert.ToBoolean(manga.ArabicAvailable),
-                    IsEnglish = Convert.ToBoolean(manga.EnglishAvilable),
+                    IsArabic = Convert.ToBoolean(manga.ArabicAvailable) || manga.Chapters.Any(c => c.Language.ToLower().Equals("arabic")),
+                    IsEnglish = Convert.ToBoolean(manga.EnglishAvilable) || manga.Chapters.Any(c => c.Language.ToLower().Equals("english")),
                     Images = chapter.EnglishChapterImages.OrderBy(image => image.OrderImage)
                              .Select(image => image.ImageUrl).ToList()
                 };
