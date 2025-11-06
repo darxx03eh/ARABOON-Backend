@@ -1209,4 +1209,25 @@
   <data name="CanNotMakeEnglishAvialableDueToIncompleteChapters" xml:space="preserve">
     <value>لا يمكن تفعيل اللغة الإنجليزية بسبب فصول غير مكتملة</value>
   </data>
+  <data name="ChapterIdIsRequired" xml:space="preserve">
+    <value>رقم تعريف الفصل مطلوب</value>
+  </data>
+  <data name="ChapterIdGreaterThanZero" xml:space="preserve">
+    <value>يجب أن يكون رقم تعريف الفصل أكبر من صفر</value>
+  </data>
+  <data name="AnErrorOccurredWhileUpdatingTheChapter" xml:space="preserve">
+    <value>حدث خطأ أثناء تحديث الفصل</value>
+  </data>
+  <data name="ChapterUpdatedSuccessfully" xml:space="preserve">
+    <value>تم تحديث الفصل بنجاح</value>
+  </data>
+  <data name="AnErrorOccurredWhileProcessingTheImagesIploadRequest" xml:space="preserve">
+    <value>حدث خطأ أثناء معالجة طلب رفع الصور</value>
+  </data>
+  <data name="ImagesAreBeingUploadedToCloudStoragePleaseWaitALittleWhile" xml:space="preserve">
+    <value>يتم رفع الصور إلى التخزين السحابي، يرجى الانتظار قليلاً</value>
+  </data>
+  <data name="Accepted" xml:space="preserve">
+    <value>تم قبول الطلب للمعالجة</value>
+  </data>
 </root>

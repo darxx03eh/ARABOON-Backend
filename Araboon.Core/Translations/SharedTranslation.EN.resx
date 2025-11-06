@@ -1210,4 +1210,25 @@
   <data name="CanNotMakeEnglishAvialableDueToIncompleteChapters" xml:space="preserve">
     <value>Cannot make English available due to incomplete chapters</value>
   </data>
+  <data name="ChapterIdIsRequired" xml:space="preserve">
+    <value>Chapter ID is required</value>
+  </data>
+  <data name="ChapterIdGreaterThanZero" xml:space="preserve">
+    <value>Chapter ID must be greater than zero</value>
+  </data>
+  <data name="AnErrorOccurredWhileUpdatingTheChapter" xml:space="preserve">
+    <value>An error occurred while updating the chapter</value>
+  </data>
+  <data name="ChapterUpdatedSuccessfully" xml:space="preserve">
+    <value>Chapter updated successfully</value>
+  </data>
+  <data name="AnErrorOccurredWhileProcessingTheImagesIploadRequest" xml:space="preserve">
+    <value>An error occurred while processing the images upload request</value>
+  </data>
+  <data name="ImagesAreBeingUploadedToCloudStoragePleaseWaitALittleWhile" xml:space="preserve">
+    <value>Images are being uploaded to cloud storage, please wait a little while</value>
+  </data>
+  <data name="Accepted" xml:space="preserve">
+    <value>The request has been accepted for processing</value>
+  </data>
 </root>

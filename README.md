@@ -156,17 +156,17 @@ https://localhost:<port>/swagger
 ```
 
 **Authentications**
-HTTP Method | Endpoint | Description |
-------------|----------------------------------------------------------------------|-------------------------------------------------|
-POST | /Api/V1/Authentication/RegistrationUser | register a new account |
-POST | /Api/V1/Authentication/SignIn | log in into account |
-POST | /Api/V1/Authentication/SendConfirmationEmail | send email for confirm the account |
-POST | /Api/V1/Authentication/GenerateRefreshToken | generate a new token after expire or refresh |
-POST | /Api/V1/Authentication/LogOut | revoke refresh token to avoid refresh new token |
-POST | /Api/V1/Authentication/SendForgetPasswordEmail | send a code to reset the password for account |
-POST | /Api/V1/Authentication/ForgetPasswordConfirmation | confirm the code that s ent to reset password |
-POST | /Api/V1/Authentication/ResetPassword | reset your account's password after confirm |
-GET | /Api/V1/Authentication/EmailConfirmation?email={value}&token={value} | confirm your email by link |
+|HTTP Method | Endpoint | Description |
+|------------|----------------------------------------------------------------------|------------------------------------------------------|
+|POST | /Api/V1/Authentication/RegistrationUser | register a new account |
+|POST | /Api/V1/Authentication/SignIn | log in into account |
+|POST | /Api/V1/Authentication/SendConfirmationEmail | send email for confirm the account |
+|POST | /Api/V1/Authentication/GenerateRefreshToken | generate a new token after expire or refresh |
+|POST | /Api/V1/Authentication/LogOut | revoke refresh token to avoid refresh new token |
+|POST | /Api/V1/Authentication/SendForgetPasswordEmail | send a code to reset the password for account |
+|POST | /Api/V1/Authentication/ForgetPasswordConfirmation | confirm the code that s ent to reset password |
+|POST | /Api/V1/Authentication/ResetPassword | reset your account's password after confirm |
+|GET | /Api/V1/Authentication/EmailConfirmation?email={value}&token={value} | confirm your email by link then redirect to homepage |
 
 **Users**
 
@@ -265,6 +265,9 @@ GET | /Api/V1/Authentication/EmailConfirmation?email={value}&token={value} | con
 | POST        | /Api/V1/Chapters/read                                                                    | increaming views by 1 when you finished reading the chapter                                       |
 | POST        | /Api/V1/Chapters                                                                         | add new chapter to specific manga and upload images and send notifications in the background      |
 | DELETE      | /Api/V1/Chapters/{id}                                                                    | delete an existing chapter by id and then delete chapter images from cloudinary in the background |
+| PUT         | /Api/V1/Chapters                                                                         | update chapter info arabic and english chapter title, language and chapter number                 |
+| PATCH       | /Api/V1/Chapters/upload-image                                                            | upload new chapter image and delete old one                                                       |
+| PATCH       | /Api/V1/Chapters/upload-images                                                           | upload new chapter images and delete the old images, this process run in the background           |
 
 **Categories**
 

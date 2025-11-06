@@ -3,6 +3,7 @@ using Araboon.Data.Entities;
 using Araboon.Infrastructure.Data;
 using Araboon.Infrastructure.IRepositories;
 using Araboon.Service.Interfaces;
+using CloudinaryDotNet;
 using Hangfire;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -25,7 +26,19 @@ namespace Araboon.Service.Implementations
             this.cloudinaryService = cloudinaryService;
             this.httpContextAccessor = httpContextAccessor;
         }
+        private async Task<IList<string>> TemporarilyStoreImagesAsync(IList<IFormFile> Images)
+        {
+            var tempPaths = new ConcurrentBag<string>();
+            await Task.WhenAll(Images.Select(async file =>
+            {
+                var tempPath = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid()}{Path.GetExtension(file.FileName)}");
+                await using var stream = System.IO.File.Create(tempPath);
+                await file.CopyToAsync(stream);
+                tempPaths.Add(tempPath);
+            }));
 
+            return tempPaths.ToList();
+        }
         public async Task<(string, Chapter?)> AddNewChapterAsync(ChapterInfoDTO chapterInfo)
         {
             var manga = await unitOfWork.MangaRepository.GetByIdAsync(chapterInfo.MangaId);
@@ -33,7 +46,7 @@ namespace Araboon.Service.Implementations
                 return ("MangaNotFound", null);
 
             var imageUrl = "";
-            await using var transaction = await context.Database.BeginTransactionAsync();
+            using var transaction = await context.Database.BeginTransactionAsync();
 
             try
             {
@@ -63,15 +76,7 @@ namespace Araboon.Service.Implementations
                     return ("AnErrorOccurredWhileAddingTheChapter", null);
                 }
 
-                var tempPaths = new ConcurrentBag<string>();
-                await Task.WhenAll(chapterInfo.ChapterImages.Select(async file =>
-                {
-                    var tempPath = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid()}{Path.GetExtension(file.FileName)}");
-                    await using var stream = System.IO.File.Create(tempPath);
-                    await file.CopyToAsync(stream);
-                    tempPaths.Add(tempPath);
-                }));
-                var tempPathsList = tempPaths.ToList();
+                var tempPathsList = await TemporarilyStoreImagesAsync(chapterInfo.ChapterImages);
                 BackgroundJob.Enqueue<IChapterService>(service => service.UploadChapterImagesAsync(
                     chapterInfo.MangaId, chapterInfo.ChapterNo, tempPathsList, chapterInfo.Language, result.ChapterID
                 ));
@@ -143,7 +148,7 @@ namespace Araboon.Service.Implementations
         {
             int order = 1;
             string language = lang.ToLower() == "arabic" ? "ar" : "en";
-            var transaction = await context.Database.BeginTransactionAsync();
+            using var transaction = await context.Database.BeginTransactionAsync();
             try
             {
                 if (language.Equals("ar"))
@@ -308,9 +313,11 @@ namespace Araboon.Service.Implementations
                 }
                 else responseMessage = "ChapterDeletedSuccessfully";
 
-                foreach (var url in imageUrls)
-                    if(!string.IsNullOrWhiteSpace(url))
-                        BackgroundJob.Enqueue<ICloudinaryService>(service => service.DeleteFileAsync(url));
+                if(imageUrls is not null)
+                    foreach (var url in imageUrls)
+                        if (!string.IsNullOrWhiteSpace(url))
+                            BackgroundJob.Enqueue<ICloudinaryService>(service => service.DeleteFileAsync(url));
+
                 if (!string.IsNullOrWhiteSpace(mainImage))
                     BackgroundJob.Enqueue<ICloudinaryService>(service => service.DeleteFileAsync(mainImage));
 
@@ -322,6 +329,99 @@ namespace Araboon.Service.Implementations
                 if (transaction.GetDbTransaction().Connection is not null)
                     await transaction.RollbackAsync();
                 return "AnErrorOccurredWhileDeletingTheChapter";
+            }
+        }
+
+        public async Task<(string, Chapter?)> UpdateExistingChapterAsync(int id, int chapterNo, string arabicChapterTitle, string englishChapterTitle, string language)
+        {
+            var chapter = await unitOfWork.ChapterRepository.GetByIdAsync(id);
+            if (chapter is null)
+                return ("ChapterNotFound", null);
+
+            try
+            {
+                chapter.ChapterNo = chapterNo;
+                chapter.ArabicChapterTitle = arabicChapterTitle;
+                chapter.EnglishChapterTitle = englishChapterTitle;
+                chapter.Language = language;
+
+                await unitOfWork.ChapterRepository.UpdateAsync(chapter);
+                return ("ChapterUpdatedSuccessfully", chapter);
+            }catch(Exception exp)
+            {
+                return ("AnErrorOccurredWhileUpdatingTheChapter", null);
+            }
+        }
+
+        public async Task<(string, string?)> UploadChapterImageAsync(int id, IFormFile image)
+        {
+            var chapter = await unitOfWork.ChapterRepository.GetByIdAsync(id);
+            if (chapter is null)
+                return ("ChapterNotFound", null);
+
+            await using var transaction = await context.Database.BeginTransactionAsync();
+            try
+            {
+                var originalUrl = chapter.ImageUrl;
+                if (!string.IsNullOrWhiteSpace(originalUrl))
+                {
+                    var cloudinaryResult = await cloudinaryService.DeleteFileAsync(originalUrl);
+                    if (cloudinaryResult.Equals("FailedToDeleteImageFromCloudinary"))
+                        return ("FailedToDeleteOldImageFromCloudinary", null);
+                }
+                var guidPart = Guid.NewGuid().ToString("N").Substring(0, 12);
+                var datePart = DateTime.UtcNow.ToString("yyyyMMddHHmmss");
+                var fullPart = $"{guidPart}-{datePart}";
+                using (var stream = image.OpenReadStream())
+                {
+                    var lang = chapter.Language.Equals("arabic", StringComparison.OrdinalIgnoreCase) ? "ar" : "en";
+                    var (imageName, folderName) = (fullPart, $"ARABOON/Mangas/{chapter.MangaID}/Chapters/{lang}/{chapter.ChapterNo}/img");
+                    var url = await cloudinaryService.UploadFileAsync(stream, folderName, imageName);
+                    chapter.ImageUrl = url;
+                }
+                await unitOfWork.ChapterRepository.UpdateAsync(chapter);
+                await transaction.CommitAsync();
+                return ("TheImageHasBeenChangedSuccessfully", chapter.ImageUrl);
+            }
+            catch (Exception exp)
+            {
+                if (transaction.GetDbTransaction().Connection is not null)
+                    await transaction.RollbackAsync();
+                return ("AnErrorOccurredWhileProcessingImageModificationRequest", null);
+            }
+        }
+
+        public async Task<string> UploadChapterImagesAsync(int id, IList<IFormFile> images)
+        {
+            var chapter = await unitOfWork.ChapterRepository.GetByIdAsync(id);
+            if (chapter is null)
+                return "ChapterNotFound";
+
+            IList<string> imageUrls = chapter.Language.ToLower() == "arabic"
+                    ? chapter.ArabicChapterImages.Select(i => i.ImageUrl).ToList()
+                    : chapter.EnglishChapterImages.Select(i => i.ImageUrl).ToList();
+
+            using var transaction = await context.Database.BeginTransactionAsync();
+            try
+            {
+                if (imageUrls is not null)
+                    foreach (var url in imageUrls)
+                        if (!string.IsNullOrWhiteSpace(url))
+                            BackgroundJob.Enqueue<ICloudinaryService>(service => service.DeleteFileAsync(url));
+
+                var tempPathsList = await TemporarilyStoreImagesAsync(images);
+                BackgroundJob.Enqueue<IChapterService>(service => service.UploadChapterImagesAsync(
+                    chapter.MangaID, chapter.ChapterNo, tempPathsList, chapter.Language, chapter.ChapterID
+                ));
+
+                await transaction.CommitAsync();
+                return "ImagesAreBeingUploadedToCloudStoragePleaseWaitALittleWhile";
+            }
+            catch(Exception exp)
+            {
+                if(transaction.GetDbTransaction().Connection is not null)
+                    await transaction.RollbackAsync();
+                return "AnErrorOccurredWhileProcessingTheImagesIploadRequest";
             }
         }
     }

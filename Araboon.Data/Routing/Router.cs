@@ -91,6 +91,9 @@
             public const string ChapterRead = $"{prefix}/read";
             public const string AddNewChapter = prefix;
             public const string DeleteExistingChapter = $"{prefix}{singleRoute}";
+            public const string UpdateExistingChapter = prefix;
+            public const string UploadChapterImage = $"{prefix}/upload-image";
+            public const string UploadChapterImages = $"{prefix}/upload-images";
         }
         public static class CategoryRouting
         {

@@ -455,7 +455,7 @@ namespace Araboon.Service.Implementations
                 else
                 {
                     var chaptersForLang = await context.Chapters
-                    .Where(c => c.MangaID.Equals(manga.MangaID) && c.Language.ToLower().Equals("arabic"))
+                    .Where(c => c.MangaID.Equals(manga.MangaID) && c.Language.ToLower().Equals("english"))
                     .OrderBy(c => c.ChapterNo)
                     .Select(c => c.ChapterNo)
                     .ToListAsync();

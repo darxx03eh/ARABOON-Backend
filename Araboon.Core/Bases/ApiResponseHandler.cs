@@ -58,6 +58,14 @@ namespace Araboon.Core.Bases
                 Succeeded = true,
                 Message = message is null ? stringLocalizer[SharedTranslationKeys.Success] : message
             };
+
+        public ApiResponse Accepted(string message = null)
+            => new ApiResponse()
+            {
+                StatusCode = System.Net.HttpStatusCode.Accepted,
+                Succeeded = true,
+                Message = message is null ? stringLocalizer[SharedTranslationKeys.Accepted] : message
+            };
         public ApiResponse Unauthorized(string message = null)
             => new ApiResponse()
             {

@@ -26,6 +26,8 @@ namespace Araboon.API.Controllers
         public async Task<IActionResult> EmailConfirmation([FromQuery] ConfirmationEmailCommand request)
         {
             var result = await mediator.Send(request);
+            if (result.StatusCode.Equals(System.Net.HttpStatusCode.OK))
+                return Redirect("https://araboon.vercel.app");
             return Result(result);
         }
         [HttpPost(Router.AuthenticationRouting.SendConfirmationEmail)]

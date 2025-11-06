@@ -9,39 +9,59 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Araboon.API.Controllers
 {
+    [Authorize(Roles = Roles.Admin)]
     [ApiController]
     public class ChaptersController : AppBaseController
     {
+        [AllowAnonymous]
         [HttpGet(Router.ChaptersRouting.ViewChaptersForSpecificMangaByLanguage)]
         public async Task<IActionResult> ViewChaptersForSpecificMangaByLanguage([FromQuery]GetChaptersForSpecificMangaByLanguageQuery request)
         {
             var result = await mediator.Send(request);
             return Result(result);
         }
+        [AllowAnonymous]
         [HttpGet(Router.ChaptersRouting.ViewChapterImages)]
         public async Task<IActionResult> ViewChapterImage([FromQuery] GetChapterImagesQuery request)
         {
             var result = await mediator.Send(request);
             return Result(result);
         }
+        [AllowAnonymous]
         [HttpPost(Router.ChaptersRouting.ChapterRead)]
         public async Task<IActionResult> ChapterRead([FromBody] ChapterReadCommand request)
         {
             var result = await mediator.Send(request);
             return Result(result);
         }
-        [Authorize(Roles = Roles.Admin)]
         [HttpPost(Router.ChaptersRouting.AddNewChapter)]
         public async Task<IActionResult> AddNewChapter([FromForm] AddNewChapterCommand request)
         {
             var result = await mediator.Send(request);
             return Result(result);
         }
-        [Authorize(Roles = Roles.Admin)]
         [HttpDelete(Router.ChaptersRouting.DeleteExistingChapter)]
         public async Task<IActionResult> DeleteExistingChapter(int id)
         {
             var result = await mediator.Send(new DeleteExistingChapterCommand(id));
+            return Result(result);
+        }
+        [HttpPut(Router.ChaptersRouting.UpdateExistingChapter)]
+        public async Task<IActionResult> UpdateExistingChapter([FromBody] UpdateExistingChapterCommand request)
+        {
+            var result = await mediator.Send(request);
+            return Result(result);
+        }
+        [HttpPatch(Router.ChaptersRouting.UploadChapterImage)]
+        public async Task<IActionResult> UploadChapterImage([FromForm] UploadChapterImageCommand request)
+        {
+            var result = await mediator.Send(request);
+            return Result(result);
+        }
+        [HttpPatch(Router.ChaptersRouting.UploadChapterImages)]
+        public async Task<IActionResult> UploadChapterImages([FromForm] UploadChapterImagesCommand request)
+        {
+            var result = await mediator.Send(request);
             return Result(result);
         }
     }

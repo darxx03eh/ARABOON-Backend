@@ -361,5 +361,12 @@
         public const string AnErrorOccurredWhileDeletingTheChapter = "AnErrorOccurredWhileDeletingTheChapter";
         public const string CanNotMakeArabicAvialableDueToIncompleteChapters = "CanNotMakeArabicAvialableDueToIncompleteChapters";
         public const string CanNotMakeEnglishAvialableDueToIncompleteChapters = "CanNotMakeEnglishAvialableDueToIncompleteChapters";
+        public const string ChapterIdIsRequired = "ChapterIdIsRequired";
+        public const string ChapterIdGreaterThanZero = "ChapterIdGreaterThanZero";
+        public const string AnErrorOccurredWhileUpdatingTheChapter = "AnErrorOccurredWhileUpdatingTheChapter";
+        public const string ChapterUpdatedSuccessfully = "ChapterUpdatedSuccessfully";
+        public const string AnErrorOccurredWhileProcessingTheImagesIploadRequest = "AnErrorOccurredWhileProcessingTheImagesIploadRequest";
+        public const string ImagesAreBeingUploadedToCloudStoragePleaseWaitALittleWhile = "ImagesAreBeingUploadedToCloudStoragePleaseWaitALittleWhile";
+        public const string Accepted = "Accepted";
     }
 }
