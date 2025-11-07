@@ -1269,4 +1269,13 @@
   <data name="FailedToAddUserRole" xml:space="preserve">
     <value>فشل في إضافة دور المستخدم</value>
   </data>
+  <data name="YouHaveExceededTheLimitForSendingPasswordResetEmailsPleaseTryAgainLater" xml:space="preserve">
+    <value>لقد تجاوزت الحد المسموح لإرسال رسائل إعادة تعيين كلمة المرور. يرجى المحاولة لاحقًا</value>
+  </data>
+  <data name="YouHaveExceededTheLimitForSendingConfirmationEmailsPleaseTryAgainLater" xml:space="preserve">
+    <value>لقد تجاوزت الحد المسموح لإرسال رسائل التأكيد. يرجى المحاولة لاحقًا</value>
+  </data>
+  <data name="YouHaveExceededTheLimitForSendingLoginRequestPleaseTryAgainLater" xml:space="preserve">
+    <value>لقد تجاوزت الحد المسموح لإرسال طلبات تسجيل الدخول. يرجى المحاولة لاحقًا.</value>
+  </data>
 </root>

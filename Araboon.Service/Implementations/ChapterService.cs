@@ -94,7 +94,7 @@ namespace Araboon.Service.Implementations
                     data
                 ));
 
-                string lang = chapterInfo.Language.ToLower() == "arabic" ? "ar" : "en";
+                string lang = chapterInfo.Language.ToLower() == "arabic" ? "arabic" : "english";
                 var chaptersForLang = await context.Chapters
                     .Where(c => c.MangaID == chapterInfo.MangaId && c.Language.ToLower().Equals(lang))
                     .OrderBy(c => c.ChapterNo)
@@ -276,51 +276,6 @@ namespace Araboon.Service.Implementations
 
                 var mainImage = chapter.ImageUrl;
 
-                string lang = chapter.Language.ToLower() == "arabic" ? "ar" : "en";
-                var chaptersForLang = await context.Chapters
-                    .Where(c => c.MangaID == chapter.MangaID && c.Language.ToLower().Equals(lang))
-                    .OrderBy(c => c.ChapterNo)
-                    .Select(c => c.ChapterNo)
-                    .ToListAsync();
-
-                bool noGapsAndStartsAtOne = false;
-                if (chaptersForLang.Count > 0)
-                {
-                    var ordered = chaptersForLang.OrderBy(n => n).ToList();
-                    noGapsAndStartsAtOne = ordered.First() == 1 &&
-                                           ordered.Zip(ordered.Skip(1), (a, b) => b - a).All(diff => diff == 1);
-                }
-
-                var manga = await unitOfWork.MangaRepository.GetByIdAsync(chapter.MangaID);
-                string responseMessage;
-                if (manga != null)
-                {
-                    if (chapter.Language.Equals("arabic", StringComparison.OrdinalIgnoreCase))
-                    {
-                        manga.ArabicAvailable = noGapsAndStartsAtOne;
-                        responseMessage = noGapsAndStartsAtOne
-                            ? "ChapterDeletedSuccessfully"
-                            : "ChapterDeletedSuccessfullyAndArabicBecameInactiveDueToIncompleteChapters";
-                    }
-
-                    else manga.EnglishAvilable = noGapsAndStartsAtOne;
-                    responseMessage = noGapsAndStartsAtOne
-                        ? "ChapterDeletedSuccessfully"
-                        : "ChapterDeletedSuccessfullyAndEnglishBecameInactiveDueToIncompleteChapters";
-
-                    await unitOfWork.MangaRepository.UpdateAsync(manga);
-                }
-                else responseMessage = "ChapterDeletedSuccessfully";
-
-                if (imageUrls is not null)
-                    foreach (var url in imageUrls)
-                        if (!string.IsNullOrWhiteSpace(url))
-                            BackgroundJob.Enqueue<ICloudinaryService>(service => service.DeleteFileAsync(url));
-
-                if (!string.IsNullOrWhiteSpace(mainImage))
-                    BackgroundJob.Enqueue<ICloudinaryService>(service => service.DeleteFileAsync(mainImage));
-
-
                 var views = await unitOfWork.ChapterViewRepository.GetTableNoTracking()
                             .Where(view => view.ChapterID.Equals(chapter.ChapterID)).ToListAsync();
 
@@ -344,6 +299,55 @@ namespace Araboon.Service.Implementations
                     await unitOfWork.EnglishChapterImagesRepository.DeleteRangeAsync(englishChapterImages);
                 }
                 await unitOfWork.ChapterRepository.DeleteAsync(chapter);
+
+                string lang = chapter.Language.ToLower() == "arabic" ? "arabic" : "english";
+                var chaptersForLang = await context.Chapters
+                    .Where(c => c.MangaID == chapter.MangaID && c.Language.ToLower().Equals(lang))
+                    .OrderBy(c => c.ChapterNo)
+                    .Select(c => c.ChapterNo)
+                    .ToListAsync();
+
+                bool noGapsAndStartsAtOne = false;
+                if (chaptersForLang.Count > 0)
+                {
+                    var ordered = chaptersForLang.OrderBy(n => n).ToList();
+                    noGapsAndStartsAtOne = ordered.First() == 1 &&
+                                           ordered.Zip(ordered.Skip(1), (a, b) => b - a).All(diff => diff == 1);
+                }
+
+                var manga = await unitOfWork.MangaRepository.GetByIdAsync(chapter.MangaID);
+                string responseMessage;
+                if (manga != null)
+                {
+                    if (chapter.Language.Equals("arabic", StringComparison.OrdinalIgnoreCase))
+                    {
+                        if(!noGapsAndStartsAtOne)
+                            manga.ArabicAvailable = noGapsAndStartsAtOne;
+                        responseMessage = noGapsAndStartsAtOne
+                            ? "ChapterDeletedSuccessfully"
+                            : "ChapterDeletedSuccessfullyAndArabicBecameInactiveDueToIncompleteChapters";
+                    }
+
+                    else
+                    {
+                        if (!noGapsAndStartsAtOne)
+                            manga.EnglishAvilable = noGapsAndStartsAtOne;
+                        responseMessage = noGapsAndStartsAtOne
+                        ? "ChapterDeletedSuccessfully"
+                        : "ChapterDeletedSuccessfullyAndEnglishBecameInactiveDueToIncompleteChapters";
+                    }
+                    await unitOfWork.MangaRepository.UpdateAsync(manga);
+                }
+                else responseMessage = "ChapterDeletedSuccessfully";
+
+                if (imageUrls is not null)
+                    foreach (var url in imageUrls)
+                        if (!string.IsNullOrWhiteSpace(url))
+                            BackgroundJob.Enqueue<ICloudinaryService>(service => service.DeleteFileAsync(url));
+
+                if (!string.IsNullOrWhiteSpace(mainImage))
+                    BackgroundJob.Enqueue<ICloudinaryService>(service => service.DeleteFileAsync(mainImage));
+
                 await transaction.CommitAsync();
                 return (responseMessage, manga.ArabicAvailable, manga.EnglishAvilable);
             }
@@ -371,7 +375,7 @@ namespace Araboon.Service.Implementations
 
                 await unitOfWork.ChapterRepository.UpdateAsync(chapter);
 
-                string lang = language.ToLower() == "arabic" ? "ar" : "en";
+                string lang = language.ToLower() == "arabic" ? "arabic" : "english";
                 var chaptersForLang = await context.Chapters
                     .Where(c => c.MangaID == chapter.MangaID && c.Language.ToLower() == lang)
                     .OrderBy(c => c.ChapterNo)
@@ -389,8 +393,12 @@ namespace Araboon.Service.Implementations
                 var manga = await unitOfWork.MangaRepository.GetByIdAsync(chapter.MangaID);
                 if (manga != null)
                 {
-                    if (lang == "ar") manga.ArabicAvailable = noGapsAndStartsAtOne;
-                    else manga.EnglishAvilable = noGapsAndStartsAtOne;
+                    if (lang == "arabic") 
+                        if(!noGapsAndStartsAtOne)
+                            manga.ArabicAvailable = noGapsAndStartsAtOne;
+                        else
+                            if(!noGapsAndStartsAtOne)
+                                manga.EnglishAvilable = noGapsAndStartsAtOne;
                     await unitOfWork.MangaRepository.UpdateAsync(manga);
                 }
 

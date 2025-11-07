@@ -1270,4 +1270,13 @@
   <data name="FailedToAddUserRole" xml:space="preserve">
     <value>Failed to add user role</value>
   </data>
+  <data name="YouHaveExceededTheLimitForSendingPasswordResetEmailsPleaseTryAgainLater" xml:space="preserve">
+    <value>You have exceeded the limit for sending password reset emails. Please try again later</value>
+  </data>
+  <data name="YouHaveExceededTheLimitForSendingConfirmationEmailsPleaseTryAgainLater" xml:space="preserve">
+    <value>You have exceeded the limit for sending confirmation emails. Please try again later</value>
+  </data>
+  <data name="YouHaveExceededTheLimitForSendingLoginRequestPleaseTryAgainLater" xml:space="preserve">
+    <value>You have exceeded the limit for sending login requests. Please try again later</value>
+  </data>
 </root>

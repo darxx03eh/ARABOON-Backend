@@ -1,4 +1,5 @@
 ﻿using Araboon.Core.Bases;
+using Araboon.Core.ResponseHelper;
 using Araboon.Core.Translations;
 using Araboon.Data.Helpers;
 using Araboon.Data.Routing;
@@ -18,11 +19,6 @@ namespace Araboon.Core.Middleware
         private readonly RequestDelegate next;
         private readonly IStringLocalizer<SharedTranslation> stringLocalizer;
         private readonly JwtSettings jwtSettings;
-        private readonly JsonSerializerOptions JSONOPTIONS = new JsonSerializerOptions
-        {
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            DictionaryKeyPolicy = JsonNamingPolicy.CamelCase
-        };
         private readonly string[] PUBLICPATHS = new string[]
         {
             // authentication paths
@@ -79,7 +75,9 @@ namespace Araboon.Core.Middleware
             {
                 if (!isPublic)
                 {
-                    await WriteJsonResponse(context, HttpStatusCode.Unauthorized, stringLocalizer[SharedTranslationKeys.Unauthorized]);
+                    await ResponseHandler.WriteJsonResponse(
+                        context, HttpStatusCode.Unauthorized, stringLocalizer[SharedTranslationKeys.Unauthorized]
+                    );
                     return;
                 }
                 await next(context);
@@ -102,40 +100,27 @@ namespace Araboon.Core.Middleware
                 var principal = handler.ValidateToken(token, parameters, out SecurityToken validatedToken);
                 if (validatedToken is not JwtSecurityToken jwtToken)
                 {
-                    await WriteJsonResponse(context, HttpStatusCode.Unauthorized, stringLocalizer[SharedTranslationKeys.InvalidTokenFormat]);
+                    await ResponseHandler.WriteJsonResponse(
+                        context, HttpStatusCode.Unauthorized, stringLocalizer[SharedTranslationKeys.InvalidTokenFormat]
+                    );
                     return;
                 }
             }
             catch (SecurityTokenExpiredException exp)
             {
-                await WriteJsonResponse(context, HttpStatusCode.Unauthorized, stringLocalizer[SharedTranslationKeys.TokenExpired]);
+                await ResponseHandler.WriteJsonResponse(
+                    context, HttpStatusCode.Unauthorized, stringLocalizer[SharedTranslationKeys.TokenExpired]
+                );
                 return;
             }
             catch
             {
-                await WriteJsonResponse(context, HttpStatusCode.Unauthorized, stringLocalizer[SharedTranslationKeys.InvalidToken]);
+                await ResponseHandler.WriteJsonResponse(
+                    context, HttpStatusCode.Unauthorized, stringLocalizer[SharedTranslationKeys.InvalidToken]
+                );
                 return;
             }
             await next(context);
-        }
-        private async Task WriteJsonResponse(HttpContext context, HttpStatusCode statusCode, string message)
-        {
-
-            if (context.Response.HasStarted) 
-                return;
-
-            context.Response.StatusCode = (int)statusCode;
-            context.Response.ContentType = "application/json; charset=utf-8";
-
-            var response = new ApiResponse
-            {
-                Succeeded = false,
-                StatusCode = statusCode,
-                Message = message
-            };
-
-            var json = JsonSerializer.Serialize(response, JSONOPTIONS);
-            await context.Response.WriteAsync(json, Encoding.UTF8);
         }
     }
 }

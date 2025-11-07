@@ -4,6 +4,7 @@ using Araboon.Core.Features.Authentications.Queries.Models;
 using Araboon.Data.Routing;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace Araboon.API.Controllers
 {
@@ -16,6 +17,7 @@ namespace Araboon.API.Controllers
             var result = await mediator.Send(request);
             return Result(result);
         }
+        [EnableRateLimiting("Login")]
         [HttpPost(Router.AuthenticationRouting.SignIn)]
         public async Task<IActionResult> SignIn([FromBody] SignInCommand request)
         {
@@ -30,12 +32,14 @@ namespace Araboon.API.Controllers
                 return Redirect("https://araboon.vercel.app");
             return Result(result);
         }
+        [EnableRateLimiting("SendConfirmationEmail")]
         [HttpPost(Router.AuthenticationRouting.SendConfirmationEmail)]
         public async Task<IActionResult> SendConfirmationEmail([FromBody] SendConfirmationEmailCommand request)
         {
             var result = await mediator.Send(request);
             return Result(result);
         }
+        [EnableRateLimiting("SendForgetPasswordEmail")]
         [HttpPost(Router.AuthenticationRouting.SendForgetPasswordEmail)]
         public async Task<IActionResult> SendForgetPasswordEmail([FromBody] SendForgetPasswordCommand request)
         {

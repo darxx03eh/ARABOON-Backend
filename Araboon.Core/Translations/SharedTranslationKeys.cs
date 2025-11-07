@@ -381,5 +381,8 @@
         public const string TheUserRoleHasBeenModifiedToBecomeAAdmin = "TheUserRoleHasBeenModifiedToBecomeAAdmin";
         public const string TheUserRoleHasBeenModifiedToBecomeAUser = "TheUserRoleHasBeenModifiedToBecomeAUser";
         public const string FailedToAddUserRole = "FailedToAddUserRole";
+        public const string YouHaveExceededTheLimitForSendingPasswordResetEmailsPleaseTryAgainLater = "YouHaveExceededTheLimitForSendingPasswordResetEmailsPleaseTryAgainLater";
+        public const string YouHaveExceededTheLimitForSendingConfirmationEmailsPleaseTryAgainLater = "YouHaveExceededTheLimitForSendingConfirmationEmailsPleaseTryAgainLater";
+        public const string YouHaveExceededTheLimitForSendingLoginRequestPleaseTryAgainLater = "YouHaveExceededTheLimitForSendingLoginRequestPleaseTryAgainLater";
     }
 }

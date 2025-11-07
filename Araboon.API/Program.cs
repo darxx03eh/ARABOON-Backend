@@ -86,6 +86,7 @@ namespace Araboon.API
                                   });
             });
             #endregion
+
             // Add services to the container.
 
             builder.Services.AddControllers(options =>
@@ -142,6 +143,7 @@ namespace Araboon.API
                     });
                 };
             });
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
             builder.Services.AddEndpointsApiExplorer();
@@ -178,6 +180,7 @@ namespace Araboon.API
             });
             builder.Services.AddResponseCaching();
             var app = builder.Build();
+            app.UseRateLimiter();
             app.UseHangfireDashboard("/hangfire", new DashboardOptions
             {
                 Authorization = new[]
