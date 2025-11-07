@@ -509,6 +509,7 @@ ARABOON-Backend/
 - 🧠 Unit of Work for repositories
 - 🌐 Arabic & English responses
 - 📬 Email confirmations via MailKit
+- ⏱ Rate Limiting for sensitive APIs (e.g., login, send forget password email, send confirmation email)
 
 ---
 
