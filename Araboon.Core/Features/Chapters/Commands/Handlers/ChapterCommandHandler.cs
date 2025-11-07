@@ -51,7 +51,7 @@ namespace Araboon.Core.Features.Chapters.Commands.Handlers
 
         public async Task<ApiResponse> Handle(AddNewChapterCommand request, CancellationToken cancellationToken)
         {
-            var (result, chapter) = await chapterService.AddNewChapterAsync(request);
+            var (result, chapter, isArabicAvailable, isEnglishAvailable) = await chapterService.AddNewChapterAsync(request);
             var httpContext = httpContextAccessor.HttpContext;
             var langHeader = httpContext?.Request.Headers["Accept-Language"].ToString();
             var lang = "en";
@@ -64,26 +64,50 @@ namespace Araboon.Core.Features.Chapters.Commands.Handlers
                 "AnErrorOccurredWhileAddingTheImageForChapter" =>
                 InternalServerError(SharedTranslationKeys.AnErrorOccurredWhileAddingTheImageForChapter),
                 "AnErrorOccurredWhileAddingTheChapter" => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileAddingTheChapter]),
-                "ChapterAddedSuccessfully" => Success(chaptersResponse , message: stringLocalizer[SharedTranslationKeys.ChapterAddedSuccessfully]),
+                "ChapterAddedSuccessfully" => Success(chaptersResponse ,new
+                {
+                    IsArabicAvailable = isArabicAvailable,
+                    IsEnglishAvailable = isEnglishAvailable,
+                }, stringLocalizer[SharedTranslationKeys.ChapterAddedSuccessfully]),
                 "ChapterAddedSuccessfullyAndArabicBecameInactiveDueToIncompleteChapters" => 
-                Success(chaptersResponse, message: stringLocalizer[SharedTranslationKeys.ChapterAddedSuccessfullyAndArabicBecameInactiveDueToIncompleteChapters]),
+                Success(chaptersResponse, new
+                {
+                    IsArabicAvailable = isArabicAvailable,
+                    IsEnglishAvailable = isEnglishAvailable,
+                }, stringLocalizer[SharedTranslationKeys.ChapterAddedSuccessfullyAndArabicBecameInactiveDueToIncompleteChapters]),
                 "ChapterAddedSuccessfullyAndEnglishBecameInactiveDueToIncompleteChapters" => 
-                Success(chaptersResponse, message: stringLocalizer[SharedTranslationKeys.ChapterAddedSuccessfullyAndEnglishBecameInactiveDueToIncompleteChapters]),
+                Success(chaptersResponse, new
+                {
+                    IsArabicAvailable = isArabicAvailable,
+                    IsEnglishAvailable = isEnglishAvailable,
+                }, stringLocalizer[SharedTranslationKeys.ChapterAddedSuccessfullyAndEnglishBecameInactiveDueToIncompleteChapters]),
                 _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileAddingTheChapter])
             };
         }
 
         public async Task<ApiResponse> Handle(DeleteExistingChapterCommand request, CancellationToken cancellationToken)
         {
-            var result = await chapterService.DeleteExistingChapterAsync(request.Id);
+            var (result, isArabicAvailable, isEnglishAvailable) = await chapterService.DeleteExistingChapterAsync(request.Id);
             return result switch
             {
                 "ChapterNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.ChapterNotFound]),
-                "ChapterDeletedSuccessfully" => Success(null, message: stringLocalizer[SharedTranslationKeys.ChapterDeletedSuccessfully]),
+                "ChapterDeletedSuccessfully" => Success(null, new
+                {
+                    IsArabicAvailable = isArabicAvailable,
+                    IsEnglishAvailable = isEnglishAvailable,
+                }, stringLocalizer[SharedTranslationKeys.ChapterDeletedSuccessfully]),
                 "ChapterDeletedSuccessfullyAndArabicBecameInactiveDueToIncompleteChapters" => 
-                Success(null, message: stringLocalizer[SharedTranslationKeys.ChapterDeletedSuccessfullyAndArabicBecameInactiveDueToIncompleteChapters]),
+                Success(null, new
+                {
+                    IsArabicAvailable = isArabicAvailable,
+                    IsEnglishAvailable = isEnglishAvailable,
+                }, stringLocalizer[SharedTranslationKeys.ChapterDeletedSuccessfullyAndArabicBecameInactiveDueToIncompleteChapters]),
                 "ChapterDeletedSuccessfullyAndEnglishBecameInactiveDueToIncompleteChapters" => 
-                Success(null, message: stringLocalizer[SharedTranslationKeys.ChapterDeletedSuccessfullyAndEnglishBecameInactiveDueToIncompleteChapters]),
+                Success(null, new
+                {
+                    IsArabicAvailable = isArabicAvailable,
+                    IsEnglishAvailable = isEnglishAvailable,
+                }, stringLocalizer[SharedTranslationKeys.ChapterDeletedSuccessfullyAndEnglishBecameInactiveDueToIncompleteChapters]),
                 "AnErrorOccurredWhileDeletingTheChapter" => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileDeletingTheChapter]),
                 _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileDeletingTheChapter])
             };
@@ -91,7 +115,7 @@ namespace Araboon.Core.Features.Chapters.Commands.Handlers
 
         public async Task<ApiResponse> Handle(UpdateExistingChapterCommand request, CancellationToken cancellationToken)
         {
-            var (result, chapter) = await chapterService.UpdateExistingChapterAsync(
+            var (result, chapter, isArabicAvailable, isEnglishAvailable) = await chapterService.UpdateExistingChapterAsync(
                 request.Id, request.ChapterNo, request.ArabicChapterTitle, request.EnglishChapterTitle, request.Language
             );
             var httpContext = httpContextAccessor.HttpContext;
@@ -104,7 +128,11 @@ namespace Araboon.Core.Features.Chapters.Commands.Handlers
             {
                 "ChapterNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.ChapterNotFound]),
                 "AnErrorOccurredWhileUpdatingTheChapter" => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileUpdatingTheChapter]),
-                "ChapterUpdatedSuccessfully" => Success(chaptersResponse, message: stringLocalizer[SharedTranslationKeys.ChapterUpdatedSuccessfully]),
+                "ChapterUpdatedSuccessfully" => Success(chaptersResponse, new
+                {
+                    IsArabicAvailable = isArabicAvailable,
+                    IsEnglishAvailable = isEnglishAvailable,
+                } ,message: stringLocalizer[SharedTranslationKeys.ChapterUpdatedSuccessfully]),
                 _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileUpdatingTheChapter])
             };
         }

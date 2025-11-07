@@ -29,22 +29,26 @@ namespace Araboon.Infrastructure.Repositories
                 chapter.Language.ToLower().Equals(lang)
                 ).FirstOrDefaultAsync();
 
-        public async Task<(string, IList<Chapter>?)> GetChaptersForSpecificMangaByLanguage(int mangaId, string language)
+        public async Task<(string, IList<Chapter>?, bool?, bool?)> GetChaptersForSpecificMangaByLanguage(int mangaId, string language)
         {
             var isMangaExist = context.Mangas.Any(manga => manga.MangaID.Equals(mangaId));
             if (!isMangaExist)
-                return ("MangaNotFound", null);
+                return ("MangaNotFound", null, null, null);
+            var manga = await context.Mangas.Where(manga => manga.MangaID.Equals(mangaId)).FirstOrDefaultAsync();
             var isLanguageExist = await IsLanguageExist(mangaId, language);
             if (!isLanguageExist && !await IsAdmin())
-                return ("TheLanguageYouRequestedIsNotAvailableForThisManga", null);
+                return ("TheLanguageYouRequestedIsNotAvailableForThisManga", null, null, null);
             var lang = language.ToLower().Equals("ar") ? "arabic" : "english";
             var chapters = await GetTableNoTracking().Where(
                 chapter => chapter.Language.ToLower().Equals(lang.ToLower()) &&
                 chapter.MangaID.Equals(mangaId)
-                ).ToListAsync();
+                ).OrderBy(chapter => chapter.ChapterNo).ToListAsync();
             if (chapters.Count.Equals(0))
-                return ("ThereAreNoChaptersYet", null);
-            return ("TheChaptersWereFound", chapters);
+                return ("ThereAreNoChaptersYet", null, null, null);
+
+            var IsArabicAvailable = manga.ArabicAvailable;
+            var IsEnglishAvailable = manga.EnglishAvilable;
+            return ("TheChaptersWereFound", chapters, IsArabicAvailable, IsEnglishAvailable);
         }
 
         public async Task<bool> isChapterNoExistAsync(int mangaId, int chapterNo, string lang, int? excludeChapterId = null)

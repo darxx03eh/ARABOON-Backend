@@ -3,7 +3,6 @@ using Araboon.Data.Entities;
 using Araboon.Infrastructure.Data;
 using Araboon.Infrastructure.IRepositories;
 using Araboon.Service.Interfaces;
-using CloudinaryDotNet;
 using Hangfire;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -39,11 +38,11 @@ namespace Araboon.Service.Implementations
 
             return tempPaths.ToList();
         }
-        public async Task<(string, Chapter?)> AddNewChapterAsync(ChapterInfoDTO chapterInfo)
+        public async Task<(string, Chapter?, bool?, bool?)> AddNewChapterAsync(ChapterInfoDTO chapterInfo)
         {
             var manga = await unitOfWork.MangaRepository.GetByIdAsync(chapterInfo.MangaId);
             if (manga is null)
-                return ("MangaNotFound", null);
+                return ("MangaNotFound", null, null, null);
 
             var imageUrl = "";
             using var transaction = await context.Database.BeginTransactionAsync();
@@ -56,7 +55,7 @@ namespace Araboon.Service.Implementations
                         chapterInfo.Image, chapterInfo.MangaId, chapterInfo.ChapterNo, chapterInfo.Language
                     );
                     if (imageUrl is null)
-                        return ("AnErrorOccurredWhileAddingTheImageForChapter", null);
+                        return ("AnErrorOccurredWhileAddingTheImageForChapter", null, null, null);
                 }
 
                 var chapter = new Chapter()
@@ -73,7 +72,7 @@ namespace Araboon.Service.Implementations
                 if (result is null)
                 {
                     await transaction.RollbackAsync();
-                    return ("AnErrorOccurredWhileAddingTheChapter", null);
+                    return ("AnErrorOccurredWhileAddingTheChapter", null, null, null);
                 }
 
                 var tempPathsList = await TemporarilyStoreImagesAsync(chapterInfo.ChapterImages);
@@ -131,15 +130,15 @@ namespace Araboon.Service.Implementations
                 await transaction.CommitAsync();
 
                 if (!string.IsNullOrEmpty(inactiveLang))
-                    return ($"ChapterAddedSuccessfullyAnd{inactiveLang}BecameInactiveDueToIncompleteChapters", result);
+                    return ($"ChapterAddedSuccessfullyAnd{inactiveLang}BecameInactiveDueToIncompleteChapters", result, manga.ArabicAvailable, manga.EnglishAvilable);
 
-                return ("ChapterAddedSuccessfully", result);
+                return ("ChapterAddedSuccessfully", result, manga.ArabicAvailable, manga.EnglishAvilable);
             }
             catch
             {
                 if (transaction.GetDbTransaction().Connection is not null)
                     await transaction.RollbackAsync();
-                return ("AnErrorOccurredWhileAddingTheChapter", null);
+                return ("AnErrorOccurredWhileAddingTheChapter", null, null, null);
             }
         }
 
@@ -241,30 +240,32 @@ namespace Araboon.Service.Implementations
                 chapter.ReadersCount++;
                 await unitOfWork.ChapterRepository.UpdateAsync(chapter);
                 return ("ViewsIncreasedBy1", chapter.ReadersCount);
-            }catch(Exception exp)
+            }
+            catch (Exception exp)
             {
                 return ("AnErrorOccurredWhileIncreasingTheViewByOne", null);
             }
         }
 
-        public async Task<(string, IList<Chapter>?)> GetChaptersForSpecificMangaByLanguage(int mangaId, string language)
+        public async Task<(string, IList<Chapter>?, bool?, bool?)> GetChaptersForSpecificMangaByLanguage(int mangaId, string language)
         {
-            var (message, chapters) = await unitOfWork.ChapterRepository.GetChaptersForSpecificMangaByLanguage(mangaId, language);
+            var (message, chapters, isArabicAvailable, isEnglishAvailable) = await unitOfWork.ChapterRepository
+                .GetChaptersForSpecificMangaByLanguage(mangaId, language);
             return message switch
             {
-                "MangaNotFound" => ("MangaNotFound", null),
-                "TheLanguageYouRequestedIsNotAvailableForThisManga" => ("TheLanguageYouRequestedIsNotAvailableForThisManga", null),
-                "ThereAreNoChaptersYet" => ("ThereAreNoChaptersYet", null),
-                "TheChaptersWereFound" => ("TheChaptersWereFound", chapters),
-                _ => ("ThereAreNoChaptersYet", null)
+                "MangaNotFound" => ("MangaNotFound", null, null, null),
+                "TheLanguageYouRequestedIsNotAvailableForThisManga" => ("TheLanguageYouRequestedIsNotAvailableForThisManga", null, null, null),
+                "ThereAreNoChaptersYet" => ("ThereAreNoChaptersYet", null, null, null),
+                "TheChaptersWereFound" => ("TheChaptersWereFound", chapters, isArabicAvailable, isEnglishAvailable),
+                _ => ("ThereAreNoChaptersYet", null, null, null)
             };
         }
 
-        public async Task<string> DeleteExistingChapterAsync(int id)
+        public async Task<(string, bool?, bool?)> DeleteExistingChapterAsync(int id)
         {
             var chapter = await unitOfWork.ChapterRepository.GetByIdAsync(id);
             if (chapter is null)
-                return "ChapterNotFound";
+                return ("ChapterNotFound", null, null);
 
             await using var transaction = await context.Database.BeginTransactionAsync();
             try
@@ -274,8 +275,6 @@ namespace Araboon.Service.Implementations
                     : chapter.EnglishChapterImages.Select(i => i.ImageUrl).ToList();
 
                 var mainImage = chapter.ImageUrl;
-
-                await unitOfWork.ChapterRepository.DeleteAsync(chapter);
 
                 string lang = chapter.Language.ToLower() == "arabic" ? "ar" : "en";
                 var chaptersForLang = await context.Chapters
@@ -313,7 +312,7 @@ namespace Araboon.Service.Implementations
                 }
                 else responseMessage = "ChapterDeletedSuccessfully";
 
-                if(imageUrls is not null)
+                if (imageUrls is not null)
                     foreach (var url in imageUrls)
                         if (!string.IsNullOrWhiteSpace(url))
                             BackgroundJob.Enqueue<ICloudinaryService>(service => service.DeleteFileAsync(url));
@@ -321,23 +320,48 @@ namespace Araboon.Service.Implementations
                 if (!string.IsNullOrWhiteSpace(mainImage))
                     BackgroundJob.Enqueue<ICloudinaryService>(service => service.DeleteFileAsync(mainImage));
 
+
+                var views = await unitOfWork.ChapterViewRepository.GetTableNoTracking()
+                            .Where(view => view.ChapterID.Equals(chapter.ChapterID)).ToListAsync();
+
+                await unitOfWork.ChapterViewRepository.DeleteRangeAsync(views);
+
+                var language = chapter.Language?.ToLower();
+                if (language.Equals("arabic", StringComparison.OrdinalIgnoreCase))
+                {
+                    var arabicChapterImages = await unitOfWork.ArabicChapterImagesRepository.GetTableAsTracking()
+                            .Where(ar => ar.ChapterID.Equals(chapter.ChapterID))
+                            .ToListAsync();
+
+                    await unitOfWork.ArabicChapterImagesRepository.DeleteRangeAsync(arabicChapterImages);
+                }
+                else
+                {
+                    var englishChapterImages = await unitOfWork.EnglishChapterImagesRepository.GetTableAsTracking()
+                                .Where(en => en.ChapterID.Equals(chapter.ChapterID))
+                                .ToListAsync();
+
+                    await unitOfWork.EnglishChapterImagesRepository.DeleteRangeAsync(englishChapterImages);
+                }
+                await unitOfWork.ChapterRepository.DeleteAsync(chapter);
                 await transaction.CommitAsync();
-                return responseMessage;
+                return (responseMessage, manga.ArabicAvailable, manga.EnglishAvilable);
             }
             catch
             {
                 if (transaction.GetDbTransaction().Connection is not null)
                     await transaction.RollbackAsync();
-                return "AnErrorOccurredWhileDeletingTheChapter";
+                return ("AnErrorOccurredWhileDeletingTheChapter", null, null);
             }
         }
 
-        public async Task<(string, Chapter?)> UpdateExistingChapterAsync(int id, int chapterNo, string arabicChapterTitle, string englishChapterTitle, string language)
+        public async Task<(string, Chapter?, bool?, bool?)> UpdateExistingChapterAsync(int id, int chapterNo, string arabicChapterTitle, string englishChapterTitle, string language)
         {
             var chapter = await unitOfWork.ChapterRepository.GetByIdAsync(id);
             if (chapter is null)
-                return ("ChapterNotFound", null);
+                return ("ChapterNotFound", null, null, null);
 
+            await using var transaction = await context.Database.BeginTransactionAsync();
             try
             {
                 chapter.ChapterNo = chapterNo;
@@ -346,10 +370,38 @@ namespace Araboon.Service.Implementations
                 chapter.Language = language;
 
                 await unitOfWork.ChapterRepository.UpdateAsync(chapter);
-                return ("ChapterUpdatedSuccessfully", chapter);
-            }catch(Exception exp)
+
+                string lang = language.ToLower() == "arabic" ? "ar" : "en";
+                var chaptersForLang = await context.Chapters
+                    .Where(c => c.MangaID == chapter.MangaID && c.Language.ToLower() == lang)
+                    .OrderBy(c => c.ChapterNo)
+                    .Select(c => c.ChapterNo)
+                    .ToListAsync();
+
+                bool noGapsAndStartsAtOne = false;
+                if (chaptersForLang.Count > 0)
+                {
+                    var ordered = chaptersForLang.OrderBy(n => n).ToList();
+                    noGapsAndStartsAtOne = ordered.First() == 1 &&
+                                           ordered.Zip(ordered.Skip(1), (a, b) => b - a).All(diff => diff == 1);
+                }
+
+                var manga = await unitOfWork.MangaRepository.GetByIdAsync(chapter.MangaID);
+                if (manga != null)
+                {
+                    if (lang == "ar") manga.ArabicAvailable = noGapsAndStartsAtOne;
+                    else manga.EnglishAvilable = noGapsAndStartsAtOne;
+                    await unitOfWork.MangaRepository.UpdateAsync(manga);
+                }
+
+                await transaction.CommitAsync();
+                return ("ChapterUpdatedSuccessfully", chapter, manga.ArabicAvailable, manga.EnglishAvilable);
+            }
+            catch
             {
-                return ("AnErrorOccurredWhileUpdatingTheChapter", null);
+                if (transaction.GetDbTransaction().Connection is not null)
+                    await transaction.RollbackAsync();
+                return ("AnErrorOccurredWhileUpdatingTheChapter", null, null, null);
             }
         }
 
@@ -404,6 +456,24 @@ namespace Araboon.Service.Implementations
             using var transaction = await context.Database.BeginTransactionAsync();
             try
             {
+                var language = chapter.Language?.ToLower();
+                if (language.Equals("arabic", StringComparison.OrdinalIgnoreCase))
+                {
+                    var arabicChapterImages = await unitOfWork.ArabicChapterImagesRepository.GetTableAsTracking()
+                            .Where(ar => ar.ChapterID.Equals(chapter.ChapterID))
+                            .ToListAsync();
+
+                    await unitOfWork.ArabicChapterImagesRepository.DeleteRangeAsync(arabicChapterImages);
+                }
+                else
+                {
+                    var englishChapterImages = await unitOfWork.EnglishChapterImagesRepository.GetTableAsTracking()
+                                .Where(en => en.ChapterID.Equals(chapter.ChapterID))
+                                .ToListAsync();
+
+                    await unitOfWork.EnglishChapterImagesRepository.DeleteRangeAsync(englishChapterImages);
+                }
+
                 if (imageUrls is not null)
                     foreach (var url in imageUrls)
                         if (!string.IsNullOrWhiteSpace(url))
@@ -413,13 +483,13 @@ namespace Araboon.Service.Implementations
                 BackgroundJob.Enqueue<IChapterService>(service => service.UploadChapterImagesAsync(
                     chapter.MangaID, chapter.ChapterNo, tempPathsList, chapter.Language, chapter.ChapterID
                 ));
-
+                
                 await transaction.CommitAsync();
                 return "ImagesAreBeingUploadedToCloudStoragePleaseWaitALittleWhile";
             }
-            catch(Exception exp)
+            catch (Exception exp)
             {
-                if(transaction.GetDbTransaction().Connection is not null)
+                if (transaction.GetDbTransaction().Connection is not null)
                     await transaction.RollbackAsync();
                 return "AnErrorOccurredWhileProcessingTheImagesIploadRequest";
             }

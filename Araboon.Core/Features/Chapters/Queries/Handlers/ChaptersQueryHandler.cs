@@ -31,7 +31,8 @@ namespace Araboon.Core.Features.Chapters.Queries.Handlers
 
         public async Task<ApiResponse> Handle(GetChaptersForSpecificMangaByLanguageQuery request, CancellationToken cancellationToken)
         {
-            var (result, chapters) = await chapterService.GetChaptersForSpecificMangaByLanguage(request.MangaID, request.Language);
+            var (result, chapters, isArabicAvailable, isEnglishAvailable) = await chapterService.
+                GetChaptersForSpecificMangaByLanguage(request.MangaID, request.Language);
             var httpContext = httpContextAccessor.HttpContext;
             var langHeader = httpContext?.Request.Headers["Accept-Language"].ToString();
             var lang = "en";
@@ -44,7 +45,11 @@ namespace Araboon.Core.Features.Chapters.Queries.Handlers
                 "TheLanguageYouRequestedIsNotAvailableForThisManga" =>
                 NotFound(stringLocalizer[SharedTranslationKeys.TheLanguageYouRequestedIsNotAvailableForThisManga]),
                 "ThereAreNoChaptersYet" => NotFound(stringLocalizer[SharedTranslationKeys.ThereAreNoChaptersYet]),
-                "TheChaptersWereFound" => Success(chaptersResponse, message: stringLocalizer[SharedTranslationKeys.TheChaptersWereFound]),
+                "TheChaptersWereFound" => Success(chaptersResponse,new
+                {
+                    IsArabicAvailable = isArabicAvailable,
+                    IsEnglishAvailable = isEnglishAvailable,
+                }, message: stringLocalizer[SharedTranslationKeys.TheChaptersWereFound]),
                 _ => NotFound(stringLocalizer[SharedTranslationKeys.ThereAreNoChaptersYet])
             };
         }
