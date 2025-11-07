@@ -96,6 +96,8 @@ namespace Araboon.Core.Features.Authentications.Commands.Handlers
                 "YourAccountWasLockedDueToSuspiciousActivityPleaseTryAgainLaterorContactSupport" =>
                 Locked(stringLocalizer[SharedTranslationKeys.YourAccountWasLockedDueToSuspiciousActivityPleaseTryAgainLaterorContactSupport]),
                 "DataVerifiedAndLogin" => Success(result, message: stringLocalizer[SharedTranslationKeys.DataVerifiedAndLogin]),
+                "AnErrorOccurredWhileSavingTheLastLogin" =>
+                InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileSavingTheLastLogin]),
                 _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredDuringTheLoginProcess])
             };
         }

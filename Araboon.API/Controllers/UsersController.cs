@@ -1,6 +1,7 @@
 ﻿using Araboon.API.Bases;
 using Araboon.Core.Features.Users.Commands.Models;
 using Araboon.Core.Features.Users.Queries.Models;
+using Araboon.Data.Helpers;
 using Araboon.Data.Routing;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -89,6 +90,32 @@ namespace Araboon.API.Controllers
         public async Task<IActionResult> ChangeCroppedCoverImage([FromForm] ChangeCroppedCoverImageCommand request)
         {
             var result = await mediator.Send(request);
+            return Result(result);
+        }
+        [Authorize(Roles = Roles.Admin)]
+        [HttpGet(Router.UserRouting.GetUsersForDashboard)]
+        public async Task<IActionResult> GetUsersForDashboard(string? search, int pageNumber = 1, int pageSize = 5)
+        {
+            var result = await mediator.Send(new GetUsersForDashboardQuery()
+            {
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                Search = search
+            });
+            return Result(result);
+        }
+        [Authorize(Roles = Roles.Admin)]
+        [HttpPatch(Router.UserRouting.ActivateUserToggle)]
+        public async Task<IActionResult> ActivateUserToggle(int id)
+        {
+            var result = await mediator.Send(new ActivateUserToggleCommand(id));
+            return Result(result);
+        }
+        [Authorize(Roles = Roles.Admin)]
+        [HttpPatch(Router.UserRouting.ChangeUserRoleToggle)]
+        public async Task<IActionResult> ChangeUserRoleToggle(int id)
+        {
+            var result = await mediator.Send(new ChangeUserRoleToggleCommand(id));
             return Result(result);
         }
     }

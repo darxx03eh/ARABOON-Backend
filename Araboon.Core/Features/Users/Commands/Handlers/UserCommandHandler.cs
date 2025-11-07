@@ -20,6 +20,8 @@ namespace Araboon.Core.Features.Users.Commands.Handlers
         , IRequestHandler<DeleteCoverImageCommand, ApiResponse>
         , IRequestHandler<ChangeCroppedDataCommand, ApiResponse>
         , IRequestHandler<ChangeCroppedCoverImageCommand, ApiResponse>
+        , IRequestHandler<ActivateUserToggleCommand, ApiResponse>
+        , IRequestHandler<ChangeUserRoleToggleCommand, ApiResponse>
 
     {
         private readonly IUserService userService;
@@ -214,6 +216,37 @@ namespace Araboon.Core.Features.Users.Commands.Handlers
                 InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileProcessingYourCroppedCoverImageModificationRequest]),
                 _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileProcessingYourCroppedCoverImageModificationRequest])
             };
+        }
+
+        public async Task<ApiResponse> Handle(ActivateUserToggleCommand request, CancellationToken cancellationToken)
+        {
+            var result = await userService.ActivateUserToggleAsync(request.Id);
+            return result switch
+            {
+                "UserToActivateToggleNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.UserToActivateToggleNotFound]),
+                "ActivateUserSuccessfully" => Success(null, message: stringLocalizer[SharedTranslationKeys.ActivateUserSuccessfully]),
+                "DeActivateUserSuccessfully" => Success(null, message: stringLocalizer[SharedTranslationKeys.DeActivateUserSuccessfully]),
+                "AnErrorOccurredWhileActivatingOrDeActivatingProcess" =>
+                InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileActivatingOrDeActivatingProcess]),
+                "YouCanNotDoThisProcessToYourself" => BadRequest(stringLocalizer[SharedTranslationKeys.YouCanNotDoThisProcessToYourself]),
+                _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileActivatingOrDeActivatingProcess])
+            };
+        }
+
+        public async Task<ApiResponse> Handle(ChangeUserRoleToggleCommand request, CancellationToken cancellationToken)
+        {
+            var result = await userService.ChangeRoleToggleAsync(request.Id);
+            return result switch
+            {
+                "UserToChangeRoleToggleNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.UserToChangeRoleToggleNotFound]),
+                "YouCanNotDoThisProcessToYourself" => BadRequest(stringLocalizer[SharedTranslationKeys.YouCanNotDoThisProcessToYourself]),
+                "AnErrorOccurredWhileDeletingOldRole" => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileDeletingOldRole]),
+                "AnErrorOccurredWhileAddingTheUserToRole" => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileAddingTheUserToRole]),
+                "TheUserRoleHasBeenModifiedToBecomeAAdmin" => Success(null, message: stringLocalizer[SharedTranslationKeys.TheUserRoleHasBeenModifiedToBecomeAAdmin]),
+                "TheUserRoleHasBeenModifiedToBecomeAUser" => Success(null, message: stringLocalizer[SharedTranslationKeys.TheUserRoleHasBeenModifiedToBecomeAUser]),
+                "FailedToAddUserRole" => InternalServerError(stringLocalizer[SharedTranslationKeys.FailedToAddUserRole]),
+                _ => InternalServerError(stringLocalizer[SharedTranslationKeys.FailedToAddUserRole])
+            }; ;
         }
     }
 }

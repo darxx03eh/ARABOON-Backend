@@ -24,6 +24,7 @@ namespace Araboon.Data.Entities.Identity
         public bool IsActive { get; set; } = true;
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime? LastLogin { get; set; }
         public virtual ICollection<UserRefreshToken>? UserRefreshTokens { get; set; } = new HashSet<UserRefreshToken>();
         public virtual ICollection<Favorite>? Favorites { get; set; } = new HashSet<Favorite>();
         public virtual ICollection<CompletedReads>? CompletedReads { get; set; } = new HashSet<CompletedReads>();

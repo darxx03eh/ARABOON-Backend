@@ -9,6 +9,7 @@ namespace Araboon.Core.Features.Users.Queries.Handlers
 {
     public class UserQueryHandler : ApiResponseHandler
         , IRequestHandler<GetUserProfileQuery, ApiResponse>
+        , IRequestHandler<GetUsersForDashboardQuery, ApiResponse>
     {
         private readonly IUserService userService;
         private readonly IStringLocalizer<SharedTranslation> stringLocalizer;
@@ -27,6 +28,19 @@ namespace Araboon.Core.Features.Users.Queries.Handlers
                 "UserFound" => Success(profile, message: stringLocalizer[SharedTranslationKeys.UserFound]),
                 "ThereWasAProblemLoadingTheProfile" => InternalServerError(stringLocalizer[SharedTranslationKeys.ThereWasAProblemLoadingTheProfile]),
                 _ => InternalServerError(stringLocalizer[SharedTranslationKeys.ThereWasAProblemLoadingTheProfile])
+            };
+        }
+
+        public async Task<ApiResponse> Handle(GetUsersForDashboardQuery request, CancellationToken cancellationToken)
+        {
+            var (result, users, meta) = await userService.GetUsersForDashboardAsync(
+                request.PageNumber, request.PageSize, request.Search
+            );
+            return result switch
+            {
+                "UsersNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.UsersNotFound]),
+                "UsersFound" => Success(users, meta, stringLocalizer[SharedTranslationKeys.UsersFound]),
+                _ => NotFound(stringLocalizer[SharedTranslationKeys.UsersNotFound])
             };
         }
     }

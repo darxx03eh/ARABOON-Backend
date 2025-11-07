@@ -130,6 +130,10 @@ namespace Araboon.Service.Implementations
                 var (token, refresh) = await tokenService.GenerateAccessTokenAsync(user);
                 if (token is null)
                     return (null, "AnErrorOccurredWhileGeneratingTheToken", null);
+                user.LastLogin = DateTime.UtcNow;
+                var lastLoginResult = await userManager.UpdateAsync(user);
+                if (!lastLoginResult.Succeeded)
+                    return (null, "AnErrorOccurredWhileSavingTheLastLogin", null);
                 return (token, "DataVerifiedAndLogin", refresh);
             }
             catch (Exception exp)

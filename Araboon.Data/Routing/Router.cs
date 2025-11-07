@@ -124,6 +124,9 @@
             public const string DeleteCoverImage = $"{prefix}/cover-image";
             public const string ChangeCroppedData = $"{prefix}/crop-data";
             public const string ChangeCroppedCoverImage = $"{prefix}/cover-image/cropped-image";
+            public const string GetUsersForDashboard = prefix;
+            public const string ActivateUserToggle = $"{prefix}{singleRoute}/active-toggle";
+            public const string ChangeUserRoleToggle = $"{prefix}{singleRoute}/role-toggle";
         }
         public static class CommentRouting
         {

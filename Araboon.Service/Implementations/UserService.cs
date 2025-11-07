@@ -1,6 +1,8 @@
 ﻿using Araboon.Data.Entities.Identity;
+using Araboon.Data.Helpers;
 using Araboon.Data.Response.Users.Queries;
 using Araboon.Data.Routing;
+using Araboon.Data.Wrappers;
 using Araboon.Infrastructure.Commons;
 using Araboon.Infrastructure.Data;
 using Araboon.Infrastructure.IRepositories;
@@ -480,6 +482,147 @@ namespace Araboon.Service.Implementations
                         await transaction.RollbackAsync();
                     return "AnErrorOccurredWhileProcessingYourCroppedCoverImageModificationRequest";
                 }
+            }
+        }
+
+        public async Task<(string, PaginatedResult<UserManagementResponse>?, UsersMetaDataResponse?)> GetUsersForDashboardAsync(
+            int pageNumber, int pageSize, string? search = null
+        )
+        {
+            var query = unitOfWork.UserRepository.GetTableNoTracking();
+            var meta = new UsersMetaDataResponse()
+            {
+                TotalUsers = await query.CountAsync(),
+                ActiveUsers = await query.Where(user => user.IsActive).CountAsync(),
+                InActiveUsers = await query.Where(user => !user.IsActive).CountAsync()
+            };
+            if (!string.IsNullOrWhiteSpace(search))
+                query = query.Where(
+                    user => EF.Functions.Like(user.FirstName, search)
+                    || EF.Functions.Like(user.LastName, search)
+                    || EF.Functions.Like(user.FirstName + " " + user.LastName, search)
+                );
+
+            if (!query.Any())
+                return ("UsersNotFound", null, null);
+
+            var usersList = await query.ToListAsync();
+            if (!usersList.Any())
+                return ("UsersNotFound", null, null);
+
+            var userResponse = new List<UserManagementResponse>();
+            foreach(var user in usersList)
+            {
+                var roles = await userManager.GetRolesAsync(user);
+                userResponse.Add(new UserManagementResponse()
+                {
+                    Id = user.Id,
+                    ProfileImage = new ProfileImage()
+                    {
+                        OriginalImage = user.ProfileImage.OriginalImage,
+                        CropData = new CropData()
+                        {
+                            Position = new Position()
+                            {
+                                X = user.ProfileImage.X,
+                                Y = user.ProfileImage.Y
+                            },
+                            Scale = user.ProfileImage.Scale,
+                            Rotate = user.ProfileImage.Rotate
+                        }
+                    },
+                    DisplayName = $"{user.FirstName} {user.LastName}",
+                    Username = user.UserName,
+                    Email = user.Email,
+                    Role = roles.FirstOrDefault(),
+                    CreatedAt = user.CreatedAt.ToString("yyyy-MM-dd"),
+                    LastLogin = user.LastLogin.HasValue ? user.LastLogin.Value.ToString("yyyy-MM-dd") : "N/A",
+                    IsActive = user.IsActive,
+                });
+            }
+
+            var users = userResponse.Skip((pageNumber - 1) * pageSize)
+                        .Take(pageSize)
+                        .ToList();
+
+            var paginatedUsers = new PaginatedResult<UserManagementResponse>(users)
+            {
+                PageSize = pageSize,
+                CurrentPage = pageNumber,
+                TotalCount = userResponse.Count,
+                TotalPages = Convert.ToInt32(Math.Ceiling(userResponse.Count / Convert.ToDouble(pageSize)))
+            };
+
+            if (!paginatedUsers.Data.Any())
+                return ("UsersNotFound", null, null);
+
+            
+            return ("UsersFound", paginatedUsers, meta);
+        }
+
+        public async Task<string> ActivateUserToggleAsync(int id)
+        {
+            var user = await userManager.FindByIdAsync(Convert.ToString(id));
+            if (user is null)
+                return "UserToActivateToggleNotFound";
+
+            var thisUserId = unitOfWork.UserRepository.ExtractUserIdFromToken();
+            var thisUser = await userManager.FindByIdAsync(thisUserId);
+            if (thisUser.Id.Equals(user.Id))
+                return "YouCanNotDoThisProcessToYourself";
+            try
+            {
+                if (user.IsActive) user.IsActive = false;
+                else user.IsActive = true;
+                await userManager.UpdateAsync(user);
+                if (user.IsActive) return "ActivateUserSuccessfully";
+                return "DeActivateUserSuccessfully";
+            }
+            catch (Exception exp)
+            {
+                return "AnErrorOccurredWhileActivatingOrDeActivatingProcess";
+            }
+        }
+
+        public async Task<string> ChangeRoleToggleAsync(int id)
+        {
+            var user = await userManager.FindByIdAsync(Convert.ToString(id));
+            if (user is null)
+                return "UserToChangeRoleToggleNotFound";
+
+            var thisUserId = unitOfWork.UserRepository.ExtractUserIdFromToken();
+            var thisUser = await userManager.FindByIdAsync(thisUserId);
+            if (thisUser.Id.Equals(user.Id))
+                return "YouCanNotDoThisProcessToYourself";
+
+            using var transaction = await context.Database.BeginTransactionAsync();
+            try
+            {
+                var oldRoles = await userManager.GetRolesAsync(user);
+                var old = oldRoles.FirstOrDefault();
+
+                var deletedResult = await userManager.RemoveFromRolesAsync(user, oldRoles);
+                if (!deletedResult.Succeeded)
+                {
+                    await transaction.RollbackAsync();
+                    return "AnErrorOccurredWhileDeletingOldRole";
+                }
+
+                var newRole = old.Equals(Roles.Admin, StringComparison.OrdinalIgnoreCase) ? $"{Roles.User}" : $"{Roles.Admin}";
+                var addedResult = await userManager.AddToRoleAsync(user, newRole);
+                if (!addedResult.Succeeded)
+                {
+                    await transaction.RollbackAsync();
+                    return "AnErrorOccurredWhileAddingTheUserToRole";
+                }
+                await transaction.CommitAsync();
+                return $"TheUserRoleHasBeenModifiedToBecomeA{newRole}";
+            }
+            catch(Exception exp)
+            {
+                if (transaction.GetDbTransaction().Connection is not null)
+                    await transaction.RollbackAsync();
+                return "FailedToAddUserRole";
             }
         }
     }

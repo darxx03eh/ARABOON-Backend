@@ -393,6 +393,9 @@ namespace Araboon.Infrastructure.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<DateTime?>("LastLogin")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -523,11 +526,11 @@ namespace Araboon.Infrastructure.Migrations
 
                     b.Property<string>("MangaNameAr")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MangaNameEn")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<double?>("Rate")
                         .ValueGeneratedOnAdd()
@@ -567,12 +570,6 @@ namespace Araboon.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("MangaID");
-
-                    b.HasIndex("MangaNameAr")
-                        .IsUnique();
-
-                    b.HasIndex("MangaNameEn")
-                        .IsUnique();
 
                     b.ToTable("Mangas", t =>
                         {

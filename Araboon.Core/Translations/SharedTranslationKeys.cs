@@ -368,5 +368,18 @@
         public const string AnErrorOccurredWhileProcessingTheImagesIploadRequest = "AnErrorOccurredWhileProcessingTheImagesIploadRequest";
         public const string ImagesAreBeingUploadedToCloudStoragePleaseWaitALittleWhile = "ImagesAreBeingUploadedToCloudStoragePleaseWaitALittleWhile";
         public const string Accepted = "Accepted";
+        public const string AnErrorOccurredWhileSavingTheLastLogin = "AnErrorOccurredWhileSavingTheLastLogin";
+        public const string UsersNotFound = "UsersNotFound";
+        public const string UsersFound = "UsersFound";
+        public const string UserToActivateToggleNotFound = "UserToActivateToggleNotFound";
+        public const string ActivateUserSuccessfully = "ActivateUserSuccessfully";
+        public const string DeActivateUserSuccessfully = "DeActivateUserSuccessfully";
+        public const string YouCanNotDoThisProcessToYourself = "YouCanNotDoThisProcessToYourself";
+        public const string UserToChangeRoleToggleNotFound = "UserToChangeRoleToggleNotFound";
+        public const string AnErrorOccurredWhileDeletingOldRole = "AnErrorOccurredWhileDeletingOldRole";
+        public const string AnErrorOccurredWhileAddingTheUserToRole = "AnErrorOccurredWhileAddingTheUserToRole";
+        public const string TheUserRoleHasBeenModifiedToBecomeAAdmin = "TheUserRoleHasBeenModifiedToBecomeAAdmin";
+        public const string TheUserRoleHasBeenModifiedToBecomeAUser = "TheUserRoleHasBeenModifiedToBecomeAUser";
+        public const string FailedToAddUserRole = "FailedToAddUserRole";
     }
 }

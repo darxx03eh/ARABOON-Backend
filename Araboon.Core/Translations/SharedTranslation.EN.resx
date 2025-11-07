@@ -1231,4 +1231,43 @@
   <data name="Accepted" xml:space="preserve">
     <value>The request has been accepted for processing</value>
   </data>
+  <data name="AnErrorOccurredWhileSavingTheLastLogin" xml:space="preserve">
+    <value>An error occurred while saving the last login</value>
+  </data>
+  <data name="UsersNotFound" xml:space="preserve">
+    <value>Users not found</value>
+  </data>
+  <data name="UsersFound" xml:space="preserve">
+    <value>Users found</value>
+  </data>
+  <data name="UserToActivateToggleNotFound" xml:space="preserve">
+    <value>User to activate/deactivate not found</value>
+  </data>
+  <data name="ActivateUserSuccessfully" xml:space="preserve">
+    <value>User activated successfully</value>
+  </data>
+  <data name="DeActivateUserSuccessfully" xml:space="preserve">
+    <value>User deactivated successfully</value>
+  </data>
+  <data name="YouCanNotDoThisProcessToYourself" xml:space="preserve">
+    <value>You cannot perform this action on yourself</value>
+  </data>
+  <data name="UserToChangeRoleToggleNotFound" xml:space="preserve">
+    <value>User to change role not found</value>
+  </data>
+  <data name="AnErrorOccurredWhileDeletingOldRole" xml:space="preserve">
+    <value>An error occurred while deleting the old role</value>
+  </data>
+  <data name="AnErrorOccurredWhileAddingTheUserToRole" xml:space="preserve">
+    <value>An error occurred while adding the user to the role</value>
+  </data>
+  <data name="TheUserRoleHasBeenModifiedToBecomeAAdmin" xml:space="preserve">
+    <value>The user role has been modified to become an Admin</value>
+  </data>
+  <data name="TheUserRoleHasBeenModifiedToBecomeAUser" xml:space="preserve">
+    <value>The user role has been modified to become a User</value>
+  </data>
+  <data name="FailedToAddUserRole" xml:space="preserve">
+    <value>Failed to add user role</value>
+  </data>
 </root>

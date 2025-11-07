@@ -1,4 +1,5 @@
 ﻿using Araboon.Data.Response.Users.Queries;
+using Araboon.Data.Wrappers;
 using Microsoft.AspNetCore.Http;
 
 namespace Araboon.Service.Interfaces
@@ -18,5 +19,10 @@ namespace Araboon.Service.Interfaces
         public Task<string> DeleteCoverImageAsync();
         public Task<string> ChangeCroppedDataAsync(CropData cropData);
         public Task<string> ChangeCroppedCoverImageAsync(IFormFile image);
+        public Task<(string, PaginatedResult<UserManagementResponse>?, UsersMetaDataResponse?)> GetUsersForDashboardAsync(
+            int pageNumber, int pageSize, string? search = null
+        );
+        public Task<string> ActivateUserToggleAsync(int id);
+        public Task<string> ChangeRoleToggleAsync(int id);
     }
 }

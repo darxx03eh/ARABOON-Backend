@@ -1230,4 +1230,43 @@
   <data name="Accepted" xml:space="preserve">
     <value>تم قبول الطلب للمعالجة</value>
   </data>
+  <data name="AnErrorOccurredWhileSavingTheLastLogin" xml:space="preserve">
+    <value>حدث خطأ أثناء حفظ آخر تسجيل دخول</value>
+  </data>
+  <data name="UsersNotFound" xml:space="preserve">
+    <value>لم يتم العثور على المستخدمين</value>
+  </data>
+  <data name="UsersFound" xml:space="preserve">
+    <value>تم العثور على المستخدمين</value>
+  </data>
+  <data name="UserToActivateToggleNotFound" xml:space="preserve">
+    <value>المستخدم المطلوب تفعيله/تعطيله غير موجود</value>
+  </data>
+  <data name="ActivateUserSuccessfully" xml:space="preserve">
+    <value>تم تفعيل المستخدم بنجاح</value>
+  </data>
+  <data name="DeActivateUserSuccessfully" xml:space="preserve">
+    <value>تم تعطيل المستخدم بنجاح</value>
+  </data>
+  <data name="YouCanNotDoThisProcessToYourself" xml:space="preserve">
+    <value>لا يمكنك تنفيذ هذه العملية على نفسك</value>
+  </data>
+  <data name="UserToChangeRoleToggleNotFound" xml:space="preserve">
+    <value>المستخدم المطلوب تغيير دوره غير موجود</value>
+  </data>
+  <data name="AnErrorOccurredWhileDeletingOldRole" xml:space="preserve">
+    <value>حدث خطأ أثناء حذف الدور القديم</value>
+  </data>
+  <data name="AnErrorOccurredWhileAddingTheUserToRole" xml:space="preserve">
+    <value>حدث خطأ أثناء إضافة المستخدم إلى الدور</value>
+  </data>
+  <data name="TheUserRoleHasBeenModifiedToBecomeAAdmin" xml:space="preserve">
+    <value>تم تعديل دور المستخدم ليصبح مسؤولًا</value>
+  </data>
+  <data name="TheUserRoleHasBeenModifiedToBecomeAUser" xml:space="preserve">
+    <value>تم تعديل دور المستخدم ليصبح مستخدمًا</value>
+  </data>
+  <data name="FailedToAddUserRole" xml:space="preserve">
+    <value>فشل في إضافة دور المستخدم</value>
+  </data>
 </root>
