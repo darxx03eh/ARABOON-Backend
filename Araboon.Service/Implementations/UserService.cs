@@ -498,9 +498,9 @@ namespace Araboon.Service.Implementations
             };
             if (!string.IsNullOrWhiteSpace(search))
                 query = query.Where(
-                    user => EF.Functions.Like(user.FirstName, search)
-                    || EF.Functions.Like(user.LastName, search)
-                    || EF.Functions.Like(user.FirstName + " " + user.LastName, search)
+                    user => EF.Functions.Like(user.FirstName, $"%{search}%")
+                    || EF.Functions.Like(user.LastName, $"%{search}%")
+                    || EF.Functions.Like(user.FirstName + " " + user.LastName, $"%{search}%")
                 );
 
             if (!query.Any())
