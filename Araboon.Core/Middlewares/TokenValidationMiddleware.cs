@@ -54,7 +54,10 @@ namespace Araboon.Core.Middleware
             Router.UserRouting.ChangeEmailConfirmation,
 
             // comments paths 
-            "Api/V1/comments"
+            "Api/V1/comments",
+
+            // swipers paths
+            Router.SwipersRouting.GetSwipersForHomePage,
         };
 
         public TokenValidationMiddleware(RequestDelegate next, IStringLocalizer<SharedTranslation> stringLocalizer, JwtSettings jwtSettings)

@@ -36,6 +36,7 @@ namespace Araboon.Infrastructure.Repositories
             CategoryMangaRepository = new CategoryMangaRepository(context, httpContextAccessor, userManager);
             ArabicChapterImagesRepository = new ArabicChapterImagesRepository(context, httpContextAccessor, userManager);
             EnglishChapterImagesRepository = new EnglishChapterImagesRepository(context, httpContextAccessor, userManager);
+            SwiperRepository = new SwiperRepository(context, httpContextAccessor, userManager);
         }
         public IArabicChapterImagesRepository ArabicChapterImagesRepository { get; set; }
         public IEnglishChapterImagesRepository EnglishChapterImagesRepository { get; set; }
@@ -56,5 +57,6 @@ namespace Araboon.Infrastructure.Repositories
         public IReplyLikesRepository ReplyLikesRepository { get; set; }
         public IRatingsRepository RatingsRepository { get; set; }
         public ICategoryMangaRepository CategoryMangaRepository { get; set; }
+        public ISwiperRepository SwiperRepository { get; set; }
     }
 }

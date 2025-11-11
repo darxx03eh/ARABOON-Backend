@@ -153,5 +153,16 @@
             public const string DeleteRate = $"{prefix}{singleRoute}";
             public const string GetRate = $"{prefix}/manga{singleRoute}";
         }
+        public static class SwipersRouting
+        {
+            public const string prefix = $"{rule}swipers";
+            public const string GetSwipersForHomePage = prefix ;
+            public const string ActivateSwiperToggle = $"{prefix}{singleRoute}/active-toggle";
+            public const string DeleteExistingSwiper = $"{prefix}{singleRoute}";
+            public const string GetSwipersForDashboard = $"{prefix}/dashboard";
+            public const string AddNewSwiper = prefix;
+            public const string UploadNewSwiperImage = $"{prefix}/upload-image";
+            public const string UpdateSwiperNote = $"{prefix}/note";
+        }
     }
 }

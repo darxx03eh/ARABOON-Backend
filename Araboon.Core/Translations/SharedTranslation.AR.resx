@@ -1278,4 +1278,52 @@
   <data name="YouHaveExceededTheLimitForSendingLoginRequestPleaseTryAgainLater" xml:space="preserve">
     <value>لقد تجاوزت الحد المسموح لإرسال طلبات تسجيل الدخول. يرجى المحاولة لاحقًا.</value>
   </data>
+  <data name="SwipersNotFound" xml:space="preserve">
+    <value>لم يتم العثور على السوايبرز</value>
+  </data>
+  <data name="SwipersFound" xml:space="preserve">
+    <value>تم العثور على السوايبرز</value>
+  </data>
+  <data name="SwiperToActivateToggleNotFound" xml:space="preserve">
+    <value>السوايبر المطلوب تفعيله/تعطيله غير موجود</value>
+  </data>
+  <data name="ActivateSwiperSuccessfully" xml:space="preserve">
+    <value>تم تفعيل السوايبر بنجاح</value>
+  </data>
+  <data name="DeActivateSwiperSuccessfully" xml:space="preserve">
+    <value>تم تعطيل السوايبر بنجاح</value>
+  </data>
+  <data name="SwiperNotFound" xml:space="preserve">
+    <value>السوايبر غير موجود</value>
+  </data>
+  <data name="AnErrorOccurredWhileDeleteingSwiperProcess" xml:space="preserve">
+    <value>حدث خطأ أثناء عملية حذف السوايبر</value>
+  </data>
+  <data name="SwiperDeletedSuccessfully" xml:space="preserve">
+    <value>تم حذف السوايبر بنجاح</value>
+  </data>
+  <data name="NoteMustNotExceed500Characters" xml:space="preserve">
+    <value>يجب ألا تتجاوز الملاحظة 500 حرف</value>
+  </data>
+  <data name="AnErrorOccurredWhileAddingSwiperProcess" xml:space="preserve">
+    <value>حدث خطأ أثناء إضافة السوايبر</value>
+  </data>
+  <data name="SwiperAddedSuccessfully" xml:space="preserve">
+    <value>تم إضافة السوايبر بنجاح</value>
+  </data>
+  <data name="SwiperIdIsRequired" xml:space="preserve">
+    <value>رقم تعريف السوايبر مطلوب</value>
+  </data>
+  <data name="SwiperIdMustBeGreaterThanZero" xml:space="preserve">
+    <value>يجب أن يكون رقم تعريف السوايبر أكبر من صفر</value>
+  </data>
+  <data name="AnErrorOccurredWhileUpdatingSwiperNote" xml:space="preserve">
+    <value>حدث خطأ أثناء تحديث ملاحظة السوايبر</value>
+  </data>
+  <data name="SwiperNoteUpdatedSuccessfully" xml:space="preserve">
+    <value>تم تحديث ملاحظة السوايبر بنجاح</value>
+  </data>
+  <data name="SwiperNoteIsRequired" xml:space="preserve">
+    <value>ملاحظة السوايبر مطلوبة</value>
+  </data>
 </root>

@@ -21,5 +21,6 @@
         public IRatingsRepository RatingsRepository { get; set; }
         public ICategoryMangaRepository CategoryMangaRepository { get; set; }
         public IEnglishChapterImagesRepository EnglishChapterImagesRepository { get; set; }
+        public ISwiperRepository SwiperRepository { get; set; }
     }
 }

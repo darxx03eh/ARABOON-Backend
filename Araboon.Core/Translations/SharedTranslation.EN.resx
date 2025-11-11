@@ -1279,4 +1279,52 @@
   <data name="YouHaveExceededTheLimitForSendingLoginRequestPleaseTryAgainLater" xml:space="preserve">
     <value>You have exceeded the limit for sending login requests. Please try again later</value>
   </data>
+  <data name="SwipersNotFound" xml:space="preserve">
+    <value>Swipers not found</value>
+  </data>
+  <data name="SwipersFound" xml:space="preserve">
+    <value>Swipers found</value>
+  </data>
+  <data name="SwiperToActivateToggleNotFound" xml:space="preserve">
+    <value>Swiper to activate/deactivate not found</value>
+  </data>
+  <data name="ActivateSwiperSuccessfully" xml:space="preserve">
+    <value>Swiper activated successfully</value>
+  </data>
+  <data name="DeActivateSwiperSuccessfully" xml:space="preserve">
+    <value>Swiper deactivated successfully</value>
+  </data>
+  <data name="SwiperNotFound" xml:space="preserve">
+    <value>Swiper not found</value>
+  </data>
+  <data name="AnErrorOccurredWhileDeleteingSwiperProcess" xml:space="preserve">
+    <value>An error occurred while deleting the swiper</value>
+  </data>
+  <data name="SwiperDeletedSuccessfully" xml:space="preserve">
+    <value>Swiper deleted successfully</value>
+  </data>
+  <data name="NoteMustNotExceed500Characters" xml:space="preserve">
+    <value>Note must not exceed 500 characters</value>
+  </data>
+  <data name="AnErrorOccurredWhileAddingSwiperProcess" xml:space="preserve">
+    <value>An error occurred while adding the swiper</value>
+  </data>
+  <data name="SwiperAddedSuccessfully" xml:space="preserve">
+    <value>Swiper added successfully</value>
+  </data>
+  <data name="SwiperIdIsRequired" xml:space="preserve">
+    <value>Swiper ID is required</value>
+  </data>
+  <data name="SwiperIdMustBeGreaterThanZero" xml:space="preserve">
+    <value>Swiper ID must be greater than zero</value>
+  </data>
+  <data name="AnErrorOccurredWhileUpdatingSwiperNote" xml:space="preserve">
+    <value>An error occurred while updating the swiper note</value>
+  </data>
+  <data name="SwiperNoteUpdatedSuccessfully" xml:space="preserve">
+    <value>Swiper note updated successfully</value>
+  </data>
+  <data name="SwiperNoteIsRequired" xml:space="preserve">
+    <value>Swiper note is required</value>
+  </data>
 </root>

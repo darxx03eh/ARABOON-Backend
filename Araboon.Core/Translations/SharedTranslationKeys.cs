@@ -384,5 +384,21 @@
         public const string YouHaveExceededTheLimitForSendingPasswordResetEmailsPleaseTryAgainLater = "YouHaveExceededTheLimitForSendingPasswordResetEmailsPleaseTryAgainLater";
         public const string YouHaveExceededTheLimitForSendingConfirmationEmailsPleaseTryAgainLater = "YouHaveExceededTheLimitForSendingConfirmationEmailsPleaseTryAgainLater";
         public const string YouHaveExceededTheLimitForSendingLoginRequestPleaseTryAgainLater = "YouHaveExceededTheLimitForSendingLoginRequestPleaseTryAgainLater";
+        public const string SwipersNotFound = "SwipersNotFound";
+        public const string SwipersFound = "SwipersFound";
+        public const string SwiperToActivateToggleNotFound = "SwiperToActivateToggleNotFound";
+        public const string ActivateSwiperSuccessfully = "ActivateSwiperSuccessfully";
+        public const string DeActivateSwiperSuccessfully = "DeActivateSwiperSuccessfully";
+        public const string SwiperNotFound = "SwiperNotFound";
+        public const string AnErrorOccurredWhileDeleteingSwiperProcess = "AnErrorOccurredWhileDeleteingSwiperProcess";
+        public const string SwiperDeletedSuccessfully = "SwiperDeletedSuccessfully";
+        public const string NoteMustNotExceed500Characters = "NoteMustNotExceed500Characters";
+        public const string AnErrorOccurredWhileAddingSwiperProcess = "AnErrorOccurredWhileAddingSwiperProcess";
+        public const string SwiperAddedSuccessfully = "SwiperAddedSuccessfully";
+        public const string SwiperIdIsRequired = "SwiperIdIsRequired";
+        public const string SwiperIdMustBeGreaterThanZero = "SwiperIdMustBeGreaterThanZero";
+        public const string AnErrorOccurredWhileUpdatingSwiperNote = "AnErrorOccurredWhileUpdatingSwiperNote";
+        public const string SwiperNoteUpdatedSuccessfully = "SwiperNoteUpdatedSuccessfully";
+        public const string SwiperNoteIsRequired = "SwiperNoteIsRequired";
     }
 }

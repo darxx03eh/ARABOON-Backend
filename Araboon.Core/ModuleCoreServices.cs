@@ -6,6 +6,7 @@ using Araboon.Data.Helpers.Resolvers.Mangas;
 using Araboon.Data.Helpers.Resolvers.MangasResolver;
 using Araboon.Infrastructure.Resolvers.ChaptersResolver;
 using Araboon.Infrastructure.Resolvers.MangasResolver;
+using Araboon.Infrastructure.Resolvers.SwipersResolver;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -45,6 +46,7 @@ namespace Araboon.Core
             services.AddTransient<CommentsCountResolver>();
             services.AddTransient<IsEnglishAvilableResolver>();
             services.AddTransient<IsArabicAvilableResolver>();
+            services.AddTransient<SwiperDateFormatResolver>();
             // Get Validators
 
             #region RateLimiter Settings
