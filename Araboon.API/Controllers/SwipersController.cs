@@ -49,8 +49,8 @@ namespace Araboon.API.Controllers
             var result = await mediator.Send(request);
             return Result(result);
         }
-        [HttpPatch(Router.SwipersRouting.UpdateSwiperNote)]
-        public async Task<IActionResult> UpdateSwiperNote([FromBody] UpdateSwiperNoteCommand request)
+        [HttpPatch(Router.SwipersRouting.UpdateSwiper)]
+        public async Task<IActionResult> UpdateSwiper([FromBody] UpdateSwiperNoteLinkCommand request)
         {
             var result = await mediator.Send(request);
             return Result(result);

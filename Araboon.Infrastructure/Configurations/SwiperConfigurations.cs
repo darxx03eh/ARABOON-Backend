@@ -16,6 +16,9 @@ namespace Araboon.Infrastructure.Configurations
 
             builder.Property(x => x.UpdatedAt)
                 .HasDefaultValue(DateTime.UtcNow);
+
+            builder.HasIndex(x => x.Link)
+                .IsUnique();
         }
     }
 }

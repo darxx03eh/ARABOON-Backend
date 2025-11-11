@@ -1,5 +1,7 @@
 ﻿using Araboon.Core.Features.Mangas.Commands.Models;
 using Araboon.Core.Translations;
+using Araboon.Infrastructure.IRepositories;
+using Araboon.Infrastructure.Repositories;
 using FluentValidation;
 using Microsoft.Extensions.Localization;
 
@@ -8,11 +10,14 @@ namespace Araboon.Core.Features.Mangas.Commands.Validators
     public class UpdateMangaValidator : AbstractValidator<UpdateMangaCommand>
     {
         private readonly IStringLocalizer<SharedTranslation> stringLocalizer;
+        private readonly IUnitOfWork unitOfWork;
 
-        public UpdateMangaValidator(IStringLocalizer<SharedTranslation> stringLocalizer)
+        public UpdateMangaValidator(IStringLocalizer<SharedTranslation> stringLocalizer, IUnitOfWork unitOfWork)
         {
             this.stringLocalizer = stringLocalizer;
+            this.unitOfWork = unitOfWork;
             ApplyValidationRules();
+            ApplyCustomValidationRules();
         }
         public void ApplyValidationRules()
         {
@@ -72,6 +77,21 @@ namespace Araboon.Core.Features.Mangas.Commands.Validators
             RuleFor(x => x.DescriptionAr)
                 .MaximumLength(500).WithMessage(stringLocalizer[SharedTranslationKeys.DescriptionArMustNotExceed1000Characters])
                 .When(x => !string.IsNullOrEmpty(x.DescriptionAr));
+        }
+        private void ApplyCustomValidationRules()
+        {
+            RuleFor(x => x.MangaNameEn)
+                .MustAsync(async (obj, key, cancellation) =>
+                {
+                    var exist = await unitOfWork.MangaRepository.IsMangaNameEnExist(key);
+                    return !exist;
+                }).WithMessage(stringLocalizer[SharedTranslationKeys.MangaNameEnAlreadyExist]);
+            RuleFor(x => x.MangaNameAr)
+                .MustAsync(async (obj, key, cancellation) =>
+                {
+                    var exist = await unitOfWork.MangaRepository.IsMangaNameArExist(key);
+                    return !exist;
+                }).WithMessage(stringLocalizer[SharedTranslationKeys.MangaNameArAlreadyExist]);
         }
     }
 }

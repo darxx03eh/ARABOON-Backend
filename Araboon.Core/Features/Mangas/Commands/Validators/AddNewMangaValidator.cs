@@ -89,13 +89,13 @@ namespace Araboon.Core.Features.Mangas.Commands.Validators
         private void ApplyCustomValidationRules()
         {
             RuleFor(x => x.MangaNameEn)
-                .MustAsync(async (key, cancellation) =>
+                .MustAsync(async (obj, key, cancellation) =>
                 {
                     var exist = await unitOfWork.MangaRepository.IsMangaNameEnExist(key);
                     return !exist;
                 }).WithMessage(stringLocalizer[SharedTranslationKeys.MangaNameEnAlreadyExist]);
             RuleFor(x => x.MangaNameAr)
-                .MustAsync(async (key, cancellation) =>
+                .MustAsync(async (obj, key, cancellation) =>
                 {
                     var exist = await unitOfWork.MangaRepository.IsMangaNameArExist(key);
                     return !exist;

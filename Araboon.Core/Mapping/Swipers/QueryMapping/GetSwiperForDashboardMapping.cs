@@ -13,7 +13,8 @@ namespace Araboon.Core.Mapping.Swipers
                 .ForMember(to => to.Note, from => from.MapFrom(src => src.Note))
                 .ForMember(to => to.Url, from => from.MapFrom(src => src.ImageUrl))
                 .ForMember(to => to.IsActive, from => from.MapFrom(src => src.IsActive))
-                .ForMember(to => to.CreatedAt, from => from.MapFrom<SwiperDateFormatResolver>());
+                .ForMember(to => to.CreatedAt, from => from.MapFrom<SwiperDateFormatResolver>())
+                .ForMember(to => to.Link, from => from.MapFrom(src => src.Link));
         }
     }
 }

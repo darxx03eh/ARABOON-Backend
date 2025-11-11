@@ -8,5 +8,6 @@ namespace Araboon.Core.Features.Swipers.Commands.Models
     {
         public IFormFile Image { get; set; }
         public string? Note { get; set; }
+        public string Link { get; set; }
     }
 }

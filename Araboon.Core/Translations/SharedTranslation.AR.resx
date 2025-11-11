@@ -1326,4 +1326,13 @@
   <data name="SwiperNoteIsRequired" xml:space="preserve">
     <value>ملاحظة السوايبر مطلوبة</value>
   </data>
+  <data name="LinkIsRequired" xml:space="preserve">
+    <value>الرابط مطلوب</value>
+  </data>
+  <data name="LinkMustStartsWithHTTPS" xml:space="preserve">
+    <value>يجب أن يبدأ الرابط بـ https</value>
+  </data>
+  <data name="LinkAlreadyExist" xml:space="preserve">
+    <value>الرابط موجود بالفعل</value>
+  </data>
 </root>

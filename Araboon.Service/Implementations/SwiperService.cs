@@ -42,12 +42,12 @@ namespace Araboon.Service.Implementations
             }
         }
 
-        public async Task<(string, Swiper?)> AddNewSwiperAsync(IFormFile image, string? note = null)
+        public async Task<(string, Swiper?)> AddNewSwiperAsync(IFormFile image, string link, string? note = null)
         {
             using var transaction = await context.Database.BeginTransactionAsync();
             try
             {
-                var swiper = await unitOfWork.SwiperRepository.AddAsync(new Swiper() { Note = note });
+                var swiper = await unitOfWork.SwiperRepository.AddAsync(new Swiper() { Note = note, Link = link});
                 if (swiper is null)
                     return ("AnErrorOccurredWhileAddingSwiperProcess", null);
 
@@ -118,7 +118,7 @@ namespace Araboon.Service.Implementations
             return ("SwipersFound", swipers);
         }
 
-        public async Task<string> UpdateSwiperNoteAsync(int id, string note)
+        public async Task<string> UpdateSwiperNoteAsync(int id, string note, string link)
         {
             var swiper = await unitOfWork.SwiperRepository.GetByIdAsync(id);
             if (swiper is null)

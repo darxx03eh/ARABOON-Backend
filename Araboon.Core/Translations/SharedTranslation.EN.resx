@@ -1327,4 +1327,13 @@
   <data name="SwiperNoteIsRequired" xml:space="preserve">
     <value>Swiper note is required</value>
   </data>
+  <data name="LinkIsRequired" xml:space="preserve">
+    <value>Link is required</value>
+  </data>
+  <data name="LinkMustStartsWithHTTPS" xml:space="preserve">
+    <value>Link must start with https</value>
+  </data>
+  <data name="LinkAlreadyExist" xml:space="preserve">
+    <value>Link already exists</value>
+  </data>
 </root>

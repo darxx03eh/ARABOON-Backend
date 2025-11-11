@@ -15,7 +15,7 @@ namespace Araboon.Core.Features.Swipers.Commands.Handlers
         , IRequestHandler<DeleteExistingSwiperCommand, ApiResponse>
         , IRequestHandler<AddNewSwiperCommand, ApiResponse>
         , IRequestHandler<UploadNewSwiperImageCommand, ApiResponse>
-        , IRequestHandler<UpdateSwiperNoteCommand, ApiResponse>
+        , IRequestHandler<UpdateSwiperNoteLinkCommand, ApiResponse>
     {
         private readonly ISwiperService swiperService;
         private readonly IStringLocalizer<SharedTranslation> stringLocalizer;
@@ -57,7 +57,7 @@ namespace Araboon.Core.Features.Swipers.Commands.Handlers
 
         public async Task<ApiResponse> Handle(AddNewSwiperCommand request, CancellationToken cancellationToken)
         {
-            var (result, swiper) = await swiperService.AddNewSwiperAsync(request.Image, request.Note);
+            var (result, swiper) = await swiperService.AddNewSwiperAsync(request.Image, request.Link, request.Note);
             return result switch
             {
                 "AnErrorOccurredWhileAddingSwiperProcess" => 
@@ -85,9 +85,9 @@ namespace Araboon.Core.Features.Swipers.Commands.Handlers
             };
         }
 
-        public async Task<ApiResponse> Handle(UpdateSwiperNoteCommand request, CancellationToken cancellationToken)
+        public async Task<ApiResponse> Handle(UpdateSwiperNoteLinkCommand request, CancellationToken cancellationToken)
         {
-            var result = await swiperService.UpdateSwiperNoteAsync(request.Id, request.Note);
+            var result = await swiperService.UpdateSwiperNoteAsync(request.Id, request.Note, request.Link);
             return result switch
             {
                 "SwiperNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.SwiperNotFound]),

@@ -359,7 +359,8 @@ namespace Araboon.Service.Implementations
             }
         }
 
-        public async Task<(string, Chapter?, bool?, bool?)> UpdateExistingChapterAsync(int id, int chapterNo, string arabicChapterTitle, string englishChapterTitle, string language)
+        public async Task<(string, Chapter?, bool?, bool?)> UpdateExistingChapterAsync(
+    int id, int chapterNo, string arabicChapterTitle, string englishChapterTitle, string language)
         {
             var chapter = await unitOfWork.ChapterRepository.GetByIdAsync(id);
             if (chapter is null)
@@ -376,6 +377,7 @@ namespace Araboon.Service.Implementations
                 await unitOfWork.ChapterRepository.UpdateAsync(chapter);
 
                 string lang = language.ToLower() == "arabic" ? "arabic" : "english";
+
                 var chaptersForLang = await context.Chapters
                     .Where(c => c.MangaID == chapter.MangaID && c.Language.ToLower() == lang)
                     .OrderBy(c => c.ChapterNo)
@@ -393,17 +395,22 @@ namespace Araboon.Service.Implementations
                 var manga = await unitOfWork.MangaRepository.GetByIdAsync(chapter.MangaID);
                 if (manga != null)
                 {
-                    if (lang == "arabic") 
-                        if(!noGapsAndStartsAtOne)
-                            manga.ArabicAvailable = noGapsAndStartsAtOne;
-                        else
-                            if(!noGapsAndStartsAtOne)
-                                manga.EnglishAvilable = noGapsAndStartsAtOne;
+                    if (lang == "arabic")
+                    {
+                        if (!noGapsAndStartsAtOne)
+                            manga.ArabicAvailable = false;
+                    }
+                    else
+                    {
+                        if (!noGapsAndStartsAtOne)
+                            manga.EnglishAvilable = false;
+                    }
+
                     await unitOfWork.MangaRepository.UpdateAsync(manga);
                 }
 
                 await transaction.CommitAsync();
-                return ("ChapterUpdatedSuccessfully", chapter, manga.ArabicAvailable, manga.EnglishAvilable);
+                return ("ChapterUpdatedSuccessfully", chapter, manga?.ArabicAvailable, manga?.EnglishAvilable);
             }
             catch
             {
@@ -412,6 +419,7 @@ namespace Araboon.Service.Implementations
                 return ("AnErrorOccurredWhileUpdatingTheChapter", null, null, null);
             }
         }
+
 
         public async Task<(string, string?)> UploadChapterImageAsync(int id, IFormFile image)
         {

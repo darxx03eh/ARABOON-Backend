@@ -400,5 +400,8 @@
         public const string AnErrorOccurredWhileUpdatingSwiperNote = "AnErrorOccurredWhileUpdatingSwiperNote";
         public const string SwiperNoteUpdatedSuccessfully = "SwiperNoteUpdatedSuccessfully";
         public const string SwiperNoteIsRequired = "SwiperNoteIsRequired";
+        public const string LinkIsRequired = "LinkIsRequired";
+        public const string LinkMustStartsWithHTTPS = "LinkMustStartsWithHTTPS";
+        public const string LinkAlreadyExist = "LinkAlreadyExist";
     }
 }

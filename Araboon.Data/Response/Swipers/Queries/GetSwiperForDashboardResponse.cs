@@ -7,5 +7,6 @@
         public string Url { get; set; }
         public string CreatedAt { get; set; }
         public bool IsActive { get; set; }
+        public string Link { get; set; }
     }
 }

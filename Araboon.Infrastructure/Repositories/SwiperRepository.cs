@@ -4,6 +4,7 @@ using Araboon.Infrastructure.Data;
 using Araboon.Infrastructure.IRepositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Araboon.Infrastructure.Repositories
 {
@@ -19,6 +20,18 @@ namespace Araboon.Infrastructure.Repositories
             this.context = context;
             this.httpContextAccessor = httpContextAccessor;
             this.userManager = userManager;
+        }
+
+        public async Task<bool> IsLinkExistsAsync(string link, int? excludeSwiperId = null)
+        {
+            var query = GetTableNoTracking().Where(
+                swiper => swiper.Link.ToLower().Equals(link.ToLower())
+            );
+
+            if (excludeSwiperId.HasValue)
+                query = query.Where(swiper => !swiper.SwiperId.Equals(excludeSwiperId));
+
+            return await query.AnyAsync();
         }
     }
 }

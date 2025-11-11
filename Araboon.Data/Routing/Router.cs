@@ -162,7 +162,7 @@
             public const string GetSwipersForDashboard = $"{prefix}/dashboard";
             public const string AddNewSwiper = prefix;
             public const string UploadNewSwiperImage = $"{prefix}/upload-image";
-            public const string UpdateSwiperNote = $"{prefix}/note";
+            public const string UpdateSwiper = $"{prefix}";
         }
     }
 }
