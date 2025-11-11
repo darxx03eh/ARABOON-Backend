@@ -61,6 +61,7 @@ namespace Araboon.Service.Implementations
                     var folderName = $"ARABOON/Swipers/{swiper.SwiperId}/img";
                     var url =  await cloudinaryService.UploadFileAsync(stream, folderName, id);
                     swiper.ImageUrl = url;
+                    swiper.UpdatedAt = DateTime.UtcNow;
                     await unitOfWork.SwiperRepository.UpdateAsync(swiper);
                 }
                 await transaction.CommitAsync();
@@ -126,6 +127,7 @@ namespace Araboon.Service.Implementations
             try
             {
                 swiper.Note = note;
+                swiper.UpdatedAt = DateTime.UtcNow;
                 await unitOfWork.SwiperRepository.UpdateAsync(swiper);
                 return "SwiperNoteUpdatedSuccessfully";
             }
