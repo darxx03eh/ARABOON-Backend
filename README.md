@@ -185,9 +185,9 @@ https://localhost:<port>/swagger
 | PATCH       | /Api/V1/users/change-name                                                     | change the name for account                            |
 | PATCH       | /Api/V1/users/crop-data                                                       | change the crop data for image to view it in front end |
 | PATCH       | /Api/V1/users/cover-image/cropped-image                                       | change cropped image for cover image                   |
-| GET         | /Api/V1/users?search={value}&pageNumber={value}&pageSize={value}              | get paginated result of users ```admin only```         |
-| PATCH       | /Api/V1/users/{id}/active-toggle                                              | activate or deactivate user ```admin only```           |
-| PATCH       | /Api/V1/users/{id}/role-toggle                                                | toggle role to admin or user ```admin only```          |
+| GET         | /Api/V1/users?search={value}&pageNumber={value}&pageSize={value}              | get paginated result of users `admin only`             |
+| PATCH       | /Api/V1/users/{id}/active-toggle                                              | activate or deactivate user `admin only`               |
+| PATCH       | /Api/V1/users/{id}/role-toggle                                                | toggle role to admin or user `admin only`              |
 
 **Mangas**
 
@@ -261,16 +261,16 @@ https://localhost:<port>/swagger
 
 **Chapters**
 
-| HTTP Method | Endpoint                                                                                 | Description                                                                                       				 |
-| ----------- | ---------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| GET         | /Api/V1/Chapters/ViewChaptersForSpecificMangaByLanguage?MangaID={value}&Language={value} | view chapters as arabic or english                                                                			     |
-| GET         | /Api/V1/Chapters/images?MangaId={value}&ChapterNo={value}&Language={value}               | get images for specific chapter                                                                   				 |
-| POST        | /Api/V1/Chapters/read                                                                    | increaming views by 1 when you finished reading the chapter                                       				 |
-| POST        | /Api/V1/Chapters                                                                         | add new chapter to specific manga and upload images and send notifications in the background ```admin only```     |
-| DELETE      | /Api/V1/Chapters/{id}                                                                    | delete an existing chapter by id and then delete chapter images from cloudinary in the background ```admin only```|
-| PUT         | /Api/V1/Chapters                                                                         | update chapter info arabic and english chapter title, language and chapter number ```admin only```                |
-| PATCH       | /Api/V1/Chapters/upload-image                                                            | upload new chapter image and delete old one ```admin only```                                                      |
-| PATCH       | /Api/V1/Chapters/upload-images                                                           | upload new chapter images and delete the old images, this process run in the background ```admin only```          |
+| HTTP Method | Endpoint                                                                                 | Description                                                                                                    |
+| ----------- | ---------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| GET         | /Api/V1/Chapters/ViewChaptersForSpecificMangaByLanguage?MangaID={value}&Language={value} | view chapters as arabic or english                                                                             |
+| GET         | /Api/V1/Chapters/images?MangaId={value}&ChapterNo={value}&Language={value}               | get images for specific chapter                                                                                |
+| POST        | /Api/V1/Chapters/read                                                                    | increaming views by 1 when you finished reading the chapter                                                    |
+| POST        | /Api/V1/Chapters                                                                         | add new chapter to specific manga and upload images and send notifications in the background `admin only`      |
+| DELETE      | /Api/V1/Chapters/{id}                                                                    | delete an existing chapter by id and then delete chapter images from cloudinary in the background `admin only` |
+| PUT         | /Api/V1/Chapters                                                                         | update chapter info arabic and english chapter title, language and chapter number `admin only`                 |
+| PATCH       | /Api/V1/Chapters/upload-image                                                            | upload new chapter image and delete old one `admin only`                                                       |
+| PATCH       | /Api/V1/Chapters/upload-images                                                           | upload new chapter images and delete the old images, this process run in the background `admin only`           |
 
 **Categories**
 
@@ -441,6 +441,7 @@ ARABOON-Backend/
 │   │   └───Mangas
 │   │       └───QueryMapping
 │   ├───Middlewares
+│   ├───ResponseHelper
 │   └───Translations
 ├───Araboon.Data
 │   ├───DTOs
