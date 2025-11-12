@@ -450,7 +450,9 @@ ARABOON-Backend/
 │   │   │   └───QueryMapping
 │   │   ├───Chapters
 │   │   │   └───QueryMapping
-│   │   └───Mangas
+│   │   ├───Mangas
+│   │   │   └───QueryMapping
+│   │   └───Swipers
 │   │       └───QueryMapping
 │   ├───Middlewares
 │   ├───ResponseHelper
