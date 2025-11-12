@@ -87,16 +87,16 @@ namespace Araboon.Core.Features.Swipers.Commands.Handlers
 
         public async Task<ApiResponse> Handle(UpdateSwiperNoteLinkCommand request, CancellationToken cancellationToken)
         {
-            var result = await swiperService.UpdateSwiperNoteAsync(request.Id, request.Note, request.Link);
+            var (result, swiper) = await swiperService.UpdateSwiperNoteLinkAsync(request.Id, request.Note, request.Link);
             return result switch
             {
                 "SwiperNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.SwiperNotFound]),
                 "AnErrorOccurredWhileUpdatingSwiperNote" => 
                 InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileUpdatingSwiperNote]),
-                "SwiperNoteUpdatedSuccessfully" => Success(new
-                {
-                    Note = request.Note,
-                }, message: stringLocalizer[SharedTranslationKeys.SwiperNoteUpdatedSuccessfully]),
+                "SwiperNoteUpdatedSuccessfully" => Success(
+                    mapper.Map<GetSwiperForDashboardResponse>(swiper),
+                    message: stringLocalizer[SharedTranslationKeys.SwiperNoteUpdatedSuccessfully]
+                ),
                 _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileUpdatingSwiperNote])
             };
         }

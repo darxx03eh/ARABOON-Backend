@@ -501,6 +501,7 @@ namespace Araboon.Service.Implementations
                     user => EF.Functions.Like(user.FirstName, $"%{search}%")
                     || EF.Functions.Like(user.LastName, $"%{search}%")
                     || EF.Functions.Like(user.FirstName + " " + user.LastName, $"%{search}%")
+                    || EF.Functions.Like(user.UserName, $"%{search}%")
                 );
 
             if (!query.Any())

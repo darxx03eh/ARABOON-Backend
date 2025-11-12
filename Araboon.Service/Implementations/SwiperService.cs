@@ -118,22 +118,22 @@ namespace Araboon.Service.Implementations
             return ("SwipersFound", swipers);
         }
 
-        public async Task<string> UpdateSwiperNoteAsync(int id, string note, string link)
+        public async Task<(string, Swiper?)> UpdateSwiperNoteLinkAsync(int id, string note, string link)
         {
             var swiper = await unitOfWork.SwiperRepository.GetByIdAsync(id);
             if (swiper is null)
-                return "SwiperNotFound";
+                return ("SwiperNotFound", null);
 
             try
             {
                 swiper.Note = note;
                 swiper.UpdatedAt = DateTime.UtcNow;
                 await unitOfWork.SwiperRepository.UpdateAsync(swiper);
-                return "SwiperNoteUpdatedSuccessfully";
+                return ("SwiperNoteUpdatedSuccessfully", swiper);
             }
             catch(Exception exp)
             {
-                return "AnErrorOccurredWhileUpdatingSwiperNote";
+                return ("AnErrorOccurredWhileUpdatingSwiperNote", null);
             }
         }
 
