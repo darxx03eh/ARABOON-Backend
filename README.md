@@ -314,6 +314,18 @@ https://localhost:<port>/swagger
 | DELETE | /Api/V1/ratings/{id}       | remove existing rate `authorize only`        |
 | GET    | /Api/V1/ratings/manga/{id} | show ratings for existing manga              |
 
+**Swipers**
+
+| Method | Endpoint                           | Description                                  |
+| ------ | ---------------------------------- | -------------------------------------------- |
+| GET    | /Api/V1/swipers                    | show all active swipers in home page         |
+| POST   | /Api/V1/swipers                    | add new swiper `admin only`                  |
+| PATCH  | /Api/V1/swipers/{id}/active-toggle | make swiper active or inactive `admin only`  |
+| DELETE | /Api/V1/swipers/{id}               | delete an existing swiper `admin only`       |
+| GET    | /Api/V1/swipers/dashboard          | show all swipers in dashboard `admin only`   |
+| PATCH  | /Api/V1/swipers/upload-image       | upload new image for swiper `admin only`     |
+| PATCH  | /Api/V1/swipers                    | update note and link for swiper `admin only` |
+
 ---
 
 ## 🗂 Folder Structure
@@ -485,11 +497,12 @@ ARABOON-Backend/
 │   ├───Repositories
 │   ├───Resolvers
 │   │   ├───ChaptersResolver
-│   │   └───MangasResolver
+│   │   ├───MangasResolver
+│   │   └───SwipersResolver
 │   └───Seeder
 └───Araboon.Service
     ├───Implementations
-    ├───Interfaces
+    └───Interfaces
 ```
 
 ---
