@@ -25,10 +25,15 @@ namespace Araboon.Core.Features.Swipers.Commands.Validators
                 .NotEmpty().WithMessage(stringLocalizer[SharedTranslationKeys.SwiperIdIsRequired])
                 .GreaterThan(0).WithMessage(stringLocalizer[SharedTranslationKeys.SwiperIdMustBeGreaterThanZero]);
 
-            RuleFor(note => note.Note)
-                .NotNull().WithMessage(stringLocalizer[SharedTranslationKeys.SwiperNoteIsRequired])
-                .NotEmpty().WithMessage(stringLocalizer[SharedTranslationKeys.SwiperNoteIsRequired])
-                .MaximumLength(500).WithMessage(stringLocalizer[SharedTranslationKeys.NoteMustNotExceed500Characters]);
+            RuleFor(note => note.NoteEn)
+                .NotNull().WithMessage(stringLocalizer[SharedTranslationKeys.SwiperNoteEnIsRequired])
+                .NotEmpty().WithMessage(stringLocalizer[SharedTranslationKeys.SwiperNoteEnIsRequired])
+                .MaximumLength(500).WithMessage(stringLocalizer[SharedTranslationKeys.NoteEnMustNotExceed500Characters]);
+
+            RuleFor(note => note.NoteAr)
+                .NotNull().WithMessage(stringLocalizer[SharedTranslationKeys.SwiperNoteArIsRequired])
+                .NotEmpty().WithMessage(stringLocalizer[SharedTranslationKeys.SwiperNoteArIsRequired])
+                .MaximumLength(500).WithMessage(stringLocalizer[SharedTranslationKeys.NoteArMustNotExceed500Characters]);
 
             RuleFor(link => link.Link)
                 .NotNull().WithMessage(stringLocalizer[SharedTranslationKeys.LinkIsRequired])

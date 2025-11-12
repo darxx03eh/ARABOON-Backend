@@ -32,9 +32,13 @@ namespace Araboon.Core.Features.Swipers.Commands.Validators
                 .Must(ct => ct == "image/jpeg" || ct == "image/png" || ct == "image/webp")
                 .WithMessage(stringLocalizer[SharedTranslationKeys.OnlyJPEGPNGAndWebPFormatsAreAllowed]);
 
-            RuleFor(note => note.Note)
-                .MaximumLength(500).WithMessage(stringLocalizer[SharedTranslationKeys.NoteMustNotExceed500Characters])
-                .When(x => !string.IsNullOrWhiteSpace(x.Note));
+            RuleFor(note => note.NoteEn)
+                .MaximumLength(500).WithMessage(stringLocalizer[SharedTranslationKeys.NoteEnMustNotExceed500Characters])
+                .When(x => !string.IsNullOrWhiteSpace(x.NoteEn));
+
+            RuleFor(note => note.NoteAr)
+                .MaximumLength(500).WithMessage(stringLocalizer[SharedTranslationKeys.NoteArMustNotExceed500Characters])
+                .When(x => !string.IsNullOrWhiteSpace(x.NoteAr));
 
             RuleFor(link => link.Link)
                 .NotNull().WithMessage(stringLocalizer[SharedTranslationKeys.LinkIsRequired])

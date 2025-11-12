@@ -1302,8 +1302,8 @@
   <data name="SwiperDeletedSuccessfully" xml:space="preserve">
     <value>تم حذف السوايبر بنجاح</value>
   </data>
-  <data name="NoteMustNotExceed500Characters" xml:space="preserve">
-    <value>يجب ألا تتجاوز الملاحظة 500 حرف</value>
+  <data name="NoteEnMustNotExceed500Characters" xml:space="preserve">
+    <value>يجب ألا تتجاوز الملاحظة بالانجليزية 500 حرف</value>
   </data>
   <data name="AnErrorOccurredWhileAddingSwiperProcess" xml:space="preserve">
     <value>حدث خطأ أثناء إضافة السوايبر</value>
@@ -1323,8 +1323,8 @@
   <data name="SwiperNoteUpdatedSuccessfully" xml:space="preserve">
     <value>تم تحديث ملاحظة السوايبر بنجاح</value>
   </data>
-  <data name="SwiperNoteIsRequired" xml:space="preserve">
-    <value>ملاحظة السوايبر مطلوبة</value>
+  <data name="SwiperNoteEnIsRequired" xml:space="preserve">
+    <value>ملاحظة السوايبر بالانجليزية مطلوبة</value>
   </data>
   <data name="LinkIsRequired" xml:space="preserve">
     <value>الرابط مطلوب</value>
@@ -1334,5 +1334,11 @@
   </data>
   <data name="LinkAlreadyExist" xml:space="preserve">
     <value>الرابط موجود بالفعل</value>
+  </data>
+  <data name="NoteArMustNotExceed500Characters" xml:space="preserve">
+    <value>يجب ألا تتجاوز الملاحظة بالعربية 500 حرف</value>
+  </data>
+  <data name="SwiperNoteArIsRequired" xml:space="preserve">
+    <value>ملاحظة السوايبر بالعربية مطلوبة</value>
   </data>
 </root>

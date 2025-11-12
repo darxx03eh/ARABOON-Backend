@@ -1303,8 +1303,8 @@
   <data name="SwiperDeletedSuccessfully" xml:space="preserve">
     <value>Swiper deleted successfully</value>
   </data>
-  <data name="NoteMustNotExceed500Characters" xml:space="preserve">
-    <value>Note must not exceed 500 characters</value>
+  <data name="NoteEnMustNotExceed500Characters" xml:space="preserve">
+    <value>Note in English must not exceed 500 characters</value>
   </data>
   <data name="AnErrorOccurredWhileAddingSwiperProcess" xml:space="preserve">
     <value>An error occurred while adding the swiper</value>
@@ -1324,8 +1324,8 @@
   <data name="SwiperNoteUpdatedSuccessfully" xml:space="preserve">
     <value>Swiper note updated successfully</value>
   </data>
-  <data name="SwiperNoteIsRequired" xml:space="preserve">
-    <value>Swiper note is required</value>
+  <data name="SwiperNoteEnIsRequired" xml:space="preserve">
+    <value>Swiper note in English is required</value>
   </data>
   <data name="LinkIsRequired" xml:space="preserve">
     <value>Link is required</value>
@@ -1335,5 +1335,11 @@
   </data>
   <data name="LinkAlreadyExist" xml:space="preserve">
     <value>Link already exists</value>
+  </data>
+  <data name="NoteArMustNotExceed500Characters" xml:space="preserve">
+    <value>Note in Arabic must not exceed 500 characters</value>
+  </data>
+  <data name="SwiperNoteArIsRequired" xml:space="preserve">
+    <value>Swiper note in Arabic is required</value>
   </data>
 </root>

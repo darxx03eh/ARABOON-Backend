@@ -10,8 +10,8 @@ namespace Araboon.Service.Interfaces
         public Task<string> ActivateSwiperToggleAsync(int id);
         public Task<string> DeleteExistingSwiperAsync(int id);
         public Task<(string, IList<Swiper>?, SwiperMetaDataResponse?)> GetSwiperForDashboardAsync();
-        public Task<(string, Swiper?)> AddNewSwiperAsync(IFormFile image, string link, string? note = null);
+        public Task<(string, Swiper?)> AddNewSwiperAsync(IFormFile image, string link, string? noteEn = null, string? noteAr = null);
         public Task<(string, string?)> UploadNewSwiperImageAsync(int id, IFormFile image);
-        public Task<(string, Swiper?)> UpdateSwiperNoteLinkAsync(int id, string note, string link);
+        public Task<(string, Swiper?)> UpdateSwiperNoteLinkAsync(int id, string noteEn, string noteAr, string link);
     }
 }

@@ -10,7 +10,8 @@ namespace Araboon.Core.Mapping.Swipers
         {
             CreateMap<Swiper, GetSwiperForDashboardResponse>()
                 .ForMember(to => to.Id, from => from.MapFrom(src => src.SwiperId))
-                .ForMember(to => to.Note, from => from.MapFrom(src => src.Note))
+                .ForMember(to => to.NoteEn, from => from.MapFrom(src => src.NoteEn))
+                .ForMember(to => to.NoteAr, from => from.MapFrom(src => src.NoteAr))
                 .ForMember(to => to.Url, from => from.MapFrom(src => src.ImageUrl))
                 .ForMember(to => to.IsActive, from => from.MapFrom(src => src.IsActive))
                 .ForMember(to => to.CreatedAt, from => from.MapFrom<SwiperDateFormatResolver>())
