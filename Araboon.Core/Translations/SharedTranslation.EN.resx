@@ -1280,52 +1280,52 @@
     <value>You have exceeded the limit for sending login requests. Please try again later</value>
   </data>
   <data name="SwipersNotFound" xml:space="preserve">
-    <value>Swipers not found</value>
+    <value>Banners not found</value>
   </data>
   <data name="SwipersFound" xml:space="preserve">
-    <value>Swipers found</value>
+    <value>Banners found</value>
   </data>
   <data name="SwiperToActivateToggleNotFound" xml:space="preserve">
-    <value>Swiper to activate/deactivate not found</value>
+    <value>Banner to activate/deactivate not found</value>
   </data>
   <data name="ActivateSwiperSuccessfully" xml:space="preserve">
-    <value>Swiper activated successfully</value>
+    <value>Banner activated successfully</value>
   </data>
   <data name="DeActivateSwiperSuccessfully" xml:space="preserve">
-    <value>Swiper deactivated successfully</value>
+    <value>Banner deactivated successfully</value>
   </data>
   <data name="SwiperNotFound" xml:space="preserve">
-    <value>Swiper not found</value>
+    <value>Banner not found</value>
   </data>
   <data name="AnErrorOccurredWhileDeleteingSwiperProcess" xml:space="preserve">
-    <value>An error occurred while deleting the swiper</value>
+    <value>An error occurred while deleting the banner</value>
   </data>
   <data name="SwiperDeletedSuccessfully" xml:space="preserve">
-    <value>Swiper deleted successfully</value>
+    <value>Banner deleted successfully</value>
   </data>
   <data name="NoteEnMustNotExceed500Characters" xml:space="preserve">
     <value>Note in English must not exceed 500 characters</value>
   </data>
   <data name="AnErrorOccurredWhileAddingSwiperProcess" xml:space="preserve">
-    <value>An error occurred while adding the swiper</value>
+    <value>An error occurred while adding the banner</value>
   </data>
   <data name="SwiperAddedSuccessfully" xml:space="preserve">
-    <value>Swiper added successfully</value>
+    <value>Banner added successfully</value>
   </data>
   <data name="SwiperIdIsRequired" xml:space="preserve">
-    <value>Swiper ID is required</value>
+    <value>Banner ID is required</value>
   </data>
   <data name="SwiperIdMustBeGreaterThanZero" xml:space="preserve">
-    <value>Swiper ID must be greater than zero</value>
+    <value>Banner ID must be greater than zero</value>
   </data>
   <data name="AnErrorOccurredWhileUpdatingSwiperNote" xml:space="preserve">
-    <value>An error occurred while updating the swiper note</value>
+    <value>An error occurred while updating the banner note</value>
   </data>
   <data name="SwiperNoteUpdatedSuccessfully" xml:space="preserve">
-    <value>Swiper note updated successfully</value>
+    <value>Banner note updated successfully</value>
   </data>
   <data name="SwiperNoteEnIsRequired" xml:space="preserve">
-    <value>Swiper note in English is required</value>
+    <value>Banner note in English is required</value>
   </data>
   <data name="LinkIsRequired" xml:space="preserve">
     <value>Link is required</value>
@@ -1340,6 +1340,6 @@
     <value>Note in Arabic must not exceed 500 characters</value>
   </data>
   <data name="SwiperNoteArIsRequired" xml:space="preserve">
-    <value>Swiper note in Arabic is required</value>
+    <value>Banner note in Arabic is required</value>
   </data>
 </root>
