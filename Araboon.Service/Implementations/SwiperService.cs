@@ -6,6 +6,7 @@ using Araboon.Service.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
+using Org.BouncyCastle.Utilities;
 
 namespace Araboon.Service.Implementations
 {
@@ -14,12 +15,15 @@ namespace Araboon.Service.Implementations
         private readonly IUnitOfWork unitOfWork;
         private readonly ICloudinaryService cloudinaryService;
         private readonly AraboonDbContext context;
+        private readonly IHttpContextAccessor httpContextAccessor;
 
-        public SwiperService(IUnitOfWork unitOfWork, ICloudinaryService cloudinaryService, AraboonDbContext context)
+        public SwiperService(IUnitOfWork unitOfWork, ICloudinaryService cloudinaryService, AraboonDbContext context
+            , IHttpContextAccessor httpContextAccessor)
         {
             this.unitOfWork = unitOfWork;
             this.cloudinaryService = cloudinaryService;
             this.context = context;
+            this.httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<string> ActivateSwiperToggleAsync(int id)
@@ -31,7 +35,25 @@ namespace Araboon.Service.Implementations
             try
             {
                 if (swiper.IsActive) swiper.IsActive = false;
-                else swiper.IsActive = true;
+                else
+                {
+                    var httpRequest = httpContextAccessor.HttpContext.Request;
+                    var domain = $"{httpRequest.Scheme}://{httpRequest.Host}";
+                    if (swiper.Link.StartsWith(domain, StringComparison.OrdinalIgnoreCase))
+                    {
+                        var elements = swiper.Link.Split('/');
+                        var index = Array.FindIndex(elements, el => string.Equals(el, "manga", StringComparison.OrdinalIgnoreCase));
+                        var mangaId = elements[index + 1];
+                        var manga = await unitOfWork.MangaRepository.GetByIdAsync(Convert.ToInt32(mangaId));
+                        if (manga is null)
+                            return "MangaNotFound";
+
+                        if (!manga.IsActive)
+                            return "CanNotActivateThisSwiperBecauseItIsLinkedToAnInactiveManga";
+                        swiper.IsActive = true;
+                    }
+                    swiper.IsActive = true;
+                }
                 await unitOfWork.SwiperRepository.UpdateAsync(swiper);
                 if (swiper.IsActive) return "ActivateSwiperSuccessfully";
                 return "DeActivateSwiperSuccessfully";

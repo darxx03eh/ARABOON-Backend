@@ -1341,4 +1341,7 @@
   <data name="SwiperNoteArIsRequired" xml:space="preserve">
     <value>ملاحظة اللافتة بالعربية مطلوبة</value>
   </data>
+  <data name="CanNotActivateThisSwiperBecauseItIsLinkedToAnInactiveManga" xml:space="preserve">
+    <value>لا يمكن تفعيل هذه اللافتة لأنها مرتبطة بمانجا غير مفعلة</value>
+  </data>
 </root>

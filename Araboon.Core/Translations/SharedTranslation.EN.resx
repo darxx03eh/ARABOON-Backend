@@ -1342,4 +1342,7 @@
   <data name="SwiperNoteArIsRequired" xml:space="preserve">
     <value>Banner note in Arabic is required</value>
   </data>
+  <data name="CanNotActivateThisSwiperBecauseItIsLinkedToAnInactiveManga" xml:space="preserve">
+    <value>Cannot activate this banner because it is linked to an inactive manga</value>
+  </data>
 </root>

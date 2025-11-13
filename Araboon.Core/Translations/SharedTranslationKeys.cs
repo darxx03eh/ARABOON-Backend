@@ -405,5 +405,6 @@
         public const string LinkIsRequired = "LinkIsRequired";
         public const string LinkMustStartsWithHTTPS = "LinkMustStartsWithHTTPS";
         public const string LinkAlreadyExist = "LinkAlreadyExist";
+        public const string CanNotActivateThisSwiperBecauseItIsLinkedToAnInactiveManga = "CanNotActivateThisSwiperBecauseItIsLinkedToAnInactiveManga";
     }
 }

@@ -34,6 +34,9 @@ namespace Araboon.Core.Features.Swipers.Commands.Handlers
             return result switch
             {
                 "SwiperToActivateToggleNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.SwiperToActivateToggleNotFound]),
+                "MangaNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.MangaNotFound]),
+                "CanNotActivateThisSwiperBecauseItIsLinkedToAnInactiveManga" =>
+                BadRequest(stringLocalizer[SharedTranslationKeys.CanNotActivateThisSwiperBecauseItIsLinkedToAnInactiveManga]),
                 "ActivateSwiperSuccessfully" => Success(null, message: stringLocalizer[SharedTranslationKeys.ActivateSwiperSuccessfully]),
                 "DeActivateSwiperSuccessfully" => Success(null, message: stringLocalizer[SharedTranslationKeys.DeActivateSwiperSuccessfully]),
                 "AnErrorOccurredWhileActivatingOrDeActivatingProcess" =>
