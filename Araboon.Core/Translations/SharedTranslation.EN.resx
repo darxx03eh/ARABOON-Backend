@@ -1321,8 +1321,8 @@
   <data name="AnErrorOccurredWhileUpdatingSwiperNote" xml:space="preserve">
     <value>An error occurred while updating the banner note</value>
   </data>
-  <data name="SwiperNoteUpdatedSuccessfully" xml:space="preserve">
-    <value>Banner note updated successfully</value>
+  <data name="SwiperUpdatedSuccessfully" xml:space="preserve">
+    <value>Banner updated successfully</value>
   </data>
   <data name="SwiperNoteEnIsRequired" xml:space="preserve">
     <value>Banner note in English is required</value>
@@ -1344,5 +1344,8 @@
   </data>
   <data name="CanNotActivateThisSwiperBecauseItIsLinkedToAnInactiveManga" xml:space="preserve">
     <value>Cannot activate this banner because it is linked to an inactive manga</value>
+  </data>
+  <data name="YouCanNotAddTheSwiperBecauseMangaNotExist" xml:space="preserve">
+    <value>You cannot add the banner because the manga does not exist</value>
   </data>
 </root>

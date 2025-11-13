@@ -1320,8 +1320,8 @@
   <data name="AnErrorOccurredWhileUpdatingSwiperNote" xml:space="preserve">
     <value>حدث خطأ أثناء تحديث ملاحظة اللافتة</value>
   </data>
-  <data name="SwiperNoteUpdatedSuccessfully" xml:space="preserve">
-    <value>تم تحديث ملاحظة اللافتة بنجاح</value>
+  <data name="SwiperUpdatedSuccessfully" xml:space="preserve">
+    <value>تم تحديث اللافتة بنجاح</value>
   </data>
   <data name="SwiperNoteEnIsRequired" xml:space="preserve">
     <value>ملاحظة اللافتة بالانجليزية مطلوبة</value>
@@ -1343,5 +1343,8 @@
   </data>
   <data name="CanNotActivateThisSwiperBecauseItIsLinkedToAnInactiveManga" xml:space="preserve">
     <value>لا يمكن تفعيل هذه اللافتة لأنها مرتبطة بمانجا غير مفعلة</value>
+  </data>
+  <data name="YouCanNotAddTheSwiperBecauseMangaNotExist" xml:space="preserve">
+    <value>لا يمكنك إضافة اللافتة لأن المانجا غير موجودة</value>
   </data>
 </root>

@@ -65,6 +65,7 @@ namespace Araboon.Core.Features.Swipers.Commands.Handlers
             {
                 "AnErrorOccurredWhileAddingSwiperProcess" => 
                 InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileAddingSwiperProcess]),
+                "YouCanNotAddTheSwiperBecauseMangaNotExist" => BadRequest(stringLocalizer[SharedTranslationKeys.YouCanNotAddTheSwiperBecauseMangaNotExist]),
                 "SwiperAddedSuccessfully" => 
                 Success(mapper.Map<GetSwiperForDashboardResponse>(swiper), message: stringLocalizer[SharedTranslationKeys.SwiperAddedSuccessfully]),
                 _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileAddingSwiperProcess])
@@ -94,11 +95,12 @@ namespace Araboon.Core.Features.Swipers.Commands.Handlers
             return result switch
             {
                 "SwiperNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.SwiperNotFound]),
+                "MangaNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.MangaNotFound]),
                 "AnErrorOccurredWhileUpdatingSwiperNote" => 
                 InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileUpdatingSwiperNote]),
-                "SwiperNoteUpdatedSuccessfully" => Success(
+                "SwiperUpdatedSuccessfully" => Success(
                     mapper.Map<GetSwiperForDashboardResponse>(swiper),
-                    message: stringLocalizer[SharedTranslationKeys.SwiperNoteUpdatedSuccessfully]
+                    message: stringLocalizer[SharedTranslationKeys.SwiperUpdatedSuccessfully]
                 ),
                 _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileUpdatingSwiperNote])
             };

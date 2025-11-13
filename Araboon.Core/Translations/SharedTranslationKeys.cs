@@ -399,12 +399,13 @@
         public const string SwiperIdIsRequired = "SwiperIdIsRequired";
         public const string SwiperIdMustBeGreaterThanZero = "SwiperIdMustBeGreaterThanZero";
         public const string AnErrorOccurredWhileUpdatingSwiperNote = "AnErrorOccurredWhileUpdatingSwiperNote";
-        public const string SwiperNoteUpdatedSuccessfully = "SwiperNoteUpdatedSuccessfully";
+        public const string SwiperUpdatedSuccessfully = "SwiperUpdatedSuccessfully";
         public const string SwiperNoteEnIsRequired = "SwiperNoteEnIsRequired";
         public const string SwiperNoteArIsRequired = "SwiperNoteArIsRequired";
         public const string LinkIsRequired = "LinkIsRequired";
         public const string LinkMustStartsWithHTTPS = "LinkMustStartsWithHTTPS";
         public const string LinkAlreadyExist = "LinkAlreadyExist";
         public const string CanNotActivateThisSwiperBecauseItIsLinkedToAnInactiveManga = "CanNotActivateThisSwiperBecauseItIsLinkedToAnInactiveManga";
+        public const string YouCanNotAddTheSwiperBecauseMangaNotExist = "YouCanNotAddTheSwiperBecauseMangaNotExist";
     }
 }

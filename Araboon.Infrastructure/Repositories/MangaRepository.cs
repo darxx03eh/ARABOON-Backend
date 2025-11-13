@@ -330,7 +330,7 @@ namespace Araboon.Infrastructure.Repositories
         public async Task<(string, PaginatedResult<GetMangaForDashboardResponse>?)> GetMangaForDashboardAsync(string? search, int pageNumber, int pageSize, bool isAdmin)
         {
             var mangasQueryable = GetTableNoTracking().Where(manga => isAdmin ? true : manga.IsActive)
-                .OrderByDescending(manga => manga.Rate * manga.RatingsCount).AsQueryable();
+                .OrderByDescending(manga => manga.CreatedAt).AsQueryable();
             if (!string.IsNullOrWhiteSpace(search))
                 mangasQueryable = mangasQueryable.Where(
                 manga => manga.MangaNameEn.ToLower().Contains(search.ToLower()) ||

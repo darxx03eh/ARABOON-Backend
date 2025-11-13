@@ -37,9 +37,7 @@ namespace Araboon.Service.Implementations
                 if (swiper.IsActive) swiper.IsActive = false;
                 else
                 {
-                    var httpRequest = httpContextAccessor.HttpContext.Request;
-                    var domain = $"{httpRequest.Scheme}://{httpRequest.Host}";
-                    if (swiper.Link.StartsWith(domain, StringComparison.OrdinalIgnoreCase))
+                    if (swiper.Link.StartsWith("https://araboon.vercel.app/manga", StringComparison.OrdinalIgnoreCase))
                     {
                         var elements = swiper.Link.Split('/');
                         var index = Array.FindIndex(elements, el => string.Equals(el, "manga", StringComparison.OrdinalIgnoreCase));
@@ -73,7 +71,20 @@ namespace Araboon.Service.Implementations
                 if (swiper is null)
                     return ("AnErrorOccurredWhileAddingSwiperProcess", null);
 
-                if(image is not null)
+                if (link.StartsWith("https://araboon.vercel.app/manga", StringComparison.OrdinalIgnoreCase))
+                {
+                    var elements = link.Split('/');
+                    var index = Array.FindIndex(elements, el => string.Equals(el, "manga", StringComparison.OrdinalIgnoreCase));
+                    var mangaId = elements[index + 1];
+                    var manga = await unitOfWork.MangaRepository.GetByIdAsync(Convert.ToInt32(mangaId));
+                    if (manga is null)
+                    {
+                        await transaction.RollbackAsync();
+                        return ("YouCanNotAddTheSwiperBecauseMangaNotExist", null);
+                    }
+                }
+
+                if (image is not null)
                 {
                     var guidPart = Guid.NewGuid().ToString("N").Substring(0, 12);
                     var datePart = DateTime.UtcNow.ToString("yyyyMMddHHmmss");
@@ -150,9 +161,22 @@ namespace Araboon.Service.Implementations
             {
                 swiper.NoteEn = noteEn;
                 swiper.NoteAr = noteAr;
+                if (link.StartsWith("https://araboon.vercel.app/manga", StringComparison.OrdinalIgnoreCase))
+                {
+                    var elements = link.Split('/');
+                    var index = Array.FindIndex(elements, el => string.Equals(el, "manga", StringComparison.OrdinalIgnoreCase));
+                    var mangaId = elements[index + 1];
+                    var manga = await unitOfWork.MangaRepository.GetByIdAsync(Convert.ToInt32(mangaId));
+                    if (manga is null)
+                        return ("MangaNotFound", null);
+
+                    if (!manga.IsActive)
+                        swiper.IsActive = false;
+                }
+                swiper.Link = link;
                 swiper.UpdatedAt = DateTime.UtcNow;
                 await unitOfWork.SwiperRepository.UpdateAsync(swiper);
-                return ("SwiperNoteUpdatedSuccessfully", swiper);
+                return ("SwiperUpdatedSuccessfully", swiper);
             }
             catch(Exception exp)
             {

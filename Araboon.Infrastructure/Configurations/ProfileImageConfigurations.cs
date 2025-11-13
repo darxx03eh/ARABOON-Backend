@@ -18,7 +18,7 @@ namespace Araboon.Infrastructure.Configurations
             builder.Property(x => x.Y)
                 .HasDefaultValue(0.0);
             builder.Property(x => x.Scale)
-                .HasDefaultValue(1.2);
+                .HasDefaultValue(1.0);
             builder.Property(x => x.Rotate)
                 .HasDefaultValue(0.0);
         }
