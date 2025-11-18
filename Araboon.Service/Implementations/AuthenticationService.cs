@@ -210,6 +210,10 @@ namespace Araboon.Service.Implementations
                 return (null, "UserNotFound");
             if (!user.IsActive)
                 return (null, "TheAccountIsDisabledAndCannotBeRegeneratedWithAnAccessToken");
+            user.LastLogin = DateTime.UtcNow;
+            var loginResult = await userManager.UpdateAsync(user);
+            if (!loginResult.Succeeded)
+                return (null, "AnErrorOccurredDuringTheTokenGenerationProcess");
             var result = await GenerateRefreshTokenAsync(user);
             if (result is null)
                 return (null, "AnErrorOccurredDuringTheTokenGenerationProcess");
