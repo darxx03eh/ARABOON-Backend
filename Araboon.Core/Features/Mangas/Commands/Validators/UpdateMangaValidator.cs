@@ -83,13 +83,13 @@ namespace Araboon.Core.Features.Mangas.Commands.Validators
             RuleFor(x => x.MangaNameEn)
                 .MustAsync(async (obj, key, cancellation) =>
                 {
-                    var exist = await unitOfWork.MangaRepository.IsMangaNameEnExist(key);
+                    var exist = await unitOfWork.MangaRepository.IsMangaNameEnExist(key, obj.MangaId);
                     return !exist;
                 }).WithMessage(stringLocalizer[SharedTranslationKeys.MangaNameEnAlreadyExist]);
             RuleFor(x => x.MangaNameAr)
                 .MustAsync(async (obj, key, cancellation) =>
                 {
-                    var exist = await unitOfWork.MangaRepository.IsMangaNameArExist(key);
+                    var exist = await unitOfWork.MangaRepository.IsMangaNameArExist(key, obj.MangaId);
                     return !exist;
                 }).WithMessage(stringLocalizer[SharedTranslationKeys.MangaNameArAlreadyExist]);
         }

@@ -310,7 +310,7 @@ namespace Araboon.Infrastructure.Repositories
             );
 
             if (excludeMangaId.HasValue)
-                query = query.Where(manga => manga.MangaID.Equals(excludeMangaId));
+                query = query.Where(manga => !manga.MangaID.Equals(excludeMangaId));
 
             return await query.AnyAsync();
         }
@@ -322,7 +322,7 @@ namespace Araboon.Infrastructure.Repositories
             );
 
             if (excludeMangaId.HasValue)
-                query = query.Where(manga => manga.MangaID.Equals(excludeMangaId));
+                query = query.Where(manga => !manga.MangaID.Equals(excludeMangaId));
 
             return await query.AnyAsync();
         }
