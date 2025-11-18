@@ -132,7 +132,7 @@ namespace Araboon.API
                             kvp => kvp.Value.Errors.Select(
                                 e => stringLocalizer is not null ? stringLocalizer[SharedTranslationKeys.ValidationError]
                                 : e.ErrorMessage
-                                ).ToArray()
+                            ).ToArray()
                         );
                     return new BadRequestObjectResult(new ApiResponse()
                     {
@@ -180,7 +180,10 @@ namespace Araboon.API
             });
             builder.Services.AddResponseCaching();
             var app = builder.Build();
-            app.UseRateLimiter();
+            #region Localization Middleware
+            var options = app.Services.GetService<IOptions<RequestLocalizationOptions>>();
+            app.UseRequestLocalization(options.Value);
+            #endregion
             app.UseHangfireDashboard("/hangfire", new DashboardOptions
             {
                 Authorization = new[]
@@ -215,15 +218,12 @@ namespace Araboon.API
             }
             app.UseResponseCaching();
             app.UseCors(CORS);
+            app.UseRateLimiter();
             app.UseMiddleware<ErrorHandlerMiddleware>();
             app.UseMiddleware<TokenValidationMiddleware>();
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseAuthorization();
-            #region Localization Middleware
-            var options = app.Services.GetService<IOptions<RequestLocalizationOptions>>();
-            app.UseRequestLocalization(options.Value);
-            #endregion
             app.MapControllers();
             app.Run();
         }

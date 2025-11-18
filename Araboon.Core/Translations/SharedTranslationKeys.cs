@@ -407,5 +407,7 @@
         public const string LinkAlreadyExist = "LinkAlreadyExist";
         public const string CanNotActivateThisSwiperBecauseItIsLinkedToAnInactiveManga = "CanNotActivateThisSwiperBecauseItIsLinkedToAnInactiveManga";
         public const string YouCanNotAddTheSwiperBecauseMangaNotExist = "YouCanNotAddTheSwiperBecauseMangaNotExist";
+        public const string DashboardStatisticsRetrievedSuccessfully = "DashboardStatisticsRetrievedSuccessfully";
+        public const string AnErrorOccurredWhileRetrievingDashboardStatistics = "AnErrorOccurredWhileRetrievingDashboardStatistics";
     }
 }

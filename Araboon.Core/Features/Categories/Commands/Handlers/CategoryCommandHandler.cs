@@ -89,7 +89,7 @@ namespace Araboon.Core.Features.Categories.Commands.Handlers
                 "CategoryNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.CategoryNotFound]),
                 "AnErrorOccurredWhileUpdatingTheCategory" =>
                 InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileUpdatingTheCategory]),
-                "CategoryUpdatedSuccessfully" => Success(request, message: SharedTranslationKeys.CategoryUpdatedSuccessfully),
+                "CategoryUpdatedSuccessfully" => Success(request, message: stringLocalizer[SharedTranslationKeys.CategoryUpdatedSuccessfully]),
                 _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileUpdatingTheCategory])
             };
         }

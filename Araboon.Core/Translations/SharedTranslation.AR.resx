@@ -1347,4 +1347,10 @@
   <data name="YouCanNotAddTheSwiperBecauseMangaNotExist" xml:space="preserve">
     <value>لا يمكنك إضافة اللافتة لأن المانجا غير موجودة</value>
   </data>
+  <data name="DashboardStatisticsRetrievedSuccessfully" xml:space="preserve">
+    <value>تم جلب إحصائيات لوحة التحكم بنجاح</value>
+  </data>
+  <data name="AnErrorOccurredWhileRetrievingDashboardStatistics" xml:space="preserve">
+    <value>حدث خطأ أثناء جلب إحصائيات لوحة التحكم</value>
+  </data>
 </root>

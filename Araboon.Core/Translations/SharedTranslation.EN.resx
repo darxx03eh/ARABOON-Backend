@@ -1348,4 +1348,10 @@
   <data name="YouCanNotAddTheSwiperBecauseMangaNotExist" xml:space="preserve">
     <value>You cannot add the banner because the manga does not exist</value>
   </data>
+  <data name="DashboardStatisticsRetrievedSuccessfully" xml:space="preserve">
+    <value>Dashboard statistics retrieved successfully</value>
+  </data>
+  <data name="AnErrorOccurredWhileRetrievingDashboardStatistics" xml:space="preserve">
+    <value>An error occurred while retrieving dashboard statistics</value>
+  </data>
 </root>

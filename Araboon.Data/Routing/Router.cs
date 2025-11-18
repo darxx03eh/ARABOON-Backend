@@ -164,5 +164,10 @@
             public const string UploadNewSwiperImage = $"{prefix}/upload-image";
             public const string UpdateSwiper = $"{prefix}";
         }
+        public static class DashboardsRouting
+        {
+            public const string prefix = $"{rule}dashboards";
+            public const string DashboardStatistics = prefix;
+        }
     }
 }
