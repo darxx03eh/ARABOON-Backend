@@ -1354,4 +1354,7 @@
   <data name="AnErrorOccurredWhileRetrievingDashboardStatistics" xml:space="preserve">
     <value>An error occurred while retrieving dashboard statistics</value>
   </data>
+  <data name="YouCannotActivateTheCategoryBecauseThereAreNoMangaAssociatedWithIt" xml:space="preserve">
+    <value>You cannot activate the category because there are no manga associated with it</value>
+  </data>
 </root>

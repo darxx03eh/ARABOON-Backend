@@ -409,5 +409,6 @@
         public const string YouCanNotAddTheSwiperBecauseMangaNotExist = "YouCanNotAddTheSwiperBecauseMangaNotExist";
         public const string DashboardStatisticsRetrievedSuccessfully = "DashboardStatisticsRetrievedSuccessfully";
         public const string AnErrorOccurredWhileRetrievingDashboardStatistics = "AnErrorOccurredWhileRetrievingDashboardStatistics";
+        public const string YouCannotActivateTheCategoryBecauseThereAreNoMangaAssociatedWithIt = "YouCannotActivateTheCategoryBecauseThereAreNoMangaAssociatedWithIt";
     }
 }

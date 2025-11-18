@@ -1353,4 +1353,7 @@
   <data name="AnErrorOccurredWhileRetrievingDashboardStatistics" xml:space="preserve">
     <value>حدث خطأ أثناء جلب إحصائيات لوحة التحكم</value>
   </data>
+  <data name="YouCannotActivateTheCategoryBecauseThereAreNoMangaAssociatedWithIt" xml:space="preserve">
+    <value>لا يمكنك تفعيل التصنيف لأنه لا يوجد مانجا مرتبطة به</value>
+  </data>
 </root>

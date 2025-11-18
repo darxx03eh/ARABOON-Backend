@@ -26,6 +26,10 @@ namespace Araboon.Service.Implementations
                 return "CategoryAlreadyActive";
             try
             {
+                var mangasInCategoryCount = await unitOfWork.CategoryMangaRepository.GetTableNoTracking()
+                                            .CountAsync(c => c.CategoryID.Equals(category.CategoryID));
+                if (mangasInCategoryCount.Equals(0))
+                    return "YouCannotActivateTheCategoryBecauseThereAreNoMangaAssociatedWithIt";
                 category.IsActive = true;
                 category.UpdatedAt = DateTime.UtcNow;
                 await unitOfWork.CategoryRepository.UpdateAsync(category);

@@ -62,6 +62,8 @@ namespace Araboon.Core.Features.Categories.Commands.Handlers
                 "CategoryAlreadyActive" => Conflict(stringLocalizer[SharedTranslationKeys.CategoryAlreadyActive]),
                 "AnErrorOccurredWhileActivateTheCategory" =>
                 InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileActivateTheCategory]),
+                "YouCannotActivateTheCategoryBecauseThereAreNoMangaAssociatedWithIt" =>
+                BadRequest(stringLocalizer[SharedTranslationKeys.YouCannotActivateTheCategoryBecauseThereAreNoMangaAssociatedWithIt]),
                 "CategoryActivateSuccessfully" => Success(null, message: stringLocalizer[SharedTranslationKeys.CategoryActivateSuccessfully]),
                 _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileActivateTheCategory])
             };
