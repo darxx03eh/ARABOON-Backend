@@ -142,6 +142,8 @@ namespace Araboon.Core.Features.Authentications.Commands.Handlers
                 "AnErrorOccurredDuringTheTokenGenerationProcess" =>
                 InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredDuringTheTokenGenerationProcess]),
                 "AccessTokenRegenerated" => Success(response, message: stringLocalizer[SharedTranslationKeys.AccessTokenRegenerated]),
+                "TheAccountIsDisabledAndCannotBeRegeneratedWithAnAccessToken" =>
+                Forbidden(stringLocalizer[SharedTranslationKeys.TheAccountIsDisabledAndCannotBeRegeneratedWithAnAccessToken]),
                 _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredDuringTheTokenGenerationProcess])
             };
         }

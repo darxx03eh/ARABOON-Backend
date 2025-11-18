@@ -1356,4 +1356,7 @@
   <data name="YouCannotActivateTheCategoryBecauseThereAreNoMangaAssociatedWithIt" xml:space="preserve">
     <value>لا يمكنك تفعيل التصنيف لأنه لا يوجد مانجا مرتبطة به</value>
   </data>
+  <data name="TheAccountIsDisabledAndCannotBeRegeneratedWithAnAccessToken" xml:space="preserve">
+    <value>الحساب معطل ولا يمكن إعادة إنشائه باستخدام رمز الوصول</value>
+  </data>
 </root>

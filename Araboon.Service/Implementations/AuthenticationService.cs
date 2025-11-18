@@ -208,6 +208,8 @@ namespace Araboon.Service.Implementations
             var user = await userManager.FindByIdAsync(userId);
             if (user is null)
                 return (null, "UserNotFound");
+            if (!user.IsActive)
+                return (null, "TheAccountIsDisabledAndCannotBeRegeneratedWithAnAccessToken");
             var result = await GenerateRefreshTokenAsync(user);
             if (result is null)
                 return (null, "AnErrorOccurredDuringTheTokenGenerationProcess");

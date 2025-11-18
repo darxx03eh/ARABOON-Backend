@@ -1357,4 +1357,7 @@
   <data name="YouCannotActivateTheCategoryBecauseThereAreNoMangaAssociatedWithIt" xml:space="preserve">
     <value>You cannot activate the category because there are no manga associated with it</value>
   </data>
+  <data name="TheAccountIsDisabledAndCannotBeRegeneratedWithAnAccessToken" xml:space="preserve">
+    <value>The account is disabled and cannot be regenerated with an access token</value>
+  </data>
 </root>

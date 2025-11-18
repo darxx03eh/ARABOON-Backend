@@ -410,5 +410,6 @@
         public const string DashboardStatisticsRetrievedSuccessfully = "DashboardStatisticsRetrievedSuccessfully";
         public const string AnErrorOccurredWhileRetrievingDashboardStatistics = "AnErrorOccurredWhileRetrievingDashboardStatistics";
         public const string YouCannotActivateTheCategoryBecauseThereAreNoMangaAssociatedWithIt = "YouCannotActivateTheCategoryBecauseThereAreNoMangaAssociatedWithIt";
+        public const string TheAccountIsDisabledAndCannotBeRegeneratedWithAnAccessToken = "TheAccountIsDisabledAndCannotBeRegeneratedWithAnAccessToken";
     }
 }
