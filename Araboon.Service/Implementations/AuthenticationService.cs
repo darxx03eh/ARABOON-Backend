@@ -13,7 +13,6 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
-
 namespace Araboon.Service.Implementations
 {
     public class AuthenticationService : IAuthenticationService

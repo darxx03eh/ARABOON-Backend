@@ -28,4 +28,12 @@
     <ProjectReference Include="..\Araboon.Service\Araboon.Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\Users\Darawsheh\Documents\ARABOON-Backend\Araboon.API\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="C:\Users\Darawsheh\Documents\ARABOON-Backend\Araboon.API\.editorconfig" />
+  </ItemGroup>
+
 </Project>

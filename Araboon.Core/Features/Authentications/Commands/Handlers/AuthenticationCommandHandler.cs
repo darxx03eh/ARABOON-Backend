@@ -2,7 +2,6 @@
 using Araboon.Core.Features.Authentications.Commands.Models;
 using Araboon.Core.Translations;
 using Araboon.Data.Entities.Identity;
-using Araboon.Data.Response.Authentications;
 using Araboon.Service.Interfaces;
 using AutoMapper;
 using MediatR;
@@ -73,7 +72,7 @@ namespace Araboon.Core.Features.Authentications.Commands.Handlers
         public async Task<ApiResponse> Handle(SignInCommand request, CancellationToken cancellationToken)
         {
             var (result, message, refresh) = await authenticationService.SignInAsync(request.UserName, request.Password);
-            if(refresh is not null)
+            if (refresh is not null)
             {
                 httpContextAccessor.HttpContext.Response.Cookies.Append("refresh", refresh, new CookieOptions
                 {
@@ -122,7 +121,7 @@ namespace Araboon.Core.Features.Authentications.Commands.Handlers
             if (string.IsNullOrWhiteSpace(refresh))
                 return NotFound(stringLocalizer[SharedTranslationKeys.RefreshTokenIsNotFound]);
             var (response, result) = await authenticationService.GenerateRefreshTokenAsync(refresh);
-            if(!result.Equals("AccessTokenRegenerated"))
+            if (!result.Equals("AccessTokenRegenerated"))
                 httpContextAccessor.HttpContext?.Response.Cookies.Delete("refresh", new CookieOptions
                 {
                     Path = "/",
