@@ -326,6 +326,12 @@ https://localhost:<port>/swagger
 | PATCH  | /Api/V1/swipers/upload-image       | upload new image for swiper `admin only`     |
 | PATCH  | /Api/V1/swipers                    | update note and link for swiper `admin only` |
 
+**Swipers**
+
+| Method | Endpoint                           | Description                                  |
+| ------ | ---------------------------------- | -------------------------------------------- |
+| GET    | Api/V1/dashboards                  | get dashboard statistics `admin only`        |
+
 ---
 
 ## 🗂 Folder Structure
