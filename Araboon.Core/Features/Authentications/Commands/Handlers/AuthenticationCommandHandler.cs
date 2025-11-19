@@ -55,6 +55,7 @@ namespace Araboon.Core.Features.Authentications.Commands.Handlers
                 _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredDuringTheRegistrationProcess])
             };
         }
+
         public async Task<ApiResponse> Handle(ConfirmationEmailCommand request, CancellationToken cancellationToken)
         {
             var result = await authenticationService.ConfirmationEmailAsync(request.Email, request.Token);

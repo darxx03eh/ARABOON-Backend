@@ -326,7 +326,7 @@ https://localhost:<port>/swagger
 | PATCH  | /Api/V1/swipers/upload-image       | upload new image for swiper `admin only`     |
 | PATCH  | /Api/V1/swipers                    | update note and link for swiper `admin only` |
 
-**Swipers**
+**Dashboards**
 
 | Method | Endpoint                           | Description                                  |
 | ------ | ---------------------------------- | -------------------------------------------- |
