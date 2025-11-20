@@ -400,6 +400,10 @@ ARABOON-Backend/
 │   │   │   └───Queries
 │   │   │       ├───Handlers
 │   │   │       └───Models
+│   │   ├───Dashboards
+│   │   │   ├───Queries
+│   │   │       ├───Handlers
+│   │   │       └───Models
 │   │   ├───Favorites
 │   │   │   ├───Commands
 │   │   │   │   ├───Handlers
