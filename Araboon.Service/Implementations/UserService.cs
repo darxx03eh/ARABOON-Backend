@@ -75,8 +75,8 @@ namespace Araboon.Service.Implementations
             {
                 return "AnErrorOccurredWhileSendingTheChangeEmailPleaseTryAgain";
             }
-
         }
+
         public async Task<string> ChangeEmailConfirmationAsync(string userId, string email, string token)
         {
             try
@@ -94,6 +94,7 @@ namespace Araboon.Service.Implementations
                 return "AnErrorOccurredDuringTheChangeEmailProcess";
             }
         }
+
         public async Task<string> ChangeNameAsync(string firstName, string lastName)
         {
             var userId = unitOfWork.UserRepository.ExtractUserIdFromToken();
@@ -109,6 +110,7 @@ namespace Araboon.Service.Implementations
                 return "AnErrorOccurredWhileChangingTheName";
             return "NameChangedSuccessfully";
         }
+
         public async Task<string> ChangePasswordAsync(string currentPassword, string newPassword)
         {
             var userId = unitOfWork.UserRepository.ExtractUserIdFromToken();
@@ -141,7 +143,6 @@ namespace Araboon.Service.Implementations
                     }
                     await transaction.CommitAsync();
                     return "PasswordChangedSuccessfully";
-
                 }
                 catch (Exception exp)
                 {
@@ -166,6 +167,7 @@ namespace Araboon.Service.Implementations
                 return "AnErrorOccurredWhileChangingTheUsername";
             return "UsernameChangedSuccessfully";
         }
+
         public async Task<(string, UserProfileResponse?)> GetUserProfileAsync(string username)
         {
             var userId = unitOfWork.UserRepository.ExtractUserIdFromToken();
@@ -235,14 +237,17 @@ namespace Araboon.Service.Implementations
                 {
                     foreach (var category in categories)
                     {
-                        var temp = new FavoritesCategory()
+                        if (category.IsActive)
                         {
-                            Category = TransableEntity.GetTransable(category.CategoryNameEn, category.CategoryNameAr),
-                            Count = await unitOfWork.FavoriteRepository.GetTableNoTracking().Where(
+                            var temp = new FavoritesCategory()
+                            {
+                                Category = TransableEntity.GetTransable(category.CategoryNameEn, category.CategoryNameAr),
+                                Count = await unitOfWork.FavoriteRepository.GetTableNoTracking().Where(
                                 f => f.UserID.Equals(user.Id) && f.Manga.CategoryMangas.Any(c => c.Category.CategoryNameEn.Equals(category.CategoryNameEn))
-                                ).CountAsync()
-                        };
-                        profile.FavoritesCategories.Add(temp);
+                            ).CountAsync()
+                            };
+                            profile.FavoritesCategories.Add(temp);
+                        }
                     }
                 }
                 return ("UserFound", profile);
@@ -252,7 +257,7 @@ namespace Araboon.Service.Implementations
                 return ("ThereWasAProblemLoadingTheProfile", null);
             }
         }
-        
+
         public async Task<string> UploadCoverImageAsync(IFormFile image, IFormFile croppedImage)
         {
             var userId = unitOfWork.UserRepository.ExtractUserIdFromToken();
@@ -312,6 +317,7 @@ namespace Araboon.Service.Implementations
                 }
             }
         }
+
         public async Task<string> UploadProfileImageAsync(IFormFile image, CropData cropData)
         {
             var userId = unitOfWork.UserRepository.ExtractUserIdFromToken();
@@ -361,6 +367,7 @@ namespace Araboon.Service.Implementations
                 }
             }
         }
+
         public async Task<string> DeleteProfileImageAsync()
         {
             var userId = unitOfWork.UserRepository.ExtractUserIdFromToken();
@@ -434,11 +441,13 @@ namespace Araboon.Service.Implementations
                 user.ProfileImage.Rotate = cropData.Rotate;
                 var result = await userManager.UpdateAsync(user);
                 return result.Succeeded ? "TheCropDataHasBeenModifiedSuccessfully" : "AnErrorOccurredWhileSaving";
-            }catch(Exception exp)
+            }
+            catch (Exception exp)
             {
                 return "AnErrorOccurredWhileChangingTheCropData";
             }
         }
+
         public async Task<string> ChangeCroppedCoverImageAsync(IFormFile image)
         {
             var userId = unitOfWork.UserRepository.ExtractUserIdFromToken();
@@ -512,7 +521,7 @@ namespace Araboon.Service.Implementations
                 return ("UsersNotFound", null, null);
 
             var userResponse = new List<UserManagementResponse>();
-            foreach(var user in usersList)
+            foreach (var user in usersList)
             {
                 var roles = await userManager.GetRolesAsync(user);
                 userResponse.Add(new UserManagementResponse()
@@ -557,7 +566,6 @@ namespace Araboon.Service.Implementations
             if (!paginatedUsers.Data.Any())
                 return ("UsersNotFound", null, null);
 
-            
             return ("UsersFound", paginatedUsers, meta);
         }
 
@@ -619,7 +627,7 @@ namespace Araboon.Service.Implementations
                 await transaction.CommitAsync();
                 return $"TheUserRoleHasBeenModifiedToBecomeA{newRole}";
             }
-            catch(Exception exp)
+            catch (Exception exp)
             {
                 if (transaction.GetDbTransaction().Connection is not null)
                     await transaction.RollbackAsync();
