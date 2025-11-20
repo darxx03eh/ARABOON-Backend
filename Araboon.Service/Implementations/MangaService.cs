@@ -43,6 +43,7 @@ namespace Araboon.Service.Implementations
                 _ => ("MangaNotFound", null, null)
             };
         }
+
         public async Task<(string, IList<GetHottestMangasResponse>?)> GetHottestMangasAsync()
         {
             bool flag = await unitOfWork.MangaRepository.IsAdmin();
@@ -54,6 +55,7 @@ namespace Araboon.Service.Implementations
                 _ => ("MangaNotFound", null)
             };
         }
+
         public async Task<(string, PaginatedResult<GetPaginatedHottestMangaResponse>?)> GetPaginatedHottestMangaAsync(int pageNumber, int pageSize)
         {
             bool flag = await unitOfWork.MangaRepository.IsAdmin();
@@ -65,6 +67,7 @@ namespace Araboon.Service.Implementations
                 _ => ("MangaNotFound", null)
             };
         }
+
         public async Task<(string, PaginatedResult<GetMangaByCategoryNameResponse>?)> GetMangaByCategoryNameAsync(string category, int pageNumber, int pageSize)
         {
             bool flag = await unitOfWork.MangaRepository.IsAdmin();
@@ -76,6 +79,7 @@ namespace Araboon.Service.Implementations
                 _ => ("MangaNotFound", null)
             };
         }
+
         public async Task<(string, PaginatedResult<GetMangaByStatusResponse>?)> GetMangaByStatusAsync(int pageNumber, int pageSize, string status, MangaOrderingEnum orderBy, string? filter)
         {
             bool flag = await unitOfWork.MangaRepository.IsAdmin();
@@ -87,6 +91,7 @@ namespace Araboon.Service.Implementations
                 _ => ("MangaNotFound", null)
             };
         }
+
         public async Task<(string, Manga?, string?, int?)> GetMangaByIDAsync(int id)
         {
             bool flag = await unitOfWork.MangaRepository.IsAdmin();
@@ -98,6 +103,7 @@ namespace Araboon.Service.Implementations
             var commentCounts = await unitOfWork.MangaRepository.CommentsCountByIdAsync(id);
             return ("MangaFound", manga, manga.MangaNameEn, commentCounts);
         }
+
         public async Task<(string, PaginatedResult<MangaSearchResponse>?)> SearchAsync(string? search, int pageNumber, int pageSize)
         {
             bool flag = await unitOfWork.MangaRepository.IsAdmin();
@@ -109,6 +115,7 @@ namespace Araboon.Service.Implementations
                 _ => ("MangaNotFound", null)
             };
         }
+
         public async Task<(string, PaginatedResult<GetMangaCommentsResponse>?)> GetMangaCommentsAsync(int id, int pageNumber, int pageSize)
         {
             var (message, comments) = await unitOfWork.MangaRepository.GetMangaCommentsAsync(id, pageNumber, pageSize);
@@ -139,7 +146,7 @@ namespace Araboon.Service.Implementations
             try
             {
                 var categories = new List<Category>();
-                if(mangaInfo.CategoriesIds is not null)
+                if (mangaInfo.CategoriesIds is not null)
                 {
                     foreach (var categoryId in mangaInfo.CategoriesIds)
                     {
@@ -168,7 +175,6 @@ namespace Araboon.Service.Implementations
                 var mangaResult = await unitOfWork.MangaRepository.AddAsync(manga);
                 if (mangaResult is null)
                     return ("ThereWasAProblemAddingTheManga", null);
-
 
                 mangaResult.CategoryMangas = categories
                     .Select(c => new CategoryManga { MangaID = mangaResult.MangaID, CategoryID = c.CategoryID })
@@ -221,6 +227,7 @@ namespace Araboon.Service.Implementations
                 return ("AnErrorOccurredWhileAddingTheManga", null);
             }
         }
+
         public async Task<(string, GetMangaForDashboardResponse?)> UpdateExistMangaAsync(UpdateMangaInfoDTO mangaInfo, int mangaId)
         {
             var manga = await unitOfWork.MangaRepository.GetByIdAsync(mangaId);
@@ -294,6 +301,7 @@ namespace Araboon.Service.Implementations
                 return ("AnErrorOccurredWhileUpdatingTheManga", null);
             }
         }
+
         private async Task<string?> UploadMangaImageAsync(IFormFile image, int mangaId)
         {
             try
@@ -331,6 +339,18 @@ namespace Araboon.Service.Implementations
                     await unitOfWork.CommentRepository.DeleteRangeAsync(comments);
                 if (chapters is not null)
                     await unitOfWork.ChapterRepository.DeleteRangeAsync(chapters);
+
+                var categories = manga.CategoryMangas.ToList();
+                if (categories.Any())
+                {
+                    foreach (var category in categories)
+                    {
+                        var mangaInCategory = await unitOfWork.CategoryMangaRepository.GetTableNoTracking()
+                                              .CountAsync(c => c.CategoryID.Equals(category.CategoryID));
+                        if (mangaInCategory.Equals(1))
+                            category.Category.IsActive = false;
+                    }
+                }
 
                 await unitOfWork.MangaRepository.DeleteAsync(manga);
                 await transaction.CommitAsync();
@@ -435,7 +455,7 @@ namespace Araboon.Service.Implementations
                         return "CanNotMakeArabicAvialableDueToIncompleteChapters";
                 }
                 await unitOfWork.MangaRepository.UpdateAsync(manga);
-                if(Convert.ToBoolean(manga.ArabicAvailable)) return "MakeArabicAvilableForThisMangaSuccessfully";
+                if (Convert.ToBoolean(manga.ArabicAvailable)) return "MakeArabicAvilableForThisMangaSuccessfully";
                 return "MakeArabicNotAvilableForThisMangaSuccessfully";
             }
             catch (Exception exp)
@@ -443,6 +463,7 @@ namespace Araboon.Service.Implementations
                 return "AnErrorOccurredWhileMakingArabicAvilableOrNotAvilableProcess";
             }
         }
+
         public async Task<string> MakeEnglishAvailableOrUnAvailableAsync(int id)
         {
             var manga = await unitOfWork.MangaRepository.GetByIdAsync(id);
@@ -472,7 +493,7 @@ namespace Araboon.Service.Implementations
                         return "CanNotMakeEnglishAvialableDueToIncompleteChapters";
                 }
                 await unitOfWork.MangaRepository.UpdateAsync(manga);
-                if(Convert.ToBoolean(manga.EnglishAvilable)) return "MakeEnglishAvilableForThisMangaSuccessfully";
+                if (Convert.ToBoolean(manga.EnglishAvilable)) return "MakeEnglishAvilableForThisMangaSuccessfully";
                 return "MakeEnglishNotAvilableForThisMangaSuccessfully";
             }
             catch (Exception exp)
@@ -480,6 +501,7 @@ namespace Araboon.Service.Implementations
                 return "AnErrorOccurredWhileMakingEnglishAvilableOrNotAvilableProcess";
             }
         }
+
         public async Task<string> ActivateAndDeActivateMangaAsync(int id)
         {
             var manga = await unitOfWork.MangaRepository.GetByIdAsync(id);
@@ -491,7 +513,7 @@ namespace Araboon.Service.Implementations
                     manga.IsActive = false;
                 else manga.IsActive = true;
                 await unitOfWork.MangaRepository.UpdateAsync(manga);
-                if(manga.IsActive) return "ActivateMangaSuccessfully";
+                if (manga.IsActive) return "ActivateMangaSuccessfully";
                 return "DeActivateMangaSuccessfully";
             }
             catch (Exception exp)
