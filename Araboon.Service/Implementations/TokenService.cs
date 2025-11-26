@@ -1,16 +1,16 @@
 ﻿using Araboon.Data.Entities.Identity;
-using Araboon.Service.Interfaces;
 using Araboon.Data.Helpers;
 using Araboon.Data.Response.Authentications;
+using Araboon.Data.Response.Users.Queries;
 using Araboon.Infrastructure.IRepositories;
+using Araboon.Service.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using Araboon.Data.Response.Users.Queries;
-using Newtonsoft.Json;
 
 namespace Araboon.Service.Implementations
 {
@@ -21,6 +21,7 @@ namespace Araboon.Service.Implementations
         private readonly UserManager<AraboonUser> userManager = userManager;
         private readonly JwtSettings jwtSettings = jwtSettings;
         private readonly IRefreshTokenRepository refreshTokenRepository = refreshTokenRepository;
+
         public async Task<(SignInResponse, string)> GenerateAccessTokenAsync(AraboonUser user)
         {
             var (jwtToken, accessToken) = await GenerateJwtTokenAsync(user);
@@ -38,6 +39,7 @@ namespace Araboon.Service.Implementations
             await refreshTokenRepository.AddAsync(userRefreshToken);
             return (new SignInResponse() { Access = accessToken }, refreshToken);
         }
+
         public async Task<(JwtSecurityToken, string)> GenerateJwtTokenAsync(AraboonUser user)
         {
             var userClaims = await GenerateUserClaimsAsync(user);
@@ -48,10 +50,11 @@ namespace Araboon.Service.Implementations
                 expires: DateTime.UtcNow.AddHours(jwtSettings.AccessTokenExpireDate),
                 signingCredentials: new SigningCredentials(
                     new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSettings.SecretKey))
-                    , SecurityAlgorithms.HmacSha256Signature));
+                    , SecurityAlgorithms.HmacSha256));
             var accessToken = new JwtSecurityTokenHandler().WriteToken(jwtToken);
             return (jwtToken, accessToken);
         }
+
         private async Task<List<Claim>> GenerateUserClaimsAsync(AraboonUser user)
         {
             var roles = await userManager.GetRolesAsync(user);
@@ -82,6 +85,7 @@ namespace Araboon.Service.Implementations
             claims.AddRange(roles.Select(role => new Claim(nameof(UserClaimModel.Role), role)));
             return claims;
         }
+
         public async Task<(string, string)> GenerateRefreshToken(AraboonUser user)
         {
             var jti = Guid.NewGuid().ToString();
@@ -98,10 +102,11 @@ namespace Araboon.Service.Implementations
                 expires: DateTime.UtcNow.AddDays(jwtSettings.RefreshTokenExpireDate),
                 signingCredentials: new SigningCredentials(
                     new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSettings.SecretKey))
-                    , SecurityAlgorithms.HmacSha256Signature));
+                    , SecurityAlgorithms.HmacSha256));
             var refreshToken = new JwtSecurityTokenHandler().WriteToken(jwtToken);
             return (refreshToken, jti);
         }
+
         public async Task<string> GenerateRandomToken()
         {
             var random = new byte[32];

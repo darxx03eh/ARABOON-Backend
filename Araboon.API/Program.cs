@@ -1,3 +1,4 @@
+using System.Globalization;
 using Araboon.Core;
 using Araboon.Core.Bases;
 using Araboon.Core.Middleware;
@@ -18,7 +19,6 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
-using System.Globalization;
 
 namespace Araboon.API
 {
@@ -27,33 +27,47 @@ namespace Araboon.API
         public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
             #region Initialize Encryption Key
+
             var encryptionSettings = new EncryptionSettings();
             builder.Configuration.GetSection(nameof(EncryptionSettings)).Bind(encryptionSettings);
             var hangfireSettings = new HangfireSettings();
             builder.Configuration.GetSection(nameof(HangfireSettings)).Bind(hangfireSettings);
             EncryptionHelper.Initialize(encryptionSettings.Key);
-            #endregion
+
+            #endregion Initialize Encryption Key
+
             #region SQL Srver Connection
+
             builder.Services.AddDbContext<AraboonDbContext>(options =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("AraboonConnection"))
                 .UseLazyLoadingProxies();
             });
+
             #region Hangfire
+
             builder.Services.AddHangfire(options =>
             {
                 options.UseSqlServerStorage(builder.Configuration.GetConnectionString("AraboonConnection"));
             });
             builder.Services.AddHangfireServer();
-            #endregion
-            #endregion
+
+            #endregion Hangfire
+
+            #endregion SQL Srver Connection
+
             #region Dependancy injection
+
             builder.Services.AddModuleInfrastructureServices(builder.Configuration)
                             .AddModuleServiceServices()
                             .AddModuleCoreServices();
-            #endregion
+
+            #endregion Dependancy injection
+
             #region Localization
+
             builder.Services.AddControllersWithViews();
             builder.Services.AddLocalization(options =>
             {
@@ -70,8 +84,11 @@ namespace Araboon.API
                 options.SupportedCultures = supportedCultures;
                 options.SupportedUICultures = supportedCultures;
             });
-            #endregion
+
+            #endregion Localization
+
             #region AllowCORS
+
             var CORS = "_cors";
             builder.Services.AddCors(options =>
             {
@@ -85,7 +102,8 @@ namespace Araboon.API
                                             .WithExposedHeaders("Content-Type", "Authorization", "Content-Length");
                                   });
             });
-            #endregion
+
+            #endregion AllowCORS
 
             // Add services to the container.
 
@@ -180,10 +198,14 @@ namespace Araboon.API
             });
             builder.Services.AddResponseCaching();
             var app = builder.Build();
+
             #region Localization Middleware
+
             var options = app.Services.GetService<IOptions<RequestLocalizationOptions>>();
             app.UseRequestLocalization(options.Value);
-            #endregion
+
+            #endregion Localization Middleware
+
             app.UseHangfireDashboard("/hangfire", new DashboardOptions
             {
                 Authorization = new[]
@@ -218,9 +240,10 @@ namespace Araboon.API
             }
             app.UseResponseCaching();
             app.UseCors(CORS);
-            app.UseRateLimiter();
             app.UseMiddleware<ErrorHandlerMiddleware>();
             app.UseMiddleware<TokenValidationMiddleware>();
+            app.UseMiddleware<LoginRateLimitMiddleware>();
+            app.UseRateLimiter();
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseAuthorization();

@@ -22,7 +22,9 @@ namespace Araboon.Core
         {
             // Configuration of Mediator
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
+
             #region AutoMapper Settings
+
             // Configuation of AutoMapper
             services.AddAutoMapper(cfg =>
             {
@@ -33,7 +35,9 @@ namespace Araboon.Core
                     typeof(IsFavoriteResolver).Assembly
                 });
             });
-            #endregion
+
+            #endregion AutoMapper Settings
+
             services.AddTransient<ChapterDateFormatResolver>();
             services.AddTransient<IsFavoriteResolver>();
             services.AddTransient<IsCompletedReadingResolver>();
@@ -50,11 +54,12 @@ namespace Araboon.Core
             // Get Validators
 
             #region RateLimiter Settings
+
             services.AddRateLimiter(options =>
             {
                 options.AddPolicy("SendForgetPasswordEmail", context =>
                 {
-                    var email = context.Request.Headers["Email"].ToString();
+                    var email = context.Request.Headers["Rate-Limiting-Key"].ToString();
                     return RateLimitPartition.GetFixedWindowLimiter(
                         partitionKey: string.IsNullOrWhiteSpace(email) ? context.Connection.RemoteIpAddress.ToString() : email,
                         factory: _ => new FixedWindowRateLimiterOptions
@@ -80,7 +85,7 @@ namespace Araboon.Core
             {
                 options.AddPolicy("SendConfirmationEmail", context =>
                 {
-                    var username = context.Request.Headers["username"].ToString();
+                    var username = context.Request.Headers["Rate-Limiting-Key"].ToString();
                     return RateLimitPartition.GetFixedWindowLimiter(
                         partitionKey: string.IsNullOrWhiteSpace(username) ? context.Connection.RemoteIpAddress.ToString() : username,
                         factory: _ => new FixedWindowRateLimiterOptions
@@ -106,7 +111,10 @@ namespace Araboon.Core
             {
                 options.AddPolicy("Login", context =>
                 {
-                    var username = context.Request.Headers["username"].ToString();
+                    var loginSuccess = context.Items["LoginFailed"] as bool?;
+                    if (loginSuccess == false)
+                        return RateLimitPartition.GetNoLimiter("LoginFailed");
+                    var username = context.Request.Headers["Rate-Limiting-Key"].ToString();
                     return RateLimitPartition.GetFixedWindowLimiter(
                         partitionKey: string.IsNullOrWhiteSpace(username) ? context.Connection.RemoteIpAddress.ToString() : username,
                         factory: _ => new FixedWindowRateLimiterOptions
@@ -127,7 +135,9 @@ namespace Araboon.Core
                     );
                 };
             });
-            #endregion
+
+            #endregion RateLimiter Settings
+
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly(), ServiceLifetime.Scoped);
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
             return services;

@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
+
 namespace Araboon.Service.Implementations
 {
     public class AuthenticationService : IAuthenticationService
@@ -50,6 +51,7 @@ namespace Araboon.Service.Implementations
             this.avatarService = avatarService;
             this.cloudinaryService = cloudinaryService;
         }
+
         public async Task<string> RegistrationUserAsync(AraboonUser user, string password)
         {
             using (var transaction = await context.Database.BeginTransactionAsync())
@@ -97,7 +99,6 @@ namespace Araboon.Service.Implementations
                     }
                     await transaction.CommitAsync();
                     return "TheAccountHasBeenCreated";
-
                 }
                 catch (Exception exp)
                 {
@@ -158,6 +159,7 @@ namespace Araboon.Service.Implementations
                 return "AnErrorOccurredDuringTheEmailConfirmationProcess";
             }
         }
+
         public async Task<(string, string?)> ForgetPasswordConfirmationAsync(string email, string code)
         {
             try
@@ -194,12 +196,16 @@ namespace Araboon.Service.Implementations
             {
                 case "AlgorithmIsWrong":
                     return (null, "ErrorInTheEncryptionAlgorithmUsed");
+
                 case "RefreshTokenIsNotFound":
                     return (null, "RefreshTokenIsNotFound");
+
                 case "RefreshTokenIsExpire":
                     return (null, "RefreshTokenHasExpire");
+
                 case "RefreshTokenWasRevoked":
                     return (null, "RefreshTokenWasRevoked");
+
                 case "RefreshTokenNotUsedAnyMore":
                     return (null, "RefreshTokenNotUsedAnyMore");
             }
@@ -218,9 +224,10 @@ namespace Araboon.Service.Implementations
                 return (null, "AnErrorOccurredDuringTheTokenGenerationProcess");
             return (result, "AccessTokenRegenerated");
         }
+
         private async Task<(string, DateTime?)> ValidateDetails(JwtSecurityToken jwtToken, string refresh)
         {
-            if (jwtToken is null || !jwtToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256Signature))
+            if (jwtToken is null || !jwtToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256))
                 return ("AlgorithmIsWrong", null);
             var userId = jwtToken.Claims.FirstOrDefault(claim => claim.Type.Equals(nameof(UserClaimModel.ID)))?.Value;
             var jti = jwtToken.Claims.FirstOrDefault(claim => claim.Type.Equals(nameof(UserClaimModel.Jti)))?.Value;
@@ -241,11 +248,13 @@ namespace Araboon.Service.Implementations
             var expireDate = refreshToken.ExpirydDate;
             return (userId, expireDate);
         }
+
         private async Task<SignInResponse> GenerateRefreshTokenAsync(AraboonUser user)
         {
             var (jwtSecurityToken, responseToken) = await tokenService.GenerateJwtTokenAsync(user);
             return new SignInResponse() { Access = responseToken };
         }
+
         public async Task<string> ResetPasswordAsync(string email, string password, string token)
         {
             var user = await userManager.FindByEmailAsync(email);
@@ -351,9 +360,9 @@ namespace Araboon.Service.Implementations
                 return "AnErrorOccurredWhileSendingTheForgetPasswordEmailPleaseTryAgain";
             }
         }
+
         public async Task<string> ValidateAccessToken(string token)
         {
-
             var handler = new JwtSecurityTokenHandler();
             var parameters = new TokenValidationParameters
             {
