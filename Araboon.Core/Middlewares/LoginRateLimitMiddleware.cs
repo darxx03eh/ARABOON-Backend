@@ -31,10 +31,9 @@ namespace Araboon.Core.Middlewares
             if (string.IsNullOrWhiteSpace(username))
                 username = context.Connection.RemoteIpAddress?.ToString() ?? "unknown";
 
-            // تحقق إذا عدد المحاولات الفاشلة تجاوز الحد
             if (attempts.TryGetValue(username, out var record))
             {
-                if (record.WindowStart.AddMinutes(15) > DateTime.UtcNow && record.FailCount >= 3)
+                if (record.WindowStart.AddMinutes(15) > DateTime.UtcNow && record.FailCount >= 5)
                 {
                     context.Response.StatusCode = StatusCodes.Status429TooManyRequests;
                     await ResponseHandler.WriteJsonResponse(
@@ -44,15 +43,11 @@ namespace Araboon.Core.Middlewares
                     );
                     return;
                 }
-                else if (record.WindowStart.AddMinutes(15) <= DateTime.UtcNow)
-                {
-                    attempts[username] = (DateTime.UtcNow, 0); // إعادة ضبط العد
-                }
+                else if (record.WindowStart.AddMinutes(15) <= DateTime.UtcNow) attempts[username] = (DateTime.UtcNow, 0);
             }
 
             await next(context);
 
-            // بعد تنفيذ الـ Endpoint، تحقق إذا العملية فشلت
             bool isFailed = context.Response.StatusCode != StatusCodes.Status200OK;
             if (isFailed)
             {

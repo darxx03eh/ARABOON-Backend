@@ -64,8 +64,8 @@ namespace Araboon.Core
                         partitionKey: string.IsNullOrWhiteSpace(email) ? context.Connection.RemoteIpAddress.ToString() : email,
                         factory: _ => new FixedWindowRateLimiterOptions
                         {
-                            PermitLimit = 2,
-                            Window = TimeSpan.FromHours(2),
+                            PermitLimit = 1,
+                            Window = TimeSpan.FromSeconds(30),
                             QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
                             QueueLimit = 0
                         }
@@ -90,8 +90,8 @@ namespace Araboon.Core
                         partitionKey: string.IsNullOrWhiteSpace(username) ? context.Connection.RemoteIpAddress.ToString() : username,
                         factory: _ => new FixedWindowRateLimiterOptions
                         {
-                            PermitLimit = 2,
-                            Window = TimeSpan.FromHours(2),
+                            PermitLimit = 4,
+                            Window = TimeSpan.FromMinutes(30),
                             QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
                             QueueLimit = 0
                         }
@@ -103,35 +103,6 @@ namespace Araboon.Core
                     await RateLimiterHelper.HandleRejectedAsync(
                         context,
                         SharedTranslationKeys.YouHaveExceededTheLimitForSendingConfirmationEmailsPleaseTryAgainLater
-                    );
-                };
-            });
-
-            services.AddRateLimiter(options =>
-            {
-                options.AddPolicy("Login", context =>
-                {
-                    var loginSuccess = context.Items["LoginFailed"] as bool?;
-                    if (loginSuccess == false)
-                        return RateLimitPartition.GetNoLimiter("LoginFailed");
-                    var username = context.Request.Headers["Rate-Limiting-Key"].ToString();
-                    return RateLimitPartition.GetFixedWindowLimiter(
-                        partitionKey: string.IsNullOrWhiteSpace(username) ? context.Connection.RemoteIpAddress.ToString() : username,
-                        factory: _ => new FixedWindowRateLimiterOptions
-                        {
-                            PermitLimit = 3,
-                            Window = TimeSpan.FromMinutes(15),
-                            QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
-                            QueueLimit = 0
-                        }
-                    );
-                });
-                options.RejectionStatusCode = 429;
-                options.OnRejected = async (context, cancellationToken) =>
-                {
-                    await RateLimiterHelper.HandleRejectedAsync(
-                        context,
-                        SharedTranslationKeys.YouHaveExceededTheLimitForSendingLoginRequestPleaseTryAgainLater
                     );
                 };
             });
