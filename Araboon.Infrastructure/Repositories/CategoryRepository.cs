@@ -24,7 +24,8 @@ namespace Araboon.Infrastructure.Repositories
 
         public async Task<(string, IList<Category>?)> GetCategoriesAsync()
         {
-            var categories = await GetTableNoTracking().Where(category => category.IsActive).ToListAsync();
+            var isAdmin = await IsAdmin();
+            var categories = await GetTableNoTracking().Where(category => category.IsActive || isAdmin).ToListAsync();
             if (categories.Count().Equals(0))
                 return ("CategoriesNotFound", null);
             return ("CategoriesFound", categories);

@@ -112,7 +112,7 @@ namespace Araboon.Service.Implementations
                     var stream = await avatarService.DownloadImageAsStreamAsync(avatarLink);
 
                     logger.LogInformation("Uploading avatar to cloudinary - رفع صورة البروفايل إلى كلاوديناري | UserId: {UserId}", user.Id);
-                    var (imageName, folderName) = ("defaultImage", $"ARABOON/Accounts/{user.Id}/ImageProfile");
+                    var (imageName, folderName) = ("defaultImage", $"ARABOON/Accounts/{user.Id}/ProfileImage");
                     var imageUrl = await cloudinaryService.UploadFileAsync(stream, folderName, imageName);
 
                     user.ProfileImage = new ProfileImage() { OriginalImage = imageUrl };

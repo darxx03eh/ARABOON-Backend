@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
-using System.Collections.Concurrent;
 
 namespace Araboon.Service.Implementations
 {
@@ -38,19 +37,25 @@ namespace Araboon.Service.Implementations
         {
             logger.LogInformation("Temporarily storing chapter images - تخزين صور الفصل مؤقتًا | Count: {Count}", Images?.Count);
 
-            var tempPaths = new ConcurrentBag<string>();
+            var result = new string[Images.Count];
 
-            await Task.WhenAll(Images.Select(async file =>
-            {
-                var tempPath = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid()}{Path.GetExtension(file.FileName)}");
-                await using var stream = System.IO.File.Create(tempPath);
-                await file.CopyToAsync(stream);
-                tempPaths.Add(tempPath);
-            }));
+            await Task.WhenAll(
+                Images.Select(async (file, index) =>
+                {
+                    var tempPath = Path.Combine(
+                        Path.GetTempPath(),
+                        $"{Guid.NewGuid()}{Path.GetExtension(file.FileName)}"
+                    );
 
-            logger.LogInformation("Temporary images stored successfully - تم تخزين الصور المؤقتة | PathsCount: {Count}", tempPaths.Count);
+                    await using var stream = System.IO.File.Create(tempPath);
+                    await file.CopyToAsync(stream);
 
-            return tempPaths.ToList();
+                    result[index] = tempPath;
+                })
+            );
+            logger.LogInformation("Temporary images stored successfully - تم تخزين الصور المؤقتة | PathsCount: {Count}", result.Count());
+
+            return result.ToList();
         }
 
         public async Task<(string, Chapter?, bool?, bool?)> AddNewChapterAsync(ChapterInfoDTO chapterInfo)
@@ -201,13 +206,13 @@ namespace Araboon.Service.Implementations
 
             try
             {
+                imagePaths = imagePaths.Reverse().ToList();
                 if (language == "ar")
                 {
                     IList<ArabicChapterImages> list = new List<ArabicChapterImages>();
-
                     foreach (var path in imagePaths)
                     {
-                        var (folder, id) = GenerateFolderNameAndId(mangaId, chapterNo, lang);
+                        var (folder, id) = GenerateFolderNameAndId(mangaId, chapterNo, lang, order);
 
                         using var stream = System.IO.File.OpenRead(path);
                         var url = await cloudinaryService.UploadFileAsync(stream, folder, id);
@@ -216,8 +221,10 @@ namespace Araboon.Service.Implementations
                         {
                             ChapterID = chapterId,
                             ImageUrl = url,
-                            OrderImage = order++
+                            OrderImage = order
                         });
+
+                        order++;
 
                         if (System.IO.File.Exists(path))
                             System.IO.File.Delete(path);
@@ -228,10 +235,9 @@ namespace Araboon.Service.Implementations
                 else
                 {
                     IList<EnglishChapterImages> list = new List<EnglishChapterImages>();
-
                     foreach (var path in imagePaths)
                     {
-                        var (folder, id) = GenerateFolderNameAndId(mangaId, chapterNo, lang);
+                        var (folder, id) = GenerateFolderNameAndId(mangaId, chapterNo, lang, order);
 
                         using var stream = System.IO.File.OpenRead(path);
                         var url = await cloudinaryService.UploadFileAsync(stream, folder, id);
@@ -240,8 +246,10 @@ namespace Araboon.Service.Implementations
                         {
                             ChapterID = chapterId,
                             ImageUrl = url,
-                            OrderImage = order++
+                            OrderImage = order
                         });
+
+                        order++;
 
                         if (System.IO.File.Exists(path))
                             System.IO.File.Delete(path);
@@ -262,14 +270,12 @@ namespace Araboon.Service.Implementations
             }
         }
 
-        private (string, string) GenerateFolderNameAndId(int mangaId, int chapterNo, string lang)
+        private (string, string) GenerateFolderNameAndId(int mangaId, int chapterNo, string lang, int order)
         {
             string language = lang.ToLower() == "arabic" ? "ar" : "en";
 
-            var guid = Guid.NewGuid().ToString("N")[..12];
-            var date = DateTime.UtcNow.ToString("yyyyMMddHHmmss");
-            var id = $"{guid}-{date}";
             var folder = $"ARABOON/Mangas/{mangaId}/Chapters/{language}/{chapterNo}";
+            var id = $"page-{order:D4}";
 
             return (folder, id);
         }

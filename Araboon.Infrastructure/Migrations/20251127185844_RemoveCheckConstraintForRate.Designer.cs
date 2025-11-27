@@ -4,6 +4,7 @@ using Araboon.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Araboon.Infrastructure.Migrations
 {
     [DbContext(typeof(AraboonDbContext))]
-    partial class AraboonDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251127185844_RemoveCheckConstraintForRate")]
+    partial class RemoveCheckConstraintForRate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -526,11 +529,11 @@ namespace Araboon.Infrastructure.Migrations
 
                     b.Property<string>("MangaNameAr")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MangaNameEn")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<double?>("Rate")
                         .ValueGeneratedOnAdd()
@@ -571,16 +574,7 @@ namespace Araboon.Infrastructure.Migrations
 
                     b.HasKey("MangaID");
 
-                    b.HasIndex("MangaNameAr")
-                        .IsUnique();
-
-                    b.HasIndex("MangaNameEn")
-                        .IsUnique();
-
-                    b.ToTable("Mangas", t =>
-                        {
-                            t.HasCheckConstraint("CK_Manga_Rate", "[Rate] >= 0 And [Rate] <= 5");
-                        });
+                    b.ToTable("Mangas");
                 });
 
             modelBuilder.Entity("Araboon.Data.Entities.Notifications", b =>
@@ -750,7 +744,7 @@ namespace Araboon.Infrastructure.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2025, 11, 27, 19, 5, 31, 819, DateTimeKind.Utc).AddTicks(635));
+                        .HasDefaultValue(new DateTime(2025, 11, 27, 18, 58, 43, 504, DateTimeKind.Utc).AddTicks(2993));
 
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
@@ -773,7 +767,7 @@ namespace Araboon.Infrastructure.Migrations
                     b.Property<DateTime?>("UpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2025, 11, 27, 19, 5, 31, 819, DateTimeKind.Utc).AddTicks(951));
+                        .HasDefaultValue(new DateTime(2025, 11, 27, 18, 58, 43, 504, DateTimeKind.Utc).AddTicks(3265));
 
                     b.HasKey("SwiperId");
 
