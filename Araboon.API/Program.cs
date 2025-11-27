@@ -19,6 +19,8 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
+using Serilog;
+using Serilog.Filters;
 
 namespace Araboon.API
 {
@@ -104,6 +106,36 @@ namespace Araboon.API
             });
 
             #endregion AllowCORS
+
+            #region Logger
+
+            Log.Logger = new LoggerConfiguration()
+                .Enrich.FromLogContext()
+                .MinimumLevel.Information()
+                .WriteTo.Console()
+                .WriteTo.Logger(lc => lc
+                    .Filter.ByIncludingOnly(Matching.FromSource("Araboon.Service.Implementations.MangaService"))
+                    .WriteTo.File(
+                        path: "logs/manga.txt",
+                        rollingInterval: RollingInterval.Day,
+                        encoding: System.Text.Encoding.UTF8,
+                        outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level}] {Message}{NewLine}{Exception}"
+                    )
+                )
+                .WriteTo.Logger(lc => lc
+                    .Filter.ByIncludingOnly(Matching.FromSource("Araboon.Service"))
+                    .Filter.ByExcluding(Matching.FromSource("Araboon.Service.Implementations.MangaService"))
+                    .WriteTo.File(
+                        path: "logs/general.txt",
+                        rollingInterval: RollingInterval.Day,
+                        encoding: System.Text.Encoding.UTF8,
+                        outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level}] {Message}{NewLine}{Exception}"
+                    )
+                ).CreateLogger();
+
+            builder.Host.UseSerilog();
+
+            #endregion Logger
 
             // Add services to the container.
 

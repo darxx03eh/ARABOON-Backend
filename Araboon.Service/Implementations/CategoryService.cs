@@ -1,170 +1,223 @@
 ﻿using Araboon.Data.Entities;
 using Araboon.Data.Response.Categories.Queries;
-using Araboon.Data.Wrappers;
 using Araboon.Infrastructure.IRepositories;
 using Araboon.Service.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace Araboon.Service.Implementations
 {
     public class CategoryService : ICategoryService
     {
         private readonly IUnitOfWork unitOfWork;
+        private readonly ILogger<CategoryService> logger;
 
-        public CategoryService(IUnitOfWork unitOfWork)
+        public CategoryService(IUnitOfWork unitOfWork, ILogger<CategoryService> logger)
         {
             this.unitOfWork = unitOfWork;
+            this.logger = logger;
         }
 
         public async Task<string> ActivateCategoryAsync(int id)
         {
+            logger.LogInformation("Activating category - محاولة تفعيل التصنيف - CategoryId: {Id}", id);
+
             var category = await unitOfWork.CategoryRepository.GetByIdAsync(id);
             if (category is null)
-                return "CategoryNotFound";
+            {
+                logger.LogWarning("Category not found - التصنيف غير موجود - CategoryId: {Id}", id);
+                return "CategoryNotFound - التصنيف غير موجود";
+            }
 
             if (category.IsActive)
-                return "CategoryAlreadyActive";
+            {
+                logger.LogWarning("Category already active - التصنيف مفعل مسبقًا");
+                return "CategoryAlreadyActive - التصنيف مفعل مسبقًا";
+            }
+
             try
             {
-                var mangasInCategoryCount = await unitOfWork.CategoryMangaRepository.GetTableNoTracking()
-                                            .CountAsync(c => c.CategoryID.Equals(category.CategoryID));
-                if (mangasInCategoryCount.Equals(0))
-                    return "YouCannotActivateTheCategoryBecauseThereAreNoMangaAssociatedWithIt";
+                var mangasInCategory = await unitOfWork.CategoryMangaRepository.GetTableNoTracking()
+                    .CountAsync(x => x.CategoryID == category.CategoryID);
+
+                if (mangasInCategory == 0)
+                {
+                    logger.LogWarning("No manga attached - لا يمكن تفعيل التصنيف لأنه لا يحتوي مانجات");
+                    return "YouCannotActivateTheCategoryBecauseThereAreNoMangaAssociatedWithIt - لا يمكن تفعيل التصنيف لأنه لا يحتوي مانجات";
+                }
+
                 category.IsActive = true;
                 category.UpdatedAt = DateTime.UtcNow;
+
                 await unitOfWork.CategoryRepository.UpdateAsync(category);
-                return "CategoryActivateSuccessfully";
-            }catch(Exception ex)
+
+                return "CategoryActivateSuccessfully - تم تفعيل التصنيف بنجاح";
+            }
+            catch (Exception ex)
             {
-                return "AnErrorOccurredWhileActivateTheCategory";
+                logger.LogError(ex, "Error activating category - خطأ أثناء تفعيل التصنيف");
+                return "AnErrorOccurredWhileActivateTheCategory - حدث خطأ أثناء تفعيل التصنيف";
             }
         }
 
         public async Task<(string, int?)> AddNewCategoryAsync(string categoryNameEn, string categoryNameAr)
         {
-            var result = await unitOfWork.CategoryRepository.AddAsync(new Category()
+            logger.LogInformation("Adding new category - إضافة تصنيف جديد");
+
+            var result = await unitOfWork.CategoryRepository.AddAsync(new Category
             {
                 CategoryNameEn = categoryNameEn,
-                CategoryNameAr = categoryNameAr,
+                CategoryNameAr = categoryNameAr
             });
+
             if (result is null)
-                return ("AnErrorOccurredWhileAddingtheCategory", null);
-            return ("CategoryAddedSuccessfully", result.CategoryID);
+            {
+                logger.LogError("Failed to add category - فشل في إضافة التصنيف");
+                return ("AnErrorOccurredWhileAddingtheCategory - حدث خطأ أثناء إضافة التصنيف", null);
+            }
+
+            return ("CategoryAddedSuccessfully - تم إضافة التصنيف بنجاح", result.CategoryID);
         }
 
         public async Task<string> DeActivateCategoryAsync(int id)
         {
+            logger.LogInformation("Deactivating category - تعطيل التصنيف");
+
             var category = await unitOfWork.CategoryRepository.GetByIdAsync(id);
             if (category is null)
-                return "CategoryNotFound";
+                return "CategoryNotFound - التصنيف غير موجود";
 
             if (!category.IsActive)
-                return "CategoryAlreadDeActive";
+                return "CategoryAlreadDeActive - التصنيف معطل مسبقًا";
 
             try
             {
                 category.IsActive = false;
                 await unitOfWork.CategoryRepository.UpdateAsync(category);
-                return "CategoryDeActivateSuccessfully";
+
+                return "CategoryDeActivateSuccessfully - تم تعطيل التصنيف بنجاح";
             }
-            catch(Exception exp)
+            catch (Exception ex)
             {
-                return "AnErrorOccurredWhileDeActivateTheCategory";
+                logger.LogError(ex, "Error deactivating category - خطأ أثناء التعطيل");
+                return "AnErrorOccurredWhileDeActivateTheCategory - حدث خطأ أثناء تعطيل التصنيف";
             }
         }
 
         public async Task<string> DeleteCategoryAsync(int id)
         {
+            logger.LogInformation("Deleting category - حذف التصنيف");
+
             var category = await unitOfWork.CategoryRepository.GetByIdAsync(id);
             if (category is null)
-                return "CategoryNotFound";
+                return "CategoryNotFound - التصنيف غير موجود";
+
             try
             {
                 await unitOfWork.CategoryRepository.DeleteAsync(category);
-                return "CategoryDeletedSuccessfully";
+                return "CategoryDeletedSuccessfully - تم حذف التصنيف بنجاح";
             }
-            catch(Exception exp)
+            catch (Exception ex)
             {
-                return "AnErrorOccurredWhileDeletingtheCategory";
+                logger.LogError(ex, "Error deleting category - خطأ أثناء حذف التصنيف");
+                return "AnErrorOccurredWhileDeletingtheCategory - حدث خطأ أثناء حذف التصنيف";
             }
         }
 
         public async Task<(string, IList<Category>?)> GetCategoriesAsync()
         {
+            logger.LogInformation("Retrieving categories - جلب التصنيفات");
+
             var (message, categories) = await unitOfWork.CategoryRepository.GetCategoriesAsync();
+
             return message switch
             {
-                "CategoriesNotFound" => ("CategoriesNotFound", null),
-                "CategoriesFound" => ("CategoriesFound", categories),
-                _ => ("AnErrorOccurredWhileRetrievingTheCategorie", null)
+                "CategoriesNotFound" =>
+                    ("CategoriesNotFound - لم يتم العثور على تصنيفات", null),
+
+                "CategoriesFound" =>
+                    ("CategoriesFound - تم العثور على التصنيفات", categories),
+
+                _ =>
+                    ("AnErrorOccurred - حدث خطأ أثناء جلب التصنيفات", null)
             };
         }
 
         public async Task<(string, GetDashboardCategoriesResponse?)> GetCategoryByIdAsync(int id)
         {
+            logger.LogInformation("Retrieving category by id - جلب التصنيف عبر الرقم");
+
             var category = await unitOfWork.CategoryRepository.GetByIdAsync(id);
             if (category is null)
-                return ("CategoryNotFound", null);
+                return ("CategoryNotFound - التصنيف غير موجود", null);
 
-            return ("CategoryFound", new GetDashboardCategoriesResponse()
+            var response = new GetDashboardCategoriesResponse
             {
                 Id = category.CategoryID,
                 En = category.CategoryNameEn,
                 Ar = category.CategoryNameAr,
                 IsActive = category.IsActive,
-                AvailableMangaCounts = category.CategoryMangas.Where(x => x.CategoryID.Equals(category.CategoryID)).Count()
-            });
+                AvailableMangaCounts = category.CategoryMangas.Count()
+            };
+
+            return ("CategoryFound - تم العثور على التصنيف", response);
         }
 
         public async Task<(string, IList<GetDashboardCategoriesResponse>?, CategoryMetaDataRsponse?)> GetDashboardCategoriesAsync(string? search)
         {
-            var categoriesQueryable = unitOfWork.CategoryRepository.GetTableNoTracking();
-            var meta = new CategoryMetaDataRsponse()
+            logger.LogInformation("Retrieving dashboard categories - جلب تصنيفات لوحة التحكم");
+
+            var query = unitOfWork.CategoryRepository.GetTableNoTracking();
+
+            var meta = new CategoryMetaDataRsponse
             {
-                TotalCategories = await categoriesQueryable.CountAsync(),
-                ActiveCategories = await categoriesQueryable.Where(category => category.IsActive).CountAsync(),
-                InActiveCategories = await categoriesQueryable.Where(category => !category.IsActive).CountAsync()
+                TotalCategories = await query.CountAsync(),
+                ActiveCategories = await query.CountAsync(c => c.IsActive),
+                InActiveCategories = await query.CountAsync(c => !c.IsActive)
             };
+
             if (!string.IsNullOrWhiteSpace(search))
-                categoriesQueryable = categoriesQueryable.Where(
-                    category => category.CategoryNameEn.ToLower().Contains(search.ToLower()) ||
-                    category.CategoryNameAr.ToLower().Contains(search.ToLower())
-                );
+                query = query.Where(x =>
+                    x.CategoryNameEn.Contains(search) ||
+                    x.CategoryNameAr.Contains(search));
 
-            if (categoriesQueryable is null)
-                return ("CategoriesNotFound", null, null);
-
-            var categories = await categoriesQueryable.Select(category => new GetDashboardCategoriesResponse()
+            var list = await query.Select(x => new GetDashboardCategoriesResponse
             {
-                Id = category.CategoryID,
-                En = category.CategoryNameEn,
-                Ar = category.CategoryNameAr,
-                IsActive = category.IsActive,
-                CreatedAt = category.CreatedAt.ToString("yyyy-MM-dd"),
-                AvailableMangaCounts = category.CategoryMangas.Where(x => x.CategoryID.Equals(category.CategoryID)).Count()
+                Id = x.CategoryID,
+                En = x.CategoryNameEn,
+                Ar = x.CategoryNameAr,
+                IsActive = x.IsActive,
+                CreatedAt = x.CreatedAt.ToString("yyyy-MM-dd"),
+                AvailableMangaCounts = x.CategoryMangas.Count()
             }).ToListAsync();
 
-            if (categories is null)
-                return ("CategoriesNotFound", null, null);
+            if (!list.Any())
+                return ("CategoriesNotFound - لم يتم العثور على تصنيفات", null, null);
 
-            return ("CategoriesFound", categories, meta);
+            return ("CategoriesFound - تم العثور على التصنيفات", list, meta);
         }
 
         public async Task<string> UpdateCategoryAsync(int id, string categoryNameEn, string categoryNameAr)
         {
+            logger.LogInformation("Updating category - تعديل التصنيف");
+
             var category = await unitOfWork.CategoryRepository.GetByIdAsync(id);
             if (category is null)
-                return "CategoryNotFound";
+                return "CategoryNotFound - التصنيف غير موجود";
 
             try
             {
                 category.CategoryNameEn = categoryNameEn;
                 category.CategoryNameAr = categoryNameAr;
+
                 await unitOfWork.CategoryRepository.UpdateAsync(category);
-                return "CategoryUpdatedSuccessfully";
-            }catch(Exception exp)
+
+                return "CategoryUpdatedSuccessfully - تم تحديث التصنيف بنجاح";
+            }
+            catch (Exception ex)
             {
-                return "AnErrorOccurredWhileUpdatingTheCategory";
+                logger.LogError(ex, "Error updating category - خطأ أثناء التعديل");
+                return "AnErrorOccurredWhileUpdatingTheCategory - حدث خطأ أثناء تحديث التصنيف";
             }
         }
     }
