@@ -440,7 +440,7 @@ namespace Araboon.Service.Implementations
                 {
                     var url = await cloudinaryService.UploadFileAsync(
                         stream,
-                        $"ARABOON/Accounts/{user.Id}/ImageProfile",
+                        $"ARABOON/Accounts/{user.Id}/ProfileImage",
                         id
                     );
                     user.ProfileImage.OriginalImage = url;
