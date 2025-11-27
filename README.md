@@ -38,6 +38,7 @@ Our platform is a premium online manga and manhwa reader, designed to deliver a 
 | Email Service   | MailKit                                            |
 | Architecture    | Clean Architecture With CQRS and Mediator Patterns |
 | Background jobs | Hangfire                                           |
+| Logging         | Serilog (Console & File sinks)                     |
 
 ---
 
@@ -342,6 +343,7 @@ ARABOON-Backend/
 │   ├───Bases
 │   ├───Controllers
 │   ├───EmailTemplates
+│   └───Logs
 ├───Araboon.Core
 │   ├───Bases
 │   ├───Behaviors

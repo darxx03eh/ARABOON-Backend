@@ -116,7 +116,7 @@ namespace Araboon.API
                 .WriteTo.Logger(lc => lc
                     .Filter.ByIncludingOnly(Matching.FromSource("Araboon.Service.Implementations.MangaService"))
                     .WriteTo.File(
-                        path: "logs/manga.txt",
+                        path: "Logs/manga.txt",
                         rollingInterval: RollingInterval.Day,
                         encoding: System.Text.Encoding.UTF8,
                         outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level}] {Message}{NewLine}{Exception}"
@@ -126,7 +126,7 @@ namespace Araboon.API
                     .Filter.ByIncludingOnly(Matching.FromSource("Araboon.Service"))
                     .Filter.ByExcluding(Matching.FromSource("Araboon.Service.Implementations.MangaService"))
                     .WriteTo.File(
-                        path: "logs/general.txt",
+                        path: "Logs/general.txt",
                         rollingInterval: RollingInterval.Day,
                         encoding: System.Text.Encoding.UTF8,
                         outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level}] {Message}{NewLine}{Exception}"
