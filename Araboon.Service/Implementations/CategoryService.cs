@@ -26,13 +26,13 @@ namespace Araboon.Service.Implementations
             if (category is null)
             {
                 logger.LogWarning("Category not found - التصنيف غير موجود - CategoryId: {Id}", id);
-                return "CategoryNotFound - التصنيف غير موجود";
+                return "CategoryNotFound";
             }
 
             if (category.IsActive)
             {
                 logger.LogWarning("Category already active - التصنيف مفعل مسبقًا");
-                return "CategoryAlreadyActive - التصنيف مفعل مسبقًا";
+                return "CategoryAlreadyActive";
             }
 
             try
@@ -43,7 +43,7 @@ namespace Araboon.Service.Implementations
                 if (mangasInCategory == 0)
                 {
                     logger.LogWarning("No manga attached - لا يمكن تفعيل التصنيف لأنه لا يحتوي مانجات");
-                    return "YouCannotActivateTheCategoryBecauseThereAreNoMangaAssociatedWithIt - لا يمكن تفعيل التصنيف لأنه لا يحتوي مانجات";
+                    return "YouCannotActivateTheCategoryBecauseThereAreNoMangaAssociatedWithIt";
                 }
 
                 category.IsActive = true;
@@ -51,12 +51,12 @@ namespace Araboon.Service.Implementations
 
                 await unitOfWork.CategoryRepository.UpdateAsync(category);
 
-                return "CategoryActivateSuccessfully - تم تفعيل التصنيف بنجاح";
+                return "CategoryActivateSuccessfully";
             }
             catch (Exception ex)
             {
                 logger.LogError(ex, "Error activating category - خطأ أثناء تفعيل التصنيف");
-                return "AnErrorOccurredWhileActivateTheCategory - حدث خطأ أثناء تفعيل التصنيف";
+                return "AnErrorOccurredWhileActivateTheCategory";
             }
         }
 
@@ -73,10 +73,10 @@ namespace Araboon.Service.Implementations
             if (result is null)
             {
                 logger.LogError("Failed to add category - فشل في إضافة التصنيف");
-                return ("AnErrorOccurredWhileAddingtheCategory - حدث خطأ أثناء إضافة التصنيف", null);
+                return ("AnErrorOccurredWhileAddingtheCategory", null);
             }
 
-            return ("CategoryAddedSuccessfully - تم إضافة التصنيف بنجاح", result.CategoryID);
+            return ("CategoryAddedSuccessfully", result.CategoryID);
         }
 
         public async Task<string> DeActivateCategoryAsync(int id)
@@ -85,22 +85,22 @@ namespace Araboon.Service.Implementations
 
             var category = await unitOfWork.CategoryRepository.GetByIdAsync(id);
             if (category is null)
-                return "CategoryNotFound - التصنيف غير موجود";
+                return "CategoryNotFound";
 
             if (!category.IsActive)
-                return "CategoryAlreadDeActive - التصنيف معطل مسبقًا";
+                return "CategoryAlreadDeActive";
 
             try
             {
                 category.IsActive = false;
                 await unitOfWork.CategoryRepository.UpdateAsync(category);
 
-                return "CategoryDeActivateSuccessfully - تم تعطيل التصنيف بنجاح";
+                return "CategoryDeActivateSuccessfully";
             }
             catch (Exception ex)
             {
                 logger.LogError(ex, "Error deactivating category - خطأ أثناء التعطيل");
-                return "AnErrorOccurredWhileDeActivateTheCategory - حدث خطأ أثناء تعطيل التصنيف";
+                return "AnErrorOccurredWhileDeActivateTheCategory";
             }
         }
 
@@ -110,17 +110,17 @@ namespace Araboon.Service.Implementations
 
             var category = await unitOfWork.CategoryRepository.GetByIdAsync(id);
             if (category is null)
-                return "CategoryNotFound - التصنيف غير موجود";
+                return "CategoryNotFound";
 
             try
             {
                 await unitOfWork.CategoryRepository.DeleteAsync(category);
-                return "CategoryDeletedSuccessfully - تم حذف التصنيف بنجاح";
+                return "CategoryDeletedSuccessfully";
             }
             catch (Exception ex)
             {
                 logger.LogError(ex, "Error deleting category - خطأ أثناء حذف التصنيف");
-                return "AnErrorOccurredWhileDeletingtheCategory - حدث خطأ أثناء حذف التصنيف";
+                return "AnErrorOccurredWhileDeletingtheCategory";
             }
         }
 
@@ -132,14 +132,14 @@ namespace Araboon.Service.Implementations
 
             return message switch
             {
-                "CategoriesNotFound" =>
-                    ("CategoriesNotFound - لم يتم العثور على تصنيفات", null),
+                "" =>
+                    ("CategoriesNotFound", null),
 
                 "CategoriesFound" =>
-                    ("CategoriesFound - تم العثور على التصنيفات", categories),
+                    ("CategoriesFound", categories),
 
                 _ =>
-                    ("AnErrorOccurred - حدث خطأ أثناء جلب التصنيفات", null)
+                    ("CategoriesNotFound", null)
             };
         }
 
@@ -149,7 +149,7 @@ namespace Araboon.Service.Implementations
 
             var category = await unitOfWork.CategoryRepository.GetByIdAsync(id);
             if (category is null)
-                return ("CategoryNotFound - التصنيف غير موجود", null);
+                return ("CategoryNotFound", null);
 
             var response = new GetDashboardCategoriesResponse
             {
@@ -160,7 +160,7 @@ namespace Araboon.Service.Implementations
                 AvailableMangaCounts = category.CategoryMangas.Count()
             };
 
-            return ("CategoryFound - تم العثور على التصنيف", response);
+            return ("CategoryFound", response);
         }
 
         public async Task<(string, IList<GetDashboardCategoriesResponse>?, CategoryMetaDataRsponse?)> GetDashboardCategoriesAsync(string? search)
@@ -192,9 +192,9 @@ namespace Araboon.Service.Implementations
             }).ToListAsync();
 
             if (!list.Any())
-                return ("CategoriesNotFound - لم يتم العثور على تصنيفات", null, null);
+                return ("CategoriesNotFound", null, null);
 
-            return ("CategoriesFound - تم العثور على التصنيفات", list, meta);
+            return ("CategoriesFound", list, meta);
         }
 
         public async Task<string> UpdateCategoryAsync(int id, string categoryNameEn, string categoryNameAr)
@@ -203,7 +203,7 @@ namespace Araboon.Service.Implementations
 
             var category = await unitOfWork.CategoryRepository.GetByIdAsync(id);
             if (category is null)
-                return "CategoryNotFound - التصنيف غير موجود";
+                return "CategoryNotFound";
 
             try
             {
@@ -212,12 +212,12 @@ namespace Araboon.Service.Implementations
 
                 await unitOfWork.CategoryRepository.UpdateAsync(category);
 
-                return "CategoryUpdatedSuccessfully - تم تحديث التصنيف بنجاح";
+                return "CategoryUpdatedSuccessfully";
             }
             catch (Exception ex)
             {
                 logger.LogError(ex, "Error updating category - خطأ أثناء التعديل");
-                return "AnErrorOccurredWhileUpdatingTheCategory - حدث خطأ أثناء تحديث التصنيف";
+                return "AnErrorOccurredWhileUpdatingTheCategory";
             }
         }
     }

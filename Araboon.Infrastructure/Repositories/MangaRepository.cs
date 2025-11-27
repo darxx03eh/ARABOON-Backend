@@ -28,6 +28,7 @@ namespace Araboon.Infrastructure.Repositories
             this.httpContextAccessor = httpContextAccessor;
             this.userManager = userManager;
         }
+
         public async Task<(string, IList<HomePageResponse>?, IList<string>?)> GetCategoriesHomePageAsync(bool isAdmin)
         {
             string? userID = ExtractUserIdFromToken();
@@ -79,6 +80,7 @@ namespace Araboon.Infrastructure.Repositories
                 return ("MangaNotFound", null, null);
             return ("MangaFound", mangasByCategory, categories);
         }
+
         public async Task<(string, IList<GetHottestMangasResponse>?)> GetHottestMangasAsync(bool flag)
         {
             var hottestMangas = await GetTableNoTracking()
@@ -96,6 +98,7 @@ namespace Araboon.Infrastructure.Repositories
                 return ("MangaNotFound", null);
             return ("MangaFound", hottestMangas);
         }
+
         public async Task<(string, PaginatedResult<MangaSearchResponse>?)> SearchAsync(string? search, int pageNumber, int pageSize, bool isAdmin)
         {
             var mangasQueryable = GetTableNoTracking().Where(manga => isAdmin ? true : manga.IsActive)
@@ -133,6 +136,7 @@ namespace Araboon.Infrastructure.Repositories
                 return ("MangaNotFound", null);
             return ("MangaFound", mangas);
         }
+
         public async Task<(string, PaginatedResult<GetPaginatedHottestMangaResponse>?)> GetPaginatedHottestMangaAsync(int pageNumber, int pageSize, bool isAdmin)
         {
             var hottestMangasQueryable = GetTableNoTracking().Where(manga => isAdmin ? true : manga.IsActive)
@@ -151,6 +155,7 @@ namespace Araboon.Infrastructure.Repositories
                 return ("MangaNotFound", null);
             return ("MangaFound", hottestMangas);
         }
+
         public async Task<(string, PaginatedResult<GetMangaByCategoryNameResponse>?)> GetMangaByCategoryNameAsync(string category, int pageNumber, int pageSize, bool isAdmin)
         {
             var mangasQueryable = GetTableNoTracking()
@@ -187,6 +192,7 @@ namespace Araboon.Infrastructure.Repositories
                 return ("MangaNotFound", null);
             return ("MangaFound", mangas);
         }
+
         public async Task<(string, PaginatedResult<GetMangaByStatusResponse>?)> GetMangaByStatusAsync(int pageNumber, int pageSize, string status, MangaOrderingEnum orderBy, string? filter, bool isAdmin)
         {
             var mangaQueryable = GetTableNoTracking().Where(
