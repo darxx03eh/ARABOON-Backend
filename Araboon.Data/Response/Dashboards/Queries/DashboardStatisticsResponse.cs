@@ -9,20 +9,23 @@
         public IList<TopCategories> TopCategories { get; set; }
         public MangaPercentage MangaPercentage { get; set; }
     }
+
     public class DashboardStatistics
     {
         public int TotalCounts { get; set; }
         public bool IsRise { get; set; }
-        public string Percentage { get; set; }
+        public double Percentage { get; set; }
     }
+
     public class TopCategories
     {
         public string Name { get; set; }
         public int TotalMangasCount { get; set; }
     }
+
     public class MangaPercentage
     {
-        public string ActivePercentage { get; set; }
-        public string InActivePercentage { get; set; }
+        public double ActivePercentage { get; set; }
+        public double InActivePercentage { get; set; }
     }
 }
