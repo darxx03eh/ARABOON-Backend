@@ -401,7 +401,7 @@ ARABOON-Backend/
 │   │   │       ├───Handlers
 │   │   │       └───Models
 │   │   ├───Dashboards
-│   │   │   ├───Queries
+│   │   │   └───Queries
 │   │   │       ├───Handlers
 │   │   │       └───Models
 │   │   ├───Favorites
@@ -443,6 +443,14 @@ ARABOON-Backend/
 │   │   │       └───Models
 │   │   ├───Replies
 │   │   │   └───Commands
+│   │   │       ├───Handlers
+│   │   │       └───Models
+│   │   ├───Swipers
+│   │   │   ├───Commands
+│   │   │   │   ├───Handlers
+│   │   │   │   ├───Models
+│   │   │   │   └───Validators
+│   │   │   └───Queries
 │   │   │       ├───Handlers
 │   │   │       └───Models
 │   │   └───Users
@@ -487,6 +495,8 @@ ARABOON-Backend/
 │   │   │   └───Queries
 │   │   ├───CurrentlyReadings
 │   │   │   └───Queries
+│   │   ├───Dashboards
+│   │   │   └───Queries
 │   │   ├───Favorites
 │   │   │   └───Queries
 │   │   ├───Mangas
@@ -495,6 +505,8 @@ ARABOON-Backend/
 │   │   │   └───Queries
 │   │   ├───Ratings
 │   │   ├───ReadingLaters
+│   │   │   └───Queries
+│   │   ├───Swipers
 │   │   │   └───Queries
 │   │   └───Users
 │   │       └───Queries
