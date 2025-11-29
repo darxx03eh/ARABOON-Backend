@@ -1172,7 +1172,7 @@
     <value>Chapter images are required</value>
   </data>
   <data name="ChapterImageSizeMustNotExceed5MB" xml:space="preserve">
-    <value>Chapter image size must not exceed 5 MB</value>
+    <value>Chapter image size must not exceed 15 MB</value>
   </data>
   <data name="ChapterNoForThisLanguageAlreadyExist" xml:space="preserve">
     <value>Chapter number for this language already exists</value>

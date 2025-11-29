@@ -1,7 +1,6 @@
 ﻿using Araboon.Core.Features.Swipers.Commands.Models;
 using Araboon.Core.Translations;
 using Araboon.Infrastructure.IRepositories;
-using Araboon.Infrastructure.Repositories;
 using FluentValidation;
 using Microsoft.Extensions.Localization;
 
@@ -19,6 +18,7 @@ namespace Araboon.Core.Features.Swipers.Commands.Validators
             ApplyValidationRules();
             ApplyCustomValidationRules();
         }
+
         public void ApplyValidationRules()
         {
             RuleFor(image => image.Image)
@@ -26,7 +26,7 @@ namespace Araboon.Core.Features.Swipers.Commands.Validators
                 .NotEmpty().WithMessage(stringLocalizer[SharedTranslationKeys.ImageIsRequired]);
 
             RuleFor(image => image.Image.Length)
-                .LessThanOrEqualTo(2 * 1024 * 1024).WithMessage(stringLocalizer[SharedTranslationKeys.ImageSizeMustNotExceed5MB]);
+                .LessThanOrEqualTo(5 * 1024 * 1024).WithMessage(stringLocalizer[SharedTranslationKeys.ImageSizeMustNotExceed5MB]);
 
             RuleFor(image => image.Image.ContentType)
                 .Must(ct => ct == "image/jpeg" || ct == "image/png" || ct == "image/webp")
@@ -45,6 +45,7 @@ namespace Araboon.Core.Features.Swipers.Commands.Validators
                 .NotEmpty().WithMessage(stringLocalizer[SharedTranslationKeys.LinkIsRequired])
                 .Must(link => link.ToLower().StartsWith("https")).WithMessage(stringLocalizer[SharedTranslationKeys.LinkMustStartsWithHTTPS]);
         }
+
         private void ApplyCustomValidationRules()
         {
             RuleFor(x => x.Link)

@@ -18,6 +18,7 @@ namespace Araboon.Core.Features.Chapters.Commands.Validators
             ApplyValidationRules();
             ApplyCustomValidationRules();
         }
+
         public void ApplyValidationRules()
         {
             RuleFor(x => x.MangaId)
@@ -37,7 +38,6 @@ namespace Araboon.Core.Features.Chapters.Commands.Validators
                 .Must(lang => lang == "Arabic" || lang == "English")
                 .WithMessage(stringLocalizer[SharedTranslationKeys.LanguageMustBeEitherArabicOrEnglish]);
 
-
             RuleFor(x => x.EnglishChapterTitle)
                 .MaximumLength(100).WithMessage(stringLocalizer[SharedTranslationKeys.EnglishChapterTitleMustNotExceed100Characters])
                 .When(x => !string.IsNullOrEmpty(x.EnglishChapterTitle));
@@ -47,7 +47,7 @@ namespace Araboon.Core.Features.Chapters.Commands.Validators
                 .When(x => !string.IsNullOrEmpty(x.ArabicChapterTitle));
 
             RuleFor(image => image.Image.Length)
-                .LessThanOrEqualTo(2 * 1024 * 1024).WithMessage(stringLocalizer[SharedTranslationKeys.ImageSizeMustNotExceed5MB])
+                .LessThanOrEqualTo(5 * 1024 * 1024).WithMessage(stringLocalizer[SharedTranslationKeys.ImageSizeMustNotExceed5MB])
                 .When(x => x.Image is not null);
 
             RuleFor(image => image.Image.ContentType)
@@ -62,13 +62,14 @@ namespace Araboon.Core.Features.Chapters.Commands.Validators
             RuleForEach(x => x.ChapterImages).ChildRules(image =>
             {
                 image.RuleFor(file => file.Length)
-                     .LessThanOrEqualTo(2 * 1024 * 1024).WithMessage(stringLocalizer[SharedTranslationKeys.ChapterImageSizeMustNotExceed5MB]);
+                     .LessThanOrEqualTo(15 * 1024 * 1024).WithMessage(stringLocalizer[SharedTranslationKeys.ChapterImageSizeMustNotExceed15MB]);
 
                 image.RuleFor(file => file.ContentType)
                      .Must(ct => ct == "image/jpeg" || ct == "image/png" || ct == "image/webp")
                      .WithMessage(stringLocalizer[SharedTranslationKeys.OnlyJPEGPNGAndWebPFormatsAreAllowed]);
             });
         }
+
         private void ApplyCustomValidationRules()
         {
             RuleFor(x => x.ChapterNo)

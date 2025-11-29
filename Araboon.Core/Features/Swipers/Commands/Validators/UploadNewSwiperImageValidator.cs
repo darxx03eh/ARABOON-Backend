@@ -8,11 +8,13 @@ namespace Araboon.Core.Features.Swipers.Commands.Validators
     public class UploadNewSwiperImageValidator : AbstractValidator<UploadNewSwiperImageCommand>
     {
         private readonly IStringLocalizer<SharedTranslation> stringLocalizer;
+
         public UploadNewSwiperImageValidator(IStringLocalizer<SharedTranslation> stringLocalizer)
         {
             this.stringLocalizer = stringLocalizer;
             ApplyValidationRules();
         }
+
         public void ApplyValidationRules()
         {
             RuleFor(x => x.Id)
@@ -25,12 +27,11 @@ namespace Araboon.Core.Features.Swipers.Commands.Validators
                 .NotEmpty().WithMessage(stringLocalizer[SharedTranslationKeys.ImageIsRequired]);
 
             RuleFor(image => image.Image.Length)
-                .LessThanOrEqualTo(2 * 1024 * 1024).WithMessage(stringLocalizer[SharedTranslationKeys.ImageSizeMustNotExceed5MB]);
+                .LessThanOrEqualTo(5 * 1024 * 1024).WithMessage(stringLocalizer[SharedTranslationKeys.ImageSizeMustNotExceed5MB]);
 
             RuleFor(image => image.Image.ContentType)
                 .Must(ct => ct == "image/jpeg" || ct == "image/png" || ct == "image/webp")
                 .WithMessage(stringLocalizer[SharedTranslationKeys.OnlyJPEGPNGAndWebPFormatsAreAllowed]);
-
         }
     }
 }

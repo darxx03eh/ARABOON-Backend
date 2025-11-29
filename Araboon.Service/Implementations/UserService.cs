@@ -300,9 +300,7 @@ namespace Araboon.Service.Implementations
                 {
                     foreach (var category in categories)
                     {
-                        if (category.IsActive)
-                        {
-                            profile.FavoritesCategories.Add(
+                        profile.FavoritesCategories.Add(
                                 new FavoritesCategory()
                                 {
                                     Category = TransableEntity.GetTransable(
@@ -316,8 +314,7 @@ namespace Araboon.Service.Implementations
                                                         c.Category.CategoryNameEn.Equals(category.CategoryNameEn)))
                                             .CountAsync()
                                 }
-                            );
-                        }
+                        );
                     }
                 }
 

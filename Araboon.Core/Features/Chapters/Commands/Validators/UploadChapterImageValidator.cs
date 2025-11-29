@@ -17,6 +17,7 @@ namespace Araboon.Core.Features.Chapters.Commands.Validators
             this.unitOfWork = unitOfWork;
             ApplyValidationRules();
         }
+
         public void ApplyValidationRules()
         {
             RuleFor(x => x.Id)
@@ -25,7 +26,7 @@ namespace Araboon.Core.Features.Chapters.Commands.Validators
                 .GreaterThan(0).WithMessage(stringLocalizer[SharedTranslationKeys.ChapterIdGreaterThanZero]);
 
             RuleFor(image => image.Image.Length)
-                .LessThanOrEqualTo(2 * 1024 * 1024).WithMessage(stringLocalizer[SharedTranslationKeys.ImageSizeMustNotExceed5MB])
+                .LessThanOrEqualTo(5 * 1024 * 1024).WithMessage(stringLocalizer[SharedTranslationKeys.ImageSizeMustNotExceed5MB])
                 .When(x => x.Image is not null);
 
             RuleFor(image => image.Image.ContentType)

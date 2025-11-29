@@ -17,6 +17,7 @@ namespace Araboon.Core.Features.Chapters.Commands.Validators
             this.unitOfWork = unitOfWork;
             ApplyValidationRules();
         }
+
         public void ApplyValidationRules()
         {
             RuleFor(x => x.Id)
@@ -31,7 +32,7 @@ namespace Araboon.Core.Features.Chapters.Commands.Validators
             RuleForEach(x => x.Images).ChildRules(image =>
             {
                 image.RuleFor(file => file.Length)
-                     .LessThanOrEqualTo(2 * 1024 * 1024).WithMessage(stringLocalizer[SharedTranslationKeys.ChapterImageSizeMustNotExceed5MB]);
+                     .LessThanOrEqualTo(15 * 1024 * 1024).WithMessage(stringLocalizer[SharedTranslationKeys.ChapterImageSizeMustNotExceed15MB]);
 
                 image.RuleFor(file => file.ContentType)
                      .Must(ct => ct == "image/jpeg" || ct == "image/png" || ct == "image/webp")

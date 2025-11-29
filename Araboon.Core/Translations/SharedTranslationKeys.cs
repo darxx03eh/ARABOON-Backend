@@ -348,7 +348,7 @@
         public const string ChapterImagesAreRequired = "ChapterImagesAreRequired";
         public const string EnglishChapterTitleMustNotExceed100Characters = "EnglishChapterTitleMustNotExceed100Characters";
         public const string ArabicChapterTitleMustNotExceed100Characters = "ArabicChapterTitleMustNotExceed100Characters";
-        public const string ChapterImageSizeMustNotExceed5MB = "ChapterImageSizeMustNotExceed5MB";
+        public const string ChapterImageSizeMustNotExceed15MB = "ChapterImageSizeMustNotExceed15MB";
         public const string ChapterNoForThisLanguageAlreadyExist = "ChapterNoForThisLanguageAlreadyExist";
         public const string AnErrorOccurredWhileAddingTheImageForChapter = "AnErrorOccurredWhileAddingTheImageForChapter";
         public const string AnErrorOccurredWhileAddingTheChapter = "AnErrorOccurredWhileAddingTheChapter";
