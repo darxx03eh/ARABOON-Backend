@@ -326,7 +326,9 @@ namespace Araboon.Service.Implementations
             }
 
             var userId = unitOfWork.UserRepository.ExtractUserIdFromToken();
-            var user = await userManager.FindByIdAsync(userId);
+            AraboonUser? user = null;
+            if (!string.IsNullOrWhiteSpace(userId))
+                user = await userManager.FindByIdAsync(userId);
             var role = "";
             if (user is not null)
                 role = (await userManager.GetRolesAsync(user)).FirstOrDefault();

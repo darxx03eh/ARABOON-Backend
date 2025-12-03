@@ -16,6 +16,7 @@ namespace Araboon.Core.Features.Mangas.Commands.Handlers
         , IRequestHandler<MakeEnglishAvailableOrUnAvailableCommand, ApiResponse>
         , IRequestHandler<ActivateOrDeActivateMangaCommand, ApiResponse>
         , IRequestHandler<UpdateMangaCommand, ApiResponse>
+        , IRequestHandler<IncreaseMangasViewsByOneCommand, ApiResponse>
     {
         private readonly IMangaService mangaService;
         private readonly IStringLocalizer<SharedTranslation> stringLocalizer;
@@ -25,6 +26,7 @@ namespace Araboon.Core.Features.Mangas.Commands.Handlers
             this.mangaService = mangaService;
             this.stringLocalizer = stringLocalizer;
         }
+
         public async Task<ApiResponse> Handle(AddNewMangaCommand request, CancellationToken cancellationToken)
         {
             var (result, manga) = await mangaService.AddNewMangaAsync(request);
@@ -100,6 +102,7 @@ namespace Araboon.Core.Features.Mangas.Commands.Handlers
                 _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileMakingArabicAvilableOrNotAvilableProcess])
             };
         }
+
         public async Task<ApiResponse> Handle(MakeEnglishAvailableOrUnAvailableCommand request, CancellationToken cancellationToken)
         {
             var result = await mangaService.MakeEnglishAvailableOrUnAvailableAsync(request.Id);
@@ -114,6 +117,7 @@ namespace Araboon.Core.Features.Mangas.Commands.Handlers
                 _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileMakingEnglishAvilableOrNotAvilableProcess])
             };
         }
+
         public async Task<ApiResponse> Handle(ActivateOrDeActivateMangaCommand request, CancellationToken cancellationToken)
         {
             var result = await mangaService.ActivateAndDeActivateMangaAsync(request.Id);
@@ -127,6 +131,7 @@ namespace Araboon.Core.Features.Mangas.Commands.Handlers
                 _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileActivatingOrDeActivatingProcess])
             };
         }
+
         public async Task<ApiResponse> Handle(UpdateMangaCommand request, CancellationToken cancellationToken)
         {
             var (result, manga) = await mangaService.UpdateExistMangaAsync(request, request.MangaId);
@@ -138,6 +143,11 @@ namespace Araboon.Core.Features.Mangas.Commands.Handlers
                 "AnErrorOccurredWhileUpdatingTheManga" => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileUpdatingTheManga]),
                 _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileUpdatingTheManga])
             };
+        }
+
+        public Task<ApiResponse> Handle(IncreaseMangasViewsByOneCommand request, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
         }
     }
 }
