@@ -1,6 +1,8 @@
 ﻿using Araboon.Data.Entities;
+using Araboon.Data.Entities.Identity;
 using Araboon.Infrastructure.IRepositories;
 using Araboon.Service.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 
 namespace Araboon.Service.Implementations
@@ -10,12 +12,18 @@ namespace Araboon.Service.Implementations
         private readonly IChapterViewRepository chapterViewRepository;
         private readonly IMangaRepository mangaRepository;
         private readonly ILogger<ChapterViewService> logger;
+        private readonly UserManager<AraboonUser> userManager;
 
-        public ChapterViewService(IChapterViewRepository chapterViewRepository, IMangaRepository mangaRepository, ILogger<ChapterViewService> logger)
+        public ChapterViewService(
+            IChapterViewRepository chapterViewRepository,
+            IMangaRepository mangaRepository,
+            ILogger<ChapterViewService> logger,
+            UserManager<AraboonUser> userManager)
         {
             this.chapterViewRepository = chapterViewRepository;
             this.mangaRepository = mangaRepository;
             this.logger = logger;
+            this.userManager = userManager;
         }
 
         public async Task<string> MarkAsReadAsync(int mangaId, int chapterId)
@@ -50,6 +58,14 @@ namespace Araboon.Service.Implementations
                 {
                     logger.LogWarning("Chapter does not belong to this manga - الفصل لا ينتمي لهذه المانجا | MangaId: {MangaId}, ChapterId: {ChapterId}", mangaId, chapterId);
                     return "ThisChapterIsNotInThisManga";
+                }
+
+                var user = await userManager.FindByIdAsync(userId);
+                var role = (await userManager.GetRolesAsync(user)).FirstOrDefault();
+                if (user is not null && role.Equals("admin", StringComparison.OrdinalIgnoreCase))
+                {
+                    logger.LogWarning("Admins cannot mark chapters as read - لا يمكن للمسؤولين وضع الفصول كمقروءة | MangaId: {MangaId}, ChapterId: {ChapterId}, UserId: {UserId}", mangaId, chapterId, userId);
+                    return "AdminsCannotMarkChaptersAsRead";
                 }
 
                 await chapterViewRepository.AddAsync(new ChapterView()
@@ -94,6 +110,14 @@ namespace Araboon.Service.Implementations
                 {
                     logger.LogWarning("Cannot unmark as unread because it's not marked read - لا يمكن إزالة علامة المقروء لأنه غير محدد كمقروء | MangaId: {MangaId}, ChapterId: {ChapterId}, UserId: {UserId}", mangaId, chapterId, userId);
                     return "ThisChapterForThisMangaIsNotExistInMarkedAsRead";
+                }
+
+                var user = await userManager.FindByIdAsync(userId);
+                var role = (await userManager.GetRolesAsync(user)).FirstOrDefault();
+                if (user is not null && role.Equals("admin", StringComparison.OrdinalIgnoreCase))
+                {
+                    logger.LogWarning("Admins cannot unmark chapters as read - لا يمكن للمسؤولين إزالة علامة المقروء | MangaId: {MangaId}, ChapterId: {ChapterId}, UserId: {UserId}", mangaId, chapterId, userId);
+                    return "AdminsCannotUnMarkChaptersAsRead";
                 }
 
                 await chapterViewRepository.DeleteAsync(new ChapterView()

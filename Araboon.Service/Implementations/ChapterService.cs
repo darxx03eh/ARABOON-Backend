@@ -1,10 +1,12 @@
 ﻿using Araboon.Data.DTOs.Chapters;
 using Araboon.Data.Entities;
+using Araboon.Data.Entities.Identity;
 using Araboon.Infrastructure.Data;
 using Araboon.Infrastructure.IRepositories;
 using Araboon.Service.Interfaces;
 using Hangfire;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
@@ -18,19 +20,22 @@ namespace Araboon.Service.Implementations
         private readonly ICloudinaryService cloudinaryService;
         private readonly IHttpContextAccessor httpContextAccessor;
         private readonly ILogger<ChapterService> logger;
+        private readonly UserManager<AraboonUser> userManager;
 
         public ChapterService(
             IUnitOfWork unitOfWork,
             AraboonDbContext context,
             ICloudinaryService cloudinaryService,
             IHttpContextAccessor httpContextAccessor,
-            ILogger<ChapterService> logger)
+            ILogger<ChapterService> logger,
+            UserManager<AraboonUser> userManager)
         {
             this.unitOfWork = unitOfWork;
             this.context = context;
             this.cloudinaryService = cloudinaryService;
             this.httpContextAccessor = httpContextAccessor;
             this.logger = logger;
+            this.userManager = userManager;
         }
 
         private async Task<IList<string>> TemporarilyStoreImagesAsync(IList<IFormFile> Images)
@@ -318,6 +323,17 @@ namespace Araboon.Service.Implementations
             {
                 logger.LogWarning("Chapter not found - لم يتم العثور على الفصل | ChapterId: {Id}", chapterId);
                 return ("ChapterNotFound", null);
+            }
+
+            var userId = unitOfWork.UserRepository.ExtractUserIdFromToken();
+            var user = await userManager.FindByIdAsync(userId);
+            var role = "";
+            if (user is not null)
+                role = (await userManager.GetRolesAsync(user)).FirstOrDefault();
+            if (user is not null && role.Equals("admin", StringComparison.OrdinalIgnoreCase))
+            {
+                logger.LogInformation("Admin view not counted - مشاهدات الأدمن غير محسوبة | UserId: {UserId}", userId);
+                return ("AdminViewNotCounted", null);
             }
 
             try

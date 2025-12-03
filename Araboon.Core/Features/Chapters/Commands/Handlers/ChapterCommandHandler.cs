@@ -1,7 +1,6 @@
 ﻿using Araboon.Core.Bases;
 using Araboon.Core.Features.Chapters.Commands.Models;
 using Araboon.Core.Translations;
-using Araboon.Data.Entities;
 using Araboon.Data.Response.Chapters.Queries;
 using Araboon.Service.Interfaces;
 using AutoMapper;
@@ -24,7 +23,7 @@ namespace Araboon.Core.Features.Chapters.Commands.Handlers
         private readonly IHttpContextAccessor httpContextAccessor;
         private readonly IMapper mapper;
 
-        public ChapterCommandHandler(IChapterService chapterService, IStringLocalizer<SharedTranslation> stringLocalizer, 
+        public ChapterCommandHandler(IChapterService chapterService, IStringLocalizer<SharedTranslation> stringLocalizer,
             IHttpContextAccessor httpContextAccessor, IMapper mapper)
         {
             this.chapterService = chapterService;
@@ -43,6 +42,7 @@ namespace Araboon.Core.Features.Chapters.Commands.Handlers
                 {
                     ReaderCounts = readersCount,
                 }, message: stringLocalizer[SharedTranslationKeys.ViewsIncreasedBy1]),
+                "AdminViewNotCounted" => BadRequest(stringLocalizer[SharedTranslationKeys.AdminViewNotCounted]),
                 "AnErrorOccurredWhileIncreasingTheViewByOne" =>
                 InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileIncreasingTheViewByOne]),
                 _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileIncreasingTheViewByOne])
@@ -64,18 +64,18 @@ namespace Araboon.Core.Features.Chapters.Commands.Handlers
                 "AnErrorOccurredWhileAddingTheImageForChapter" =>
                 InternalServerError(SharedTranslationKeys.AnErrorOccurredWhileAddingTheImageForChapter),
                 "AnErrorOccurredWhileAddingTheChapter" => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileAddingTheChapter]),
-                "ChapterAddedSuccessfully" => Success(chaptersResponse ,new
+                "ChapterAddedSuccessfully" => Success(chaptersResponse, new
                 {
                     IsArabicAvailable = isArabicAvailable,
                     IsEnglishAvailable = isEnglishAvailable,
                 }, stringLocalizer[SharedTranslationKeys.ChapterAddedSuccessfully]),
-                "ChapterAddedSuccessfullyAndArabicBecameInactiveDueToIncompleteChapters" => 
+                "ChapterAddedSuccessfullyAndArabicBecameInactiveDueToIncompleteChapters" =>
                 Success(chaptersResponse, new
                 {
                     IsArabicAvailable = isArabicAvailable,
                     IsEnglishAvailable = isEnglishAvailable,
                 }, stringLocalizer[SharedTranslationKeys.ChapterAddedSuccessfullyAndArabicBecameInactiveDueToIncompleteChapters]),
-                "ChapterAddedSuccessfullyAndEnglishBecameInactiveDueToIncompleteChapters" => 
+                "ChapterAddedSuccessfullyAndEnglishBecameInactiveDueToIncompleteChapters" =>
                 Success(chaptersResponse, new
                 {
                     IsArabicAvailable = isArabicAvailable,
@@ -96,13 +96,13 @@ namespace Araboon.Core.Features.Chapters.Commands.Handlers
                     IsArabicAvailable = isArabicAvailable,
                     IsEnglishAvailable = isEnglishAvailable,
                 }, stringLocalizer[SharedTranslationKeys.ChapterDeletedSuccessfully]),
-                "ChapterDeletedSuccessfullyAndArabicBecameInactiveDueToIncompleteChapters" => 
+                "ChapterDeletedSuccessfullyAndArabicBecameInactiveDueToIncompleteChapters" =>
                 Success(null, new
                 {
                     IsArabicAvailable = isArabicAvailable,
                     IsEnglishAvailable = isEnglishAvailable,
                 }, stringLocalizer[SharedTranslationKeys.ChapterDeletedSuccessfullyAndArabicBecameInactiveDueToIncompleteChapters]),
-                "ChapterDeletedSuccessfullyAndEnglishBecameInactiveDueToIncompleteChapters" => 
+                "ChapterDeletedSuccessfullyAndEnglishBecameInactiveDueToIncompleteChapters" =>
                 Success(null, new
                 {
                     IsArabicAvailable = isArabicAvailable,
@@ -132,7 +132,7 @@ namespace Araboon.Core.Features.Chapters.Commands.Handlers
                 {
                     IsArabicAvailable = isArabicAvailable,
                     IsEnglishAvailable = isEnglishAvailable,
-                } ,message: stringLocalizer[SharedTranslationKeys.ChapterUpdatedSuccessfully]),
+                }, message: stringLocalizer[SharedTranslationKeys.ChapterUpdatedSuccessfully]),
                 _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileUpdatingTheChapter])
             };
         }
@@ -162,7 +162,7 @@ namespace Araboon.Core.Features.Chapters.Commands.Handlers
                 "ChapterNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.ChapterNotFound]),
                 "AnErrorOccurredWhileProcessingTheImagesIploadRequest" =>
                 InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileProcessingTheImagesIploadRequest]),
-                "ImagesAreBeingUploadedToCloudStoragePleaseWaitALittleWhile" => 
+                "ImagesAreBeingUploadedToCloudStoragePleaseWaitALittleWhile" =>
                 Accepted(stringLocalizer[SharedTranslationKeys.ImagesAreBeingUploadedToCloudStoragePleaseWaitALittleWhile]),
                 _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileProcessingTheImagesIploadRequest])
             };

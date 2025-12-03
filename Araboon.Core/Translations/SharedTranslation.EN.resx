@@ -1360,4 +1360,13 @@
   <data name="TheAccountIsDisabledAndCannotBeRegeneratedWithAnAccessToken" xml:space="preserve">
     <value>The account is disabled and cannot be regenerated with an access token</value>
   </data>
+  <data name="AdminViewNotCounted" xml:space="preserve">
+    <value>Admin views are not counted</value>
+  </data>
+  <data name="AdminsCannotMarkChaptersAsRead" xml:space="preserve">
+    <value>Admins cannot mark chapters as read</value>
+  </data>
+  <data name="AdminsCannotUnMarkChaptersAsRead" xml:space="preserve">
+    <value>Admins cannot unmark chapters as read</value>
+  </data>
 </root>

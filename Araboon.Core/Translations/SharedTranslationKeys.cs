@@ -411,5 +411,8 @@
         public const string AnErrorOccurredWhileRetrievingDashboardStatistics = "AnErrorOccurredWhileRetrievingDashboardStatistics";
         public const string YouCannotActivateTheCategoryBecauseThereAreNoMangaAssociatedWithIt = "YouCannotActivateTheCategoryBecauseThereAreNoMangaAssociatedWithIt";
         public const string TheAccountIsDisabledAndCannotBeRegeneratedWithAnAccessToken = "TheAccountIsDisabledAndCannotBeRegeneratedWithAnAccessToken";
+        public const string AdminViewNotCounted = "AdminViewNotCounted";
+        public const string AdminsCannotMarkChaptersAsRead = "AdminsCannotMarkChaptersAsRead";
+        public const string AdminsCannotUnMarkChaptersAsRead = "AdminsCannotUnMarkChaptersAsRead";
     }
 }

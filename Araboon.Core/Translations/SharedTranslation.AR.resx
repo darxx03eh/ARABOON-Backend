@@ -1359,4 +1359,13 @@
   <data name="TheAccountIsDisabledAndCannotBeRegeneratedWithAnAccessToken" xml:space="preserve">
     <value>الحساب معطل ولا يمكن إعادة إنشائه باستخدام رمز الوصول</value>
   </data>
+  <data name="AdminViewNotCounted" xml:space="preserve">
+    <value>مشاهدات المسؤول لا يتم احتسابها</value>
+  </data>
+  <data name="AdminsCannotMarkChaptersAsRead" xml:space="preserve">
+    <value>لا يمكن للمسؤولين وضع الفصول كـ مُقروءة</value>
+  </data>
+  <data name="AdminsCannotUnMarkChaptersAsRead" xml:space="preserve">
+    <value>لا يمكن للمسؤولين إزالة علامة "مقروء" من الفصول</value>
+  </data>
 </root>

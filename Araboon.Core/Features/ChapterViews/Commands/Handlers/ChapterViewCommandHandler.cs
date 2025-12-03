@@ -1,7 +1,6 @@
 ﻿using Araboon.Core.Bases;
 using Araboon.Core.Features.ChapterViews.Commands.Models;
 using Araboon.Core.Translations;
-using Araboon.Service.Implementations;
 using Araboon.Service.Interfaces;
 using MediatR;
 using Microsoft.Extensions.Localization;
@@ -20,6 +19,7 @@ namespace Araboon.Core.Features.ChapterViews.Commands.Handlers
             this.chapterViewService = chapterViewService;
             this.stringLocalizer = stringLocalizer;
         }
+
         public async Task<ApiResponse> Handle(MarkAsReadCommand request, CancellationToken cancellationToken)
         {
             var result = await chapterViewService.MarkAsReadAsync(request.MangaID, request.ChapterID);
@@ -30,6 +30,7 @@ namespace Araboon.Core.Features.ChapterViews.Commands.Handlers
                 Unauthorized(stringLocalizer[SharedTranslationKeys.MarkAsReadForChaptersServiceforRegisteredUsersOnly]),
                 "ThisChapterInThisMangaIsAlreadyMarkedAsRead" =>
                 Conflict(stringLocalizer[SharedTranslationKeys.ThisChapterInThisMangaIsAlreadyMarkedAsRead]),
+                "AdminsCannotMarkChaptersAsRead" => Forbidden(stringLocalizer[SharedTranslationKeys.AdminsCannotMarkChaptersAsRead]),
                 "ThisChapterIsNotInThisManga" => BadRequest(stringLocalizer[SharedTranslationKeys.ThisChapterIsNotInThisManga]),
                 "MarkedAsRead" => Success(null, message: stringLocalizer[SharedTranslationKeys.MarkedAsRead]),
                 "ThereWasAProblemMarkedAsRead"
@@ -48,6 +49,7 @@ namespace Araboon.Core.Features.ChapterViews.Commands.Handlers
                 Unauthorized(stringLocalizer[SharedTranslationKeys.MarkAsUnReadForChaptersServiceforRegisteredUsersOnly]),
                 "ThisChapterForThisMangaIsNotExistInMarkedAsRead" =>
                 NotFound(stringLocalizer[SharedTranslationKeys.ThisChapterForThisMangaIsNotExistInMarkedAsRead]),
+                "AdminsCannotUnMarkChaptersAsRead" => Forbidden(stringLocalizer[SharedTranslationKeys.AdminsCannotUnMarkChaptersAsRead]),
                 "MarkedAsUnRead" => Success(null, message: stringLocalizer[SharedTranslationKeys.MarkedAsUnRead]),
                 "ThereWasAProblemMarkedAsUnRead"
                 => InternalServerError(stringLocalizer[SharedTranslationKeys.ThereWasAProblemMarkedAsUnRead]),
