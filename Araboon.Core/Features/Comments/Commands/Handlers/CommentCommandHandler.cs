@@ -31,8 +31,8 @@ namespace Araboon.Core.Features.Comments.Commands.Handlers
                 "UserNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.UserNotFound]),
                 "MangaNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.MangaNotFound]),
                 "AnErrorOccurredWhileCommenting" => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileCommenting]),
-                "CommentCompletedSuccessfully" => 
-                Success(comment, message:stringLocalizer[SharedTranslationKeys.CommentCompletedSuccessfully]),
+                "CommentCompletedSuccessfully" =>
+                Success(comment, message: stringLocalizer[SharedTranslationKeys.CommentCompletedSuccessfully]),
                 _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileCommenting])
             };
         }
@@ -61,11 +61,11 @@ namespace Araboon.Core.Features.Comments.Commands.Handlers
             {
                 "CommentNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.CommentNotFound]),
                 "UserNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.UserNotFound]),
-                "YouAreNotTheOwnerOfThisCommentOrYouAreNotTheAdmin" =>
-                BadRequest(stringLocalizer[SharedTranslationKeys.YouAreNotTheOwnerOfThisCommentOrYouAreNotTheAdmin]),
+                "YouAreNotTheOwnerOfThisComment" =>
+                BadRequest(stringLocalizer[SharedTranslationKeys.YouAreNotTheOwnerOfThisComment]),
                 "AnErrorOccurredWhileDeletingTheComment" =>
                 InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileUpdatingTheComment]),
-                "TheCommentHasBeenSuccessfullyUpdated" => 
+                "TheCommentHasBeenSuccessfullyUpdated" =>
                 Success(new
                 {
                     Content = content,
@@ -86,7 +86,7 @@ namespace Araboon.Core.Features.Comments.Commands.Handlers
                 "TheLikeProcessForThisCommentFailed" => InternalServerError(stringLocalizer[SharedTranslationKeys.TheLikeProcessForThisCommentFailed]),
                 "AnErrorOccurredWhileAddingALikeToTheComment" =>
                 InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileAddingALikeToTheComment]),
-                "TheLikeHasBeenAddedToTheCommentSuccessfully" => 
+                "TheLikeHasBeenAddedToTheCommentSuccessfully" =>
                 Success(null, message: stringLocalizer[SharedTranslationKeys.TheLikeHasBeenAddedToTheCommentSuccessfully]),
                 _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileAddingALikeToTheComment])
             };
@@ -102,7 +102,7 @@ namespace Araboon.Core.Features.Comments.Commands.Handlers
                 "YouAreNotLikedThisComment" => BadRequest(stringLocalizer[SharedTranslationKeys.YouAreNotLikedThisComment]),
                 "AnErrorOccurredWhileRemovingALikeFromTheComment" =>
                 InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileRemovingALikeFromTheComment]),
-                "TheLikeHasBeenDeletedFromTheCommentSuccessfully" => 
+                "TheLikeHasBeenDeletedFromTheCommentSuccessfully" =>
                 Success(null, message: stringLocalizer[SharedTranslationKeys.TheLikeHasBeenDeletedFromTheCommentSuccessfully]),
                 _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileRemovingALikeFromTheComment])
             };

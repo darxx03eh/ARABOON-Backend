@@ -718,8 +718,8 @@
   <data name="CommentNotFound" xml:space="preserve">
     <value>Comment not found</value>
   </data>
-  <data name="YouAreNotTheOwnerOfThisCommentOrYouAreNotTheAdmin" xml:space="preserve">
-    <value>You are not the owner of this comment or you are not the admin</value>
+  <data name="YouAreNotTheOwnerOfThisComment" xml:space="preserve">
+    <value>You are not the owner of this comment</value>
   </data>
   <data name="AnErrorOccurredWhileDeletingTheComment" xml:space="preserve">
     <value>An error occurred while deleting the comment</value>
@@ -775,8 +775,8 @@
   <data name="ReplyNotFound" xml:space="preserve">
     <value>Reply not found</value>
   </data>
-  <data name="YouAreNotTheOwnerOfThisReplyOrYouAreNotTheAdmin" xml:space="preserve">
-    <value>You are not the owner of this reply or you are not the admin</value>
+  <data name="YouAreNotTheOwnerOfThisReply" xml:space="preserve">
+    <value>You are not the owner of this reply</value>
   </data>
   <data name="AnErrorOccurredWhileDeletingTheReply" xml:space="preserve">
     <value>An error occurred while deleting the reply</value>
@@ -1368,5 +1368,11 @@
   </data>
   <data name="AdminsCannotUnMarkChaptersAsRead" xml:space="preserve">
     <value>Admins cannot unmark chapters as read</value>
+  </data>
+  <data name="YouAreNotTheOwnerOfThisCommentOrYouAreNotTheAdmin" xml:space="preserve">
+    <value>You are not the owner of this comment or you are not the admin</value>
+  </data>
+  <data name="YouAreNotTheOwnerOfThisReplyOrYouAreNotTheAdmin" xml:space="preserve">
+    <value>You are not the owner of this reply or you are not the admin</value>
   </data>
 </root>

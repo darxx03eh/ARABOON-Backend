@@ -341,10 +341,10 @@ namespace Araboon.Service.Implementations
             }
 
             var roles = await userManager.GetRolesAsync(user);
-            if (!reply.FromUserID.Equals(user.Id) && !roles.Contains(Roles.Admin))
+            if (!reply.FromUserID.Equals(user.Id))
             {
                 logger.LogWarning("User unauthorized to update - المستخدم لا يملك صلاحية التعديل");
-                return ("YouAreNotTheOwnerOfThisReplyOrYouAreNotTheAdmin", null, null);
+                return ("YouAreNotTheOwnerOfThisReply", null, null);
             }
 
             try

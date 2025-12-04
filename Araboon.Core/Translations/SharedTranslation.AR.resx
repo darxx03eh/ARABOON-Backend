@@ -717,8 +717,8 @@
   <data name="CommentNotFound" xml:space="preserve">
     <value>التعليق غير موجود</value>
   </data>
-  <data name="YouAreNotTheOwnerOfThisCommentOrYouAreNotTheAdmin" xml:space="preserve">
-    <value>لست مالك هذا التعليق أو لست المسؤول</value>
+  <data name="YouAreNotTheOwnerOfThisComment" xml:space="preserve">
+    <value>لست مالك هذا التعليق</value>
   </data>
   <data name="AnErrorOccurredWhileDeletingTheComment" xml:space="preserve">
     <value>حدث خطأ أثناء حذف التعليق</value>
@@ -774,8 +774,8 @@
   <data name="ReplyNotFound" xml:space="preserve">
     <value>الرد غير موجود</value>
   </data>
-  <data name="YouAreNotTheOwnerOfThisReplyOrYouAreNotTheAdmin" xml:space="preserve">
-    <value>لست مالك هذا الرد أو لست المسؤول</value>
+  <data name="YouAreNotTheOwnerOfThisReply" xml:space="preserve">
+    <value>لست مالك هذا الرد</value>
   </data>
   <data name="AnErrorOccurredWhileDeletingTheReply" xml:space="preserve">
     <value>حدث خطأ أثناء حذف الرد</value>
@@ -1367,5 +1367,11 @@
   </data>
   <data name="AdminsCannotUnMarkChaptersAsRead" xml:space="preserve">
     <value>لا يمكن للمسؤولين إزالة علامة "مقروء" من الفصول</value>
+  </data>
+  <data name="YouAreNotTheOwnerOfThisCommentOrYouAreNotTheAdmin" xml:space="preserve">
+    <value>لست صاحب هذا التعليق أو لست المسؤول</value>
+  </data>
+  <data name="YouAreNotTheOwnerOfThisReplyOrYouAreNotTheAdmin" xml:space="preserve">
+    <value>لست صاحب هذا الرد أو لست المسؤول</value>
   </data>
 </root>

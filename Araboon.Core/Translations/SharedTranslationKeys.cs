@@ -201,7 +201,7 @@
         public const string AnErrorOccurredWhileCommenting = "AnErrorOccurredWhileCommenting";
         public const string CommentCompletedSuccessfully = "CommentCompletedSuccessfully";
         public const string CommentNotFound = "CommentNotFound";
-        public const string YouAreNotTheOwnerOfThisCommentOrYouAreNotTheAdmin = "YouAreNotTheOwnerOfThisCommentOrYouAreNotTheAdmin";
+        public const string YouAreNotTheOwnerOfThisComment = "YouAreNotTheOwnerOfThisComment";
         public const string AnErrorOccurredWhileDeletingTheComment = "AnErrorOccurredWhileDeletingTheComment";
         public const string TheCommentHasBeenSuccessfullyDeleted = "TheCommentHasBeenSuccessfullyDeleted";
         public const string AnErrorOccurredWhileUpdatingTheComment = "AnErrorOccurredWhileUpdatingTheComment";
@@ -220,7 +220,7 @@
         public const string AnErrorOccurredWhileRepling = "AnErrorOccurredWhileRepling";
         public const string ReplyCompletedSuccessfully = "ReplyCompletedSuccessfully";
         public const string ReplyNotFound = "ReplyNotFound";
-        public const string YouAreNotTheOwnerOfThisReplyOrYouAreNotTheAdmin = "YouAreNotTheOwnerOfThisReplyOrYouAreNotTheAdmin";
+        public const string YouAreNotTheOwnerOfThisReply = "YouAreNotTheOwnerOfThisReply";
         public const string AnErrorOccurredWhileDeletingTheReply = "AnErrorOccurredWhileDeletingTheReply";
         public const string TheReplyHasBeenSuccessfullyDeleted = "TheReplyHasBeenSuccessfullyDeleted";
         public const string AnErrorOccurredWhileUpdatingTheReply = "AnErrorOccurredWhileUpdatingTheReply";
@@ -414,5 +414,7 @@
         public const string AdminViewNotCounted = "AdminViewNotCounted";
         public const string AdminsCannotMarkChaptersAsRead = "AdminsCannotMarkChaptersAsRead";
         public const string AdminsCannotUnMarkChaptersAsRead = "AdminsCannotUnMarkChaptersAsRead";
+        public const string YouAreNotTheOwnerOfThisCommentOrYouAreNotTheAdmin = "YouAreNotTheOwnerOfThisCommentOrYouAreNotTheAdmin";
+        public const string YouAreNotTheOwnerOfThisReplyOrYouAreNotTheAdmin = "YouAreNotTheOwnerOfThisReplyOrYouAreNotTheAdmin";
     }
 }

@@ -25,14 +25,14 @@ namespace Araboon.Core.Features.Replies.Commands.Handlers
 
         public async Task<ApiResponse> Handle(AddReplyToCommentCommand request, CancellationToken cancellationToken)
         {
-            var(result, replies) = await replyService.AddReplyAsync(request.Content, request.CommentId, request.UserId);
+            var (result, replies) = await replyService.AddReplyAsync(request.Content, request.CommentId, request.UserId);
             return result switch
             {
                 "CommentNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.CommentNotFound]),
                 "UserNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.UserNotFound]),
                 "TheUserYouWantToReplyToNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.TheUserYouWantToReplyToNotFound]),
                 "AnErrorOccurredWhileRepling" => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileRepling]),
-                "ReplyCompletedSuccessfully" => 
+                "ReplyCompletedSuccessfully" =>
                 Success(replies, message: stringLocalizer[SharedTranslationKeys.ReplyCompletedSuccessfully]),
                 _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileRepling])
             };
@@ -45,9 +45,9 @@ namespace Araboon.Core.Features.Replies.Commands.Handlers
             {
                 "ReplyNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.ReplyNotFound]),
                 "UserNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.UserNotFound]),
-                "YouAreNotTheOwnerOfThisReplyOrYouAreNotTheAdmin" => 
+                "YouAreNotTheOwnerOfThisReplyOrYouAreNotTheAdmin" =>
                 Forbidden(stringLocalizer[SharedTranslationKeys.YouAreNotTheOwnerOfThisReplyOrYouAreNotTheAdmin]),
-                "AnErrorOccurredWhileDeletingTheReply" => 
+                "AnErrorOccurredWhileDeletingTheReply" =>
                 InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileDeletingTheReply]),
                 "TheReplyHasBeenSuccessfullyDeleted" => Success(null, message: stringLocalizer[SharedTranslationKeys.TheReplyHasBeenSuccessfullyDeleted]),
                 _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileDeletingTheReply])
@@ -61,9 +61,9 @@ namespace Araboon.Core.Features.Replies.Commands.Handlers
             {
                 "ReplyNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.ReplyNotFound]),
                 "UserNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.UserNotFound]),
-                "YouAreNotTheOwnerOfThisReplyOrYouAreNotTheAdmin" => 
-                Forbidden(stringLocalizer[SharedTranslationKeys.YouAreNotTheOwnerOfThisReplyOrYouAreNotTheAdmin]),
-                "AnErrorOccurredWhileUpdatingTheReply" => 
+                "YouAreNotTheOwnerOfThisReplyOrYouAreNotTheAdmin" =>
+                Forbidden(stringLocalizer[SharedTranslationKeys.YouAreNotTheOwnerOfThisReply]),
+                "AnErrorOccurredWhileUpdatingTheReply" =>
                 InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileUpdatingTheReply]),
                 "TheReplyHasBeenSuccessfullyUpdated" => Success(new
                 {
@@ -83,9 +83,9 @@ namespace Araboon.Core.Features.Replies.Commands.Handlers
                 "UserNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.UserNotFound]),
                 "YouAreAlreadyAddedLikeToThisReply" => Conflict(stringLocalizer[SharedTranslationKeys.YouAreAlreadyAddedLikeToThisReply]),
                 "TheLikeProcessForThisReplyFailed" => InternalServerError(stringLocalizer[SharedTranslationKeys.TheLikeProcessForThisReplyFailed]),
-                "AnErrorOccurredWhileAddingALikeToTheReply" => 
+                "AnErrorOccurredWhileAddingALikeToTheReply" =>
                 InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileAddingALikeToTheReply]),
-                "TheLikeHasBeenAddedToTheReplySuccessfully" => 
+                "TheLikeHasBeenAddedToTheReplySuccessfully" =>
                 Success(null, message: stringLocalizer[SharedTranslationKeys.TheLikeHasBeenAddedToTheReplySuccessfully]),
                 _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileAddingALikeToTheReply])
             };
@@ -101,8 +101,8 @@ namespace Araboon.Core.Features.Replies.Commands.Handlers
                 "YouAreNotLikedThisReply" => BadRequest(stringLocalizer[SharedTranslationKeys.YouAreNotLikedThisReply]),
                 "AnErrorOccurredWhileRemovingALikeFromTheReply" =>
                 InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileRemovingALikeFromTheReply]),
-                "TheLikeHasBeenDeletedFromTheReplySuccessfully" => 
-                Success(null, message:stringLocalizer[SharedTranslationKeys.TheLikeHasBeenDeletedFromTheReplySuccessfully]),
+                "TheLikeHasBeenDeletedFromTheReplySuccessfully" =>
+                Success(null, message: stringLocalizer[SharedTranslationKeys.TheLikeHasBeenDeletedFromTheReplySuccessfully]),
                 _ => InternalServerError(stringLocalizer[SharedTranslationKeys.AnErrorOccurredWhileRemovingALikeFromTheReply])
             };
         }

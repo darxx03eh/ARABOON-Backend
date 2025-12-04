@@ -338,10 +338,10 @@ namespace Araboon.Service.Implementations
             }
 
             var userRole = await userManager.GetRolesAsync(user);
-            if (!comment.UserID.Equals(user.Id) && !userRole.Contains(Roles.Admin))
+            if (!comment.UserID.Equals(user.Id))
             {
                 logger.LogWarning("Unauthorized update attempt - محاولة تعديل غير مصرح بها | CommentId: {Id}, UserId: {UserId}", id, userId);
-                return ("YouAreNotTheOwnerOfThisCommentOrYouAreNotTheAdmin", null, null);
+                return ("YouAreNotTheOwnerOfThisComment", null, null);
             }
 
             try
