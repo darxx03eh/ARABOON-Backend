@@ -1,6 +1,5 @@
 ﻿using Araboon.Data.Entities;
 using Araboon.Data.Response.Categories.Queries;
-using Araboon.Infrastructure.Commons;
 
 namespace Araboon.Core.Mapping.Categories
 {
@@ -10,8 +9,8 @@ namespace Araboon.Core.Mapping.Categories
         {
             CreateMap<Category, CategoriesResponse>()
                  .ForMember(to => to.Id, from => from.MapFrom(src => src.CategoryID))
-                 .ForMember(to => to.En, from => from.MapFrom(src => src.CategoryNameEn))
-                 .ForMember(to => to.Ar, from => from.MapFrom(src => src.CategoryNameAr));
+                 .ForMember(to => to.En, from => from.MapFrom(src => src.CategoryNameEn.ToLower()))
+                 .ForMember(to => to.Ar, from => from.MapFrom(src => src.CategoryNameAr.ToLower()));
         }
     }
 }
