@@ -4,8 +4,10 @@ namespace Araboon.Service.Interfaces
 {
     public interface IRatingService
     {
-        public Task<(string, double?, int?, double?)> RateAsync(int mangaId, double rate);
-        public Task<(string, double?)> DeleteRateAsync(int id);
+        public Task<(string, double?, int?, string?)> RateAsync(int mangaId, double rate);
+
+        public Task<(string, string?)> DeleteRateAsync(int id);
+
         public Task<(string, GetRatingForManga?)> GetRatingsForMangaAsync(int mangaId);
     }
 }

@@ -9,7 +9,7 @@ namespace Araboon.Core.Mapping.Mangas
 {
     public partial class MangaProfile
     {
-        void GetMangaByIDMapping()
+        private void GetMangaByIDMapping()
         {
             CreateMap<Manga, GetMangaByIDResponse>()
                 .ForMember(to => to.MangaId, from => from.MapFrom(src => src.MangaID))
@@ -19,7 +19,7 @@ namespace Araboon.Core.Mapping.Mangas
                 .ForMember(to => to.Categories, from => from.MapFrom(src => src.CategoryMangas.Select(c =>
                     TransableEntity.GetTransable(c.Category.CategoryNameEn, c.Category.CategoryNameAr)
                     )))
-                .ForMember(to => to.CategoriesIds, from => from.MapFrom(src => src.CategoryMangas.Select(c => 
+                .ForMember(to => to.CategoriesIds, from => from.MapFrom(src => src.CategoryMangas.Select(c =>
                     c.CategoryID
                 )))
                 .ForMember(to => to.IsArabicAvailable, from => from.MapFrom<IsArabicAvilableResolver>())
@@ -29,7 +29,7 @@ namespace Araboon.Core.Mapping.Mangas
                 .ForMember(to => to.Description, from => from.MapFrom(src => TransableEntity.GetTransable(src.DescriptionEn, src.DescriptionAr)))
                 .ForMember(to => to.PublishedOn, from => from.MapFrom<MangaDateFormatResolver>())
                 .ForMember(to => to.UpdatedOn, from => from.MapFrom<MangaDateFormatResolver>())
-                .ForMember(to => to.Rate, from => from.MapFrom(src => src.Rate))
+                .ForMember(to => to.Rate, from => from.MapFrom(src => src.Rate != null ? src.Rate.Value.ToString("0.0") : "0.0"))
                 .ForMember(to => to.IsFavorite, from => from.MapFrom<IsFavoriteResolver>())
                 .ForMember(to => to.IsCompletedReading, from => from.MapFrom<IsCompletedReadingResolver>())
                 .ForMember(to => to.IsCurrentlyReading, from => from.MapFrom<IsCurrentlyReadingResolver>())

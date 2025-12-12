@@ -4,7 +4,7 @@
     {
         public int MangaId { get; set; }
         public string MangaName { get; set; }
-        public Double? Rate { get; set; }
+        public string? Rate { get; set; }
         public bool IsFavorite { get; set; } = false;
         public bool IsCompletedReading { get; set; } = false;
         public bool IsCurrentlyReading { get; set; } = false;

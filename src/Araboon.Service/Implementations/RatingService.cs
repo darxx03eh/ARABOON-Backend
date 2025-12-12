@@ -22,7 +22,7 @@ namespace Araboon.Service.Implementations
             this.logger = logger;
         }
 
-        public async Task<(string, double?)> DeleteRateAsync(int id)
+        public async Task<(string, string?)> DeleteRateAsync(int id)
         {
             logger.LogInformation("Deleting user rate - حذف تقييم المستخدم | RateId: {Id}", id);
 
@@ -73,7 +73,7 @@ namespace Araboon.Service.Implementations
                 manga.RatingsCount--;
                 await unitOfWork.MangaRepository.UpdateAsync(manga);
 
-                return ("TheRateHasBeenSuccessfullyDeleted", manga.Rate);
+                return ("TheRateHasBeenSuccessfullyDeleted", manga.Rate?.ToString("0.0"));
             }
             catch (Exception exp)
             {
@@ -112,11 +112,11 @@ namespace Araboon.Service.Implementations
             return ("RateFound", new GetRatingForManga()
             {
                 Id = rate.Id,
-                Rate = rate.Rate,
+                Rate = rate.Rate.ToString("0.0"),
             });
         }
 
-        public async Task<(string, double?, int?, double?)> RateAsync(int mangaId, double rate)
+        public async Task<(string, double?, int?, string?)> RateAsync(int mangaId, double rate)
         {
             logger.LogInformation("Adding or updating rating - إضافة أو تعديل التقييم | MangaId: {MangaId}", mangaId);
 
@@ -164,7 +164,7 @@ namespace Araboon.Service.Implementations
 
                 logger.LogInformation("Rate added - تم إضافة التقييم | RateId: {RateId}", rateObject.Id);
 
-                return ("TheRateHasBeenAddedSuccessfully", rate, rateObject.Id, totalStars);
+                return ("TheRateHasBeenAddedSuccessfully", rate, rateObject.Id, totalStars?.ToString("0.0"));
             }
             else
             {
@@ -180,7 +180,7 @@ namespace Araboon.Service.Implementations
 
                     logger.LogInformation("Rate updated - تم تعديل التقييم | RateId: {RateId}", rateObject.Id);
 
-                    return ("TheRateHasBeenModifiedSuccessfully", rate, rateObject.Id, totalStars);
+                    return ("TheRateHasBeenModifiedSuccessfully", rate, rateObject.Id, totalStars?.ToString("0.0"));
                 }
                 catch (Exception exp)
                 {
