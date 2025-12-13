@@ -416,5 +416,7 @@
         public const string AdminsCannotUnMarkChaptersAsRead = "AdminsCannotUnMarkChaptersAsRead";
         public const string YouAreNotTheOwnerOfThisCommentOrYouAreNotTheAdmin = "YouAreNotTheOwnerOfThisCommentOrYouAreNotTheAdmin";
         public const string YouAreNotTheOwnerOfThisReplyOrYouAreNotTheAdmin = "YouAreNotTheOwnerOfThisReplyOrYouAreNotTheAdmin";
+        public const string RemovedFromCompletedReads = "RemovedFromCompletedReads";
+        public const string ThereWasAProblemDeletingFromCompletedReads = "ThereWasAProblemDeletingFromCompletedReads";
     }
 }

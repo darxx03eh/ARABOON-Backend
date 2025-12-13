@@ -44,13 +44,13 @@ namespace Araboon.Core.Features.CompletedReads.Commands.Handlers
             {
                 "MangaNotFound" => NotFound(stringLocalizer[SharedTranslationKeys.MangaNotFound]),
                 "CompletedReadsServiceforRegisteredUsersOnly" =>
-                Unauthorized(stringLocalizer[SharedTranslationKeys.FavoritesServiceforRegisteredUsersOnly]),
+                Unauthorized(stringLocalizer[SharedTranslationKeys.CompletedReadsServiceforRegisteredUsersOnly]),
                 "ThisMangaIsNotInYourCompletedReadsList" =>
                 NotFound(stringLocalizer[SharedTranslationKeys.ThisMangaIsNotInYourCompletedReadsList]),
-                "RemovedFromCompletedReads" => Success(null, message: stringLocalizer[SharedTranslationKeys.AddedToFavorites]),
+                "RemovedFromCompletedReads" => Success(null, message: stringLocalizer[SharedTranslationKeys.RemovedFromCompletedReads]),
                 "ThereWasAProblemDeletingFromCompletedReads"
-                => InternalServerError(stringLocalizer[SharedTranslationKeys.ThereWasAProblemAddingTofavorites]),
-                _ => InternalServerError(stringLocalizer[SharedTranslationKeys.ThereWasAProblemAddingTofavorites])
+                => InternalServerError(stringLocalizer[SharedTranslationKeys.ThereWasAProblemDeletingFromCompletedReads]),
+                _ => InternalServerError(stringLocalizer[SharedTranslationKeys.ThereWasAProblemDeletingFromCompletedReads])
             };
         }
     }
