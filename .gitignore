@@ -59,4 +59,4 @@ nunit-*.xml
 .vs/
 
 #PublishProfiles file
-Araboon.API/Properties/PublishProfiles/
+src/Araboon.API/Properties/PublishProfiles/*.pubxml.user
